@@ -3,6 +3,8 @@
 这是可复现的数值原型。**尚未完成 CCCvelo 论文数据集/QC/预处理复现，也没有运行真实 PLM-interact 模型。**
 模拟 PPI 分数只用于检查接入。T 是模型通信量，不是实际结合次数或频率。
 
+已补充 [CCCvelo 原文核对与下一阶段计划](NEXT_STEPS.md)。文献核对不等于预处理适配代码已完成。
+
 ## 在 VS Code 的 SSH 远程终端运行
 
 代码和 Python 都运行在你的 SSH 服务器上，不需要连接 Codex。
@@ -103,3 +105,37 @@ python research.py --input my_data --output results_real_01
 
 采用稠密矩阵，限制 400 万 cost 元素。先用小型 ROI 和少量 LR 对，完整组织需要后续稀疏实现。
 目前没有最佳 r0、生物学有效性、真实 isoform 通信发现或 CCCvelo 完整复现的结论。
+
+## 运行完模拟实验之后
+
+使用原来的输入目录与结果目录；分析脚本不会重新计算 OT，也不需要重新下载求解器。
+
+    python analyze.py --results results_demo --input demo_input --output analysis_demo
+
+如果输入/结果目录叫 demo_input_02、results_demo_02，请相应修改参数。输出目录必须是新目录。
+脚本核对原输入哈希、spot/实体顺序和预算；输入后来被编辑过时，应恢复原输入或重新运行实验。
+
+依次打开以下图片：
+
+1. distance_by_type.png：没有 PPI 时，分别看 diffusion/contact 总量和平均距离。
+   contact 的核不随 r0 变化，但其 T 可以通过共享 receptor/ligand 的竞争而改变。
+   这个等间距直线 demo 的 contact 平均距离为 1，不是对真实组织的普遍结论。
+2. ppi_matched.png：固定同一个 family、r0，比较 PPI 和 no_ppi，区分总量变化与分配变化。
+3. lr_pair_changes.png：展示 r0_shape 中最接近 r0/h=1 的条件下各 LR 对的量。
+   该条件仅用于展示，不表示最优 r0；表格包含所有条件。
+
+表格：
+
+- by_type.csv：每个条件、每种类型的总 T、平均距离和总量占比。
+- by_lr.csv：每个条件、每个 LR 对的总 T 和平均距离。
+- ppi_matched.csv：PPI 与同一距离设置下 no_ppi 的配对比较。
+- lr_pair_changes.csv：同一距离设置下，各 LR 对获得/失去的通信量。
+- identical_plans.csv：同一距离设置下完全相同的运输矩阵；相同 T 本身不能证明输入 score 相同。
+- analysis_manifest.json：完成标记与分析所读取结果文件的哈希。
+
+paired_relative_L1 = sum(abs(T_ppi-T_no_ppi))/sum(T_no_ppi)，
+分母是**同一个距离设置**的 no_ppi，与旧 summary.csv 的全局 case_000 基准不同。
+allocation_TV = 0.5*sum(abs(T_ppi/sum(T_ppi)-T_no_ppi/sum(T_no_ppi)))，
+取值 0–1：只把 T 整体缩放时为 0；它不是准确率或改变的边数比例。
+任一矩阵总量为 0 时，TV 留空，因为归一化分配没有定义。
+一个实体可能参与两类通信，因此不把未匹配预算武断地拆分到两种类型。

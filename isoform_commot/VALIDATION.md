@@ -15,3 +15,13 @@ pandas 2.2.3, Matplotlib 3.10.8.
 These are software/numerical checks, not biological validation.
 The demo uses synthetic expression and invented scores, not PLM-interact predictions.
 CCCvelo-specific preprocessing, real-data performance and optimal r0 remain unverified.
+
+Analysis extension: python -m unittest -v now runs **11 passing tests**.
+Additional checks distinguish uniform scaling from reallocation, cover zero-mass
+and disjoint-plan comparisons, type-specific transport/distance accounting,
+matched references at fixed family/r0, changed inputs, output overwrite protection,
+and distance-only runs without invented PPI comparisons.
+
+analyze.py completed on the 45-case demo; its three figures were visually inspected.
+Paper Methods and author-code notes are in NEXT_STEPS.md. The numerical pipeline
+remains a proposed model, not a CCCvelo reproduction.
