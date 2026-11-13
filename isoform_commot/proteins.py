@@ -98,13 +98,8 @@ def entry_fields(entry):
         sequence=sequence)
 
 
-def resolve(symbol, override=None, fetch=http_json):
-    """Exactly one reviewed mouse entry whose PRIMARY gene name is the symbol."""
-    if override:
-        entry, headers = fetch(f'{UNIPROT}/{quote(override)}.json')
-        fields = entry_fields(entry)
-        check(fields['taxon_id'] == MOUSE_TAXON, f'Override {override} is not a mouse entry')
-        return entry, fields, headers, 'manual_override'
+def search(symbol, fetch=http_json):
+    """Reviewed mouse entries whose PRIMARY gene name is the symbol."""
     query = quote(f'(gene_exact:{symbol}) AND (organism_id:{MOUSE_TAXON}) AND (reviewed:true)')
     found, headers = fetch(SEARCH.format(query=query))
     hits = []
@@ -113,9 +108,29 @@ def resolve(symbol, override=None, fetch=http_json):
         if (fields['taxon_id'] == MOUSE_TAXON and fields['reviewed'] and
                 str(fields['gene_primary']).lower() == symbol.lower()):
             hits.append((entry, fields))
+    return hits, headers
+
+
+def resolve(symbol, override=None, fetch=http_json):
+    """Exactly one reviewed mouse entry whose PRIMARY gene name is the symbol."""
+    if override:
+        entry, headers = fetch(f'{UNIPROT}/{quote(override)}.json')
+        fields = entry_fields(entry)
+        check(fields['taxon_id'] == MOUSE_TAXON, f'Override {override} is not a mouse entry')
+        return entry, fields, headers, 'manual_override'
+    hits, headers = search(symbol, fetch)
     check(len(hits) == 1, f'{symbol}: {len(hits)} reviewed mouse entries with this primary gene name '
           f'{[h[1]["accession"] for h in hits]}; resolve manually with --override (lr_symbol,accession,reason)')
     return hits[0][0], hits[0][1], headers, 'unique_reviewed_primary_gene'
+
+
+def candidate_rows(lr_symbol, data_symbol, hits):
+    if not hits:
+        return [dict(lr_symbol=lr_symbol, data_symbol=data_symbol, n_hits=0, accession=None, uniprot_id=None,
+                     protein_name='no reviewed mouse entry with this primary gene name', length=None)]
+    return [dict(lr_symbol=lr_symbol, data_symbol=data_symbol, n_hits=len(hits), accession=f['accession'],
+                 uniprot_id=f['uniprot_id'], protein_name=f['protein_name'], length=len(f['sequence']))
+            for _, f in hits]
 
 
 def map_proteins(args, fetch=http_json):
@@ -128,9 +143,18 @@ def map_proteins(args, fetch=http_json):
         check({'lr_symbol', 'accession', 'reason'} <= set(table) and table.reason.notna().all(),
               'Override needs lr_symbol,accession,reason (reason is required)')
         overrides = dict(zip(table.lr_symbol, table.accession))
-    rows, raw, releases = [], {}, set()
+    unknown = sorted(set(overrides) - set(symbols))
+    check(not unknown, f'Override symbols not in this LR panel: {unknown} (use lr.csv names, e.g. NRXN1)')
+    rows, raw, releases, unresolved = [], {}, set(), []
     for lr_symbol, data_symbol in symbols.items():
-        entry, f, headers, how = resolve(data_symbol, overrides.get(lr_symbol), fetch)
+        if lr_symbol in overrides:
+            entry, f, headers, how = resolve(data_symbol, overrides[lr_symbol], fetch)
+        else:  # check every gene first, then report all ambiguous ones together
+            hits, headers = search(data_symbol, fetch)
+            if len(hits) != 1:
+                unresolved.extend(candidate_rows(lr_symbol, data_symbol, hits))
+                continue
+            (entry, f), how = hits[0], 'unique_reviewed_primary_gene'
         bad = sorted(set(f['sequence']) - ESM_LETTERS)
         check(f['sequence'] and not bad, f'{lr_symbol}: empty sequence or letters outside ESM vocabulary {bad}')
         release = headers.get('x-uniprot-release')
@@ -145,6 +169,13 @@ def map_proteins(args, fetch=http_json):
             retrieved_utc=datetime.now(timezone.utc).isoformat(timespec='seconds'),
             resolution=how, longer_than_training_max=len(f['sequence']) > TRAINING_MAX_AA,
             sequence=f['sequence']))
+    if unresolved:
+        candidates = Path(str(out) + '_candidates.csv')
+        pd.DataFrame(unresolved).to_csv(candidates, index=False)
+        genes = sorted({r['lr_symbol'] for r in unresolved})
+        raise ValueError(f'{len(genes)} gene(s) without exactly one reviewed mouse entry: {genes}. '
+                         f'Candidates (name, length) written to {candidates}. Choose one per gene and pass '
+                         '--override override.csv with columns lr_symbol,accession,reason. Nothing else was written.')
     table = pd.DataFrame(rows)
     shared = table[table.accession.duplicated(keep=False)]
     check(shared.empty, f'Different genes mapped to the same accession: {shared.lr_symbol.tolist()}')

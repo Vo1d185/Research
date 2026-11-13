@@ -182,6 +182,44 @@ class Units(unittest.TestCase):
             proteins.resolve('Gene', override='Q9', fetch=human)
         self.assertEqual(proteins.auroc([.9, .8], [.1, .8]), .875)
 
+    def test_map_reports_all_ambiguous_genes_then_accepts_overrides(self):
+        with tempfile.TemporaryDirectory() as d, quiet():
+            root = Path(d)
+            (root/'input').mkdir()
+            pd.DataFrame(dict(ligand=['NRXN1', 'CXCL12'], receptor=['NLGN1', 'CXCR4'],
+                              type=['contact', 'diffusion'])).to_csv(root/'input'/'lr.csv', index=False)
+            table = root/'symbols.csv'
+            pd.DataFrame(dict(lr_symbol=['NRXN1', 'NLGN1', 'CXCL12', 'CXCR4'],
+                              data_symbol=['Nrxn1', 'Nlgn1', 'Cxcl12', 'Cxcr4'])).to_csv(table, index=False)
+            fetch = fake_uniprot({'Nrxn1': [fake_entry('Nrxn1', 'Q9CS84', 300, seed=1),
+                                            fake_entry('Nrxn1', 'P0DI97', 90, seed=2)],
+                                  'Nlgn1': [fake_entry('Nlgn1', 'Q99K10', 120, seed=3)],
+                                  'Cxcl12': [], 'Cxcr4': [fake_entry('Cxcr4', 'P70658', 80, seed=4)]})
+            args = proteins.parser().parse_args(['map', '--input', str(root/'input'), '--output',
+                                                 str(root/'prot'), '--symbol-table', str(table)])
+            with self.assertRaisesRegex(ValueError, r"2 gene\(s\).*\['CXCL12', 'NRXN1'\]"):
+                proteins.map_proteins(args, fetch=fetch)
+            self.assertFalse((root/'prot').exists())
+            candidates = pd.read_csv(root/'prot_candidates.csv')
+            self.assertEqual(set(candidates.accession.dropna()), {'Q9CS84', 'P0DI97'})
+            self.assertEqual(candidates.loc[candidates.lr_symbol == 'CXCL12', 'n_hits'].item(), 0)
+            fetch = fake_uniprot({'Nrxn1': [fake_entry('Nrxn1', 'Q9CS84', 300, seed=1),
+                                            fake_entry('Nrxn1', 'P0DI97', 90, seed=2)],
+                                  'Nlgn1': [fake_entry('Nlgn1', 'Q99K10', 120, seed=3)],
+                                  'Cxcl12': [fake_entry('Cxcl12', 'P40224', 90, seed=5)],
+                                  'Cxcr4': [fake_entry('Cxcr4', 'P70658', 80, seed=4)]})
+            pd.DataFrame(dict(lr_symbol=['NRXN1', 'CXCL12'], accession=['P0DI97', 'P40224'],
+                              reason=['beta form; contains LNS6', 'checked manually'])).to_csv(root/'o.csv', index=False)
+            args.override = str(root/'o.csv')
+            proteins.map_proteins(args, fetch=fetch)
+            pmap = pd.read_csv(root/'prot'/'protein_map.csv').set_index('lr_symbol')
+            self.assertEqual(pmap.loc['NRXN1', 'accession'], 'P0DI97')
+            self.assertEqual(pmap.loc['NRXN1', 'resolution'], 'manual_override')
+            pd.DataFrame(dict(lr_symbol=['Nrxn1'], accession=['P0DI97'], reason=['x'])).to_csv(root/'bad.csv', index=False)
+            args.override, args.output = str(root/'bad.csv'), str(root/'prot2')
+            with self.assertRaisesRegex(ValueError, 'not in this LR panel'):
+                proteins.map_proteins(args, fetch=fetch)
+
     def test_plm_refuses_long_altered_or_invalid_input(self):
         with tempfile.TemporaryDirectory() as d:
             path = Path(d)/'jobs.csv'

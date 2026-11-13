@@ -58,7 +58,8 @@ python proteins.py map --input stage1_input_01 --output proteins_01
 ```
 
 - 程序从 h5ad 找回原始小鼠符号（例如 `APOE` → `Apoe`），再到 UniProt 查询**小鼠、已审核（Swiss-Prot）、主基因名完全一致**的条目。
-- 每个基因必须恰好对应 1 个条目。否则程序拒绝执行并列出候选条目，由你确认后写一个 `override.csv`（列为 `lr_symbol,accession,reason`，`reason` 必填），再加上 `--override override.csv` 重新运行。
+- 每个基因必须恰好对应 1 个条目。程序会先检查完所有基因，把有歧义或找不到条目的基因及其候选（accession、蛋白名、长度）一次性写到 `proteins_01_candidates.csv`，然后停止，不生成输出目录。你逐个确认后写一个 `override.csv`（列为 `lr_symbol,accession,reason`，`lr_symbol` 用 `lr.csv` 里的大写名称，`reason` 必填），再加上 `--override override.csv` 重新运行。
+- 一个基因对应多个已审核条目，通常是同一基因的不同蛋白形式，例如 `Nrxn1` 的 α 型（Q9CS84）和 β 型（P0DI97）。gene-level 数据分不出它们，选哪个必须写明理由。没选的那个保留下来，以后做 isoform 分析时用。
 - **请逐行检查 `proteins_01/protein_map.csv`**（最多 16 个蛋白）：accession、蛋白名、长度是否合理。`longer_than_training_max=True` 表示该蛋白超过 800 aa，超出了官方训练和测试数据的长度范围。
 - 用的是 UniProt canonical 全长序列（包含信号肽），和训练数据的形式一致。原始 JSON 保存在 `proteins_01/uniprot/`，以后做胞外段敏感性分析时可以直接用。
 
