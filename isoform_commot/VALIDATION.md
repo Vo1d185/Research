@@ -47,3 +47,19 @@ fixture**, with no PPI scores. The resulting distance figure was inspected.
 These checks do not establish real tissue performance, an optimal r0, or
 PLM-interact biological validity. The real mousebrain h5ad download and its
 expression-layer provenance remain to be checked on the user's SSH server.
+
+### Download URL correction — 2026-11-13
+
+The user's download returned non-HDF5 content. Rechecking the scanned paper and
+Spateo's original `mousebrain()` download dictionary established two transcription
+errors in our default URL: `e5tu4drxda0lm0u` must be `c5tu4drxda01m0u`.
+The replacement was matched programmatically to the literal in Spateo commit
+1bd8a35e6e7b0dfc712d76b1c32987dc06652774, spateo/sample_data.py, line 157.
+The cloud proxy denies Dropbox, so live success of the corrected data download
+is not claimed; the source URL is verified and the SSH-server download remains next.
+
+All 7 stage-one tests passed after this change, including a successful local-file
+h5ad download and rejection/cleanup of a truncated HDF5 file that retains its
+signature. The downloader now also checks Content-Length when present and readable
+obs/var metadata before exposing the final file, and reports HTTP/content type on
+invalid responses. No signature check was disabled to accept the HTML response.

@@ -139,6 +139,23 @@ class StageOneTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'checksum'):
                 stage1.download(source.as_uri(), target, expected='wrong')
 
+    def test_download_validates_complete_h5ad_before_publishing(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            original, target = root/'original.h5ad', root/'downloaded.h5ad'
+            ad.AnnData(np.ones((3, 4))).write_h5ad(original)
+            stage1.download(original.as_uri(), target, hdf5=True)
+            self.assertEqual(stage1.digest(original), stage1.digest(target))
+            # A truncated file still has the correct signature: reject it before
+            # renaming, so a later inspect never sees a purported completed file.
+            broken = root/'truncated.h5ad'
+            broken.write_bytes(original.read_bytes()[:64])
+            partial_target = root/'should_not_exist.h5ad'
+            with self.assertRaisesRegex(ValueError, 'incomplete or unreadable'):
+                stage1.download(broken.as_uri(), partial_target, hdf5=True)
+            self.assertFalse(partial_target.exists())
+            self.assertFalse(partial_target.with_name(partial_target.name+'.part').exists())
+
 
 if __name__ == '__main__':
     unittest.main()

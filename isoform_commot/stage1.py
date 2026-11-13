@@ -23,9 +23,11 @@ LR_FILES = {
     'diff_LigRecDB.csv': ('diffusion', '329db978c93a8edda011acf96fc6c90d192c9012b664b3dbc1d652ac681e79ef'),
     'cont_LigRecDB.csv': ('contact', 'dfc350e2798e46b23a2503d58ea0c0095c91b4a96ca99685f125df665617c1fc'),
 }
-# Transcribed from Data availability, printed page 205; availability is checked
-# at download time. No author-published checksum was found for this h5ad.
-BRAIN_URL = 'https://www.dropbox.com/s/e5tu4drxda0lm0u/mousebrain_bin60.h5ad?dl=1'
+# Verified against the original provider's machine-readable source, not OCR:
+# https://github.com/aristoteleo/spateo-release/blob/1bd8a35e6e7b0dfc712d76b1c32987dc06652774/spateo/sample_data.py#L157
+# No author-published checksum was found for this h5ad.
+BRAIN_URL = 'https://www.dropbox.com/s/c5tu4drxda01m0u/mousebrain_bin60.h5ad?dl=1'
+BRAIN_SOURCE = 'https://github.com/aristoteleo/spateo-release/blob/1bd8a35e6e7b0dfc712d76b1c32987dc06652774/spateo/sample_data.py#L157'
 
 
 def digest(path):
@@ -53,10 +55,28 @@ def download(url, target, expected=None, hdf5=False):
         with urlopen(url, timeout=60) as response, part.open('xb') as stream:
             first = response.read(8)
             check(not hdf5 or first == b'\x89HDF\r\n\x1a\n',
-                  'The URL did not return an HDF5 file (possibly an expired link or HTML page)')
+                  f'The URL did not return an HDF5 file '
+                  f'(HTTP {response.getcode()}, Content-Type: {response.headers.get("Content-Type", "unknown")}). '
+                  'No data file was saved. Check the exact source URL and network access.')
             stream.write(first)
-            shutil.copyfileobj(response, stream, length=1024 * 1024)
+            received, next_progress = len(first), 64 * 1024 * 1024
+            for block in iter(lambda: response.read(1024 * 1024), b''):
+                stream.write(block)
+                received += len(block)
+                if hdf5 and received >= next_progress:
+                    print(f'Downloaded {received / 1024**2:.0f} MiB...', flush=True)
+                    next_progress += 64 * 1024 * 1024
+            expected_size = response.headers.get('Content-Length')
+            check(expected_size is None or received == int(expected_size),
+                  'Incomplete download: response size does not match Content-Length')
         check(expected is None or digest(part) == expected, 'Download checksum mismatch')
+        if hdf5:
+            import h5py
+            try:
+                with h5py.File(part, 'r') as handle:
+                    check({'obs', 'var'} <= set(handle), 'Downloaded HDF5 is not an h5ad expression file')
+            except OSError as exc:
+                raise ValueError('Downloaded HDF5 is incomplete or unreadable; no final file was saved') from exc
         part.rename(target)
     except Exception:
         part.unlink(missing_ok=True)
@@ -87,6 +107,8 @@ def load_lr(folder):
 
 def open_data(path):
     import anndata as ad
+    check(Path(path).is_file(), f'Data file not found: {Path(path).resolve()}. '
+          'First run python stage1.py download-data, or pass --h5ad with the existing file path.')
     return ad.read_h5ad(path, backed='r')
 
 
@@ -369,8 +391,10 @@ def main():
     if args.command == 'fetch-lr':
         fetch_lr(args.output)
     elif args.command == 'download-data':
+        print(f'Downloading brain data to {args.output}...', flush=True)
         download(args.url, args.output, hdf5=True)
         write_json(str(args.output) + '.download.json', dict(url=args.url, sha256=digest(args.output),
+            default_url_source=BRAIN_SOURCE,
             checksum_source='Locally calculated, not an author-published authenticity checksum'))
         print(f'Downloaded {args.output}; run inspect next')
     elif args.command == 'inspect':

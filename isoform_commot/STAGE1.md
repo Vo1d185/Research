@@ -42,13 +42,23 @@ LR 表固定为 CCCvelo 提交 `fac213c600e7929b5d14e7d95dbdaabd722f9bc9`，验�
 这版有 3883 个 diffusion 对、109 个 contact 对，两表没有重复 LR 对。
 这是**当前固定的公开表**，不要与论文正文所述 3659 条先验 LR 或某次分析的表达筛选结果混为一谈。
 
-h5ad 链接来自论文 Data availability（印刷页 205）：
-<https://www.dropbox.com/s/e5tu4drxda0lm0u/mousebrain_bin60.h5ad?dl=1>。
+h5ad 链接来自论文 Data availability（印刷页 205），并已按原始提供方
+[Spateo 的下载代码](https://github.com/aristoteleo/spateo-release/blob/1bd8a35e6e7b0dfc712d76b1c32987dc06652774/spateo/sample_data.py#L157)
+逐字符核对：
+<https://www.dropbox.com/s/c5tu4drxda01m0u/mousebrain_bin60.h5ad?dl=1>。
+修正了初版扫描件录入错误：首字符是 `c`，`xda0` 后面是数字 `1`，不是字母 `l`。
 该链接在当前云环境未完成下载验证；需要在能访问 Dropbox 的 SSH 服务器或本机执行。
-下载器验证 HDF5 文件签名，防止把 HTML 登录页/失效页面当数据，并记录本地 SHA256。
+下载器验证 HDF5 文件签名、响应长度（若提供）、HDF5 可读取性和 obs/var 元数据，
+防止把 HTML 页面或不完整文件当数据，并记录本地 SHA256。下载中每 64 MiB 打印进度。
 本地哈希只用于复现，不是作者发布的真实性校验值。
 若链接失效，不能用模拟矩阵代替论文数据；从论文/原作者核实新地址后可传 `--url '新地址'`。
 也可以浏览器下载后自行放到上述路径，跳过 `download-data`。
+
+使用旧代码时，也可以通过已支持的 `--url` 立即指定核实后的正确地址：
+
+```bash
+python stage1.py download-data --url 'https://www.dropbox.com/s/c5tu4drxda01m0u/mousebrain_bin60.h5ad?dl=1'
+```
 
 ## 3. 先检查文件，不猜测它的表达层
 
