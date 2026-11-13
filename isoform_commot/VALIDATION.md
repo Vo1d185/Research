@@ -63,3 +63,32 @@ h5ad download and rejection/cleanup of a truncated HDF5 file that retains its
 signature. The downloader now also checks Content-Length when present and readable
 obs/var metadata before exposing the final file, and reports HTTP/content type on
 invalid responses. No signature check was disabled to accept the HTML response.
+
+## PPI and target-gene evaluation — 2026-11-13
+
+Python 3.12, dependencies as requirements-eval.txt (adds rdata 0.11.2); `pip check` passed.
+`python -m unittest`: **25 tests passed** (18 previous + 7 new in test_ppi_eval.py).
+
+New coverage: UniProt rule (exactly one reviewed mouse entry whose primary gene name
+matches; ambiguous, synonym-only and non-mouse overrides refused), PLM job validation
+(ESM letters, >1603-token refusal unless explicitly allowed, token-count mismatch =
+truncation refused), AP/AUROC, exhaustive within-type permutations incl. tied scores,
+type-mean constant control, rank metrics (scaling invariance, partial correlation
+removing a receptor confound), between/within-pair TV decomposition, COMMOT mixture vs
+pure collective budgets, and one end-to-end run on a synthetic h5ad:
+prepare -> map (fake UniProt) -> pairs -> score (real plm_score.score with a fake model)
+-> import -> attach-ppi (hashes unchanged) -> run -> export-genes (LR genes re-derived
+and matched) -> COMMOT baseline -> target evaluation; plus refusal of results computed
+on a different LR panel. The evaluation figure was rendered and inspected.
+
+Real external data actually used in the cloud: scSeqComm commit 95c9bb2 mouse tables
+downloaded, checksum-verified and converted (857 TFs, 9565 TF-target edges, 731
+receptors). COMMOT _cot.py (d117445) checksum-pinned and executed.
+
+Finding: the COMMOT default 4-setup mixture can exceed single-entity expression budgets
+(row/column/block setups reuse budgets; on the demo up to ~3.5 units); weights 1 0 0 0
+is budget-feasible. Both are reported; the original behaviour is not modified.
+
+NOT run in the cloud (hosts blocked): UniProt, HuggingFace weights, Zenodo, the real
+h5ad. Real protein mapping, PLM inference and evaluation on tissue remain to be run on
+the SSH server; no biological conclusion is implied by these checks.

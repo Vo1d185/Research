@@ -310,16 +310,113 @@ def prepare(args):
         data.file.close()
 
 
-def run_stage(args):
-    from analyze import analyze, paired_metrics
-    source, out = Path(args.input), Path(args.output)
-    check(not out.exists(), 'Output exists')
+def verified_preparation(source):
+    source = Path(source)
     preparation = json.loads((source/'preparation.json').read_text())
     check(preparation['status'] == 'complete' and preparation['cccvelo_commit'] == CCC_COMMIT,
           'Expected a prepared stage-one input')
     for name, sha in preparation['prepared_sha256'].items():
         check(Path(name).name == name and digest(source/name) == sha,
               f'Prepared input changed: {name}; prepare a new experiment input')
+    return preparation
+
+
+def attach_ppi(args):
+    """Copy a prepared input UNCHANGED and add real PPI scores to it.
+
+    Expression, coordinates and LR panel are verified byte-identical to the
+    source, so S=1 vs real scores is compared on exactly the same inputs.
+    """
+    source, out, ppi_dir = Path(args.input), Path(args.output), Path(args.ppi_dir)
+    check(not out.exists(), f'Output exists: {out}')
+    preparation = verified_preparation(source)
+    check(not (source/'ppi.csv').exists(), 'Source input already has ppi.csv; attach to the S=1 input')
+    report = json.loads((ppi_dir/'score_report.json').read_text())
+    check(report.get('status') == 'complete' and digest(ppi_dir/'ppi.csv') == report['ppi_sha256'],
+          'PPI report incomplete or ppi.csv changed after import')
+    lr = pd.read_csv(source/'lr.csv', dtype=str)
+    scores = pd.read_csv(ppi_dir/'ppi.csv', dtype={'ligand': str, 'receptor': str})
+    merged = lr.merge(scores[['ligand', 'receptor', 'score']], on=['ligand', 'receptor'],
+                      how='left', validate='one_to_one')
+    check(merged.score.notna().all() and merged.score.between(0, 1).all(),
+          'ppi.csv must cover every LR pair with a score in [0,1]')
+    check(len(args.r0_h) > 0 and min(args.r0_h) > 0, 'Invalid --r0-h')
+    shutil.copytree(source, out)
+    shutil.copyfile(ppi_dir/'ppi.csv', out/'ppi.csv')
+    cfg = json.loads((source/'config.json').read_text())
+    changes = dict(score_provenance=report['score_provenance'], r0_h=sorted(set(args.r0_h)),
+                   r0_families=['r0_raw'], include_inverse=args.include_inverse,
+                   permutation_mode=args.permutation_mode, constant_control=not args.no_constant_control)
+    write_json(out/'config.json', {**cfg, **changes})
+    preparation['ppi_status'] = 'provided_scores'
+    preparation['prepared_sha256']['ppi.csv'] = digest(out/'ppi.csv')
+    preparation['ppi_attachment'] = dict(source_input=str(source.resolve()),
+        source_preparation_sha256=digest(source/'preparation.json'),
+        score_report_sha256=digest(ppi_dir/'score_report.json'), config_changes=changes,
+        unchanged_files=sorted(k for k in preparation['prepared_sha256'] if k != 'ppi.csv'))
+    write_json(out/'preparation.json', preparation)
+    print(f'{out}: same expression/coordinates/LR as {source}, plus ppi.csv. '
+          f'Next: python stage1.py run --input {out} --output <new results dir>')
+
+
+def export_genes(args):
+    """Full-transcriptome expression of the SAME ROI spots, normalized exactly as prepare.
+
+    Needed for target-gene evaluation. LR genes are re-derived and must equal
+    expression.csv, which proves the same spots, matrix and normalization were used.
+    """
+    source, out = Path(args.input), Path(args.output)
+    check(not out.exists(), f'Output exists: {out}')
+    preparation = verified_preparation(source)
+    expression = pd.read_csv(source/'expression.csv', index_col=0)
+    spatial = pd.read_csv(source/'spatial.csv', index_col=0)
+    expression.index, spatial.index = expression.index.astype(str), spatial.index.astype(str)
+    data = open_data(args.h5ad or preparation['h5ad'])
+    try:
+        names = pd.Index(data.obs_names.astype(str))
+        check(spatial.index.isin(names).all(), 'ROI spots missing from the h5ad')
+        ids = names.get_indexer(spatial.index)
+        xy = np.asarray(data.obsm[preparation['spatial_key']], dtype=float)[ids]
+        check(np.allclose(xy, spatial[['x', 'y']].to_numpy(float), rtol=0, atol=1e-9),
+              'Coordinates differ from spatial.csv; wrong h5ad or spatial key')
+        matrix, genes = matrix_and_genes(data, preparation['matrix'], preparation.get('gene_key'))
+        order = np.argsort(ids)
+        values = np.empty((len(ids), len(genes)))
+        values[order] = dense_rows(matrix, ids[order])
+    finally:
+        data.file.close()
+    check(np.isfinite(values).all() and (values >= 0).all(), 'Expression must be finite and nonnegative')
+    if preparation['expression_state'] == 'counts':
+        values = np.log1p(values / values.sum(axis=1)[:, None] * 10000)
+    if preparation.get('gene_map_sha256'):
+        check(args.gene_map and digest(args.gene_map) == preparation['gene_map_sha256'],
+              'This input used --gene-map; pass the same file')
+    mapped = map_genes(genes, preparation['symbol_policy'], args.gene_map)
+    position = {m: i for i, m in enumerate(mapped) if m is not None}
+    for column in expression.columns:
+        check(column in position, f'{column} not found when re-reading the h5ad')
+        # values rows follow spatial.csv order (read sorted for h5py, then placed back).
+        check(np.allclose(values[:, position[column]],
+                          expression.loc[spatial.index, column].to_numpy(float), rtol=1e-9, atol=1e-12),
+              f'Re-derived {column} differs from expression.csv; not the same normalization/spots')
+    out.mkdir(parents=True)
+    np.savez_compressed(out/'gene_expression.npz', X=values.astype(np.float32),
+                        spots=spatial.index.to_numpy(str), genes=np.asarray(genes, dtype=str))
+    pd.DataFrame(dict(data_symbol=genes, lr_symbol=mapped,
+                      detected_fraction=(values > 0).mean(axis=0))).to_csv(out/'genes.csv', index=False)
+    write_json(out/'gene_export.json', dict(status='complete', input=str(source.resolve()),
+        input_preparation_sha256=digest(source/'preparation.json'), spots=len(ids), genes=len(genes),
+        matrix=preparation['matrix'], expression_transform=preparation['expression_transform'],
+        lr_genes_verified=list(expression.columns), stored_dtype='float32',
+        gene_expression_sha256=digest(out/'gene_expression.npz')))
+    print(f'Exported {len(genes)} genes x {len(ids)} spots -> {out}')
+
+
+def run_stage(args):
+    from analyze import analyze, paired_metrics
+    source, out = Path(args.input), Path(args.output)
+    check(not out.exists(), 'Output exists')
+    preparation = verified_preparation(source)
     check((source/'ppi.csv').exists() == ('ppi.csv' in preparation['prepared_sha256']),
           'PPI input changed since preparation; prepare a new input with score provenance')
     cfg = json.loads((source/'config.json').read_text())
@@ -383,6 +480,18 @@ def parser():
     a.add_argument('--ppi'); a.add_argument('--score-provenance')
     r = sub.add_parser('run'); r.add_argument('--input', required=True); r.add_argument('--output', required=True)
     r.add_argument('--sensitivity', action='store_true', help='Nine eps/rho settings instead of one')
+    t = sub.add_parser('attach-ppi', help='Copy a prepared input unchanged and add real PPI scores')
+    t.add_argument('--input', required=True); t.add_argument('--ppi-dir', required=True)
+    t.add_argument('--output', required=True)
+    t.add_argument('--r0-h', type=float, nargs='+', default=[2.0],
+                   help='r0/h designs to run (default: working setting 2h only)')
+    t.add_argument('--include-inverse', action='store_true')
+    t.add_argument('--permutation-mode', choices=['exhaustive', 'random'], default='exhaustive')
+    t.add_argument('--no-constant-control', action='store_true')
+    g = sub.add_parser('export-genes', help='All genes of the same ROI spots for target evaluation')
+    g.add_argument('--input', required=True); g.add_argument('--output', required=True)
+    g.add_argument('--h5ad', help='defaults to the path in preparation.json')
+    g.add_argument('--gene-map')
     return p
 
 
@@ -401,6 +510,10 @@ def main():
         inspect_data(args.h5ad, args.output)
     elif args.command == 'prepare':
         prepare(args)
+    elif args.command == 'attach-ppi':
+        attach_ppi(args)
+    elif args.command == 'export-genes':
+        export_genes(args)
     else:
         run_stage(args)
 

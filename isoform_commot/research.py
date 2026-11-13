@@ -110,6 +110,52 @@ def cost(D, pairs, ligands, receptors, scores, family, r0, reference, cr, dr,
     return C
 
 
+def score_designs(types, s, cfg):
+    """Score vectors compared at a fixed distance design.
+
+    no_ppi: S=1. ppi: input scores. ppi_constant (optional): every pair gets the
+    mean score of its interaction type, separating score LEVEL from per-pair
+    DIFFERENCES. Permutations stay within one type (contact and diffusion costs
+    differ structurally). 'random' keeps the v1 behaviour (shuffled_k, both types
+    shuffled together); 'exhaustive' enumerates every distinct permutation of one
+    type while the other type keeps its input scores (perm_<type>_k).
+    """
+    types = np.asarray(types)
+    s = np.asarray(s, float)
+    cases = {'ppi': (s, None)}
+    if cfg.get('constant_control', False):
+        constant = s.copy()
+        for kind in ['contact', 'diffusion']:
+            ids = np.flatnonzero(types == kind)
+            if len(ids):
+                constant[ids] = s[ids].mean()
+        cases['ppi_constant'] = (constant, None)
+    mode = cfg.get('permutation_mode', 'random')
+    check(mode in ['random', 'exhaustive'], 'permutation_mode must be random or exhaustive')
+    if mode == 'random':
+        rng = np.random.default_rng(cfg.get('seed', 20261112))
+        for repeat in range(int(cfg.get('n_permutations', 3))):
+            shuffled = s.copy()
+            for kind in ['contact', 'diffusion']:
+                ids = np.flatnonzero(types == kind)
+                shuffled[ids] = rng.permutation(s[ids])
+            if not np.array_equal(shuffled, s):
+                cases[f'shuffled_{repeat}'] = (shuffled, 'both')
+        return cases
+    from itertools import permutations
+    limit = int(cfg.get('max_permutations', 720))
+    for kind in ['contact', 'diffusion']:
+        ids = np.flatnonzero(types == kind)
+        distinct = sorted(set(permutations(s[ids].tolist())) - {tuple(s[ids].tolist())})
+        check(len(distinct) <= limit, f'{len(distinct)} {kind} permutations exceed max_permutations; '
+              'use permutation_mode=random')
+        for k, values in enumerate(distinct):
+            permuted = s.copy()
+            permuted[ids] = values
+            cases[f'perm_{kind}_{k:03d}'] = (permuted, kind)
+    return cases
+
+
 def numeric_table(path):
     with path.open(newline='', encoding='utf-8-sig') as stream:
         header = next(csv.reader(stream))
@@ -170,7 +216,7 @@ def run(folder, output):
     contact_edges = contact_neighbors(xy, D, cr, cfg.get('contact_graph', 'radius'))
     multiples = sorted(set(cfg.get('r0_h', [0.5, 1, 2, 4])))
     check(len(multiples) > 0 and np.isfinite(multiples).all() and min(multiples) > 0, 'Invalid r0 grid')
-    score_cases = {'no_ppi': np.ones(len(lr))}
+    score_cases = {'no_ppi': (np.ones(len(lr)), None)}
     scorefile = folder/'ppi.csv'
     if scorefile.exists():
         check(bool(cfg.get('score_provenance')), 'Specify score_provenance')
@@ -181,15 +227,7 @@ def run(folder, output):
         s = lr.merge(p[['ligand','receptor','score']], on=['ligand','receptor'],
                      how='left', validate='one_to_one').score.to_numpy(float)
         check(np.isfinite(s).all(), 'Missing PPI coverage; no neutral imputation')
-        score_cases['ppi'] = s
-        rng = np.random.default_rng(cfg.get('seed', 20261112))
-        for repeat in range(int(cfg.get('n_permutations', 3))):
-            shuffled = s.copy()
-            for kind in ['contact', 'diffusion']:
-                ids = np.flatnonzero(lr.type.to_numpy() == kind)
-                shuffled[ids] = rng.permutation(s[ids])
-            if not np.array_equal(shuffled, s):
-                score_cases[f'shuffled_{repeat}'] = shuffled
+        score_cases.update(score_designs(lr.type.to_numpy(), s, cfg))
     backend()  # Verify the pinned backend before creating output files.
     output.mkdir(parents=True, exist_ok=False)
     excluded.to_csv(output/'excluded_lr.csv', index=False)
@@ -198,10 +236,12 @@ def run(folder, output):
     families = cfg.get('r0_families', ['r0_raw', 'r0_shape'])
     check(families and len(set(families)) == len(families)
           and set(families) <= {'r0_raw', 'r0_shape'}, 'Invalid r0 families')
-    designs = [('inverse', None)] + [(f, m*h) for m in multiples for f in families]
+    designs = [(f, m*h) for m in multiples for f in families]
+    if cfg.get('include_inverse', True):
+        designs = [('inverse', None)] + designs
     baseline, records = None, []
     for family, r0 in designs:
-        for score_name, s in score_cases.items():
+        for score_name, (s, permuted_type) in score_cases.items():
             name = f'case_{len(records):03d}'
             C = cost(D, lr, ligands, receptors, s, family, r0, reference, cr, dr, contact_edges)
             T = solve(C, a, b, cfg.get('eps', 0.2), cfg.get('rho', 1.0))
@@ -211,9 +251,13 @@ def run(folder, output):
             total = float(T.sum())
             np.savez_compressed(output/f'{name}.npz', C=C, T=T, a=a, b=b,
                                 spots=x.index.to_numpy(str), ligands=np.array(ligands),
-                                receptors=np.array(receptors))
+                                receptors=np.array(receptors), scores=np.asarray(s, float),
+                                pair_ligand=lr.ligand.to_numpy(str),
+                                pair_receptor=lr.receptor.to_numpy(str),
+                                pair_type=lr.type.to_numpy(str))
             pd.DataFrame(spot, index=x.index, columns=x.index).to_csv(output/f'{name}_spots.csv')
             records.append(dict(case=name, family=family, r0=r0, score_mode=score_name,
+                permuted_type=permuted_type,
                 total_T=total, unused_ligand=float(a.sum()-total),
                 unused_receptor=float(b.sum()-total), scores_clipped=int((s < 1e-8).sum()),
                 mean_distance=float((spot*D).sum()/total) if total else None,
@@ -227,6 +271,7 @@ def run(folder, output):
         contact_graph=cfg.get('contact_graph', 'radius'),
         contact_directed_edges=int(contact_edges.sum()),
         ppi_status='input_scores_used' if scorefile.exists() else 'not_tested_missing_scores',
+        score_modes=list(score_cases), permutation_mode=cfg.get('permutation_mode', 'random'),
         input_sha256={f: hashlib.sha256((folder/f).read_bytes()).hexdigest() for f in files})
     (output/'manifest.json').write_text(json.dumps(manifest, indent=2))
 

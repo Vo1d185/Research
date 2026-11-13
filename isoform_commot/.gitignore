@@ -9,3 +9,11 @@ stage1_input*/
 stage1_results*/
 stage1_inspect*.json
 *.h5ad
+proteins_*/
+plm_jobs*/
+plm_scores*
+plm_selftest*
+ppi_*/
+genes_*/
+target_eval*/
+commot_results*/

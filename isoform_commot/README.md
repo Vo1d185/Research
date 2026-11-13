@@ -4,6 +4,8 @@
 模拟 PPI 分数只用于检查接入。T 是模型通信量，不是实际结合次数或频率。
 
 现在进入 [第一阶段：固定 CCCvelo LR 分类的参数实验](STAGE1.md)，包含下载、h5ad 检查、ROI 输入适配及 OT 参数敏感性运行。
+第二阶段见 [PPI_EVAL.md](PPI_EVAL.md)：接入 PLM-interact 分数、COMMOT 原版基线和靶基因评价。
+继续工作前先读 [HANDOFF.md](HANDOFF.md)。
 这是为本研究 cost 设计的适配器，不是完整 CCCvelo SCT/ALRA 预处理复现。
 
 ## 在 VS Code 的 SSH 远程终端运行

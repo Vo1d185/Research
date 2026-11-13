@@ -13,12 +13,52 @@ from scipy.spatial.distance import cdist
 from research import check, numeric_table
 
 
+# Validated reference palette (first three categorical slots pass all-pairs CVD checks);
+# slot 3 is below 3:1 contrast, so it is always paired with a distinct marker + legend.
+PALETTE = dict(series1='#2a78d6', series2='#eb6834', series3='#1baf7a', muted='#898781',
+               text='#0b0b0b', text_secondary='#52514e', grid='#e1e0d9', axis='#c3c2b7',
+               surface='#fcfcfb')
+TYPE_COLORS = {'diffusion': PALETTE['series1'], 'contact': PALETTE['series2']}
+
+
+def style_axis(ax):
+    ax.set_facecolor(PALETTE['surface'])
+    ax.grid(color=PALETTE['grid'], lw=.6)
+    ax.set_axisbelow(True)
+    for side in ['top', 'right']:
+        ax.spines[side].set_visible(False)
+    for side in ['left', 'bottom']:
+        ax.spines[side].set_color(PALETTE['axis'])
+    ax.tick_params(colors=PALETTE['text_secondary'], labelsize=8)
+    ax.title.set_color(PALETTE['text'])
+
+
 def digest(path):
     h = hashlib.sha256()
     with Path(path).open('rb') as stream:
         for block in iter(lambda: stream.read(1024 * 1024), b''):
             h.update(block)
     return h.hexdigest()
+
+
+def decompose(base, scored, blocks):
+    """Split allocation change into between-LR-pair shares and within-pair spatial patterns.
+
+    blocks: (row_slice, col_slice) per LR pair. between_TV compares each pair's share of
+    total transport; within_TV is the share-weighted TV of each pair's own normalized
+    spatial plan. A pure rescaling of one pair changes between_TV only.
+    """
+    x, y = float(base.sum()), float(scored.sum())
+    if not x or not y:
+        return dict(between_pair_TV=None, within_pair_TV=None)
+    mb = np.array([base[r, c].sum() for r, c in blocks])
+    ms = np.array([scored[r, c].sum() for r, c in blocks])
+    qb, qs = mb/x, ms/y
+    within = 0.
+    for (r, c), b_mass, s_mass, wb, ws in zip(blocks, mb, ms, qb, qs):
+        if b_mass > 0 and s_mass > 0:
+            within += 0.5*(wb + ws) * 0.5*np.abs(scored[r, c]/s_mass - base[r, c]/b_mass).sum()
+    return dict(between_pair_TV=float(0.5*np.abs(qs - qb).sum()), within_pair_TV=float(within))
 
 
 def paired_metrics(base, scored):
@@ -62,10 +102,14 @@ def type_and_pair_metrics(T, C, spots, ligands, receptors, pairs, D):
 
 
 def plot_results(types, paired, changes, out, unit, level):
-    colors = {'diffusion':'#2166ac', 'contact':'#d6604d'}
+    colors = TYPE_COLORS
     families = [f for f in ['r0_raw', 'r0_shape'] if (types.family == f).any()]
-    fig, axes = plt.subplots(len(families), 2, figsize=(11, 3.5*len(families)),
+    fig, axes = plt.subplots(max(len(families), 1), 2, figsize=(11, 3.5*max(len(families), 1)),
                              constrained_layout=True, squeeze=False)
+    if not families:
+        for ax in axes.ravel():
+            ax.text(.5, .5, 'No r0 design in these results', transform=ax.transAxes, ha='center')
+            ax.set_axis_off()
     for row, family in enumerate(families):
         for col, metric in enumerate(['total_T', 'mean_distance']):
             ax = axes[row,col]
@@ -81,8 +125,8 @@ def plot_results(types, paired, changes, out, unit, level):
             ax.set_title(f'{family} / no PPI')
             ax.set_xlabel('r0 / median nearest-neighbor spacing')
             ax.set_ylabel('Transport amount' if col == 0 else f'Mean distance ({unit})')
-            ax.legend(fontsize=8)
-            ax.grid(alpha=.2)
+            ax.legend(fontsize=8, frameon=False)
+            style_axis(ax)
             ax.margins(y=.12)
     fig.suptitle(f'Distance sensitivity by interaction type | {level}')
     fig.savefig(out/'distance_by_type.png', dpi=180)
@@ -94,10 +138,11 @@ def plot_results(types, paired, changes, out, unit, level):
                   for r in paired.itertuples()]
         for ax, metric, label in zip(axes, ['total_change_percent', 'allocation_TV'],
                                      ['Change in total T (%)', 'Allocation TV (0 to 1)']):
-            ax.bar(np.arange(len(paired)), paired[metric], color='#2166ac')
+            ax.bar(np.arange(len(paired)), paired[metric], color=PALETTE['series1'], width=.6)
             ax.set_xticks(np.arange(len(paired)), labels, fontsize=8)
             ax.set_ylabel(label)
-            ax.axhline(0, color='black', lw=.7)
+            ax.axhline(0, color=PALETTE['axis'], lw=.8)
+            style_axis(ax)
             if metric == 'allocation_TV':
                 ax.set_ylim(0, 1)
     else:
@@ -111,17 +156,24 @@ def plot_results(types, paired, changes, out, unit, level):
 
     fig, ax = plt.subplots(figsize=(10, 6), constrained_layout=True)
     if len(paired):
-        candidates = paired[paired.family == 'r0_shape']
-        chosen = candidates.iloc[(candidates.r0_h-1).abs().argmin()] if len(candidates) else paired.iloc[0]
+        # r0_shape near 1h (v1 runs), else the stage-one working setting r0_raw near 2h.
+        chosen = paired.iloc[0]
+        for family, target in [('r0_shape', 1.0), ('r0_raw', 2.0)]:
+            candidates = paired[paired.family == family]
+            if len(candidates):
+                chosen = candidates.iloc[(candidates.r0_h-target).abs().argmin()]
+                break
         data = changes[changes.ppi_case == chosen.ppi_case].copy()
         data = data.iloc[np.argsort(-np.abs(data.delta_T.to_numpy()))[:12]]
         y = np.arange(len(data))
-        ax.barh(y-.18, data.baseline_T, height=.36, label='no PPI', color='#92c5de')
-        ax.barh(y+.18, data.ppi_T, height=.36, label='PPI', color='#2166ac')
+        ax.barh(y-.19, data.baseline_T, height=.34, label='no PPI', color=PALETTE['series2'])
+        ax.barh(y+.19, data.ppi_T, height=.34, label='PPI', color=PALETTE['series1'])
         ax.set_yticks(y, [f'{r.ligand} -> {r.receptor} ({r.type})' for r in data.itertuples()])
         ax.set_xlabel('Transport amount summed over spatial connections')
-        ax.set_title(f'{chosen.family}, r0/h={chosen.r0_h:g}; illustrative setting, not optimum')
-        ax.legend()
+        r0_text = f'r0/h={chosen.r0_h:g}' if pd.notna(chosen.r0_h) else 'd_ref/d'
+        ax.set_title(f'{chosen.family}, {r0_text}; illustrative setting, not optimum')
+        ax.legend(frameon=False)
+        style_axis(ax)
     else:
         ax.text(.5, .5, 'No PPI input', transform=ax.transAxes, ha='center')
         ax.set_axis_off()
@@ -146,6 +198,7 @@ def analyze(results, inputs, output):
     check(np.isfinite(h) and h > 0, 'Invalid reference spacing')
     output.mkdir(parents=True, exist_ok=False)
     type_rows, lr_rows, paired_rows, changes, duplicate_rows = [], [], [], [], []
+    control_rows, shared_rows = [], []
     artifact_hashes = {f: digest(results/f) for f in ['summary.csv','used_lr.csv','manifest.json']}
     canonical_ids = None
 
@@ -195,6 +248,27 @@ def analyze(results, inputs, output):
             if row.score_mode == 'ppi':
                 paired_rows.append(dict(family=family,r0=r0,r0_h=r0/h,
                     baseline_case=ref_case,ppi_case=row.case,**paired_metrics(base,T)))
+            n = len(spots)
+            li, ri = {v:i for i,v in enumerate(ligands)}, {v:i for i,v in enumerate(receptors)}
+            blocks = [(slice(li[p.ligand]*n,(li[p.ligand]+1)*n), slice(ri[p.receptor]*n,(ri[p.receptor]+1)*n))
+                      for p in pairs.itertuples(index=False)]
+            if row.score_mode != 'no_ppi':
+                control_rows.append(dict(family=family, r0=r0, r0_h=r0/h, baseline_case=ref_case,
+                    case=row.case, score_mode=row.score_mode,
+                    permuted_type=getattr(row, 'permuted_type', None),
+                    **paired_metrics(base,T), **decompose(base,T,blocks)))
+            masses = {(p.ligand,p.receptor): float(T[r,c].sum())
+                      for p,(r,c) in zip(pairs.itertuples(index=False), blocks)}
+            for role, column in [('ligand',0),('receptor',1)]:
+                for entity in {k[column] for k in masses}:
+                    partners = {k:v for k,v in masses.items() if k[column] == entity}
+                    if len(partners) < 2:
+                        continue
+                    total = sum(partners.values())
+                    for (ligand,receptor), mass in partners.items():
+                        shared_rows.append(dict(case=row.case, family=family, r0=r0, r0_h=r0/h,
+                            score_mode=row.score_mode, role=role, entity=entity, ligand=ligand,
+                            receptor=receptor, mass=mass, share=mass/total if total else None))
         for row in group[group.score_mode == 'ppi'].itertuples(index=False):
             for (ligand,receptor,kind), value in pair_maps[row.case].items():
                 previous = pair_maps[ref_case][ligand,receptor,kind]
@@ -207,8 +281,14 @@ def analyze(results, inputs, output):
         'baseline_total_T','ppi_total_T','total_change_percent','paired_relative_L1','allocation_TV'])
     change_table = pd.DataFrame(changes, columns=['family','r0','r0_h','baseline_case','ppi_case',
         'ligand','receptor','type','baseline_T','ppi_T','delta_T'])
+    controls = pd.DataFrame(control_rows, columns=['family','r0','r0_h','baseline_case','case','score_mode',
+        'permuted_type','baseline_total_T','ppi_total_T','total_change_percent','paired_relative_L1',
+        'allocation_TV','between_pair_TV','within_pair_TV'])
+    shared = pd.DataFrame(shared_rows, columns=['case','family','r0','r0_h','score_mode','role','entity',
+        'ligand','receptor','mass','share'])
     for name, frame in [('by_type.csv',types),('by_lr.csv',per_lr),
-                        ('ppi_matched.csv',paired),('lr_pair_changes.csv',change_table)]:
+                        ('ppi_matched.csv',paired),('lr_pair_changes.csv',change_table),
+                        ('control_matched.csv',controls),('shared_entity_split.csv',shared)]:
         frame.to_csv(output/name,index=False)
     pd.DataFrame(duplicate_rows, columns=['case','identical_plan_to','family','r0']).to_csv(
         output/'identical_plans.csv',index=False)
@@ -222,7 +302,10 @@ def analyze(results, inputs, output):
         notes=['Identical plans do not by themselves prove identical input scores.',
                'No r0 is selected as biologically optimal.',
                'Per-type unused budgets are not reported: entities can participate in both types.',
-               'allocation_TV is missing when either total transport is zero.']), indent=2))
+               'allocation_TV is missing when either total transport is zero.',
+               'control_matched.csv: every score mode vs no_ppi; between_pair_TV = change of LR-pair '
+               'shares, within_pair_TV = share-weighted change of each pair\'s own spatial plan.',
+               'shared_entity_split.csv: how a ligand/receptor used by >=2 pairs splits its transport.']), indent=2))
 
 
 if __name__ == '__main__':

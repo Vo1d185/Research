@@ -1,0 +1,9 @@
+# Separate environment for plm_score.py ONLY (do not install into commot-research).
+# Python 3.10, as in the official PLM-interact instructions.
+# Install torch first for your CUDA version, e.g. (CUDA 11.8):
+#   pip install torch --index-url https://download.pytorch.org/whl/cu118
+# The official repository requires torch>=2.0.1; weights_only loading needs >=2.0.
+transformers==4.40.1
+numpy==1.26.4
+pandas==2.2.3
+huggingface_hub
