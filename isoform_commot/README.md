@@ -3,7 +3,8 @@
 这是可复现的数值原型。**尚未完成 CCCvelo 论文数据集/QC/预处理复现，也没有运行真实 PLM-interact 模型。**
 模拟 PPI 分数只用于检查接入。T 是模型通信量，不是实际结合次数或频率。
 
-已补充 [CCCvelo 原文核对与下一阶段计划](NEXT_STEPS.md)。文献核对不等于预处理适配代码已完成。
+现在进入 [第一阶段：固定 CCCvelo LR 分类的参数实验](STAGE1.md)，包含下载、h5ad 检查、ROI 输入适配及 OT 参数敏感性运行。
+这是为本研究 cost 设计的适配器，不是完整 CCCvelo SCT/ALRA 预处理复现。
 
 ## 在 VS Code 的 SSH 远程终端运行
 
@@ -11,10 +12,9 @@
 使用 Python 3.11 或 3.12（依赖在当前环境中验证，旧 Python 请另建环境）。
 
 ```bash
+conda activate commot-research
 cd Research/isoform_commot
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-stage1.txt
 python fetch_solver.py
 python -m unittest -v
 python research.py --demo --input demo_input --output results_demo

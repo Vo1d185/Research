@@ -1,5 +1,9 @@
 # 下一阶段：结果解释 → 参数稳健性 → 真实数据
 
+2026-11-13 更新：按用户确定的两阶段方案，先固定 CCCvelo LR 分类进行参数实验，
+再扩展 CellChatDB 注释和其他真实样本。当前可执行流程见 [STAGE1.md](STAGE1.md)。
+已实现输入适配，但仍待真实组织 h5ad 下载、表达层确认和运行；不是已有最佳参数。
+
 ## 1. 先解释现有模拟结果
 
 运行 README 中的 analyze.py，保留三个图和配对比较表。应回答：
@@ -37,12 +41,16 @@ Nature Computational Science 6, 193–207 (2026).
 - diffusion：对发送者求和的 (1/d_sr)*L_s^j*R_r^j。
 - contact：对接收者的直接邻居求和 L_s^j*R_r^j。
 - 论文用 Delaunay triangulation 构建直接邻居。
-- 原文把 d_sr 称为 relative distance。具体代码里的坐标缩放、零距离处理还需核对，不能自行假定为微米。
+- 原文把 d_sr 称为 relative distance。已核对公开 Python 代码：对输入坐标计算欧氏距离，
+  diffusion 距离矩阵的对角线设为 1 再取倒数；不能因此假定原坐标是微米。
+  contact 采用 Delaunay 后按 200/0.73 默认值剪边，并有自身连接处理。
+  本项目排除自身连接，使用明确记录的 h 倍数剪边，不宣称等同于作者全部细节。
 - 原论文这里计算的是 LRS，不是 COMMOT 的 OT cost；本项目的 -log(F*S) 是另行提出的模型。
 
 当前脚本的半径邻接、d_ref 归一化、diffusion 截断半径、S 融合和 OT 都应与论文原方法区分。
 类型来源应核对 LigRecDB 的实际字段；当前接受 CellChat 标签只是通用输入便利功能，不证明与 CCCvelo 的分组相同。
-目前尚未检验该 prior database 文件的具体类型编码或下载完成真实数据。
+已核验固定提交的两个独立 CSV：source,target,origin；类型由文件归属提供。
+第一阶段适配器严格匹配完整 LR 对，保留下载哈希和排除记录。真实表达数据尚未完成下载。
 
 ### Data availability（印刷页 205）
 
@@ -63,9 +71,10 @@ Nature Computational Science 6, 193–207 (2026).
 重要差异：这个 cortex 脚本出现 SCTransform、run_Imputation 调用，
 以及 select_LRTG(..., pct.ct=0.01, expr.ct=0.01)。
 不能把正文中举出的默认值当作所有数据集实际使用的参数。
-脚本中计算了 imputed matrix，并不单凭这一行就能断言它被用作最终 L/R 表达；
-还需检查 select_LRTG、表达层与后续 Python 输入链路。
-该版本 README 所列 0_proprecess_data.R 的直接 URL 返回 404，需定位实际文件，不能当作已复现。
+后续已核对：run_Imputation 调用 ALRA；Input_prepare.ReadData 将文件读入 Imputate 层，
+calculateLRscore.py 用该层计算 L/R score。候选筛选读取 SCT/RNA/Spatial 的 data 层。
+该版本 README 所列 0_proprecess_data.R 实际对应文件为 0_proprecess_data.py。
+这些事实已核对，但本项目使用独立的非负表达适配，不声称复现了整套 SCT/ALRA。
 
 ## 3. 推荐的第一轮真实数据范围
 
@@ -75,7 +84,7 @@ Nature Computational Science 6, 193–207 (2026).
 当前稠密实现必须满足 n_ligand*n_receptor*n_spots^2 <= 4000000。
 该小区域试验不等于原文使用整个发送细胞群的完整复现。
 
-实现真实适配器之前逐项确认：
+真实运行前逐项确认（适配器已提供检查和记录功能）：
 
 1. 原始 counts、归一化层和坐标单位；细胞注释及 sender/receiver 范围。
 2. LigRecDB 实体、物种映射、类型标签、多亚基复合物策略。

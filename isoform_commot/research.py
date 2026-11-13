@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from scipy.spatial.distance import cdist
+from scipy.spatial import Delaunay, QhullError
 from fetch_solver import TARGET, SHA256, URL
 
 
@@ -71,7 +72,25 @@ def kernel(d, family, reference, r0=None):
     return np.minimum((r0 if family == 'r0_raw' else r0 + reference)/(r0+d), 1)
 
 
-def cost(D, pairs, ligands, receptors, scores, family, r0, reference, cr, dr):
+def contact_neighbors(xy, D, radius, method='radius'):
+    """Spatial eligibility; a graph edge does not prove membrane contact."""
+    allowed = (D > 0) & (D <= radius)
+    if method == 'radius':
+        return allowed
+    check(method == 'delaunay', 'Unknown contact_graph')
+    try:
+        triangles = Delaunay(xy).simplices
+    except QhullError as exc:
+        raise ValueError('Delaunay needs non-collinear 2D coordinates') from exc
+    edges = np.zeros(D.shape, dtype=bool)
+    for triangle in triangles:
+        for i in triangle:
+            edges[i, triangle] = True
+    return edges & allowed
+
+
+def cost(D, pairs, ligands, receptors, scores, family, r0, reference, cr, dr,
+         contact_edges=None):
     scores = np.asarray(scores, float)
     check(scores.shape == (len(pairs),) and np.isfinite(scores).all() and
           ((scores >= 0) & (scores <= 1)).all(), 'Missing/invalid PPI score')
@@ -80,6 +99,9 @@ def cost(D, pairs, ligands, receptors, scores, family, r0, reference, cr, dr):
     for row, s in zip(pairs.itertuples(index=False), scores):
         check(row.type in ['contact', 'diffusion'], 'Unknown LR type')
         eligible = (D > 0) & (D <= (cr if row.type == 'contact' else dr))
+        if row.type == 'contact' and contact_edges is not None:
+            check(contact_edges.shape == D.shape, 'Contact graph shape mismatch')
+            eligible &= contact_edges
         F = np.ones(eligible.sum()) if row.type == 'contact' else kernel(
             D[eligible], family, reference, r0)
         i, j = ligands.index(row.ligand), receptors.index(row.receptor)
@@ -141,8 +163,11 @@ def run(folder, output):
     D = cdist(xy, xy)
     nearest = D.copy(); np.fill_diagonal(nearest, np.inf)
     reference, h = float(nearest.min()), float(np.median(nearest.min(axis=1)))
-    cr, dr = float(cfg.get('contact_radius_h', 1.1))*h, float(cfg.get('diffusion_radius_h', 5))*h
-    check(np.isfinite([cr, dr]).all() and min(cr, dr) > 0, 'Invalid spatial cutoff')
+    cr = float(cfg.get('contact_radius_h', 1.1))*h
+    diffusion_radius = cfg.get('diffusion_radius_h', 5)
+    dr = np.inf if diffusion_radius is None else float(diffusion_radius)*h
+    check(np.isfinite(cr) and not np.isnan(dr) and min(cr, dr) > 0, 'Invalid spatial cutoff')
+    contact_edges = contact_neighbors(xy, D, cr, cfg.get('contact_graph', 'radius'))
     multiples = sorted(set(cfg.get('r0_h', [0.5, 1, 2, 4])))
     check(len(multiples) > 0 and np.isfinite(multiples).all() and min(multiples) > 0, 'Invalid r0 grid')
     score_cases = {'no_ppi': np.ones(len(lr))}
@@ -170,12 +195,15 @@ def run(folder, output):
     excluded.to_csv(output/'excluded_lr.csv', index=False)
     lr.to_csv(output/'used_lr.csv', index=False)
     a, b = x[ligands].to_numpy().T.reshape(-1), x[receptors].to_numpy().T.reshape(-1)
-    designs = [('inverse', None)] + [(f, m*h) for m in multiples for f in ['r0_raw','r0_shape']]
+    families = cfg.get('r0_families', ['r0_raw', 'r0_shape'])
+    check(families and len(set(families)) == len(families)
+          and set(families) <= {'r0_raw', 'r0_shape'}, 'Invalid r0 families')
+    designs = [('inverse', None)] + [(f, m*h) for m in multiples for f in families]
     baseline, records = None, []
     for family, r0 in designs:
         for score_name, s in score_cases.items():
             name = f'case_{len(records):03d}'
-            C = cost(D, lr, ligands, receptors, s, family, r0, reference, cr, dr)
+            C = cost(D, lr, ligands, receptors, s, family, r0, reference, cr, dr, contact_edges)
             T = solve(C, a, b, cfg.get('eps', 0.2), cfg.get('rho', 1.0))
             if baseline is None:
                 baseline = T.copy()
@@ -192,8 +220,12 @@ def run(folder, output):
                 relative_L1_change=float(abs(T-baseline).sum()/max(baseline.sum(), 1e-15))))
     pd.DataFrame(records).to_csv(output/'summary.csv', index=False)
     files = ['config.json','expression.csv','spatial.csv','lr.csv'] + (['ppi.csv'] if scorefile.exists() else [])
+    if (folder/'preparation.json').is_file():
+        files.append('preparation.json')
     manifest = dict(status='complete', config=cfg, h=h, dref=reference,
         solver_url=URL, solver_sha256=SHA256, cccvelo_preprocessing_verified=False,
+        contact_graph=cfg.get('contact_graph', 'radius'),
+        contact_directed_edges=int(contact_edges.sum()),
         ppi_status='input_scores_used' if scorefile.exists() else 'not_tested_missing_scores',
         input_sha256={f: hashlib.sha256((folder/f).read_bytes()).hexdigest() for f in files})
     (output/'manifest.json').write_text(json.dumps(manifest, indent=2))

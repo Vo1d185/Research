@@ -63,8 +63,10 @@ def type_and_pair_metrics(T, C, spots, ligands, receptors, pairs, D):
 
 def plot_results(types, paired, changes, out, unit, level):
     colors = {'diffusion':'#2166ac', 'contact':'#d6604d'}
-    fig, axes = plt.subplots(2, 2, figsize=(11, 7), constrained_layout=True)
-    for row, family in enumerate(['r0_raw', 'r0_shape']):
+    families = [f for f in ['r0_raw', 'r0_shape'] if (types.family == f).any()]
+    fig, axes = plt.subplots(len(families), 2, figsize=(11, 3.5*len(families)),
+                             constrained_layout=True, squeeze=False)
+    for row, family in enumerate(families):
         for col, metric in enumerate(['total_T', 'mean_distance']):
             ax = axes[row,col]
             for kind, color in colors.items():

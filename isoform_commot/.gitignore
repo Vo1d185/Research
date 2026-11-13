@@ -4,3 +4,8 @@ vendor/
 results*/
 analysis*/
 demo_input/
+data/
+stage1_input*/
+stage1_results*/
+stage1_inspect*.json
+*.h5ad
