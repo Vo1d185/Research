@@ -20,6 +20,13 @@ T 是模型推断的通信量，不是测得的结合频率；S 是模型预测�
 | PLM 序列 | 小鼠 UniProt canonical 全长序列，两个方向取平均，禁止截断；主模型 650M-humanV11 |
 | 对照 | S=1、同类型均值常数、同类型内全部排列 |
 
+## 真实数据上的发现（2026-11-14，蛋白映射）
+
+- **NRXN1**：有两个已审核的小鼠条目，α 型 Q9CS84（1514 aa）和 β 型 P0DI97（468 aa）。面板中的配对是 `NLGN1 → NRXN1`，neuroligin 结合两者共有的 LNS6 结构域，所以主分析用 β 型（`override.csv`）。α 型保留下来，作为以后 isoform 情景分析的第一个真实例子。gene-level 的 Nrxn1 表达同时包含 α 和 β。
+- **NLGN1 → NRXN1 在 CCCvelo 表中被标为 diffusion。** 两者都是膜蛋白，靠跨突触接触结合，生物学上更接近 contact。第一阶段固定沿用 CCCvelo 的分类，不改；第二阶段和 CellChatDB 的注释逐对比较。
+- **FGF14**：属于 FGF11–14（FHF），细胞内蛋白，一般认为不分泌、不激活 FGFR。如果面板中有 `FGF14 → FGFR2`，其数据库注释值得怀疑，可以用来检验 PLM 分数会不会给它打低分。
+- **超长蛋白**：PTPRD 1912 aa、PLXNB3 1902 aa、SEMA5A 1077 aa 等。主分析用全长序列加 `--allow-long`；敏感性分析用 `--region extracellular`。
+
 ## 下一步
 
 1. 按 `PPI_EVAL.md` 在服务器上跑完第 1–7 步（第一次在真实数据上运行）。

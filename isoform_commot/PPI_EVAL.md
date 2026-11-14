@@ -72,6 +72,7 @@ python proteins.py pairs --input stage1_input_01 --proteins proteins_01 --lr-dir
 - 已知配对：8 对 × 2 个方向（L→R 和 R→L）。
 - 面板内的非配对组合（ligand × receptor 中不在 `lr.csv` 里的），同样 2 个方向，**只用来检查分数，不进入 OT**。`--lr-dir` 会标出其中哪些其实在完整的 LR 库里有记录。
 - 查看 `plm_jobs_01/jobs.json` 中的 `max_tokens` 和 `jobs_over_official_1603_tokens`。
+- **序列区域（打分前就定好）：** 主分析用全长序列（`--region full`，默认）。超过 1603 token 的对，打分时加 `--allow-long`，并在结果里标明。敏感性分析对所有蛋白统一用 `--region extracellular`，输出到另一个目录（例如 `plm_jobs_01_ecd`）：单次跨膜蛋白取 UniProt 标注的胞外段，分泌或 GPI 锚定蛋白取成熟链，都没有注释时去掉信号肽，多次跨膜蛋白拒绝执行。两种结果都报告，不根据 OT 结果挑选其中一种。
 
 ## 3. PLM-interact 打分（单独的 Python 3.10 环境）
 

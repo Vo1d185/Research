@@ -33,9 +33,14 @@ def quiet():
     return contextlib.redirect_stdout(io.StringIO())
 
 
-def fake_entry(symbol, accession, length=60, taxon=10090, reviewed=True, seed=0):
+def feature(kind, start, end, description=''):
+    return {'type': kind, 'description': description,
+            'location': {'start': {'value': start}, 'end': {'value': end}}}
+
+
+def fake_entry(symbol, accession, length=60, taxon=10090, reviewed=True, seed=0, features=()):
     rng = np.random.default_rng(seed)
-    return {'primaryAccession': accession, 'uniProtkbId': f'{symbol.upper()}_MOUSE',
+    return {'primaryAccession': accession, 'uniProtkbId': f'{symbol.upper()}_MOUSE', 'features': list(features),
             'entryType': 'UniProtKB reviewed (Swiss-Prot)' if reviewed else 'UniProtKB unreviewed (TrEMBL)',
             'organism': {'taxonId': taxon}, 'genes': [{'geneName': {'value': symbol}}],
             'proteinDescription': {'recommendedName': {'fullName': {'value': f'{symbol} protein'}}},
@@ -219,6 +224,29 @@ class Units(unittest.TestCase):
             args.override, args.output = str(root/'bad.csv'), str(root/'prot2')
             with self.assertRaisesRegex(ValueError, 'not in this LR panel'):
                 proteins.map_proteins(args, fetch=fetch)
+            for region in ['full', 'extracellular']:
+                proteins.make_pairs(proteins.parser().parse_args(['pairs', '--input', str(root/'input'),
+                    '--proteins', str(root/'prot'), '--output', str(root/f'jobs_{region}'), '--region', region]))
+            full = pd.read_csv(root/'jobs_full'/'jobs.csv')
+            self.assertTrue(full.query_region.str.startswith('full').all())
+            self.assertEqual(json.loads((root/'jobs_extracellular'/'jobs.json').read_text())['region'], 'extracellular')
+
+    def test_extracellular_region_rule(self):
+        seq_entry = lambda *f: fake_entry('G', 'P1', 100, features=f)
+        type1 = seq_entry(feature('Signal', 1, 20), feature('Topological domain', 21, 70, 'Extracellular'),
+                          feature('Transmembrane', 71, 91), feature('Topological domain', 92, 100, 'Cytoplasmic'))
+        seq, used = proteins.region_sequence(type1, 'extracellular')
+        self.assertEqual((len(seq), used), (50, 'extracellular 21-70'))
+        self.assertEqual(seq, type1['sequence']['value'][20:70])
+        gpi = seq_entry(feature('Signal', 1, 18), feature('Chain', 19, 80), feature('Propeptide', 81, 100))
+        self.assertEqual(proteins.region_sequence(gpi, 'extracellular')[1], 'mature chain 19-80')
+        bare = seq_entry(feature('Signal', 1, 25))
+        self.assertEqual(proteins.region_sequence(bare, 'extracellular')[1], 'without signal peptide 26-100')
+        self.assertEqual(proteins.region_sequence(bare, 'full')[1], 'full 1-100')
+        multipass = seq_entry(feature('Topological domain', 1, 10, 'Extracellular'),
+                              feature('Topological domain', 40, 50, 'Extracellular'))
+        with self.assertRaisesRegex(ValueError, 'multi-pass'):
+            proteins.region_sequence(multipass, 'extracellular')
 
     def test_plm_refuses_long_altered_or_invalid_input(self):
         with tempfile.TemporaryDirectory() as d:

@@ -209,6 +209,50 @@ def read_fasta(path):
     return seqs
 
 
+def feature_ranges(entry, kind, description=None):
+    """1-based inclusive (start, end) of UniProt features of one type."""
+    ranges = []
+    for feature in entry.get('features', []):
+        if feature.get('type') != kind:
+            continue
+        if description and description.lower() not in str(feature.get('description', '')).lower():
+            continue
+        start = feature.get('location', {}).get('start', {}).get('value')
+        end = feature.get('location', {}).get('end', {}).get('value')
+        if isinstance(start, int) and isinstance(end, int) and 1 <= start <= end:
+            ranges.append((start, end))
+    return ranges
+
+
+def region_sequence(entry, region):
+    """Sequence used for scoring. 'full': canonical full length (main analysis).
+
+    'extracellular' (pre-specified sensitivity rule, applied to every protein):
+    the single UniProt 'Topological domain: Extracellular' segment of a single-pass
+    membrane protein; otherwise the longest mature 'Chain' (removes signal peptide
+    and propeptides, e.g. secreted or GPI-anchored proteins); otherwise the full
+    length without the signal peptide. Multi-pass proteins are refused.
+    """
+    sequence = entry['sequence']['value']
+    accession = entry['primaryAccession']
+    if region == 'full':
+        return sequence, f'full 1-{len(sequence)}'
+    check(region == 'extracellular', f'Unknown region {region}')
+    outside = feature_ranges(entry, 'Topological domain', 'Extracellular')
+    if outside:
+        check(len(outside) == 1, f'{accession}: {len(outside)} extracellular segments (multi-pass); '
+              'needs a documented manual rule')
+        start, end = outside[0]
+        return sequence[start-1:end], f'extracellular {start}-{end}'
+    chains = feature_ranges(entry, 'Chain')
+    if chains:
+        start, end = max(chains, key=lambda r: (r[1] - r[0], -r[0]))
+        return sequence[start-1:end], f'mature chain {start}-{end}'
+    signal = feature_ranges(entry, 'Signal')
+    start = signal[0][1] + 1 if signal else 1
+    return sequence[start-1:], f'without signal peptide {start}-{len(sequence)}'
+
+
 # ---------------------------------------------------------------- pairs
 def make_pairs(args):
     out = Path(args.output)
@@ -218,8 +262,14 @@ def make_pairs(args):
     check(meta['status'] == 'complete' and digest(proteins/'proteins.fasta') == meta['fasta_sha256'],
           'Protein map incomplete or changed')
     check(digest(Path(args.input)/'lr.csv') == meta['lr_sha256'], 'lr.csv differs from the mapped panel')
-    seqs = read_fasta(proteins/'proteins.fasta')
+    full = read_fasta(proteins/'proteins.fasta')
     pmap = pd.read_csv(proteins/'protein_map.csv', dtype=str).set_index('lr_symbol')
+    seqs, used = {}, {}
+    for symbol, accession in pmap.accession.items():
+        entry = json.loads((proteins/'uniprot'/f'{accession}.json').read_text())
+        check(entry['sequence']['value'] == full[symbol], f'{symbol}: stored UniProt JSON differs from FASTA')
+        seqs[symbol], used[symbol] = region_sequence(entry, args.region)
+        check(len(seqs[symbol]) >= 10, f'{symbol}: {used[symbol]} leaves fewer than 10 residues')
     lr = pd.read_csv(Path(args.input)/'lr.csv', dtype=str)
     database = set()
     if args.lr_dir:
@@ -240,7 +290,8 @@ def make_pairs(args):
                 receptor=receptor, type=lr_type, order=order,
                 in_lr_database=(ligand, receptor) in database if args.lr_dir else None,
                 query_symbol=q, text_symbol=t, query_accession=pmap.loc[q, 'accession'],
-                text_accession=pmap.loc[t, 'accession'], query_len=len(seqs[q]), text_len=len(seqs[t]),
+                text_accession=pmap.loc[t, 'accession'], query_region=used[q], text_region=used[t],
+                query_len=len(seqs[q]), text_len=len(seqs[t]),
                 n_tokens=len(seqs[q]) + len(seqs[t]) + 3,
                 beyond_training_length=max(len(seqs[q]), len(seqs[t])) > TRAINING_MAX_AA,
                 query=seqs[q], text=seqs[t]))
@@ -250,7 +301,7 @@ def make_pairs(args):
     jobs.to_csv(out/'jobs.csv', index=False)
     jobs[['pair_id', 'query', 'text']].to_csv(out/'plm_input.csv', index=False)
     write_json(out/'jobs.json', dict(status='complete', proteins_fasta_sha256=meta['fasta_sha256'],
-        lr_sha256=meta['lr_sha256'], n_jobs=len(jobs),
+        lr_sha256=meta['lr_sha256'], n_jobs=len(jobs), region=args.region, regions_used=used,
         n_cognate_pairs=int((jobs.set == 'cognate').sum() // 2),
         n_cross_pairs=int((jobs.set == 'panel_cross').sum() // 2),
         cross_pairs_in_lr_database=int(jobs.in_lr_database.fillna(False).astype(bool).sum() // 2),
@@ -308,7 +359,8 @@ def import_scores(args):
     wide.rename(columns={'LR': 'score_LR', 'RL': 'score_RL'}).to_csv(out/'scores_by_pair.csv', index=False)
     provenance = (f'PLM-interact {meta.get("checkpoint_name")}@{meta.get("checkpoint_revision")} '
                   f'(pytorch_model.bin sha256 {str(meta.get("checkpoint_sha256"))[:16]}); '
-                  f'mouse UniProt canonical sequences; mean of both input orders; no truncation; '
+                  f'mouse UniProt canonical sequences, region={jobs_meta.get("region", "full")}; '
+                  f'mean of both input orders; no truncation; '
                   f'model prediction, not measured affinity')
     report = dict(status='complete', score_provenance=provenance, model=meta,
         jobs_sha256=jobs_meta['plm_input_sha256'], ppi_sha256=digest(out/'ppi.csv'),
@@ -343,6 +395,8 @@ def parser():
     q.add_argument('--output', required=True)
     q.add_argument('--lr-dir', help='pinned CCCvelo LR tables; marks cross pairs that are annotated')
     q.add_argument('--no-cross', action='store_true', help='score cognate pairs only')
+    q.add_argument('--region', choices=['full', 'extracellular'], default='full',
+                   help='full: canonical full length (main); extracellular: sensitivity rule, see region_sequence')
     i = sub.add_parser('import')
     i.add_argument('--input', required=True); i.add_argument('--jobs', required=True)
     i.add_argument('--scores', required=True); i.add_argument('--scores-meta')
