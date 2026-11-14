@@ -1,0 +1,362 @@
+gene,accession,uniprot_id,protein_name,length,isoforms,isoform_names,variable_regions,extracellular_basis,extracellular_ranges,entry_version,sequence_sha256,overlaps_extracellular,overlaps_domain,overlaps_binding
+Abca1,P41233,ABCA1_MOUSE,Phospholipid-transporting ATPase ABCA1,2261.0,1.0,,0.0,topological_domain,43-639;1372-1656,220.0,42a6e8c7d61bd8eadc89f911288c032971edfd7f6a1f03c6c327e2db48d8d7a7,False,False,False
+Ackr1,Q9QUI6,ACKR1_MOUSE,Atypical chemokine receptor 1,334.0,1.0,,0.0,topological_domain,1-61;115-127;186-205;264-285,151.0,30d188e17482386d8625a800605c419f8fc0e7739ec0df2e94c2c7df90031cc8,False,False,False
+Ackr3,P56485,ACKR3_MOUSE,Atypical chemokine receptor 3,362.0,1.0,,0.0,topological_domain,1-47;103-118;184-213;274-296,187.0,e8b0df899f463a7b9babf122a4b47e4e2b3f7714a40b1233a22e2eb91dffd420,False,False,False
+Acvr1,P37172,ACVR1_MOUSE,Activin receptor type-1,509.0,1.0,,0.0,topological_domain,21-123,218.0,444733a8b05f10f78febb687dfc98541392ac4411c8a08c6ec6e9b17570c02b8,False,False,False
+Acvr1b,Q61271,ACV1B_MOUSE,Activin receptor type-1B,505.0,1.0,,0.0,topological_domain,24-126,199.0,1197c17798ff04be8158606ebda10b013db87dc417e0c7c7a68033ce116e19f7,False,False,False
+Acvr1c,Q8K348,ACV1C_MOUSE,Activin receptor type-1C,493.0,1.0,,0.0,topological_domain,27-113,179.0,bcf8555b4909a3a93c653c8ea7e17c22bff8e067b83e3cb0c3cdc8f2c1407b79,False,False,False
+Acvr2a,P27038,AVR2A_MOUSE,Activin receptor type-2A,513.0,1.0,,0.0,topological_domain,20-135,221.0,d94ef840e3273f1181cd9b945ef5fa6672cbd8cbd9ea85c7b0318809b5a6ff51,False,False,False
+Adcyap1,O70176,PACA_MOUSE,Pituitary adenylate cyclase-activating polypeptide,175.0,1.0,,0.0,secreted_after_signal,25-175,186.0,814a3a4e94474c47a116e40d5c0180c6e2ff34cba5ef93ba8b451ee16c51627d,False,False,False
+Adcyap1r1,P70205,PACR_MOUSE,Pituitary adenylate cyclase-activating polypeptide type I receptor,496.0,1.0,,0.0,topological_domain,21-152;209-223;291-302;403-407,168.0,469b6946046b1cc01e5863cbc9a828762b1faf08cc818dd9ebb7c75b7663410f,False,False,False
+Adgra2,Q91ZV8,AGRA2_MOUSE,Adhesion G protein-coupled receptor A2,1336.0,1.0,,0.0,topological_domain,34-769;827-830;906-922;1038-1044,173.0,57bf9edf737ce11d4df30d906eede566319dc1181ca6aa802f796f596cd37381,False,False,False
+Adgrb1,Q3UHD1,AGRB1_MOUSE,Adhesion G protein-coupled receptor B1,1582.0,2.0,1;2,0.0,topological_domain,34-948;1002-1008;1074-1093;1158-1166,151.0,741e0482abc7ba763234459428a0650d1845ac04595ceba4c38110ba454f5068,False,False,False
+Adgrb2,Q8CGM1,AGRB2_MOUSE,Adhesion G protein-coupled receptor B2,1561.0,3.0,1;2;3,2.0,topological_domain,21-930;981-988;1052-1072;1137-1147,158.0,ebdd7f84cc4274ea5cc03eeb4fe2270ad2615b85e878d386254d2ea6865fea0f,True,True,False
+Adgrb3,Q80ZF8,AGRB3_MOUSE,Adhesion G protein-coupled receptor B3,1522.0,1.0,,0.0,topological_domain,26-880;932-939;1003-1023;1120-1125,167.0,3ae7b8006cb2485beaeda8b88bbf0a6f8de32d8f257f53bf39bf7d93f94b77e7,False,False,False
+Adgre5,Q9Z0M6,AGRE5_MOUSE,Adhesion G protein-coupled receptor E5,818.0,3.0,1;2;3,2.0,topological_domain,24-533;584-602;659-679;745-752,195.0,55e59c8800dea5903486e6b0c08eb28d8da9c2ea6b807573d6d39545e1866180,True,True,False
+Adgrg1,Q8K209,AGRG1_MOUSE,Adhesion G protein-coupled receptor G1,687.0,2.0,1;2,1.0,topological_domain,26-402;464-471;534-570;625-630,178.0,f6535da98ff37fbe81fe5b773ea9ef2dd5abaaa23418dd95828bcef19125f5ba,True,False,True
+Adgrl1,Q80TR1,AGRL1_MOUSE,Adhesion G protein-coupled receptor L1,1466.0,2.0,1;2,1.0,topological_domain,29-852;909-914;980-996;1066-1069,190.0,ee248ed29ecbaf7a08c77a839d7a52c46f28b14b9668011e636c19f95c89ea74,True,True,True
+Adgrl2,Q8JZZ7,AGRL2_MOUSE,Adhesion G protein-coupled receptor L2,1487.0,2.0,1;2,2.0,topological_domain,26-855;906-911;977-994;1086-1090,160.0,d47077920c4369a08383a385368740c638595fd6200f0b2510a1723e581ea97a,False,False,False
+Adgrl3,Q80TS3,AGRL3_MOUSE,Adhesion G protein-coupled receptor L3,1537.0,7.0,1;2;3;4;5;6;7,9.0,topological_domain,20-943;1000-1006;1072-1086;1164-1168,184.0,c69d127a6563d679f4d49f632bd874086009a95179d6e4757ed3d44f3a2cc7e8,True,True,False
+Adora1,Q60612,AA1R_MOUSE,Adenosine receptor A1,326.0,1.0,,0.0,topological_domain,1-11;69-77;148-173;260-267,185.0,58e0f1ebe025fb266f989b6453800313baaf3a172d835f3c735b77939a1df468,False,False,False
+Adora2b,Q60614,AA2BR_MOUSE,Adenosine receptor A2b,332.0,1.0,,0.0,topological_domain,1-8;68-78;145-178;260-267,178.0,0c7ff2a79cb4c02d99941897cd83fd5da162f64c68b64c872655be4b060b4530,False,False,False
+Agt,P11859,ANGT_MOUSE,Angiotensinogen,477.0,1.0,,0.0,secreted_after_signal,25-477,175.0,d93c87adfec0070d2c98f66617c4076e2c1890016ed70a0900fa988fb868c7dc,False,False,False
+Angpt1,O08538,ANGP1_MOUSE,Angiopoietin-1,498.0,1.0,,0.0,secreted_after_signal,20-498,182.0,ed655a4ebdee1d0fdd568522535b3910d1a9f3ddaedad31493bed112e36d46cf,False,False,False
+Apoa1,Q00623,APOA1_MOUSE,Apolipoprotein A-I,264.0,1.0,,0.0,secreted_after_signal,19-264,207.0,52c3bbc1125f0893bdbd3d1323f8d31ccbd45dcc5f3df5f899590198a8de7bcb,False,False,False
+Apoa2,P09813,APOA2_MOUSE,Apolipoprotein A-II,102.0,1.0,,0.0,secreted_after_signal,19-102,211.0,993315c8c35d0d3e8e098a7f94e048fd3696440bd8a89e2ca234b63db9a8f787,False,False,False
+Apoe,P08226,APOE_MOUSE,Apolipoprotein E,311.0,1.0,,0.0,secreted_after_signal,19-311,224.0,cdf4f6caa4d4970fe0a4eb67dc3a67db09f2b4f3fe18f3def91a3d6306173fba,False,False,False
+App,P12023,A4_MOUSE,Amyloid-beta precursor protein,770.0,4.0,APP770;APP695;APP751;APP714,3.0,topological_domain,18-701,272.0,1587058098cf788c78be042c2b807ca5ee061fb9ad3980cb55baf933b377f194,True,True,False
+Axl,Q00993,UFO_MOUSE,Tyrosine-protein kinase receptor UFO,888.0,1.0,,0.0,topological_domain,19-445,219.0,6b89ca1393620c17f9fcb00aa7b6e8f9507be10fd5ad129404f73b70a9cf910e,False,False,False
+Bdnf,P21237,BDNF_MOUSE,Neurotrophic factor BDNF precursor form,249.0,2.0,1;2,1.0,secreted_after_signal,19-249,196.0,ea8fee4ea8bab761e828dbad4fd8c72c352c9c53a58270902664b6b8504dd0b8,False,False,False
+Bmp4,P21275,BMP4_MOUSE,Bone morphogenetic protein 4,408.0,1.0,,0.0,secreted_after_signal,20-408,225.0,323326a5d11e077501015d0eab803702f027d19ce85be69b311f122fccec2b64,False,False,False
+Bmp5,P49003,BMP5_MOUSE,Bone morphogenetic protein 5,452.0,2.0,1;2,1.0,secreted_after_signal,26-452,174.0,958b9d35e2481a5e2744aa54d3a103755295c411cf349036865c07d9d9282cf3,True,False,False
+Bmp6,P20722,BMP6_MOUSE,Bone morphogenetic protein 6,510.0,1.0,,0.0,secreted_after_signal,21-510,194.0,c4a93a83d68264e328c1d0bcca49be1f34df2cb32303f89657961043720375cd,False,False,False
+Bmp7,P23359,BMP7_MOUSE,Bone morphogenetic protein 7,430.0,1.0,,0.0,secreted_after_signal,30-430,206.0,cf18852323a5c58bfc92e49d4de0ec334b9ab9c15d4a5b815343489ec3414591,False,False,False
+Bmpr1a,P36895,BMR1A_MOUSE,Bone morphogenetic protein receptor type-1A,532.0,1.0,,0.0,topological_domain,24-152,222.0,7ea15dc88e50a22b7923e44cb7e088d845ec92fc7d4f1690785293fd5e491843,False,False,False
+Bmpr1b,P36898,BMR1B_MOUSE,Bone morphogenetic protein receptor type-1B,502.0,1.0,,0.0,topological_domain,14-126,217.0,afcd3e722d21a3b753b5c5b892012317ae181993389bf21ea1b3972bfa18a76e,False,False,False
+Bmpr2,O35607,BMPR2_MOUSE,Bone morphogenetic protein receptor type-2,1038.0,1.0,,0.0,topological_domain,27-150,213.0,fb02c17a0f0172a1b6023f2a13f1df2214ce671f81d3e28d106544ec76bfa411,False,False,False
+C1ql1,O88992,C1QRF_MOUSE,C1q-related factor,258.0,1.0,,0.0,secreted_after_signal,17-258,167.0,f8ffd714ab8c07dc5dc86e7bfb1e5f2059b26ead6b6711f40b26a2f7bef97c9b,False,False,False
+C1ql2,Q8CFR0,C1QL2_MOUSE,Complement C1q-like protein 2,287.0,1.0,,0.0,secreted_after_signal,22-287,149.0,7612bbd45e51c5895f479c4c3dae923907830e8d412e16fb3067eea9a07a691b,False,False,False
+C1ql3,Q9ESN4,C1QL3_MOUSE,Complement C1q-like protein 3,255.0,1.0,,0.0,secreted_after_signal,21-255,163.0,1a9fc00a74eb4e4ee2083b72b6d23065cf8d2a3047ff8830408781394812b88a,False,False,False
+Cadm1,Q8R5M8,CADM1_MOUSE,Cell adhesion molecule 1,456.0,7.0,1;2;3;4;5;6;7,8.0,topological_domain,48-388,179.0,b2b747875f4f43b38996fbfb46cd2f883b4ba4ae42e70cad2a6c321f86f37d84,True,True,False
+Cadm3,Q99N28,CADM3_MOUSE,Cell adhesion molecule 3,396.0,1.0,,0.0,topological_domain,23-328,182.0,bfb1ca84e328f978d58b473cc9474d4cf197040dcf4b29363e331d9ab657caac,False,False,False
+Cadm4,Q8R464,CADM4_MOUSE,Cell adhesion molecule 4,388.0,1.0,,0.0,topological_domain,25-324,160.0,9a9bb144568b816a4bec3e6414b2ec4bab0d6b70b2fb2fc277dfc83cfad34b4e,False,False,False
+Cck,P09240,CCKN_MOUSE,Cholecystokinin,115.0,1.0,,0.0,secreted_after_signal,21-115,177.0,6a11c88f385936bf9c6ce9e6ce2d5e4f63b0df44bd14631ac85645b093c8a70a,False,False,False
+Cckbr,P56481,GASR_MOUSE,Gastrin/cholecystokinin type B receptor,453.0,1.0,,0.0,topological_domain,1-55;110-128;190-217;360-379,188.0,cfbb872cde4acc32996c8bbcde471a38d3577514597bd1b161637312d2658ce5,False,False,False
+Ccl17,Q9WUZ6,CCL17_MOUSE,C-C motif chemokine 17,93.0,1.0,,0.0,secreted_after_signal,24-93,163.0,5e06f3618cc64783330a9fede7dc39cfeff0e86b9f0fe26bb0a52d4598cb0734,False,False,False
+Cd38,P56528,CD38_MOUSE,ADP-ribosyl cyclase/cyclic ADP-ribose hydrolase 1,304.0,1.0,,0.0,topological_domain,45-304,186.0,ce28528fa980ce87552d4ad258df78ad866b8e2936783944460cacafe0a090c7,False,False,False
+Cd44,P15379,CD44_MOUSE,CD44 antigen,778.0,13.0,1;2;3;4;5;6;7;8;9;10;11;12;13,15.0,topological_domain,23-685,226.0,c13ec0c09dbd4728cb1cf81b877b54c8ca6df9bdeb192df1e61aeaed5402f2f9,True,False,True
+Cd46,O88174,MCP_MOUSE,Membrane cofactor protein,365.0,2.0,1;2,2.0,topological_domain,45-329,160.0,76154385b9cc2cd22d2f6bc4fa085d9a4d96acfb9503a12e24f8817eb951b71e,True,False,False
+Cd55,Q61475,DAF1_MOUSE,"Complement decay-accelerating factor, GPI-anchored",390.0,1.0,,0.0,none_annotated,,176.0,916f548e9024e6c712f9d39efe457b1ead72a584fb0503484be2c6b75ee9df22,False,False,False
+Cd74,P04441,HG2A_MOUSE,H-2 class II histocompatibility antigen gamma chain,279.0,2.0,Long;Short,1.0,topological_domain,56-279,225.0,20169cf2c9b6fa5d18e5fa6b29350a5bf9bc26dc046b2332d51a307fdc90ece9,True,True,False
+Cdh12,Q5RJH3,CAD12_MOUSE,Cadherin-12,794.0,1.0,,0.0,topological_domain,55-609,140.0,fb4cb4ecb8920eea4048a1fa170e28dfacced4169fb9eacbd70ccac902bf1e1f,False,False,False
+Cdh15,P33146,CAD15_MOUSE,Cadherin-15,784.0,1.0,,0.0,topological_domain,60-605,184.0,3841312eaa8574a4679c2d02135653f860753949c61c7548f4eb213028c27d53,False,False,False
+Cdh2,P15116,CADH2_MOUSE,Cadherin-2,906.0,1.0,,0.0,topological_domain,160-724,227.0,2ac93a79fbb44ad5acc37ee8cd493e505aa6ee7837cfab9896f148eae83d6fbf,False,False,False
+Cdh4,P39038,CADH4_MOUSE,Cadherin-4,913.0,1.0,,0.0,topological_domain,167-731,181.0,a25465db1211f62bbcebe2b170e6457fe3315f7aed01e2a0105ca4a25a83dd33,False,False,False
+Cdh5,P55284,CADH5_MOUSE,Cadherin-5,784.0,1.0,,0.0,topological_domain,46-599,193.0,adb42ed35ac0701910c9c88dab3ab3862918197ea9960a9e16c102b80b06bd9b,False,False,False
+Cldn11,Q60771,CLD11_MOUSE,Claudin-11,207.0,1.0,,0.0,topological_domain,23-82;144-157,182.0,b722d4694949399e0f4a5dc30a2de8c69b6ba155779e717eaed8903f29d3c689,False,False,False
+Clstn1,Q9EPL2,CSTN1_MOUSE,Calsyntenin-1,979.0,2.0,1;2,1.0,topological_domain,29-859,183.0,e4a66ef089447110b0a72817cc127c491580a7fc3838c81a74293eb9c4bbb092,True,True,False
+Clstn2,Q9ER65,CSTN2_MOUSE,Calsyntenin-2,966.0,2.0,1;2,1.0,topological_domain,21-835,182.0,aac7bf0b5ea88dc0b34b3e6b0bed52bc4f001be03c9458b4908723afb6b1c84f,False,False,False
+Clstn3,Q99JH7,CSTN3_MOUSE,Calsyntenin-3,956.0,2.0,1;CLSTN3beta,1.0,topological_domain,20-847,179.0,bad747dc4a31dde0006a332f21fe56b91ccf85302e7a7c290f0ee3cdd6fb481d,True,True,False
+Cntn1,P12960,CNTN1_MOUSE,Contactin-1,1020.0,1.0,,0.0,none_annotated,,228.0,dd3b8807023c3634c9cf1170a3ace03f6a0db18ef986164d0dab767a9b9a9262,False,False,False
+Cntn2,Q61330,CNTN2_MOUSE,Contactin-2,1040.0,1.0,,0.0,none_annotated,,201.0,0c5ce21ecbdcb777137cb8b8ef0b389d295cacbef8ae82b9c1b37cd78ecdd16c,False,False,False
+Cntnap1,O54991,CNTP1_MOUSE,Contactin-associated protein 1,1385.0,1.0,,0.0,topological_domain,21-1284,212.0,9bee563df42d524a68a407b3123eb559718d647362c86c16a814baac85300689,False,False,False
+Cntnap2,Q9CPW0,CNTP2_MOUSE,Contactin-associated protein-like 2,1332.0,2.0,1;2,1.0,topological_domain,28-1262,183.0,ad1759fc9fc91d395089eeede15a5eded5dad43c6d870b92989ac19f274d8b81,True,True,False
+Col3a1,P08121,CO3A1_MOUSE,Collagen alpha-1(III) chain,1464.0,1.0,,0.0,secreted_after_signal,24-1464,217.0,c4b3852f24ced1824298fa4b919bcaaf1559c037975c1a9877439bdae40b85d3,False,False,False
+Cort,P56469,CORT_MOUSE,Cortistatin,109.0,1.0,,0.0,secreted_after_signal,26-109,139.0,98df482aabd5390de4c96327eb4d947ada83874c232eaa5fa7bbabbb440557fa,False,False,False
+Crtam,Q149L7,CRTAM_MOUSE,Cytotoxic and regulatory T-cell molecule,393.0,3.0,1;2;3,3.0,topological_domain,17-289,138.0,dae15c6789c99921376d5d51a49c59bb46de00ab039aebc8343772e1877a03fe,True,True,False
+Csf1,P07141,CSF1_MOUSE,Macrophage colony-stimulating factor 1,552.0,2.0,1;2,1.0,topological_domain,33-492,210.0,6074b759ebace2c2f734fc28dfe78b27d874418cdb1ebcfc8ae66a489b743e30,True,False,False
+Csf1r,P09581,CSF1R_MOUSE,Macrophage colony-stimulating factor 1 receptor,977.0,1.0,,0.0,topological_domain,20-515,252.0,b6fe3db3ba4fce4935e3ad5f3c7a9a0cab4f823bfaeec93798e76ff3c5902d27,False,False,False
+Cspg4,Q8VHY0,CSPG4_MOUSE,Chondroitin sulfate proteoglycan 4,2327.0,3.0,1;2;3,3.0,topological_domain,30-2229,175.0,87ccb432d033cb4cc4fe01c5e677ce2d932b6179f73d2de96cae2ce06e815357,True,True,True
+Ctf1,Q60753,CTF1_MOUSE,Cardiotrophin-1,203.0,1.0,,0.0,secreted_whole_chain,1-203,157.0,57e1ca4dab47e0140ec55b8edbbf481a20e0aab5997cd269783fe74a147d209e,False,False,False
+Cx3cl1,O35188,X3CL1_MOUSE,Fractalkine,395.0,1.0,,0.0,topological_domain,25-336,191.0,48a97c592936a37d44e7455c7409756eb0d8e9e550b221616baa7df10f9d2df3,False,False,False
+Cx3cr1,Q9Z0D9,CX3C1_MOUSE,CX3C chemokine receptor 1,354.0,1.0,,0.0,topological_domain,1-32;92-104;169-196;258-274,189.0,707a5c84447b28d407c5f827e46a68eef0bc86a1ba457920703a0f84d4177e4f,False,False,False
+Cxcl12,P40224,SDF1_MOUSE,Stromal cell-derived factor 1,93.0,2.0,Beta;Alpha,1.0,secreted_after_signal,22-93,200.0,896cef610d272191ca4ee81382c706ab3e54a2739e1472068fe6e9ae60857e63,True,False,False
+Dag1,Q62165,DAG1_MOUSE,Dystroglycan 1,893.0,1.0,,0.0,topological_domain,652-751,223.0,e5831534819e898b0151ede29f36914462d5c8864f4d56f45c5a964011a88c39,False,False,False
+Dcc,P70211,DCC_MOUSE,Netrin receptor DCC,1447.0,3.0,A;C;B,2.0,topological_domain,26-1097,210.0,450a0f23b83bb38f4b22b92c403db3a9f0884a528b450d1383359562109ab1e1,True,True,False
+Dlk1,Q09163,DLK1_MOUSE,Protein delta homolog 1,385.0,6.0,A;B;C;C2;D;D2,5.0,topological_domain,24-305,195.0,e5ffa150e05356e5aa52dbd0f50d8e8868c2536a90d753f54d1d9f229849cf56,True,True,False
+Dll3,O88516,DLL3_MOUSE,Delta-like protein 3,592.0,2.0,2;1,1.0,topological_domain,33-490,197.0,8fc742b00459027ce26f4997a0fb36d0d478dcb16e66f44edc76361ca17bc678,False,False,False
+Dll4,Q9JI71,DLL4_MOUSE,Delta-like protein 4,686.0,1.0,,0.0,topological_domain,27-532,199.0,dd83ebe0f42d2a1f98060b233dccabb26f9f46947f9c2219c5f202a74f2eeddc,False,False,False
+Dscam,Q9ERC8,DSCAM_MOUSE,Cell adhesion molecule DSCAM,2013.0,1.0,,0.0,topological_domain,18-1594,178.0,d6b0c3370aa0fe0794325c721c3a8259c38fd339e132fe245443292848d42699,False,False,False
+Edn1,P22387,EDN1_MOUSE,Endothelin-1,202.0,1.0,,0.0,secreted_after_signal,26-202,207.0,5b109a3083703d367de867175127eea86df7b61b648028489c2ebc897d0d1847,False,False,False
+Ednra,Q61614,EDNRA_MOUSE,Endothelin-1 receptor,427.0,1.0,,0.0,topological_domain,21-80;133-159;230-256;329-347,198.0,b0094b4f1b306835385373604ab36298e4186776c82418827be48dccec438661,False,False,False
+Ednrb,P48302,EDNRB_MOUSE,Endothelin receptor type B,442.0,1.0,,0.0,topological_domain,27-101;164-175;244-271;351-362,186.0,b4f23bdecea857b3356f51318fca144809858244fbb816ef9047b35d5b74eafe,False,False,False
+Efna1,P52793,EFNA1_MOUSE,Ephrin-A1,205.0,1.0,,0.0,secreted_after_signal,18-205,184.0,76e146b598f6b2e9c3cbf674b9df346edfa1dbab9c2c7d987f5f57d78bd1d29b,False,False,False
+Efna2,P52801,EFNA2_MOUSE,Ephrin-A2,209.0,1.0,,0.0,none_annotated,,166.0,7f2185d99f3c3db2f94a77b33ce6f672f009311bafdfaf38db516344c36ae456,False,False,False
+Efna3,O08545,EFNA3_MOUSE,Ephrin-A3,230.0,1.0,,0.0,none_annotated,,166.0,6c244d29fa90188ee6af24fee130b3bcf9f7be369ed59a03cded59b8c68931dc,False,False,False
+Efna5,O08543,EFNA5_MOUSE,Ephrin-A5,228.0,2.0,Long;Short,1.0,none_annotated,,195.0,b23eeb11579a9162c736f95dbf1e1d5ba769fd8b1481a4b6c59b8bf383c716d9,False,False,False
+Efnb1,P52795,EFNB1_MOUSE,Ephrin-B1,345.0,1.0,,0.0,topological_domain,25-236,194.0,9ebb51d595909eda33920619435b8931e7e5df12787803c075cdda22e97fe102,False,False,False
+Efnb2,P52800,EFNB2_MOUSE,Ephrin-B2,336.0,1.0,,0.0,topological_domain,29-232,196.0,b8cb7baa82764aa62556da17638119a25973818ad3c3236f25e65acd23dfe1cb,False,False,False
+Efnb3,O35393,EFNB3_MOUSE,Ephrin-B3,340.0,1.0,,0.0,topological_domain,28-227,187.0,377367ab4c4f4c4c67ea4c6ba4f0d45bd78aa2e92bdbacafe5bd1fcb9dd09aef,False,False,False
+Egfr,Q01279,EGFR_MOUSE,Epidermal growth factor receptor,1210.0,1.0,,0.0,topological_domain,25-647,254.0,c16a6f28adbeb0309523e4ef7910d9a33d8c16e44393c4e0acc3ca42aa27a68d,False,False,False
+Enho,Q8K1D8,ENHO_MOUSE,Adropin,76.0,1.0,,0.0,secreted_after_signal,34-76,109.0,bc988cc3f338d6e1f2647e40695300dd35f6912787ee118c61555e0152aaf011,False,False,False
+Entpd1,P55772,ENTP1_MOUSE,Ectonucleoside triphosphate diphosphohydrolase 1,510.0,1.0,,0.0,topological_domain,38-478,174.0,1d6314abafdcf5412b30cbfd2c747ffb71b97b220a2a5081dcff9aae531217ab,False,False,False
+Epb41l1,Q9Z2H5,E41L1_MOUSE,Band 4.1-like protein 1,879.0,3.0,1;2;3,2.0,none_annotated,,192.0,f298d4cce8787590699bc9fb58ecb2e52a3640ad95b664f48f75cd4c9f98e3c5,False,False,True
+Epha3,P29319,EPHA3_MOUSE,Ephrin type-A receptor 3,983.0,2.0,Long;Short,2.0,topological_domain,21-540,202.0,fa7018267c9a4d042d7811d1de9f4933e2db05e1a68ace56ea20ceaa33d96182,True,True,True
+Epha4,Q03137,EPHA4_MOUSE,Ephrin type-A receptor 4,986.0,2.0,Long;Short,1.0,topological_domain,20-547,241.0,789f59b93a1d0f0f3de7ff0b71f27ee3372c672605b153b468e9a196cc1408ab,False,True,False
+Epha5,Q60629,EPHA5_MOUSE,Ephrin type-A receptor 5,876.0,1.0,,0.0,topological_domain,27-412,218.0,d1ea14e9f2947fd27321fc1cacb26bf80882ac766dc6771d60a4fb6add333a8c,False,False,False
+Epha7,Q61772,EPHA7_MOUSE,Ephrin type-A receptor 7,998.0,5.0,1;2;3;4;5,6.0,topological_domain,28-555,220.0,10777cbe67361dbb1efac9e8409b55c25b58522c200b7acade47cf201a44f4e1,True,True,True
+Epha8,O09127,EPHA8_MOUSE,Ephrin type-A receptor 8,1004.0,1.0,,0.0,topological_domain,27-541,212.0,a6ca6051318223bc3f7ac191dd394afd8cf243ab6dde2fd11a4ef7156e8bbbb7,False,False,False
+Ephb1,Q8CBF3,EPHB1_MOUSE,Ephrin type-B receptor 1,984.0,2.0,1;2,1.0,topological_domain,18-540,184.0,a58608edd0aa57b6d0dd1f10b0b44f2bb9a83f41f687adf28469dd82664fc42f,False,True,True
+Ephb2,P54763,EPHB2_MOUSE,Ephrin type-B receptor 2,986.0,3.0,3;2;4,2.0,topological_domain,19-543,236.0,e10ad9b55fea310130b84dde11165612a327b6b2645e4fa75db486193e1fe328,True,True,False
+Ephb3,P54754,EPHB3_MOUSE,Ephrin type-B receptor 3,993.0,1.0,,0.0,topological_domain,30-554,214.0,01003792760c30a6fed3e6f0dbdcc9c969e1a919f3d18fd228fccebe0b9cea3d,False,False,False
+Ephb4,P54761,EPHB4_MOUSE,Ephrin type-B receptor 4,987.0,1.0,,0.0,topological_domain,16-539,218.0,4a1db0357e989556f17ca8443345bd8bc0065f6ae53c95ac283af88e2b7b66d1,False,False,False
+Ephb6,O08644,EPHB6_MOUSE,Ephrin type-B receptor 6,1014.0,3.0,1;2;3,4.0,topological_domain,33-591,213.0,bcffd7c54e4ebc10ba5d13e702b28525a243252b2fb5cd5ca1e625065a7e3484,True,True,True
+Erbb3,Q61526,ERBB3_MOUSE,Receptor tyrosine-protein kinase erbB-3,1339.0,1.0,,0.0,topological_domain,20-641,204.0,9a0d4a4aad92ee231ac441985c8019dae68965a8f4f16ea88ba27c676a04ed49,False,False,False
+Erbb4,Q61527,ERBB4_MOUSE,Receptor tyrosine-protein kinase erbB-4,1308.0,3.0,JM-A CYT-1;JM-B CYT-2;JM-A CYT-2,2.0,topological_domain,26-652,213.0,2bfcb5f6be20ecf6bc025ab630579a5b378644cd5c2e2f2c89a47514d814f2a4,True,False,False
+Esam,Q925F2,ESAM_MOUSE,Endothelial cell-selective adhesion molecule,394.0,1.0,,0.0,topological_domain,30-251,167.0,602ea7c934bb23aadc2c7d79ffb4f5186b63ccbd5f4c2fa282221e9485dcff3a,False,False,False
+F11r,O88792,JAM1_MOUSE,Junctional adhesion molecule A,300.0,1.0,,0.0,topological_domain,27-238,193.0,7f6fcab6dbc3f9496af15e036fc133a237e6556857644f37fd33b772077d7e80,False,False,False
+F2r,P30558,PAR1_MOUSE,Proteinase-activated receptor 1,430.0,1.0,,0.0,topological_domain,42-107;163-181;245-273;340-354,205.0,6a94e1a3f4b0c06b58d163cfa56c53471a0230e9c1125c74cf1bd25d7d340c44,False,False,False
+Fgf1,P61148,FGF1_MOUSE,Fibroblast growth factor 1,155.0,1.0,,0.0,secreted_whole_chain,1-155,172.0,3468769697fa506683c243557a6eed984b9213019da06af6854501bc807f2ea6,False,False,False
+Fgf10,O35565,FGF10_MOUSE,Fibroblast growth factor 10,209.0,1.0,,0.0,secreted_after_signal,37-209,188.0,d0711fd59b19baa373ea187943df941f783a6458e2ede8a7b3d95cdfc5c12ee7,False,False,False
+Fgf9,P54130,FGF9_MOUSE,Fibroblast growth factor 9,208.0,1.0,,0.0,secreted_whole_chain,1-208,178.0,66588813bad3d5f94e345f8fd3ec5300e921757a03ed28ea9316079221e16465,False,False,False
+Fgfr1,P16092,FGFR1_MOUSE,Fibroblast growth factor receptor 1,822.0,6.0,1;2;3;4;5;6,7.0,topological_domain,22-376,244.0,bdad94131696810f81f7e5e3e9be07d29e47d003057d93fe78c540a06e6f07e6,True,True,False
+Fgfr2,P21803,FGFR2_MOUSE,Fibroblast growth factor receptor 2,821.0,2.0,Long;Short,3.0,topological_domain,22-377,218.0,3d82e8a532ac92d8dceeab63f553f7002ec72c15c36ec7febc377b4afb7546ed,True,True,False
+Fgfr3,Q61851,FGFR3_MOUSE,Fibroblast growth factor receptor 3,801.0,2.0,1;2,1.0,topological_domain,21-369,206.0,01f2b4ad159da3fa23f72ad2636aa1d93d9b9f7c4a02c9684d3be37f9405518e,True,True,False
+Flrt1,Q6RKD8,FLRT1_MOUSE,Leucine-rich repeat transmembrane protein FLRT1,674.0,2.0,2;1,1.0,topological_domain,52-552,177.0,a1153e9a22d4270c4999044c665d66885978aa64852ff3ad38bdd1b17de887f5,False,False,False
+Flrt2,Q8BLU0,FLRT2_MOUSE,Leucine-rich repeat transmembrane protein FLRT2,660.0,1.0,,0.0,topological_domain,36-540,183.0,c744f83b0d242a83c057e8f1ca44cee522f2df5dff4fc6a7244f4c08720f2649,False,False,False
+Flrt3,Q8BGT1,FLRT3_MOUSE,Leucine-rich repeat transmembrane protein FLRT3,649.0,1.0,,0.0,topological_domain,29-528,192.0,8aeb4da0828ba8fdf5062be7221e4a22d23ba3d002be4a4bdc0ccfa302437fde,False,False,False
+Flt1,P35969,VGFR1_MOUSE,Vascular endothelial growth factor receptor 1,1333.0,1.0,,0.0,topological_domain,23-759,223.0,47a05f7456ae193803b73260562b3e951c7fa6cb427d7ae30b89e0eeded80f1f,False,False,False
+Flt3,Q00342,FLT3_MOUSE,Receptor-type tyrosine-protein kinase FLT3,1000.0,1.0,,0.0,topological_domain,28-544,197.0,462bb697ecdcce2f979b00075e60d96fbfcd1b18ba3d92f5427cb03befbcc570,False,False,False
+Flt3l,,,no reviewed mouse entry with this primary gene name,,,,,,,,,False,False,False
+Fzd1,O70421,FZD1_MOUSE,Frizzled-1,642.0,1.0,,0.0,topological_domain,69-317;371-397;462-484;553-593,198.0,291ec9a49b979ed3947029e803eab68d15ba9328f428cf30081a69b1e09cb170,False,False,False
+Fzd2,Q9JIP6,FZD2_MOUSE,Frizzled-2,570.0,1.0,,0.0,topological_domain,29-252;306-332;397-419;488-524,193.0,9fcc38020f0a305b387421751973fae00f21aca55415a222c582ffd1b713b27b,False,False,False
+Fzd3,Q61086,FZD3_MOUSE,Frizzled-3,666.0,1.0,,0.0,topological_domain,23-205;259-288;350-374;442-477,194.0,1793325aa8f5bf8b08c4ce26670d31e66bb259838c13cf1f004acbbb4ebebbb8,False,False,False
+Fzd4,Q61088,FZD4_MOUSE,Frizzled-4,537.0,1.0,,0.0,topological_domain,37-212;276-299;366-383;461-473,201.0,312ed2355098f9e53b2e00bcccd2e8b3d6da8bce6c49bd95859ad32ae941e538,False,False,False
+Fzd6,Q61089,FZD6_MOUSE,Frizzled-6,709.0,1.0,,0.0,topological_domain,19-201;255-284;346-370;438-473,192.0,6fe67be09a22bc8462fb2d7c30f55eb4ea1d4cbe37f142164c9a351817318ad2,False,False,False
+Fzd7,Q61090,FZD7_MOUSE,Frizzled-7,572.0,1.0,,0.0,topological_domain,33-254;308-334;399-421;490-526,185.0,a232d71a9a45e805907971dc8996cccd084177e2fa87e64be21c4266e5899764,False,False,False
+Fzd8,Q61091,FZD8_MOUSE,Frizzled-8,685.0,1.0,,0.0,topological_domain,28-272;331-394;459-481;552-582,205.0,f55605810398640a67e75713463a4ed5393e8fd3f90e61d3a2e2c9f290261a77,False,False,False
+Fzd9,Q9R216,FZD9_MOUSE,Frizzled-9,592.0,1.0,,0.0,topological_domain,24-230;289-316;378-401;470-509,178.0,1c9a8c582ed7a6a297ea7b915088e0c716207336edf4ea0855c1ec31bd1c8c6b,False,False,False
+Gas6,Q61592,GAS6_MOUSE,Growth arrest-specific protein 6,674.0,1.0,,0.0,secreted_after_signal,28-674,202.0,b975088fd0d0a76e6d6d497708168b28ed82ae36f14da9b4867382897d24b544,False,False,False
+Gdf10,P97737,GDF10_MOUSE,Growth/differentiation factor 10,476.0,1.0,,0.0,secreted_after_signal,30-476,166.0,dd0902235eb5804626eef22b0f741721f1a89b18e8175b8769f2e64033c78d21,False,False,False
+Gdf11,Q9Z1W4,GDF11_MOUSE,Growth/differentiation factor 11,405.0,1.0,,0.0,secreted_after_signal,21-405,175.0,203c99cc24c00e5a1951b7c490ee9e39ce7680ccd9d3dba191c6291804a0a3e5,False,False,False
+Gfra2,O08842,GFRA2_MOUSE,GDNF family receptor alpha-2,464.0,3.0,1;2;3,2.0,none_annotated,,177.0,e4f3d703fa98c8baa329cbb5a3bbbd7718f8c8dbd355e7af46111d4b4731d845,False,False,False
+Gja1,P23242,CXA1_MOUSE,Gap junction alpha-1 protein,382.0,1.0,,0.0,topological_domain,45-76;177-207,242.0,e1f8ead8f26e932205e9ebac5912590fd1645ed1cbac920d9063e9653e41979f,False,False,False
+Gjc1,P28229,CXG1_MOUSE,Gap junction gamma-1 protein,396.0,1.0,,0.0,topological_domain,46-75;199-228,198.0,db0f0ffa6b83d06b687c8fcb5912ea86ee42510b2de96436a9f2bea1715c7b14,False,False,False
+Gpr19,Q61121,GPR19_MOUSE,Probable G protein-coupled receptor 19,415.0,2.0,1;2,1.0,topological_domain,1-69;124-152;204-221;299-309,176.0,e7b5522fa057451a1d0e598a16e123b631d328cd8bf8ea48f021653dd5a0af78,True,False,False
+Gpr37,Q9QY42,GPR37_MOUSE,Prosaposin receptor GPR37,600.0,3.0,1;2;3,3.0,topological_domain,27-252;308-322;388-430;502-518,168.0,d7ab92716517faa354106c746dd60f921eae763ca7a91d5f1184ba24797a0f39,True,False,False
+Gpr37l1,Q99JG2,G37L1_MOUSE,G protein-coupled receptor 37-like 1,481.0,1.0,,0.0,topological_domain,25-134;189-205;273-310;382-398,161.0,64c9aab9c8c8d248d792110ec44f9e413d46652b69ca2bfb02de114c54ccc4f0,False,False,False
+Gpr83,P30731,GPR83_MOUSE,G protein-coupled receptor 83,423.0,4.0,1;2;3;4,3.0,topological_domain,18-71;130-145;209-238;316-327,184.0,f80b93bf72d0d556a1e004a52265fced9543db6fafaaef5872df4ed01f408637,True,False,False
+Grn,P28798,GRN_MOUSE,Progranulin,589.0,1.0,,0.0,secreted_after_signal,18-589,176.0,6207b6b408551aa70b9373f7174735e6da87ef95864f311e02646272311d193d,False,False,False
+Hbegf,Q06186,HBEGF_MOUSE,Proheparin-binding EGF-like growth factor,208.0,1.0,,0.0,topological_domain,24-160,188.0,83b5a60e307e44e3ac7f1549127d896489122a0439f6c96d90705e034f489b8b,False,False,False
+Icam1,P13597,ICAM1_MOUSE,Intercellular adhesion molecule 1,537.0,2.0,1;2,1.0,topological_domain,28-485,232.0,bc1a8ba0d49ed0e1dd4317eabf4b6c50b15929c9d7358c2e98a1ad8ec0eef942,True,False,False
+Icam2,P35330,ICAM2_MOUSE,Intercellular adhesion molecule 2,277.0,1.0,,0.0,topological_domain,23-222,199.0,4ad0a6a4800f031a1b098f36f924585a34b9ed2ec4194de569d4fee214911c41,False,False,False
+Igf1,P05017,IGF1_MOUSE,Insulin-like growth factor 1,153.0,2.0,IGF-IA;IGF-IB,1.0,secreted_whole_chain,1-153,227.0,9bc166f74034e6f2c168fee176f6706906953033b3e361c24f8c0592bc7c1a87,True,False,False
+Igf1r,Q60751,IGF1R_MOUSE,Insulin-like growth factor 1 receptor,1373.0,1.0,,0.0,topological_domain,742-936,224.0,cf55e2138ddb7f620263f8a308119531438c91a9a3e927b5c103f1cbc927bd72,False,False,False
+Igf2,P09535,IGF2_MOUSE,Insulin-like growth factor 2,180.0,2.0,1;2,1.0,secreted_after_signal,25-180,200.0,042ad45431dbfbbb33046734944720d94a372e34255d792b7a99c0faf28f4049,False,False,False
+Igf2r,Q07113,MPRI_MOUSE,Cation-independent mannose-6-phosphate receptor,2483.0,1.0,,0.0,topological_domain,,213.0,ad95f55e260d90b684b9896011e38e08e9a523240b546939185642cd3e8c3403,False,False,False
+Igfbp3,P47878,IBP3_MOUSE,Insulin-like growth factor-binding protein 3,292.0,1.0,,0.0,secreted_after_signal,28-292,186.0,cd0fb0e9d1ada2b5b9c4dafa91e8e2c44596a3c5736af54fff6327e44531c324,False,False,False
+Ighm,P01872,IGHM_MOUSE,Immunoglobulin heavy constant mu,454.0,2.0,1;2,1.0,secreted_whole_chain,1-454,181.0,01c165290470a36ed2a6a71ebd3484ad7ec9a49f2b52631a1da8ea5351024af5,True,False,False
+Igsf11,P0C673,IGS11_MOUSE,Immunoglobulin superfamily member 11,428.0,1.0,,0.0,topological_domain,23-240,121.0,28fd55ba74af8872775c21374c7c4864cc0292072f643a0c733cad7af8c5a5ca,False,False,False
+Il34,Q8R1R4,IL34_MOUSE,Interleukin-34,235.0,3.0,1;2;3,2.0,secreted_after_signal,21-235,135.0,ef6becb20f30ae51e1479b3f613c546dd01b7a463af48b8f468eeec048445463,True,False,False
+Il6st,Q00560,IL6RB_MOUSE,Interleukin-6 receptor subunit beta,917.0,1.0,,0.0,topological_domain,23-617,216.0,8b4f6cbb41b2abedadf23ffac92f67bc9b7dc5ceaa478c0025dc88fe98d1710f,False,False,False
+Inhbb,Q04999,INHBB_MOUSE,Inhibin beta B chain,411.0,1.0,,0.0,secreted_after_signal,29-411,187.0,a1ba6719cb42bd69a93d6107ecb244b789d2d6d7b31cec5491073c287004a4cb,False,False,False
+Itga1,Q3V3R4,ITA1_MOUSE,Integrin alpha-1,1179.0,1.0,,0.0,topological_domain,29-1141,144.0,eda2d3516960f26d281b6514ab33fadff94bc883b9f90c9bed613c0adc65571d,False,False,False
+Itga3,Q62470,ITA3_MOUSE,Integrin alpha-3,1053.0,3.0,1;2;3,2.0,topological_domain,33-993,208.0,3712bb3717bb5c2feaf33d0e1d40390a73f7a484627bee03e00245e822b5d64c,True,False,False
+Itga4,Q00651,ITA4_MOUSE,Integrin alpha-4,1039.0,1.0,,0.0,topological_domain,41-983,187.0,0586063272b07e8adfa412b71b77339e0d56d3ff4843b610aeada35d13a02156,False,False,False
+Itga6,Q61739,ITA6_MOUSE,Integrin alpha-6,1091.0,2.0,Alpha-6X1B;Alpha-6X1A,1.0,topological_domain,24-1011,209.0,b3ecfe3c2d5a721944fdb3ef5c0ea6dff23f5027439faa0200fe036b9250b2bf,False,False,False
+Itga8,A2ARA8,ITA8_MOUSE,Integrin alpha-8,1062.0,2.0,1;2,2.0,topological_domain,36-1010,139.0,75359c8524828d96675575988916e8c235687be809807e34e2bb8d045b58e89c,True,False,True
+Itgam,P05555,ITAM_MOUSE,Integrin alpha-M,1153.0,2.0,1;2,1.0,topological_domain,17-1105,203.0,27d77b7e2a23ea2784f1156530c22e6cf78b2d7dec6d0163258be9fb911c5e28,True,False,True
+Itgav,P43406,ITAV_MOUSE,Integrin alpha-V,1044.0,1.0,,0.0,topological_domain,31-988,213.0,cb8a72928424b9afe6788fcbb6ead4f8fe247a96a0efa77fcbd3923fe4e8dc40,False,False,False
+Itgb1,P09055,ITB1_MOUSE,Integrin beta-1,798.0,2.0,1;2,2.0,topological_domain,21-728,247.0,088aa928af5d0d45661b9d3d176c6b409589a037018fb318572494d5b1c212ed,False,False,True
+Itgb2,P11835,ITB2_MOUSE,Integrin beta-2,771.0,1.0,,0.0,topological_domain,24-702,219.0,471684934df9d0a8754e3e2abaa4847fc72315cc67f491418ded429638f6f1e0,False,False,False
+Itgb4,A2A863,ITB4_MOUSE,Integrin beta-4,1818.0,3.0,1;2;3,2.0,topological_domain,29-712,157.0,f168fa99c915fce1830a22e7345f16516f428391ff26da8eca338018f5cc5089,False,False,True
+Itgb5,O70309,ITB5_MOUSE,Integrin beta-5,798.0,2.0,Beta-5A;Beta-5B,1.0,topological_domain,24-719,187.0,8f7f8f8e49e72179044ec00ca7206f6483016022c61ff108b40c5611a6fe082f,False,False,False
+Jag1,Q9QXX0,JAG1_MOUSE,Protein jagged-1,1218.0,1.0,,0.0,topological_domain,34-1067,215.0,a3451056fbbd5af71896639f4c894a4077ec1d6062e57f9015d9dd8cab31481f,False,False,False
+Jag2,Q9QYE5,JAG2_MOUSE,Protein jagged-2,1247.0,1.0,,0.0,topological_domain,24-1082,204.0,df0969d26bb8598a2a9aecba82030887885ba662f6442a353006e8a1d241325d,False,False,False
+Jam2,Q9JI59,JAM2_MOUSE,Junctional adhesion molecule B,298.0,1.0,,0.0,topological_domain,29-236,170.0,2c0cda5115ae95b8d386292320222b69d4faa1ddfb048a793a12ed7748e57fa5,False,False,False
+Jam3,Q9D8B7,JAM3_MOUSE,Junctional adhesion molecule C,310.0,1.0,,0.0,topological_domain,30-241,184.0,d8d0f50977f29f875ef53094ba8b8c89e327f1d720c13c2e4de4c6cc85a03197,False,False,False
+Kdr,P35918,VGFR2_MOUSE,Vascular endothelial growth factor receptor 2,1345.0,2.0,1;2,2.0,topological_domain,20-762,229.0,98748cef655b746b7bbacfcea0856912d5c4447662bf49a721b99e005aefc43f,True,True,True
+Kit,P05532,KIT_MOUSE,Mast/stem cell growth factor receptor Kit,979.0,3.0,1;2;3,3.0,topological_domain,25-527,243.0,ee225ae2672f518c0c72f002df49ab5359317763112e773d5fdbf4e547b3da0c,True,True,True
+Kitl,,,no reviewed mouse entry with this primary gene name,,,,,,,,,False,False,False
+Klk6,,,no reviewed mouse entry with this primary gene name,,,,,,,,,False,False,False
+Klk8,Q61955,KLK8_MOUSE,Kallikrein-8,260.0,1.0,,0.0,secreted_after_signal,29-260,186.0,4b418bf68142fd8a58359fabf063a80feb68c02acae0782a8dfd1ce29f2c3da8,False,False,False
+L1cam,P11627,L1CAM_MOUSE,Neural cell adhesion molecule L1,1260.0,1.0,,0.0,topological_domain,20-1123,224.0,294e110c4a07436b94ff608d6218356ff6dc6f7a5490427050344e1482f05102,False,False,False
+Lgals9,O08573,LEG9_MOUSE,Galectin-9,353.0,3.0,1;2;3,2.0,secreted_whole_chain,1-353,196.0,7852951be4098929311fbaacc88281c340b3f5402d8b917eebcfbcd83a9cc311,True,False,False
+Lifr,P42703,LIFR_MOUSE,Leukemia inhibitory factor receptor,1092.0,2.0,1;2,2.0,topological_domain,44-828,204.0,4cc9780404fa8fe8db86fb3edbe9944d63d1b51ad42c00154451a537c5de8524,True,True,False
+Lpar1,P61793,LPAR1_MOUSE,Lysophosphatidic acid receptor 1,364.0,2.0,1;2,1.0,topological_domain,1-50;108-121;185-204;281-294,172.0,77649308178e23b2c784ad17f631fbd2e8408eeceafeaed64e0ed07503f9f425,True,False,False
+Lrfn4,Q80XU8,LRFN4_MOUSE,Leucine-rich repeat and fibronectin type-III domain-containing protein 4,636.0,1.0,,0.0,topological_domain,17-518,170.0,6f3256135a9368eb082457cdce6a4a140247784a447d220d3217ce782c38a1bf,False,False,False
+Lrfn5,Q8BXA0,LRFN5_MOUSE,Leucine-rich repeat and fibronectin type-III domain-containing protein 5,719.0,2.0,1;2,1.0,topological_domain,18-529,173.0,698499644aacf03744bdfebc8e1815473b6fa16ae85fdbea33171003754d829b,False,False,False
+Lrp1,Q91ZX7,LRP1_MOUSE,Prolow-density lipoprotein receptor-related protein 1,4545.0,1.0,,0.0,topological_domain,20-4424,184.0,22b736c49cec46daa056f28b14cb8829c68bc1d3d0128aaf97ec550d6f755527,False,False,False
+Lrp6,O88572,LRP6_MOUSE,Low-density lipoprotein receptor-related protein 6,1613.0,1.0,,0.0,topological_domain,20-1370,194.0,6367780d9e3dc5b8feb791b7c366b28e30b8931fa82bcbe3d327e2db9e1b6c2b,False,False,False
+Lrrc4b,P0C192,LRC4B_MOUSE,Leucine-rich repeat-containing protein 4B,709.0,1.0,,0.0,none_annotated,,150.0,37a93dd9b1d0b18cf8491ff31cfa3dfbb9da736562aac18bfbba8cd6b851d5ea,False,False,False
+Lrrc4c,Q8C031,LRC4C_MOUSE,Leucine-rich repeat-containing protein 4C,640.0,1.0,,0.0,none_annotated,,182.0,bceaae2705dab205fe5b496b11fa5c15398a9596a271bf67f0f1bab064c4fe90,False,False,False
+Lrrtm1,Q8K377,LRRT1_MOUSE,Leucine-rich repeat transmembrane neuronal protein 1,522.0,1.0,,0.0,topological_domain,35-427,188.0,9eaf6911d1949d7f7bea0f9ea947a10cf019ede754b8adbd8acff14433c61696,False,False,False
+Lrrtm2,Q8BGA3,LRRT2_MOUSE,Leucine-rich repeat transmembrane neuronal protein 2,515.0,1.0,,0.0,topological_domain,34-421,168.0,cfaceeaf102b2b0a9468c300bbf7816e0dd9098215e01bdb26aab9f9075bd116,False,False,False
+Lrrtm3,Q8BZ81,LRRT3_MOUSE,Leucine-rich repeat transmembrane neuronal protein 3,582.0,2.0,1;2,2.0,topological_domain,31-420,173.0,e403218835835c3e8fe9eedcb452a2d8a448b78866f414706da8d7043bbe3a47,False,False,False
+Lrrtm4,Q80XG9,LRRT4_MOUSE,Leucine-rich repeat transmembrane neuronal protein 4,590.0,2.0,1;2,2.0,topological_domain,31-424,172.0,1c8ceaa829ce8b0db1edc32ad04cac00c0b964a3a82df43fbcdbca2cfcd6affb,False,False,False
+Mag,P20917,MAG_MOUSE,Myelin-associated glycoprotein,627.0,2.0,L-MAG;S-MAG,2.0,topological_domain,20-516,219.0,4f82267b47e9a3dc9935d07e33e891ec34a8d93749865563728543dc8d31febf,False,False,False
+Mas1,P30554,MAS_MOUSE,Proto-oncogene Mas,324.0,1.0,,0.0,topological_domain,1-35;87-103;172-184;245-262,185.0,eaa7f8f481da99764687ba36c2a218b24c293c0223f9728fed0bf5e21825aebd,False,False,False
+Mcam,Q8R2Y2,MUC18_MOUSE,Cell surface glycoprotein MUC18,648.0,2.0,1;2,1.0,topological_domain,24-563,177.0,b1a9d226936b3d1dca428a6ae6afa5470883bc8df44595c67a0dd79830479ef7,False,False,False
+Mdk,P12025,MK_MOUSE,Midkine,140.0,1.0,,0.0,secreted_after_signal,23-140,180.0,ba4373c5d22f16070a1786673676833dd95b3d4d41685a7aabac2a6bd229d68b,False,False,False
+Mertk,Q60805,MERTK_MOUSE,Tyrosine-protein kinase Mer,994.0,1.0,,0.0,topological_domain,19-497,215.0,73562e3b769ab7247b43b3393812614f68016dc7cfa273963004b8b68626d030,False,False,False
+Mif,P34884,MIF_MOUSE,Macrophage migration inhibitory factor,115.0,1.0,,0.0,secreted_whole_chain,1-115,211.0,587e7052e9fa6bd5e93a0daa095d2ee4d0b6c8dc87c05d1222c0f52598b03513,False,False,False
+Mpzl1,Q3TEW6,MPZL1_MOUSE,Myelin protein zero-like protein 1,270.0,2.0,1;2,1.0,topological_domain,36-162,132.0,777e0f7333d6662fa5c15d4404d1e1f5e9d5c91f0e4d577a0a2d16b03191e1f2,False,False,False
+Ncam1,P13595,NCAM1_MOUSE,Neural cell adhesion molecule 1,1115.0,4.0,1;2;3;4,5.0,topological_domain,20-711,228.0,44fb559d238d354c270b6c4078a506b3262195b055a3f1236c5208a7581c2361,True,True,False
+Ncam2,O35136,NCAM2_MOUSE,Neural cell adhesion molecule 2,837.0,2.0,Long;Short,1.0,topological_domain,20-697,199.0,24addc672997ee7e43c7e6a18f79b747803f73f5130260413da9b9426b27625c,True,False,False
+Ncl,,,no reviewed mouse entry with this primary gene name,,,,,,,,,False,False,False
+Nectin1,Q9JKF6,NECT1_MOUSE,Nectin-1,515.0,1.0,,0.0,topological_domain,31-354,201.0,0def22808ac4a08e6f0dd5f4d823c86d3e2ce270f6883003abe71b5712b816a2,False,False,False
+Nectin2,P32507,NECT2_MOUSE,Nectin-2,530.0,2.0,Beta;Alpha,2.0,topological_domain,32-351,206.0,589c9ccaa28727a1bdbe1bd07fb8a71ec3f0aab5f61c1f888bf9ff690ffadf29,True,False,False
+Nectin3,Q9JLB9,NECT3_MOUSE,Nectin-3,549.0,3.0,1;2;3,4.0,topological_domain,58-404,176.0,330390dcccec415399e57f983cfb2a4ba2bcd1cf59c0c2ed5e2f7875c031067b,True,False,False
+Nectin4,Q8R007,NECT4_MOUSE,Nectin-4,508.0,2.0,1;2,1.0,topological_domain,31-347,168.0,1236393dffa3d9276380fdbaeaeb2e13e24f206318b5e94df5ca43d28148eae8,False,False,False
+Negr1,Q80Z24,NEGR1_MOUSE,Neuronal growth regulator 1,348.0,1.0,,0.0,none_annotated,,159.0,18def6d17231a2e82f59310bc96695ff9037673b113856b63514c60317951205,False,False,False
+Nfasc,Q810U3,NFASC_MOUSE,Neurofascin,1240.0,1.0,,0.0,topological_domain,25-1110,179.0,346e28a3d9ca820591433b75f8a4a3eb5297b9fe7866526707e429ca26766cb1,False,False,False
+Nlgn1,Q99K10,NLGN1_MOUSE,Neuroligin-1,843.0,2.0,1;2,3.0,topological_domain,46-697,193.0,84b9d742c63ebd39eec6cdc55dfcf8abaf9c282938286bcd4025693121504164,True,False,False
+Nlgn2,Q69ZK9,NLGN2_MOUSE,Neuroligin-2,836.0,1.0,,0.0,topological_domain,15-678,169.0,7d909bea85a6cae61df3b2d173518696fda0cea20ddbcc4944667fcf093f8f14,False,False,False
+Nlgn3,Q8BYM5,NLGN3_MOUSE,Neuroligin-3,825.0,1.0,,0.0,topological_domain,35-686,185.0,59f8ada80266215038651f60f467e72c5c67fbbd37f3e7967f9fe0ca9b649765,False,False,False
+Notch1,Q01705,NOTC1_MOUSE,Neurogenic locus notch homolog protein 1,2531.0,4.0,1;2;3;4,5.0,topological_domain,19-1725,253.0,8c3ff2221cd336eb295ba338fb9bccf65207705171c9e814bf8fce0e5648b616,True,True,True
+Notch2,O35516,NOTC2_MOUSE,Neurogenic locus notch homolog protein 2,2473.0,2.0,1;2,1.0,topological_domain,26-1679,238.0,a452e0e4a8e7676243a56060d7bce12241ac6b8892d5bfc9d17ea13ebca8f4a2,True,True,False
+Notch3,Q61982,NOTC3_MOUSE,Neurogenic locus notch homolog protein 3,2318.0,1.0,,0.0,topological_domain,40-1643,228.0,d1cb1539fa661eb99357450f47d16c194412e09e53e636c814062ec076c39d8a,False,False,False
+Notch4,P31695,NOTC4_MOUSE,Neurogenic locus notch homolog protein 4,1964.0,1.0,,0.0,topological_domain,21-1443,223.0,05bec375056f58034e39d6963bb68e092c46112c8ed441a1d4aa33d9c42ae029,False,False,False
+Nppc,Q61839,ANFC_MOUSE,C-type natriuretic peptide,126.0,1.0,,0.0,secreted_after_signal,24-126,179.0,138b0da69a424d849e965c0c6f5cd91eae48989a268192cdd1d5d701783051d2,False,False,False
+Npr2,Q6VVW5,ANPRB_MOUSE,Atrial natriuretic peptide receptor 2,1047.0,3.0,1;2;3,3.0,topological_domain,17-458,176.0,3dae0e282d41b3676a8ee24c0ffcf739d4f11dc9b0c951ea47096a6b3bcc7c58,True,True,False
+Npy,P57774,NPY_MOUSE,Pro-neuropeptide Y,97.0,1.0,,0.0,secreted_after_signal,29-97,160.0,30d08a7aa526f0cecefa487b4d2f09e70c5a905d8cfc9cfba19b903140a3416e,False,False,False
+Npy1r,Q04573,NPY1R_MOUSE,Neuropeptide Y receptor type 1,382.0,2.0,NPY1-R alpha;NPY1-R beta,2.0,topological_domain,1-36;99-109;175-207;285-298,191.0,9e29c77f4e71a849b380c2f3793a84eb8ade99205c3c24234e3818c161813181,False,False,False
+Npy2r,P97295,NPY2R_MOUSE,Neuropeptide Y receptor type 2,381.0,1.0,,0.0,topological_domain,1-45;114-119;187-213;293-301,182.0,4592892ca605ddc8119fc422e56458a465f2ac61f0b20c9bd8e8d8efee260b80,False,False,False
+Npy5r,O70342,NPY5R_MOUSE,Neuropeptide Y receptor type 5,466.0,1.0,,0.0,topological_domain,1-63;120-138;199-229;411-427,186.0,6a38453196afde15627d57dc66d70466cadb08c0366544d96de1ffa6596c1648,False,False,False
+Nrcam,Q810U4,NRCAM_MOUSE,Neuronal cell adhesion molecule,1256.0,5.0,1;2;3;4;5,8.0,topological_domain,30-1119,200.0,57c8ecceb0f4972c7a9c8813406f9cfb9b83610479d9c10362615d738026e890,True,True,False
+Nrg1,Q6DR98,NRG1_MOUSE,"Pro-neuregulin-1, membrane-bound isoform",645.0,1.0,,0.0,topological_domain,20-247,149.0,f7c372c2f7630332deabe1a2acfdb851797fb7da351d265742f043293a2e0512,False,False,False
+Nrg2,P56974,NRG2_MOUSE,"Pro-neuregulin-2, membrane-bound isoform",756.0,4.0,NRG2-16A;DON-1M;DON-1S;NRG2-10,5.0,topological_domain,20-315,165.0,35be5f018205ab0a22a789e5415e5618d42982a0547943dcf38365c589c5ef69,True,True,False
+Nrg3,O35181,NRG3_MOUSE,"Pro-neuregulin-3, membrane-bound isoform",713.0,1.0,,0.0,topological_domain,1-362,185.0,87d731e157d28e1039a15bc040d8a0b4c929dd61173ff58d3b9f8a77d8af2704,False,False,False
+Nrp1,P97333,NRP1_MOUSE,Neuropilin-1,923.0,1.0,,0.0,topological_domain,22-856,224.0,71df73c42cb302c29e7e879763c682a086521655352c94c755e9b36dbd453b33,False,False,False
+Nrp2,O35375,NRP2_MOUSE,Neuropilin-2,931.0,6.0,A22;A0;A5;A17;B0;B5,5.0,topological_domain,21-864,198.0,a8e361c2ce0d0e42351d722318138cf7d9f8e492b0665033a0bc36e68b03e0e5,True,False,False
+Nrtn,P97463,NRTN_MOUSE,Neurturin,195.0,1.0,,0.0,secreted_after_signal,20-195,177.0,255dd4a62ebdb4d359e5e70c1b81730d0f68a347af6707fd976af98c497f25d9,False,False,False
+Nrxn1,Q9CS84,NRX1A_MOUSE,Neurexin-1,1514.0,7.0,1a;2a;3a;4a;1b;5a;6,6.0,topological_domain,31-1438,215.0,f11fc08a1b7329f29f7fb655e4beb10730d60603a6c4b795fafa04b6d2607225,True,True,True
+Nrxn1,P0DI97,NRX1B_MOUSE,Neurexin-1-beta,468.0,7.0,1b;1a;2a;3a;4a;5a;6,0.0,none_annotated,,105.0,ae41e36b306dc986c6123507899bbd61e09c1fa56df2d5a787de47c2cf14b4d1,False,False,False
+Nrxn2,E9PUN2,NRX2B_MOUSE,Neurexin-2-beta,660.0,2.0,1b;1a,0.0,topological_domain,47-584,96.0,6420eff5fbc86023b4d9537c944a3916610441673dcd1cd2ecc9167db79c2947,False,False,False
+Nrxn2,E9Q7X7,NRX2A_MOUSE,Neurexin-2,1710.0,2.0,1a;1b,0.0,topological_domain,29-1634,107.0,cdd923eccf1ed0cc547560c4c6bf8940a12cb0b33e7550fd9123073dadf3e50f,False,False,False
+Nrxn3,Q8C985,NRX3B_MOUSE,Neurexin-3-beta,567.0,3.0,1b;1a;2a,0.0,topological_domain,36-492,147.0,0c872c30d91f923791ceed549f338b9dd5283d6a8131b6ee9edffe97255e4ed1,False,False,False
+Nrxn3,Q6P9K9,NRX3A_MOUSE,Neurexin-3,1571.0,3.0,1a;2a;1b,3.0,topological_domain,28-1496,155.0,386d39f9b95c5593ae42e0b480836bfe13c4f27470a6cf6ceed1c1260498d1c6,True,True,True
+Ntf3,P20181,NTF3_MOUSE,Neurotrophin-3,258.0,1.0,,0.0,secreted_after_signal,19-258,192.0,bccfba9ca97ffed75190fe39874da21e7501ca9dc24ec5975a79a66118a1a95f,False,False,False
+Ntn1,O09118,NET1_MOUSE,Netrin-1,604.0,1.0,,0.0,secreted_after_signal,25-604,204.0,b82e74bef6fd4d6ae9cb15bff25171f216ba1316e5eb9085fa8c0022cf0fc59d,False,False,False
+Ntn4,Q9JI33,NET4_MOUSE,Netrin-4,628.0,1.0,,0.0,secreted_after_signal,20-628,165.0,47cef4a220101e5302669b0b5c2531922be5b9f61bf99e4174c5a5fbcd9cc738,False,False,False
+Ntng1,Q8R4G0,NTNG1_MOUSE,Netrin-G1,539.0,10.0,1A;1B;1C;1D;1E;1F;1G;1H;1I;1J,16.0,none_annotated,,185.0,42b5b8891965a554fd5718973bbf098147328d51370ff0f7283d37ad284c5e89,False,True,False
+Ntrk2,P15209,NTRK2_MOUSE,BDNF/NT-3 growth factors receptor,821.0,4.0,GP145-TRKB;GP95-TRKB;L1;L10,5.0,topological_domain,32-429,251.0,8580f35722fb78e46977a6a174b0a416b76106e8e2ff2bc3397dbda9e7f2758b,True,True,True
+Ntrk3,Q6VNS1,NTRK3_MOUSE,NT-3 growth factor receptor,825.0,3.0,1;2;3,4.0,topological_domain,32-429,178.0,5caf1a98999fc278f65e6866a63c398a934bed6b130293dec47f7e171f0f51aa,False,True,True
+Nts,Q9D3P9,NEUT_MOUSE,Neurotensin/neuromedin N,169.0,1.0,,0.0,secreted_after_signal,23-169,153.0,db79fe9d61c0f79f3241b307dcb8aa3f5a60bdb61420a66574df2db0e8b2a996,False,False,False
+Ntsr1,O88319,NTR1_MOUSE,Neurotensin receptor type 1,424.0,1.0,,0.0,topological_domain,1-67;123-142;206-234;331-348,182.0,709dbfff5added060912f57b0adce870246578e1622d70d79545a3cdd2a50e4d,False,False,False
+Ntsr2,P70310,NTR2_MOUSE,Neurotensin receptor type 2,416.0,1.0,,0.0,topological_domain,1-32;88-109;177-217;319-337,163.0,9d9fdac888f614be3c7da8e4a963cf92d5620facba0077d069fd0a628f5c16b5,False,False,False
+Ocln,Q61146,OCLN_MOUSE,Occludin,521.0,1.0,,0.0,topological_domain,90-133;194-241,189.0,61243556b0860969bebd8ad74775f1704ebaa83a4e7238fd6929ed9a2dc90b0a,False,False,False
+Oprl1,P35377,OPRX_MOUSE,Nociceptin receptor,367.0,6.0,KOR3;KOR3A;KOR3B;KOR3C;KOR3D;KOR3E,9.0,topological_domain,1-45;107-121;186-208;283-297,203.0,4ac38f8cf8873b5aa0621e41b6a781f86ed929e479502372b2f75f92f17d522c,True,False,False
+P4hb,P09103,PDIA1_MOUSE,Protein disulfide-isomerase,509.0,1.0,,0.0,none_annotated,,225.0,a564673076823bfac573f6bd4fb25edc601ea03a0c6f9a727edeb846c0491c44,False,False,False
+Pcdhb12,,,no reviewed mouse entry with this primary gene name,,,,,,,,,False,False,False
+Pcdhb17,,,no reviewed mouse entry with this primary gene name,,,,,,,,,False,False,False
+Pcdhb18,Q91Y02,PCDBI_MOUSE,Protocadherin beta-18,792.0,1.0,,0.0,none_annotated,,144.0,865834e39272c80bbe2919d257d1b200789c0cab03e29a000e0673c07662cba1,False,False,False
+Pcdhb20,,,no reviewed mouse entry with this primary gene name,,,,,,,,,False,False,False
+Pcdhb22,,,no reviewed mouse entry with this primary gene name,,,,,,,,,False,False,False
+Pcdhb7,,,no reviewed mouse entry with this primary gene name,,,,,,,,,False,False,False
+Pcdhb9,,,no reviewed mouse entry with this primary gene name,,,,,,,,,False,False,False
+Pdgfa,P20033,PDGFA_MOUSE,Platelet-derived growth factor subunit A,211.0,2.0,Long;Short,2.0,secreted_after_signal,21-211,192.0,9981bd25f68357b0c8b820cb4d3d3a68789a09f1f887d33c1e9f89220d720666,True,False,False
+Pdgfb,P31240,PDGFB_MOUSE,Platelet-derived growth factor subunit B,241.0,1.0,,0.0,secreted_after_signal,21-241,191.0,73d13e7714f377971e6c026216582c1e87fa7aa0c4c723a3dbee34401cedb491,False,False,False
+Pdgfc,Q8CI19,PDGFC_MOUSE,Platelet-derived growth factor C,345.0,1.0,,0.0,secreted_after_signal,23-345,157.0,d69e812833e1a499c70630ae67a7e37e0f45fe2db7d52f8873a78be7a1121c08,False,False,False
+Pdgfd,Q925I7,PDGFD_MOUSE,Platelet-derived growth factor D,370.0,3.0,1;2;3,3.0,secreted_after_signal,24-370,160.0,0ebd3b065ce76ca53548d73ff0f50e82027e3b84a41327040a5e8cb98c2a8c30,True,False,False
+Pdgfra,P26618,PGFRA_MOUSE,Platelet-derived growth factor receptor alpha,1089.0,2.0,1;2,2.0,topological_domain,25-528,230.0,394e06de2d1d4686f88d32c90f8d912b72e2265ff7d30e25e23bfcc08fbbed0a,False,True,False
+Pdgfrb,P05622,PGFRB_MOUSE,Platelet-derived growth factor receptor beta,1098.0,2.0,1;2,1.0,topological_domain,32-531,244.0,781735da2c5df95fee882c2ee3e99fa8c46c0c03c2ab996c541c66872baf1625,True,True,False
+Pdyn,O35417,PDYN_MOUSE,Proenkephalin-B,248.0,1.0,,0.0,secreted_after_signal,22-248,127.0,2bf2e1a13d11506eab0decfc90f3141062d072c25ee33e510087c2c39581532c,False,False,False
+Pecam1,Q08481,PECA1_MOUSE,Platelet endothelial cell adhesion molecule,727.0,4.0,1;2;3;4,3.0,topological_domain,18-590,209.0,92d9f5efd4b98f87b747a06b330413c180cde3b66ef67ec9b81020c8a57b0452,True,True,False
+Penk,P22005,PENK_MOUSE,Proenkephalin-A,268.0,1.0,,0.0,secreted_after_signal,25-268,172.0,18a3d97b1f97981f078760dc20e21c88f0beaf3e40cdb020b4625493b0cdec1d,False,False,False
+Pgf,P49764,PLGF_MOUSE,Placenta growth factor,158.0,1.0,,0.0,secreted_after_signal,19-158,169.0,905879029f7662ec37900d7cc2267b92db649621d6bbd9ffb215b082f40dacf2,False,False,False
+Plxna1,P70206,PLXA1_MOUSE,Plexin-A1,1894.0,1.0,,0.0,topological_domain,28-1242,177.0,04d621dc43120a24dedf95368ada7d5c9d851e208d9b4bdef4d4c19c6a5321f0,False,False,False
+Plxna2,P70207,PLXA2_MOUSE,Plexin-A2,1894.0,1.0,,0.0,topological_domain,35-1237,177.0,0b7de894d9a5856058daad65a4e334cb010a63c1afbf125cd85f0e0d77e0ca22,False,False,False
+Plxna3,P70208,PLXA3_MOUSE,Plexin-A3,1872.0,2.0,1;2,1.0,topological_domain,20-1220,171.0,8a6756a6f826e814929edbe693699c99d61f63334a7c2252419d6f5fdee3b5b3,True,True,False
+Plxna4,Q80UG2,PLXA4_MOUSE,Plexin-A4,1893.0,1.0,,0.0,topological_domain,24-1236,160.0,aa08bf159ef8ccce02b0fb38aba268b56adf12b0ca41b8c1a4b9b6bd2d96d454,False,False,False
+Plxnb1,Q8CJH3,PLXB1_MOUSE,Plexin-B1,2119.0,1.0,,0.0,topological_domain,20-1474,168.0,7dacc9496e1aac085ac0454032fc731561b98fcb164233a2faa12cbc4ec96930,False,False,False
+Plxnb2,B2RXS4,PLXB2_MOUSE,Plexin-B2,1842.0,1.0,,0.0,topological_domain,20-1201,134.0,8671dabfb5ef7e84133a607e15a4e1b5601958a62d2ece489c156fb849fb419a,False,False,False
+Plxnb3,Q9QY40,PLXB3_MOUSE,Plexin-B3,1902.0,1.0,,0.0,topological_domain,37-1245,170.0,613980b4541d0a213b8bd58b94a55befacc3a825fab3e1e98a4e3be172c1f3f5,False,False,False
+Plxnc1,Q9QZC2,PLXC1_MOUSE,Plexin-C1,1574.0,1.0,,0.0,topological_domain,35-950,166.0,27fe03473898fc37297a6338c9a1c2f053a710b2260289be48b048f565c6e96c,False,False,False
+Plxnd1,Q3UH93,PLXD1_MOUSE,Plexin-D1,1925.0,1.0,,0.0,topological_domain,49-1271,147.0,650659deb826c56ae55f19aa4e895370532d1b6db44f372730c398e18c4dde70,False,False,False
+Pomc,P01193,COLI_MOUSE,Pro-opiomelanocortin,235.0,1.0,,0.0,secreted_after_signal,27-235,197.0,6f0480f1a067ef4edcb24c3c824ee901c6a2b842839947fdee77e934f6534424,False,False,False
+Pros1,Q08761,PROS_MOUSE,Vitamin K-dependent protein S,675.0,1.0,,0.0,secreted_after_signal,25-675,204.0,611c6973ae6db438814e28447288ca12974c3123916a571b072e67aec9c00789,False,False,False
+Psap,Q61207,SAP_MOUSE,Prosaposin,557.0,1.0,,0.0,secreted_after_signal,17-557,209.0,3cbf613222512dfcddc3bc01387fab8a24868c90ab7287efaec3d3b83dc100a1,False,False,False
+Pth1r,P41593,PTH1R_MOUSE,Parathyroid hormone/parathyroid hormone-related peptide receptor,591.0,1.0,,0.0,topological_domain,27-188;240-282;343-361;429-440,198.0,95b7f5dea77c2eb9ca7b7a886f1eaab26795f961cf9fbe44506c69b6eab931f7,False,False,False
+Pthlh,P22858,PTHR_MOUSE,Parathyroid hormone-related protein,175.0,1.0,,0.0,secreted_after_signal,25-175,162.0,9241d9899e40654eada1ad48fde4603cb1ca50a94cd661e2810f380658c3ad3b,False,False,False
+Ptn,P63089,PTN_MOUSE,Pleiotrophin,168.0,1.0,,0.0,secreted_after_signal,33-168,157.0,1d32d0d99bf46b9d40b07321a7969dccd4852c07444dab8dc71b710df5010fd5,False,False,False
+Ptprd,Q64487,PTPRD_MOUSE,Receptor-type tyrosine-protein phosphatase delta,1912.0,12.0,D;C;A;B;E;F;G;H;I;J;K;L,9.0,topological_domain,21-1266,199.0,aff4874a7048a237e91e96c45bca69a099edd7598d870b8ab1d90b0330cc95e1,True,True,True
+Ptprf,A2A8L5,PTPRF_MOUSE,Receptor-type tyrosine-protein phosphatase F,1898.0,1.0,,0.0,topological_domain,30-1254,154.0,26cb5120a19f8a098eaa3746ae5294b4ecd69c512ba4159c10f52187bd80de78,False,False,False
+Ptprm,P28828,PTPRM_MOUSE,Receptor-type tyrosine-protein phosphatase mu,1452.0,1.0,,0.0,topological_domain,21-742,204.0,ab0b3fc5c45cc7fc71606e75da0c42760a242197f513d1506d6eed849fed3322,False,False,False
+Ptprs,B0V2N1,PTPRS_MOUSE,Receptor-type tyrosine-protein phosphatase S,1907.0,6.0,1;2;3;4;5;6,6.0,topological_domain,30-1257,138.0,ced2b0a79299b165dc1cb3ab965f828f17a12d69d9ed0e971286b42bbd1294c7,True,True,True
+Ptprz1,B9EKR1,PTPRZ_MOUSE,Receptor-type tyrosine-protein phosphatase zeta,2312.0,1.0,,0.0,topological_domain,25-1637,120.0,add82503858783c44b7e0ddbc18bea9af549143fb9fc4473e637764eeb8eaeb6,False,False,False
+Pvr,,,no reviewed mouse entry with this primary gene name,,,,,,,,,False,False,False
+Rbp4,Q00724,RET4_MOUSE,Retinol-binding protein 4,201.0,1.0,,0.0,secreted_after_signal,19-201,178.0,5cc169edd8b42f38944e85276b9ed3f6ccea1d6acd6ac7ddadb2a9059a96d8ce,False,False,False
+Ret,P35546,RET_MOUSE,Proto-oncogene tyrosine-protein kinase receptor Ret,1115.0,2.0,1;2,1.0,topological_domain,29-637,219.0,3334c6adc76826b41fcaf2b50db4c0221a22e27b5e89e75e4a0bd56a48a58475,False,False,False
+Robo1,O89026,ROBO1_MOUSE,Roundabout homolog 1,1612.0,1.0,,0.0,topological_domain,20-858,179.0,9b4f44b14b76ee512d110ce93313ac9d7c541f58e1f37befd0b95f05e43f239b,False,False,False
+Robo2,Q7TPD3,ROBO2_MOUSE,Roundabout homolog 2,1470.0,2.0,1;2,2.0,topological_domain,22-863,167.0,5b267e805062b4624b3981e15bb80df2f8501b7b948df4d8852b53308475e6da,True,True,False
+Rtn4r,Q99PI8,RTN4R_MOUSE,Reticulon-4 receptor,473.0,1.0,,0.0,none_annotated,,191.0,f7a926e090faafcb3edc0302dff39edcad64b29408a89f30429c5d1d07f3576d,False,False,False
+Sdc1,P18828,SDC1_MOUSE,Syndecan-1,311.0,2.0,1;2,1.0,topological_domain,23-255,195.0,8dade7c4fbf0b142a8fa9231220f9f980ca7cddabddc4d4c097fa6d3ccaf70f0,True,False,False
+Sdc2,P43407,SDC2_MOUSE,Syndecan-2,202.0,1.0,,0.0,topological_domain,19-145,174.0,99b23b1b82ab163cc4f16fc570d2d87f66df97500d7b40b716076fbfe8e187da,False,False,False
+Sdc3,Q64519,SDC3_MOUSE,Syndecan-3,442.0,1.0,,0.0,topological_domain,45-387,180.0,bc36bf80a7334e70fbba6b990154875022271dab079c6b39e98fd6f71ddb02a6,False,False,False
+Sdc4,O35988,SDC4_MOUSE,Syndecan-4,198.0,1.0,,0.0,topological_domain,24-145,193.0,8c4c62279192fae18bbf0711038b41fd3c0351dbab150fdfc7a1a51f77f3ba63,False,False,False
+Sema3a,O08665,SEM3A_MOUSE,Semaphorin-3A,772.0,1.0,,0.0,secreted_after_signal,21-772,204.0,46fa18bdeb68500976b777018cbfa35fe67108e88491bc29442c6810efba15b1,False,False,False
+Sema3b,Q62177,SEM3B_MOUSE,Semaphorin-3B,748.0,1.0,,0.0,secreted_after_signal,26-748,162.0,9465d625f306da8d19ab99b69d61c830eccf762fc449a1004a9c1bb8c9917d79,False,False,False
+Sema3c,Q62181,SEM3C_MOUSE,Semaphorin-3C,751.0,1.0,,0.0,secreted_after_signal,21-751,181.0,a7b4baed856cceb9ab58edf5ae080ac992860a9894fe4472290e259887764eea,False,False,False
+Sema3d,Q8BH34,SEM3D_MOUSE,Semaphorin-3D,777.0,1.0,,0.0,secreted_after_signal,38-777,155.0,fc378bce8c4ae068921d3920b7ef3e65fe9fbd70903eda9dc3dd3deb6af9f444,False,False,False
+Sema3e,P70275,SEM3E_MOUSE,Semaphorin-3E,775.0,1.0,,0.0,secreted_after_signal,26-775,190.0,fdd28ba027ad9b7c04674eb4e9a98c976e8a4403a61b1a2240b83590192ece82,False,False,False
+Sema3f,O88632,SEM3F_MOUSE,Semaphorin-3F,785.0,2.0,B;A,1.0,secreted_after_signal,19-785,194.0,4357d4508bd19aa3504b8a0c3945106cf5debe40bb98606daf6bd9c87d30e684,True,True,False
+Sema4a,Q62178,SEM4A_MOUSE,Semaphorin-4A,760.0,1.0,,0.0,topological_domain,33-682,190.0,1a20d759ad6c4fd1d6cb2a8e41b73f9c68efc93a864aa9e255c093c0ca9b70df,False,False,False
+Sema4c,Q64151,SEM4C_MOUSE,Semaphorin-4C,834.0,1.0,,0.0,topological_domain,21-664,206.0,2efc5129f80e5988a8290fa6b36559bcc045413000b3ac14d52f9ccce7eaf2ce,False,False,False
+Sema4d,O09126,SEM4D_MOUSE,Semaphorin-4D,861.0,1.0,,0.0,topological_domain,24-733,201.0,70db3661147cc66c4bb8f208585aca8cfa383745878c523485440769ebaf897c,False,False,False
+Sema4g,Q9WUH7,SEM4G_MOUSE,Semaphorin-4G,837.0,1.0,,0.0,topological_domain,18-673,185.0,8b672f0913d3c55e90a3e23f61743186cf3d8f5edffa884ffad84d72fbd2da84,False,False,False
+Sema5a,Q62217,SEM5A_MOUSE,Semaphorin-5A,1077.0,1.0,,0.0,topological_domain,22-971,160.0,9896aa424e88aa1263a5193f10441811fa5b37b57f87a7484a9835c3220ac346,False,False,False
+Sema5b,Q60519,SEM5B_MOUSE,Semaphorin-5B,1093.0,3.0,1;2;3,3.0,topological_domain,20-978,187.0,a1147ccadb8768880436e7db15413eff180edabfcde858a840cac82062925c2b,True,True,False
+Sema6a,O35464,SEM6A_MOUSE,Semaphorin-6A,1031.0,3.0,1;2;3,2.0,topological_domain,19-649,193.0,1a46725716531f32bac0fd194c0dda63ec777a1dc2194a66c3048c734ea08987,True,True,False
+Sema6b,O54951,SEM6B_MOUSE,Semaphorin-6B,886.0,1.0,,0.0,topological_domain,27-605,185.0,7f9def68818f09c5f28649b5f2abc32c2722007dbff89ce071849f603fe80f5f,False,False,False
+Sema6d,Q76KF0,SEM6D_MOUSE,Semaphorin-6D,1073.0,6.0,4;1;2;3;5;6,4.0,topological_domain,21-662,151.0,318c908f1e0c558346b6f943d7d1e6be060c8bdb28a088e9e51667e96402cd8f,True,True,False
+Sema7a,Q9QUR8,SEM7A_MOUSE,Semaphorin-7A,664.0,1.0,,0.0,none_annotated,,191.0,a923ef83981cfd7ad458f3710d70a929d29522dba82f4b26b973cee5ada1363c,False,False,False
+Slit1,Q80TR4,SLIT1_MOUSE,Slit homolog 1 protein,1531.0,1.0,,0.0,secreted_after_signal,34-1531,194.0,6b7d0438aeb98e715db02eaa86d1d25f7839f2c2333971170f3084220da9e3e5,False,False,False
+Slit2,Q9R1B9,SLIT2_MOUSE,Slit homolog 2 protein,1521.0,1.0,,0.0,secreted_after_signal,26-1521,205.0,70d18168fd1d9a68fbbfe536228f41c512dfa1b28a43b5df76ae33a500b18c40,False,False,False
+Slitrk1,Q810C1,SLIK1_MOUSE,SLIT and NTRK-like protein 1,696.0,1.0,,0.0,topological_domain,18-622,168.0,022465f11348a278624061273d85e56e4be042513b9af2554ad9ecf2d7cd102c,False,False,False
+Slitrk2,Q810C0,SLIK2_MOUSE,SLIT and NTRK-like protein 2,846.0,1.0,,0.0,topological_domain,22-622,173.0,0b136f2aabf2b1b34ce3c50b2f5b2b3cf9a8a681211aef8652d69f47f3b99b47,False,False,False
+Slitrk3,Q810B9,SLIK3_MOUSE,SLIT and NTRK-like protein 3,980.0,1.0,,0.0,topological_domain,30-655,161.0,141fde2a05fa781b2a26c92ce605afe564bb27820303a28bdf68e402899ef09c,False,False,False
+Slitrk4,Q810B8,SLIK4_MOUSE,SLIT and NTRK-like protein 4,837.0,1.0,,0.0,topological_domain,19-618,176.0,a0cd6bef2c20047d7c5d9ee934092f5efbbd672abe8e2af257de427e67e3114d,False,False,False
+Slitrk5,Q810B7,SLIK5_MOUSE,SLIT and NTRK-like protein 5,957.0,2.0,1;2,3.0,topological_domain,41-664,170.0,cbae6072dd64313b52a7811e02f4e897b728c9be7b221ee982ecd28830ea2372,False,False,False
+Sorl1,O88307,SORL_MOUSE,Sortilin-related receptor,2215.0,1.0,,0.0,topological_domain,,210.0,dc161708bec6d31ce8b988e60d374b64ac9732f9f284a20c3e17a219ab96a35a,False,False,False
+Sort1,Q6PHU5,SORT_MOUSE,Sortilin,825.0,2.0,1;2,1.0,topological_domain,74-754,181.0,4a40634982601b037c3cf2c1e796418fe10f0d3224e9b99275870caf2812d2f1,True,False,True
+Spp1,P10923,OSTP_MOUSE,Osteopontin,294.0,1.0,,0.0,secreted_after_signal,17-294,211.0,599b0a507ca1d163342dd941b094477e7b12ae7af0be192e8e36afdc2ed84b06,False,False,False
+Sst,P60041,SMS_MOUSE,Somatostatin,116.0,1.0,,0.0,secreted_after_signal,25-116,147.0,a32d98ac0ccc4bbe85fefa6701312eb2dc4c0be51a7fc6d43aa8094e71d5d60d,False,False,False
+Sstr2,P30875,SSR2_MOUSE,Somatostatin receptor type 2,369.0,2.0,A;B,1.0,topological_domain,1-43;104-118;182-207;279-288,204.0,a3bbfa5e9991ccec6102b1ce3cd655ef430bb8e3eb482da3022a8479b8fee8e2,False,False,False
+Sstr3,P30935,SSR3_MOUSE,Somatostatin receptor type 3,428.0,1.0,,0.0,topological_domain,1-45;104-118;183-206;289-302,175.0,65259c20beb0629e04fcea3f51a0745b46cbaf172e37a99448d1e28cf9069a8f,False,False,False
+Stra6,O70491,STRA6_MOUSE,Receptor for retinol uptake STRA6,670.0,1.0,,0.0,topological_domain,1-50;119-144;190-205;318-368;445-474,133.0,512cb9484aba08a1add10ed1bf3752c42c3b1f4f13af7a9d6f9b326b667edd0a,False,False,False
+Tax1bp3,Q9DBG9,TX1B3_MOUSE,Tax1-binding protein 3,124.0,1.0,,0.0,none_annotated,,170.0,c7c41c696ccdc860b5516b847020fd622f73683e26b55214e8a627a902f78e4c,False,False,False
+Tek,Q02858,TIE2_MOUSE,Angiopoietin-1 receptor,1122.0,1.0,,0.0,topological_domain,23-746,225.0,869e0d9d97eaf8f5f696523e2c5a3f000a7e14396e9b5c3048f42139ce7b6330,False,False,False
+Tenm1,Q9WTS4,TEN1_MOUSE,Teneurin-1,2731.0,2.0,1;2,1.0,topological_domain,346-2731,161.0,4cd8ee625af4459e7e22b2d07ae8da07d7e5c70aeb0f2ba7248c87d7042d5ebb,True,True,False
+Tenm2,Q9WTS5,TEN2_MOUSE,Teneurin-2,2764.0,1.0,,0.0,topological_domain,401-2764,162.0,d95c6b652f6a71f103658664c2423f4b5f84ee846e3d00ab148153532e80eb43,False,False,False
+Tenm3,Q9WTS6,TEN3_MOUSE,Teneurin-3,2715.0,8.0,A1B1;A0B0;A0B1;A1B0;A2B1;A2B0;A3B1;A3B0,5.0,topological_domain,332-2715,151.0,34f7477ace39d3b83650661b3f0a55d4b6139546fda3c038604cee5160e77d90,True,True,False
+Tenm4,Q3UHK6,TEN4_MOUSE,Teneurin-4,2771.0,4.0,1;2;3;4,5.0,topological_domain,367-2771,155.0,234849c709d08e5f3c54693905679ab41c398d5cada8ab2374f18ea53e9c65f4,True,True,False
+Tgfa,P48030,TGFA_MOUSE,Protransforming growth factor alpha,159.0,1.0,,0.0,topological_domain,24-97,187.0,c13c479637cb4dc5e8f0f93f864691297722755dc98833c474e388736e71e8fc,False,False,False
+Tgfb1,P04202,TGFB1_MOUSE,Transforming growth factor beta-1 proprotein,390.0,1.0,,0.0,secreted_after_signal,30-390,247.0,783daa126cc544e711e19d7a29bc9561931baf9859b609d9ca52a387bf84e570,False,False,False
+Tgfb2,P27090,TGFB2_MOUSE,Transforming growth factor beta-2 proprotein,414.0,1.0,,0.0,secreted_after_signal,21-414,203.0,8bf071a31d7506b7f21a3d8b5816cca436b70693b40b0f2af1a262e7add7bfa6,False,False,False
+Tgfb3,P17125,TGFB3_MOUSE,Transforming growth factor beta-3 proprotein,410.0,1.0,,0.0,secreted_after_signal,24-410,188.0,e928d74a95c79de7e1350c431efaba965be8414533a8e263bd4398484d20b4bb,False,False,False
+Tgfbr1,Q64729,TGFR1_MOUSE,TGF-beta receptor type-1,503.0,2.0,1;2,1.0,topological_domain,30-126,223.0,af6478f9176a44894bb77f6521ae0dbc6e7c4045c8cad33139df6b58064543b2,True,False,False
+Tgfbr2,Q62312,TGFR2_MOUSE,TGF-beta receptor type-2,567.0,2.0,RII-1;RII-2,1.0,topological_domain,24-166,215.0,db604e85b6459e11c8ab5edc85bd11824c10e66de9af8006f195caf63a88a0dd,True,False,False
+Tgm2,P21981,TGM2_MOUSE,Protein-glutamine gamma-glutamyltransferase 2,686.0,1.0,,0.0,secreted_whole_chain,1-686,211.0,525c2464974bbec3dbc77884d8a9b0307573fa1c51a07025847d8da10b850893,False,False,False
+Thy1,P01831,THY1_MOUSE,Thy-1 membrane glycoprotein,162.0,1.0,,0.0,none_annotated,,203.0,b7a6c3cdd672727020223abedbd246a3add4858c6c3f8a23293d15e4fe3f6a83,False,False,False
+Tmem219,Q9D123,TM219_MOUSE,Insulin-like growth factor-binding protein 3 receptor,240.0,2.0,1;2,3.0,topological_domain,39-204,131.0,16c3a7c922c2bb0a8d89e854ea2f9a80b184786e7638184c92aa092d8303b74d,True,False,False
+Tnfrsf12a,Q9CR75,TNR12_MOUSE,Tumor necrosis factor receptor superfamily member 12A,129.0,1.0,,0.0,topological_domain,28-80,156.0,ce5341e7cadf5f1362ba98af2f4e8e8b69365f2f6a12a8335231419121c83b30,False,False,False
+Tnfrsf21,Q9EPU5,TNR21_MOUSE,Tumor necrosis factor receptor superfamily member 21,655.0,1.0,,0.0,topological_domain,42-349,184.0,99ae9cf876e693bb05e5a3f075f0d16739b4d9d43c78e1844db04ad415e63277,False,False,False
+Tnfsf12,O54907,TNF12_MOUSE,Tumor necrosis factor ligand superfamily member 12,249.0,1.0,,0.0,topological_domain,46-249,166.0,2e87d71a011d3625080a55e15fe40c6711410de111f079d1934031b136e378db,False,False,False
+Trem2,Q99NH8,TREM2_MOUSE,Triggering receptor expressed on myeloid cells 2,227.0,2.0,1;2,1.0,topological_domain,19-171,174.0,5170a2bf1b76202f6d6afd7a17b7fe36b022d2f7b2563481e8f65c25ff45c0a3,True,False,False
+Trh,Q62361,TRH_MOUSE,Pro-thyrotropin-releasing hormone,256.0,1.0,,0.0,secreted_after_signal,25-256,158.0,4ccdea48e084cf0bac84b6294c8895d7a85fcf8ea29c3012ea2e2962f7941f3f,False,False,False
+Trhr,P21761,TRHR_MOUSE,Thyrotropin-releasing hormone receptor,393.0,1.0,,0.0,topological_domain,1-28;84-99;169-193;289-296,183.0,3d253e0919c3d6a1b1995281ff10d8b0e858f204ed9b247a852ff54f2011effd,False,False,False
+Tub,P50586,TUB_MOUSE,Tubby protein,505.0,2.0,Long;Short,1.0,secreted_whole_chain,1-505,180.0,ed90df5b8872c50954e575f3beefe0ea436af25507e547094cbeb0f5e9f938f8,True,False,False
+Tyro3,P55144,TYRO3_MOUSE,Tyrosine-protein kinase receptor TYRO3,880.0,3.0,3;2;1,2.0,topological_domain,31-419,212.0,8a5b4945f9922c3ce3936a18700c245447f7dee41557de39693a0969e377dd7d,True,True,False
+Tyrobp,O54885,TYOBP_MOUSE,TYRO protein tyrosine kinase-binding protein,114.0,1.0,,0.0,topological_domain,22-42,175.0,5a20ca36fc1dadfcfa8c257f8071d36961b910fc427d3800b11b1b4fab8f7b03,False,False,False
+Unc5a,Q8K1S4,UNC5A_MOUSE,Netrin receptor UNC5A,898.0,3.0,1;2;3,2.0,topological_domain,26-361,178.0,b571a6013b4b54c261ee943c5cf1601f37cf7271e125a5cd0024d0108b776fea,True,True,False
+Unc5b,Q8K1S3,UNC5B_MOUSE,Netrin receptor UNC5B,945.0,2.0,1;2,1.0,topological_domain,27-377,181.0,0067655223a410a23d2bce013abf4473c3f5dcbdc957ef2fc76dd41229855bb3,True,False,False
+Unc5c,O08747,UNC5C_MOUSE,Netrin receptor UNC5C,931.0,2.0,1;2,1.0,topological_domain,41-380,177.0,42d5980dc9d0799fa18b404e49d7c595df2cdd128688fa89836626af6d99cd66,True,False,False
+Unc5d,Q8K1S2,UNC5D_MOUSE,Netrin receptor UNC5D,956.0,1.0,,0.0,topological_domain,31-382,162.0,45868db553e65c896b1d2b8d9b39921ae23c7b1013d3e0c82c088afa4a4b484c,False,False,False
+Vcam1,P29533,VCAM1_MOUSE,Vascular cell adhesion protein 1,739.0,2.0,1;2,2.0,topological_domain,25-698,216.0,71c6d85502be727366b8f032bda0eec4336d0a99033817a0747404cffe7ea233,True,True,False
+Vegfa,Q00731,VEGFA_MOUSE,"Vascular endothelial growth factor A, long form",392.0,7.0,L-VEGF-2;VEGF-3;VEGF-1;VEGF-2;VEGF-4;VEGF-5;L-VEGF-1,8.0,secreted_whole_chain,1-392,217.0,2bad5a21532342f85f7be00b76da0844dce5632029e65476ca6f3338aac7a266,True,False,False
+Vegfb,P49766,VEGFB_MOUSE,Vascular endothelial growth factor B,207.0,2.0,VEGF-B186;VEGF-B167,1.0,secreted_after_signal,22-207,183.0,57aa995d03ea0207a7f74bb2a6a5e4fb123796004e3cc0628bb57eabeee1c7bc,True,False,False
+Vegfc,P97953,VEGFC_MOUSE,Vascular endothelial growth factor C,415.0,4.0,1;2;3;4,6.0,secreted_after_signal,32-415,184.0,b59c4cec195b417f6d64c9a6650b1cc50652ee596031c9b282bb7a664162d05c,True,False,False
+Vip,P32648,VIP_MOUSE,VIP peptides,170.0,1.0,,0.0,secreted_after_signal,22-170,162.0,edfa545b94eeacf49453bcdf80b1a48148a3a9797725710321f94af1f6e5634f,False,False,False
+Vipr1,P97751,VIPR1_MOUSE,Vasoactive intestinal polypeptide receptor 1,459.0,1.0,,0.0,topological_domain,31-142;198-217;278-293;362-369,178.0,4db92184d326827f88609c5c41d76d8e560f33281d2c067d75761b9ef794d63f,False,False,False
+Vipr2,P41588,VIPR2_MOUSE,Vasoactive intestinal polypeptide receptor 2,437.0,1.0,,0.0,topological_domain,23-123;180-202;261-279;346-353,184.0,87389bc0d31c852e5ff225bc5c8dc6a0d572f2e11b8a230d88acbe520608f9b7,False,False,False
+Vsir,Q9D659,VISTA_MOUSE,V-type immunoglobulin domain-containing suppressor of T-cell activation,308.0,1.0,,0.0,topological_domain,33-191,164.0,1a91ab23afa3aaddededca49a9a2f3b0b8253e9f1cc6afc7d6690a4adb8e1def,False,False,False
+Wnt10a,P70701,WN10A_MOUSE,Protein Wnt-10a,417.0,1.0,,0.0,secreted_after_signal,36-417,176.0,6c2fd85fd6cd7a9a9187e88e252329da12b18d9e2528740bab4d3eeb2e728d68,False,False,False
+Wnt3,P17553,WNT3_MOUSE,Proto-oncogene Wnt-3,355.0,1.0,,0.0,secreted_after_signal,22-355,194.0,a4318d2d6a7d8a7bcc5e9f8afb60434e3ea2a13b09e672005a269cdeaba84116,False,False,False
+Wnt4,P22724,WNT4_MOUSE,Protein Wnt-4,351.0,1.0,,0.0,secreted_after_signal,23-351,201.0,a3a6e560ce87acfdbb8302a1874c9703605090622389f08f541bc0017f6989dd,False,False,False
+Wnt5a,P22725,WNT5A_MOUSE,Protein Wnt-5a,380.0,2.0,1;2,1.0,secreted_after_signal,38-380,213.0,c287286ff3d7b4cfd367f49e13e3475b4f1f57a7a1417cd815c3ac7633d31da5,False,False,False
+Wnt5b,P22726,WNT5B_MOUSE,Protein Wnt-5b,359.0,1.0,,0.0,secreted_after_signal,18-359,199.0,ea419c47a4b37f2e474136ee2ce4e563e0413b0286171859a6df59e03173e748,False,False,False
+Wnt6,P22727,WNT6_MOUSE,Protein Wnt-6,364.0,1.0,,0.0,secreted_after_signal,24-364,179.0,9c00204fff02f2596a1097464c2355c347701682709f07c14da47fc5b2222c05,False,False,False
+Wnt7a,P24383,WNT7A_MOUSE,Protein Wnt-7a,349.0,1.0,,0.0,secreted_after_signal,32-349,189.0,0bbf6705649016eea70ffd5a060b1cace6b69ce4f77e1cf4298c93da48004020,False,False,False
+Wnt7b,P28047,WNT7B_MOUSE,Protein Wnt-7b,349.0,1.0,,0.0,secreted_after_signal,25-349,188.0,74c502c0d6e19d1bcb2d1dd1cde2fc017fb2e833a278ba76abc46e32bc802f7f,False,False,False
+Wnt9a,Q8R5M2,WNT9A_MOUSE,Protein Wnt-9a,365.0,1.0,,0.0,secreted_after_signal,30-365,152.0,c9522f48b53f23ad1dceb03bf17cd63e6475fb8d7a9ac2fbd6c0fc0a70f79f97,False,False,False
