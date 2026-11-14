@@ -1,0 +1,41 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-14T15:58:48+00:00",
+    "git_head": "fa848c3ca45a2e96b4f0f7190f629f9411c3c916",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [
+      "isoform_commot/reports/stage2_pairs_01/"
+    ],
+    "recorded": "at launch"
+  },
+  "inputs": {
+    "posterior": {
+      "path": "stage2_input_post",
+      "sample": "V1_Mouse_Brain_Sagittal_Posterior",
+      "prepared_sha256": {
+        "expression.csv": "585406dedd43f9c227bff257ea36cb023e3d75b6492c99678bac60669ed66137",
+        "spatial.csv": "892eef340355a9a3ae69f06ca969b7632bbd6578f85ed6b4ff622347927f763d",
+        "lr.csv": "a832d96ffdcf6a439690142e5558ef55ba187151962067126cccb332e0008da1",
+        "entities.csv": "3263aab80e669cbebf4a49fceff39b6d4e0b33f24e5a1e096a1e4c631fd73b97",
+        "config.json": "d74b1dfad0fe404b49fd256427ceac7cb9c1e47b1ebf96ef04d0198b87104c94"
+      }
+    },
+    "anterior": {
+      "path": "stage2_input_ant",
+      "sample": "V1_Mouse_Brain_Sagittal_Anterior",
+      "prepared_sha256": {
+        "expression.csv": "4f57241ad1d6c9152d122c17204cd033cc0cf64408995a95fb1b86d977a92c8b",
+        "spatial.csv": "fd6a4d1cea67ac188260ef026beb8a8c64a27f45380f2cc59ff0faf9a3011333",
+        "lr.csv": "5e4a65b2b6b1cc07ff7cef3f735834b058902898eef9b3e41737a6d14cbed5d5",
+        "entities.csv": "5f3c7878c5cb2ca1a61d3e700ed6f53d85fba5ffa183fea92f838d4845ee5ebd",
+        "config.json": "b5a8324f9d84b139d774618e2daedc5f243cfdf739ab8e585f38d8d91f8a99a0"
+      }
+    }
+  },
+  "notes": [
+    "Each slide uses only its own filtered pairs (plan: same rules, independent filtering).",
+    "spot_pairs counts unordered spot pairs with 0 < d <= cutoff (self pairs excluded)."
+  ]
+}

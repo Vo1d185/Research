@@ -1,0 +1,4 @@
+type,posterior,anterior,intersection,union,jaccard,receptors_posterior,receptors_anterior,receptors_intersection
+diffusion,269,283,235,317,0.7413249211356467,115,129,114
+contact,271,293,266,298,0.8926174496644296,118,127,117
+all,540,576,501,615,0.8146341463414634,224,247,222
