@@ -1,0 +1,9 @@
+ligand,receptor,cccvelo_type,cellchat_orientation,cellchat_annotation,cellchat_pathway
+IL1RAPL1,PTPRD,diffusion,absent,,
+FGF14,FGFR2,diffusion,absent,,
+NEGR1,NEGR1,diffusion,same,Cell-Cell Contact,NEGR
+NLGN1,NRXN1,diffusion,swapped,Cell-Cell Contact,NRXN
+EFNA5,EPHA4,contact,same,Cell-Cell Contact,EPHA
+EFNA5,EPHA7,contact,same,Cell-Cell Contact,EPHA
+EFNA5,EPHA5,contact,same,Cell-Cell Contact,EPHA
+SEMA5A,PLXNB3,contact,same,Cell-Cell Contact,SEMA5

@@ -1,0 +1,34 @@
+{
+  "status": "complete",
+  "h5ad": "/home/liu/Research/isoform_commot/data/mousebrain_bin60.h5ad",
+  "h5ad_sha256": "f780d5e6da61e17232c03be36f123bcae302fd296951ffb378e3c40a692e2597",
+  "matrix": "layer:count",
+  "n_spots": 7765,
+  "detection": "count > 0 in >= 5% of all spots",
+  "cellchat": {
+    "source": "CellChat v2 (jinworks/CellChat)",
+    "commit": "75253cd0c9e68410e6e721a6d3a0419a1d7e358f",
+    "file_last_changed_commit": "592ba49cf4",
+    "raw_sha256": "dd59b19646e546b3ed41f394ad2cf64cf44f3d3fcfbb58ac176f0fe1322f9413",
+    "annotation_counts": {
+      "Secreted Signaling": 1280,
+      "Non-protein Signaling": 1002,
+      "Cell-Cell Contact": 662,
+      "ECM-Receptor": 435
+    }
+  },
+  "scseqcomm": "scSeqComm 95c9bb251cd94eb8d38db41086e71c1bf46f625a",
+  "cccvelo_lr": "CCCvelo pinned tables (data/cccvelo_lr)",
+  "rules": {
+    "top_tf": 10,
+    "min_targets": 5,
+    "min_detected": 0.05,
+    "target_exclusion": "all single-gene L/R genes of step-b pairs (both classes); sensitivity: own L/R only"
+  },
+  "relation_counts": {
+    "agree": 593,
+    "conflict": 182,
+    "cellchat_class_without_cccvelo_counterpart": 161
+  },
+  "note": "Inventory only; no panel selected."
+}
