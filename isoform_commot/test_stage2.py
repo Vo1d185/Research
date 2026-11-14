@@ -1,5 +1,6 @@
 import argparse
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -187,6 +188,10 @@ class EndToEnd(unittest.TestCase):
             np.testing.assert_allclose(summary.frac_ligand, summary.total_T / x[['L1', 'L2']].to_numpy().sum())
             manifest = json.loads((root/'out'/'manifest.json').read_text())
             self.assertEqual(manifest['overridden'], dict(eps=0.1, rho=10.0, diffusion_cutoff_um=300.0))
+            head = subprocess.run(['git', '-C', str(Path(stage2.__file__).parent), 'rev-parse', 'HEAD'],
+                                  capture_output=True, text=True, check=True).stdout.strip()
+            self.assertEqual(manifest['launch']['git_head'], head)
+            self.assertIsInstance(manifest['launch']['git_uncommitted_changes'], bool)
             self.assertLessEqual(plan['D'].max(), 250.0)
             self.assertGreater(summary.total_T_contact.iloc[0], 0)
             self.assertEqual(summary.check_rows_checked.iloc[0], summary.check_rows.iloc[0])
@@ -224,6 +229,7 @@ class Report(unittest.TestCase):
                                                                  primary_top_tf=10, target_score=['mean'])))
             stage2.report(argparse.Namespace(eval=str(ev), output=str(root/'report')))
             out = json.loads((root/'report'/'report.json').read_text())
+            self.assertIn('git_head', out['launch'])
             self.assertEqual(out['selected_r0_um'], 50.0)
             self.assertEqual(out['receptors_for_r0_selection'], 2)
             paired = pd.read_csv(root/'report'/'paired_receptors.csv').iloc[0]

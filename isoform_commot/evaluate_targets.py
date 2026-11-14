@@ -36,7 +36,7 @@ import pandas as pd
 from scipy.stats import rankdata
 
 import plans
-from research import check
+from research import check, launch_info
 
 SCSEQCOMM_COMMIT = '95c9bb251cd94eb8d38db41086e71c1bf46f625a'
 SCSEQCOMM_RAW = f'https://gitlab.com/sysbiobig/scseqcomm/-/raw/{SCSEQCOMM_COMMIT}/data/'
@@ -195,6 +195,7 @@ def load_results(folder, input_dir):
 
 
 def evaluate(args):
+    launch = launch_info()
     out = Path(args.output)
     check(not out.exists(), f'Output exists: {out}')
     inp, genes_dir = Path(args.input), Path(args.genes)
@@ -286,7 +287,7 @@ def evaluate(args):
     comparison.to_csv(out/'ppi_comparison.csv', index=False)
     permutation.to_csv(out/'permutation_summary.csv', index=False)
     plot(method, main, out/'target_eval.png')
-    write_json(out/'eval_manifest.json', dict(status='complete', input=str(inp.resolve()),
+    write_json(out/'eval_manifest.json', dict(status='complete', launch=launch, input=str(inp.resolve()),
         gene_export_sha256=export['gene_expression_sha256'], database=db_meta,
         results=[str(r[0]) for r in results], primary_top_tf=primary_k, top_tf=args.top_tf,
         target_score=args.target_score, min_targets=args.min_targets, min_detected=args.min_detected,

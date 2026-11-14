@@ -13,6 +13,26 @@ from scipy.spatial import Delaunay, QhullError
 from fetch_solver import TARGET, SHA256, URL
 
 
+def launch_info():
+    """Git state of this code when a run starts: HEAD, and whether tracked files have uncommitted
+    changes (untracked, non-ignored files are listed separately). Recorded in every result manifest."""
+    import subprocess
+    from datetime import datetime, timezone
+    here = Path(__file__).resolve().parent
+
+    def git(*args):
+        done = subprocess.run(['git', '-C', str(here), *args], capture_output=True, text=True)
+        check(done.returncode == 0, f'git {args[0]} failed: {done.stderr.strip()}')
+        return done.stdout
+
+    status = [line for line in git('status', '--porcelain').splitlines() if line]
+    tracked = [line for line in status if not line.startswith('??')]
+    return dict(launched_at=datetime.now(timezone.utc).isoformat(timespec='seconds'),
+                git_head=git('rev-parse', 'HEAD').strip(), git_uncommitted_changes=bool(tracked),
+                git_modified=tracked, git_untracked=[line[3:] for line in status if line.startswith('??')],
+                recorded='at launch')
+
+
 def check(condition, message):
     if not condition:
         raise ValueError(message)

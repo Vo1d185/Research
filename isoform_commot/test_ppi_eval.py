@@ -331,7 +331,9 @@ class Units(unittest.TestCase):
             T = plans.to_coo(plan).toarray()        # stored entries = eligible connections only
             self.assertTrue((plan['C'] <= 2*json.loads((root/'mix'/'manifest.json').read_text())['h'] + 1e-9).all())
             self.assertGreater(np.trace(T[:8, :8]), 0)  # same-spot transport allowed as in COMMOT
-            self.assertTrue(json.loads((root/'pure'/'manifest.json').read_text())['budget_feasible'])
+            manifest = json.loads((root/'pure'/'manifest.json').read_text())
+            self.assertTrue(manifest['budget_feasible'])
+            self.assertEqual(manifest['launch']['recorded'], 'at launch')
 
 
 if __name__ == '__main__':

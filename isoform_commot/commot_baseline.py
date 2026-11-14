@@ -30,7 +30,7 @@ from scipy.spatial.distance import cdist
 
 from fetch_solver import COMMIT, COT_SHA256, COT_URL, PACKAGE, SHA256, URL, VENDOR
 import plans
-from research import check, numeric_table, sparse_kkt_check, sparse_mass_check
+from research import check, launch_info, numeric_table, sparse_kkt_check, sparse_mass_check
 
 
 def official_cot():
@@ -49,6 +49,7 @@ def run(folder, output, dis_thr_h=(3.0, 5.0, 10.0), eps=0.1, rho=10.0,
         weights=(0.25, 0.25, 0.25, 0.25), nitermax=10000, dis_thr_um=None, stopthr=1e-8):
     """dis_thr_um (micrometre inputs) overrides dis_thr_h. Case files are sparse COO (plans.py).
     nitermax/stopthr default to COMMOT's own defaults (1e4, 1e-8)."""
+    launch = launch_info()
     folder, output = Path(folder), Path(output)
     check(not output.exists(), f'Output exists: {output}')
     cfg = json.loads((folder/'config.json').read_text())
@@ -137,7 +138,7 @@ def run(folder, output, dis_thr_h=(3.0, 5.0, 10.0), eps=0.1, rho=10.0,
         print(f'COMMOT dis_thr={dis_thr:g} ({multiple:g}h) total_T={total:.4g} {seconds:.0f}s', flush=True)
     pd.DataFrame(records).to_csv(output/'summary.csv', index=False)
     files = ['config.json', 'expression.csv', 'spatial.csv', 'lr.csv']
-    (output/'manifest.json').write_text(json.dumps(dict(status='complete', method='COMMOT original',
+    (output/'manifest.json').write_text(json.dumps(dict(status='complete', method='COMMOT original', launch=launch,
         config=dict(coordinate_unit=cfg['coordinate_unit'], expression_level=cfg['expression_level'],
                     eps=eps, rho=rho, weights=list(weights), nitermax=nitermax, stopthr=stopthr,
                     dis_thr_h=[c[1] for c in cutoffs], dis_thr_um=[c[0] for c in cutoffs] if dis_thr_um else None),

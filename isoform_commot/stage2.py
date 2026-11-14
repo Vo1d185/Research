@@ -30,7 +30,7 @@ from scipy import sparse
 from scipy.spatial import cKDTree
 
 import plans
-from research import check, solve, solve_sparse
+from research import check, launch_info, solve, solve_sparse
 
 SAMPLES = {
     'posterior': ('V1_Mouse_Brain_Sagittal_Posterior', {
@@ -344,6 +344,7 @@ def run_config(cfg, args):
 
 
 def run(args):
+    launch = launch_info()
     source, out = Path(args.input), Path(args.output)
     check(not out.exists(), f'Output exists: {out}')
     prep = verified(source)
@@ -382,7 +383,7 @@ def run(args):
         print(f'{name}: r0={r0:g} um, {len(T):,} entries, total_T={total:.4g}, {seconds:.0f}s', flush=True)
     pd.DataFrame(records).to_csv(out/'summary.csv', index=False)
     from fetch_solver import SHA256, URL
-    write_json(out/'manifest.json', dict(status='complete', method='research sparse (stage 2)', config=cfg,
+    write_json(out/'manifest.json', dict(status='complete', method='research sparse (stage 2)', launch=launch, config=cfg,
         overridden={k: input_cfg.get(k) for k in OVERRIDES if input_cfg.get(k) != cfg[k]}, r0_um=r0s,
         spot_pairs=dict(diffusion=int(len(edges['diffusion'][0])), contact=int(len(edges['contact'][0]))),
         h=prep['neighbour_spacing_um'], solver=dict(url=URL, sha256=SHA256,
@@ -495,6 +496,7 @@ def report(args):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from analyze import PALETTE, style_axis
+    launch = launch_info()
     ev, out = Path(args.eval), Path(args.output)
     check(not out.exists(), f'Output exists: {out}')
     meta = json.loads((ev/'eval_manifest.json').read_text())
@@ -593,7 +595,7 @@ def report(args):
     axes[0, 0].legend(fontsize=8, frameon=False, loc='best')
     fig.savefig(out/'partial_spearman.png', dpi=180)
     plt.close(fig)
-    write_json(out/'report.json', dict(status='complete', eval=str(ev), results=meta['results'], top_tf=int(k),
+    write_json(out/'report.json', dict(status='complete', launch=launch, eval=str(ev), results=meta['results'], top_tf=int(k),
         target_score=kind, level='receptor', selected_r0_um=r0_star, r0_rule='plan section 8.5',
         receptors_evaluable=len(evaluable), receptors_common=len(common),
         receptors_for_r0_selection=int(len(a)), eval_sha256={f: digest(ev/f) for f in
