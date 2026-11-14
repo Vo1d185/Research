@@ -3,6 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from diagnostics.human_pairs import build
@@ -72,6 +73,48 @@ class DiagnosticsTests(unittest.TestCase):
             le = groups.set_index('receptor_group').loc['receptor_le_800']
             self.assertEqual(le.n_cross, 0)  # the only short-receptor cross pair is documented, so excluded
             self.assertEqual(ranks.set_index('ligand').loc['LIG2', 'rank_among_receptors'], 2)
+
+
+class PreregisteredTests(unittest.TestCase):
+    def grid(self, values, cognate):
+        """values: dict (ligand, receptor) -> (p_LR, p_RL)."""
+        return pd.DataFrame([dict(ligand=l, receptor=r, set='cognate' if (l, r) in cognate else 'cross',
+                                  p_LR=a, p_RL=b) for (l, r), (a, b) in values.items()])
+
+    def test_double_centering_removes_row_and_column_effects(self):
+        from diagnostics.preregistered import transform
+        ligs, recs = ['a', 'b', 'c'], ['x', 'y', 'z']
+        rng = np.random.default_rng(0)
+        vals = {(l, r): tuple(rng.uniform(.01, .99, 2)) for l in ligs for r in recs}
+        z = transform(self.grid(vals, {('a', 'x')}), 'double_centered').pivot(
+            index='ligand', columns='receptor', values='value')
+        np.testing.assert_allclose(z.mean(axis=0), 0, atol=1e-12)
+        np.testing.assert_allclose(z.mean(axis=1), 0, atol=1e-12)
+        # a receptor that scores high with every ligand gains nothing after centering
+        hub = {(l, r): ((.999, .999) if r == 'y' else (.5, .5)) for l in ligs for r in recs}
+        zh = transform(self.grid(hub, set()), 'double_centered')
+        np.testing.assert_allclose(zh.value, 0, atol=1e-9)
+        with self.assertRaisesRegex(ValueError, 'complete'):
+            transform(self.grid({('a', 'x'): (.5, .5), ('b', 'y'): (.5, .5)}, set()), 'double_centered')
+
+    def test_rank_is_strict_and_excludes_known_cross(self):
+        from diagnostics.preregistered import controls_metrics, transform
+        vals = {('L1', 'R1'): (.9, .9), ('L1', 'R2'): (.9, .9),   # tie -> not first
+                ('L2', 'R2'): (.8, .8), ('L2', 'R1'): (.95, .95),  # beaten, unless L2-R1 is documented
+                ('L1', 'R3'): (.1, .1), ('L2', 'R3'): (.1, .1)}
+        t = transform(self.grid(vals, {('L1', 'R1'), ('L2', 'R2')}), 'raw')
+        auc, r = controls_metrics(t, known=set())
+        self.assertEqual(r.set_index('ligand')['first'].to_dict(), {'L1': False, 'L2': False})
+        auc, r = controls_metrics(t, known={('L2', 'R1')})
+        self.assertTrue(r.set_index('ligand').loc['L2', 'first'])
+        self.assertAlmostEqual(auc, 0.75)  # cognate .9/.8 vs cross .9/.1/.1, ties count 1/2
+
+    def test_direction_reference(self):
+        from diagnostics.preregistered import direction, transform
+        vals = {('L', 'R'): (.6, .6), ('L', 'Q'): (.1, .1), ('M', 'R'): (.2, .2), ('M', 'Q'): (.3, .3)}
+        t = transform(self.grid(vals, {('L', 'R'), ('M', 'Q')}), 'raw')
+        d = direction(t, 'raw')  # median of the 4 pairs = .25
+        self.assertEqual(d.to_dict(), {('L', 'R'): 1.0, ('M', 'Q'): 1.0})
 
 
 if __name__ == '__main__':
