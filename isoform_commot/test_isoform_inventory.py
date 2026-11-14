@@ -54,6 +54,18 @@ def fake_fetch(url):
 
 
 class Inventory(unittest.TestCase):
+    def test_polite_retries_rate_limit(self):
+        from urllib.error import HTTPError
+        calls = []
+
+        def flaky(url):
+            calls.append(url)
+            if len(calls) < 3:
+                raise HTTPError(url, 429, 'Too Many Requests', {'Retry-After': '0'}, None)
+            return 'ok'
+        self.assertEqual(inv.polite(flaky)('u'), 'ok')
+        self.assertEqual(len(calls), 3)
+
     def test_flags_candidates_and_known_example_first(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)

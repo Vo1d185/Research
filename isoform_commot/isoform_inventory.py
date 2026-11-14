@@ -22,6 +22,8 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import time
+from urllib.error import HTTPError
 
 import pandas as pd
 
@@ -30,6 +32,20 @@ from research import check, launch_info
 
 KNOWN = dict(gene='Nrxn1', note='known example: Nrxn1 alpha (Q9CS84) and beta (P0DI97) are separate reviewed '
              'entries (alternative promoters); see HANDOFF.md (beta used in stage 1)')
+
+
+def polite(fetch, tries=8):
+    """Retry on HTTP 429/503 (UniProt rate limit), honouring Retry-After, with exponential backoff."""
+    def call(url):
+        for attempt in range(tries):
+            try:
+                return fetch(url)
+            except HTTPError as error:
+                if error.code not in (429, 503) or attempt == tries - 1:
+                    raise
+                wait = error.headers.get('Retry-After') if error.headers else None
+                time.sleep(float(wait) if wait and str(wait).isdigit() else 2.0 * 2 ** attempt)
+    return call
 
 
 def panel_genes(input_dir):
@@ -114,8 +130,9 @@ def describe(gene, entry, fields):
                 entry_version=fields['entry_version'], sequence_sha256=proteins.sha256_text(fields['sequence'])), variants
 
 
-def run(args, fetch=proteins.http_json):
+def run(args, fetch=None):
     launch = launch_info()
+    fetch = fetch or polite(proteins.http_json)
     out = Path(args.output)
     check(not out.exists(), f'Output exists: {out}')
     genes, lr = panel_genes(args.input)
@@ -184,7 +201,7 @@ def parser():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('--input', required=True, help='prepared stage-2 input (lr.csv, entities.csv)')
     p.add_argument('--output', required=True)
-    p.add_argument('--workers', type=int, default=6)
+    p.add_argument('--workers', type=int, default=2)
     return p
 
 
