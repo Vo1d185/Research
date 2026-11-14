@@ -148,6 +148,35 @@ def target_sets(receptors, symbol, receptor_tf, tf_tg, detected, panel_genes, to
     return pd.DataFrame(rows)
 
 
+COMMOT_PPR_MIN = 1e-5   # reports/commot_repro_check.md, plan section 8.8
+
+
+def commot_target_sets(receptors, symbol, receptor_tf, tf_tg, hvg, subunits=None):
+    """COMMOT's 'known downstream genes' (plan section 8.8): scSeqComm REACTOME PPR >= 1e-5, all such TFs
+    that have target lists; a complex receptor matches the scSeqComm complex entry with the same subunit
+    set (COMMOT matched an ordered string; ordered_match records whether the order agrees too); targets =
+    union of the TFs' targets that are COMMOT highly variable genes. No detection threshold, no minimum
+    number beyond 1, LR genes kept."""
+    subunits = subunits or {}
+    targets_of = tf_tg.groupby('tf').target.apply(set).to_dict()
+    rt = receptor_tf[(receptor_tf.source == 'REACTOME') & (receptor_tf.weight >= COMMOT_PPR_MIN)]
+    rt = rt.assign(members=rt.receptor.astype(str).map(lambda s: frozenset(s.split(','))))
+    rows = []
+    for receptor in receptors:
+        members = [symbol[m] for m in subunits.get(receptor, [receptor])]
+        links = rt[rt.members == frozenset(members)]
+        ordered = bool((links.receptor == ','.join(members)).any()) if len(links) else False
+        tfs = sorted(t for t in links.tf.unique() if t in targets_of)
+        candidates = set().union(*[targets_of[t] for t in tfs]) if tfs else set()
+        kept = sorted(g for g in candidates if hvg.get(g, False))
+        status = 'no_receptor_tf_link' if not tfs else 'no_hvg_target' if not kept else 'evaluated'
+        rows.append(dict(receptor=receptor, data_symbol=';'.join(members), top_tf='commot',
+                         n_linked_tfs=len(tfs), tfs=';'.join(tfs), n_candidate_targets=len(candidates),
+                         n_targets=len(kept), status=status, targets=';'.join(kept), rule='commot',
+                         complex=len(members) > 1, ordered_match=ordered))
+    return pd.DataFrame(rows)
+
+
 # ------------------------------------------------------------------ statistics
 def spearman(x, y):
     x, y = np.asarray(x, float), np.asarray(y, float)
@@ -235,8 +264,14 @@ def evaluate(args):
     sets = pd.concat([target_sets(receptors, symbol, receptor_tf, tf_tg, detected, panel_genes, k,
                                   args.min_targets, args.min_detected, subunits, args.complex_link)
                       for k in args.top_tf])
-    sets = sets.drop_duplicates(['receptor', 'top_tf'])
+    sets = sets.drop_duplicates(['receptor', 'top_tf']).assign(rule='ours')
     primary_k = sets.top_tf.iloc[0]
+    if args.commot_rule:   # plan section 8.8: COMMOT's target rule as a sensitivity analysis
+        check('commot_hvg' in gene_table, 'Gene export lacks commot_hvg; rerun stage2.py export-genes')
+        hvg = dict(zip(gene_table.data_symbol, gene_table.commot_hvg.astype(bool)))
+        sets = pd.concat([sets, commot_target_sets(receptors, symbol, receptor_tf, tf_tg, hvg, subunits)],
+                         ignore_index=True)
+    sets['top_tf'] = sets.top_tf.astype(str)
     scores = {}
     for row in sets[sets.status == 'evaluated'].itertuples(index=False):
         for kind in args.target_score:
@@ -261,6 +296,7 @@ def evaluate(args):
                     if r != receptor:
                         continue
                     rows.append(dict(results=str(folder), method=manifest.get('method', 'research.py'),
+                        rule='commot' if k == 'commot' else 'ours',
                         case=case.case, family=case.family, r0=case.r0,
                         r0_h=getattr(case, 'dis_thr_h', None) if case.family == 'commot_euc'
                         else (None if pd.isna(case.r0) else case.r0/manifest['h']),
@@ -283,6 +319,13 @@ def evaluate(args):
     counts = grouped.agg(n_units=('unit', 'size'), n_partial_defined=('partial_spearman', 'count')).reset_index()
     method = method.merge(counts, on=keys, how='left')
     method.to_csv(out/'method_summary.csv', index=False)
+    if args.commot_rule:
+        sub = metrics[(metrics.top_tf == 'commot') & (metrics.target_score == args.target_score[0]) &
+                      (metrics.score_mode == 'no_ppi')].groupby(keys, dropna=False)
+        commot = sub[['spearman', 'partial_spearman', 'receptor_only_spearman']].mean().reset_index().merge(
+            sub.agg(n_units=('unit', 'size'), n_partial_defined=('partial_spearman', 'count')).reset_index(),
+            on=keys, how='left')
+        commot.to_csv(out/'method_summary_commot_rule.csv', index=False)
     comparison, permutation = ppi_tables(main)
     comparison.to_csv(out/'ppi_comparison.csv', index=False)
     permutation.to_csv(out/'permutation_summary.csv', index=False)
@@ -291,7 +334,9 @@ def evaluate(args):
         gene_export_sha256=export['gene_expression_sha256'], database=db_meta,
         results=[str(r[0]) for r in results], primary_top_tf=primary_k, top_tf=args.top_tf,
         target_score=args.target_score, min_targets=args.min_targets, min_detected=args.min_detected,
-        covariate=args.covariate, complex_link=args.complex_link, receptors_evaluated=sorted(set(metrics.receptor)),
+        covariate=args.covariate, complex_link=args.complex_link, commot_rule=bool(args.commot_rule),
+        commot_ppr_min=COMMOT_PPR_MIN if args.commot_rule else None,
+        receptors_evaluated=sorted(set(metrics.receptor)),
         receptors_not_evaluated=sets[sets.status != 'evaluated'][['receptor', 'top_tf', 'status']].to_dict('records'),
         notes=['Effect sizes only; spatial autocorrelation invalidates naive p-values.',
                'rank_corr_vs_no_ppi == 1 means PPI only rescaled that unit: Spearman cannot change.',
@@ -393,6 +438,8 @@ def parser():
     r.add_argument('--min-targets', type=int, default=5)
     r.add_argument('--min-detected', type=float, default=0.05)
     r.add_argument('--covariate', help='column of cell_meta.csv, e.g. a cell-type annotation')
+    r.add_argument('--commot-rule', action='store_true',
+                   help="add COMMOT's target rule as a sensitivity analysis (stage-2 plan 8.8; needs commot_hvg)")
     r.add_argument('--complex-link', choices=['any', 'all'], default='any',
                    help='complex receptors: TF link needed for any subunit (default) or all subunits')
     return p

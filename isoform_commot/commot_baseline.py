@@ -159,6 +159,7 @@ def run(folder, output, dis_thr_h=(3.0, 5.0, 10.0), eps=0.1, rho=10.0,
     pd.DataFrame(records).to_csv(output/'summary.csv', index=False)
     files = ['config.json', 'expression.csv', 'spatial.csv', 'lr.csv']
     (output/'manifest.json').write_text(json.dumps(dict(status='complete', method='COMMOT original', launch=launch,
+        input=str(Path(folder).resolve()),
         config=dict(coordinate_unit=cfg['coordinate_unit'], expression_level=cfg['expression_level'],
                     eps=eps, rho=rho, weights=list(weights), nitermax=nitermax, stopthr=stopthr,
                     dis_thr_h=[c[1] for c in cutoffs], dis_thr_um=[c[0] for c in cutoffs] if dis_thr_um else None),

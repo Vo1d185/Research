@@ -209,43 +209,125 @@ class EndToEnd(unittest.TestCase):
 
 
 class Report(unittest.TestCase):
-    def test_r0_rule_tie_and_undefined_receptors(self):
+    def make(self, root, partial, input_dir, niter=100):
+        cut = stage2.COMMOT_TUTORIAL_CUTOFF_UM
+        ours, commot, ev = root/'A', root/'B', root/'eval'
+        for folder in (ours, commot, ev):
+            folder.mkdir()
+        (ours/'manifest.json').write_text(json.dumps(dict(method='research sparse (stage 2)',
+            config=dict(nitermax=50000, stopthr=1e-11))))
+        pd.DataFrame(dict(case=['case_000', 'case_001', 'case_002'], r0_um=[50.0, 100.0, 200.0], eps=0.1,
+                          rho=10.0, diffusion_cutoff_um=cut, frac_ligand=.5, frac_receptor=.4, total_T=1.0,
+                          mean_distance=10.0, solve_seconds=1.0, niter=[niter, 50001, niter], nitermax=50000,
+                          cap_reached=[False, True, False], check_kkt_tol=1e-11)).to_csv(ours/'summary.csv', index=False)
+        (commot/'manifest.json').write_text(json.dumps(dict(method='COMMOT original')))
+        pd.DataFrame(dict(case=['case_000'], r0=[cut], dis_thr_um=[cut], eps=0.1, rho=10.0, scheme='collective',
+                          nitermax=50000, stopthr=1e-11, frac_ligand=.5, frac_receptor=.4, total_T=1.0,
+                          mean_distance=10.0, solve_seconds=1.0, check_passed=True, check_kkt_tol=1e-11, niter=niter,
+                          solves=1, solves_at_cap=0, cap_reached=False)).to_csv(commot/'summary.csv', index=False)
+        pd.DataFrame(dict(receptor=['R1', 'R2', 'R3'], top_tf=10, status='evaluated')).to_csv(ev/'target_sets.csv',
+                                                                                              index=False)
+        rows = [dict(results=str(root/f), case=c, level='receptor', top_tf=10, target_score='mean',
+                     score_mode='no_ppi', receptor=r, partial_spearman=v, spearman=v, receptor_only_spearman=0.0)
+                for (f, c), values in partial.items() for r, v in zip(['R1', 'R2', 'R3'], values)]
+        pd.DataFrame(rows).to_csv(ev/'case_metrics.csv', index=False)
+        (ev/'eval_manifest.json').write_text(json.dumps(dict(status='complete', results=[str(ours), str(commot)],
+            primary_top_tf=10, target_score=['mean'], input=str(input_dir))))
+        return ev
+
+    def test_r0_rule_paired_sign_test_classes_and_confirmation(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            cut = stage2.COMMOT_TUTORIAL_CUTOFF_UM
-            ours, commot, ev = root/'A', root/'B', root/'eval'
-            for folder in (ours, commot, ev):
-                folder.mkdir()
-            (ours/'manifest.json').write_text(json.dumps(dict(method='research sparse (stage 2)',
-                config=dict(nitermax=50000, stopthr=1e-11))))
-            pd.DataFrame(dict(case=['case_000', 'case_001', 'case_002'], r0_um=[50.0, 100.0, 200.0], eps=0.1,
-                              rho=10.0, diffusion_cutoff_um=cut, frac_ligand=.5, frac_receptor=.4, total_T=1.0,
-                              mean_distance=10.0, solve_seconds=1.0)).to_csv(ours/'summary.csv', index=False)
-            (commot/'manifest.json').write_text(json.dumps(dict(method='COMMOT original')))
-            pd.DataFrame(dict(case=['case_000'], r0=[cut], dis_thr_um=[cut], eps=0.1, rho=10.0, scheme='collective',
-                              nitermax=50000, stopthr=1e-11, frac_ligand=.5, frac_receptor=.4, total_T=1.0,
-                              mean_distance=10.0, solve_seconds=1.0, check_passed=True)).to_csv(commot/'summary.csv',
-                                                                                              index=False)
-            pd.DataFrame(dict(receptor=['R1', 'R2', 'R3'], top_tf=10, status='evaluated')).to_csv(ev/'target_sets.csv',
-                                                                                                  index=False)
+            (root/'in').mkdir()
+            pd.DataFrame(dict(ligand=['L1', 'L2', 'L1', 'L2'], receptor=['R1', 'R2', 'R3', 'R3'],
+                              type=['diffusion', 'contact', 'diffusion', 'contact'])).to_csv(root/'in'/'lr.csv', index=False)
             # R1, R2 defined at every r0: means 0.3, 0.3, 0.2 -> tie between 50 and 100, rule picks 50.
             # R3 undefined at r0 = 200: excluded from the selection although it favours 100.
-            partial = {('A', 'case_000'): [.2, .4, .0], ('A', 'case_001'): [.4, .2, .9],
-                       ('A', 'case_002'): [.2, .2, np.nan], ('B', 'case_000'): [.1, .1, .1]}
-            rows = [dict(results=str(root/f), case=c, level='receptor', top_tf=10, target_score='mean',
-                         score_mode='no_ppi', receptor=r, partial_spearman=v, spearman=v, receptor_only_spearman=0.0)
-                    for (f, c), values in partial.items() for r, v in zip(['R1', 'R2', 'R3'], values)]
-            pd.DataFrame(rows).to_csv(ev/'case_metrics.csv', index=False)
-            (ev/'eval_manifest.json').write_text(json.dumps(dict(status='complete', results=[str(ours), str(commot)],
-                                                                 primary_top_tf=10, target_score=['mean'])))
-            stage2.report(argparse.Namespace(eval=str(ev), output=str(root/'report')))
-            out = json.loads((root/'report'/'report.json').read_text())
+            post = {('A', 'case_000'): [.2, .4, .0], ('A', 'case_001'): [.4, .2, .9],
+                    ('A', 'case_002'): [.2, .2, np.nan], ('B', 'case_000'): [.1, .1, .1]}
+            (root/'post').mkdir()
+            ev = self.make(root/'post', post, root/'in')
+            stage2.report(argparse.Namespace(eval=str(ev), output=str(root/'post'/'report'), posterior_report=None))
+            out = json.loads((root/'post'/'report'/'report.json').read_text())
             self.assertIn('git_head', out['launch'])
-            self.assertEqual(out['selected_r0_um'], 50.0)
-            self.assertEqual(out['receptors_for_r0_selection'], 2)
-            paired = pd.read_csv(root/'report'/'paired_receptors.csv').iloc[0]
-            self.assertEqual((paired.ours, paired.baseline, paired.receptors), ('A', 'B', 3))
-            self.assertAlmostEqual(paired.mean_difference, np.mean([.1, .3, -.1]))
+            self.assertEqual((out['role'], out['selected_r0_um'], out['receptors_for_r0_selection']), ('selection', 50.0, 2))
+            self.assertFalse(out['all_converged'])                      # r0 = 100 reached the iteration cap
+            conv = pd.read_csv(root/'post'/'report'/'convergence.csv')
+            self.assertEqual(list(conv.converged), [True, False, True, True])
+            paired = pd.read_csv(root/'post'/'report'/'paired_receptors.csv').set_index('receptor_class')
+            self.assertEqual(tuple(paired.loc['all', ['receptors', 'ours_higher', 'baseline_higher']]), (3, 2, 1))
+            self.assertAlmostEqual(paired.loc['all', 'sign_test_p'], 1.0)
+            self.assertEqual(paired.loc['Secreted', 'receptors'], 1)    # R1 diffusion only
+            self.assertEqual(paired.loc['Contact', 'receptors'], 1)     # R2 contact only
+            self.assertEqual(paired.loc['both', 'receptors'], 1)        # R3 both types
+            pos = pd.read_csv(root/'post'/'report'/'positive_fraction.csv')
+            sel = pos[pos.selected_r0].iloc[0]
+            self.assertEqual((sel.r0_um, sel.partial_positive, sel.receptors_defined), (50.0, 2, 3))
+            # anterior: the same rule picks 100 here, so the posterior r0 (50) is not confirmed
+            ant = {('A', 'case_000'): [.1, .1, .1], ('A', 'case_001'): [.3, .3, .3],
+                   ('A', 'case_002'): [.2, .2, .2], ('B', 'case_000'): [.0, .0, .0]}
+            (root/'ant').mkdir()
+            ev = self.make(root/'ant', ant, root/'in')
+            stage2.report(argparse.Namespace(eval=str(ev), output=str(root/'ant'/'report'),
+                                             posterior_report=str(root/'post'/'report'/'report.json')))
+            out = json.loads((root/'ant'/'report'/'report.json').read_text())
+            c = out['confirmation']
+            self.assertEqual((out['role'], out['selected_r0_um']), ('confirmation', 50.0))
+            self.assertEqual((c['rule_selected_r0_here'], c['confirmed'], c['rank_of_posterior_r0']), (100.0, False, 3))
+            self.assertAlmostEqual(c['gap_to_best'], 0.2)
+
+
+class CommotRule(unittest.TestCase):
+    def test_commot_target_sets(self):
+        from evaluate_targets import commot_target_sets
+        rt = pd.DataFrame(dict(receptor=['Fgfr1', 'Fgfr1', 'Acvr2a,Acvr1', 'Tgfbr2'], pathway='p',
+                               tf=['T1', 'T2', 'T3', 'T4'], weight=[1e-3, 1e-6, 1e-4, 1e-3],
+                               source=['REACTOME', 'REACTOME', 'REACTOME', 'KEGG']))
+        tt = pd.DataFrame(dict(tf=['T1', 'T1', 'T2', 'T3', 'T4'], target=['G1', 'Fgfr1', 'G2', 'G3', 'G4']))
+        hvg = {'G1': True, 'Fgfr1': True, 'G2': True, 'G3': True, 'G4': True}
+        symbol = {s: s for s in ['Fgfr1', 'Acvr1', 'Acvr2a', 'Tgfbr2']}
+        sets = commot_target_sets(['Fgfr1', 'ACVR', 'Tgfbr2'], symbol, rt, tt, hvg,
+                                  subunits={'ACVR': ['Acvr1', 'Acvr2a']}).set_index('receptor')
+        self.assertEqual(sets.loc['Fgfr1', 'tfs'], 'T1')                 # T2 below PPR 1e-5
+        self.assertEqual(sets.loc['Fgfr1', 'targets'], 'Fgfr1;G1')       # LR genes kept
+        self.assertEqual(sets.loc['ACVR', 'targets'], 'G3')              # complex matched as a subunit set
+        self.assertFalse(sets.loc['ACVR', 'ordered_match'])              # order differs from scSeqComm
+        self.assertEqual(sets.loc['Tgfbr2', 'status'], 'no_receptor_tf_link')   # KEGG only
+        sets = commot_target_sets(['Fgfr1'], symbol, rt, tt, {'G1': False, 'Fgfr1': False})
+        self.assertEqual(sets.status.iloc[0], 'no_hvg_target')
+
+
+class Robustness(unittest.TestCase):
+    def test_subsample_and_robustness(self):
+        sp = hex_slide(6, 12)
+        rng = np.random.default_rng(11)
+        x = pd.DataFrame(rng.poisson(3, (len(sp), 3)).astype(float) + 1, index=sp.index, columns=['L1', 'R1', 'R2'])
+        lr = pd.DataFrame(dict(ligand=['L1', 'L1'], receptor=['R1', 'R2'], type=['diffusion', 'contact'],
+                               pathway_name='p'))
+        cfg = dict(stage2.DEFAULTS, r0_um=[100.0], diffusion_cutoff_um=250.0, coordinate_unit='micrometer',
+                   expression_level='gene', expression_state='processed')
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            write_input(root/'in', sp, x, lr, cfg)
+            lr.assign(reason='selected').to_csv(root/'in'/'filter_audit.csv', index=False)
+            prep = json.loads((root/'in'/'preparation.json').read_text())
+            prep['prepared_sha256']['filter_audit.csv'] = stage2.digest(root/'in'/'filter_audit.csv')
+            (root/'in'/'preparation.json').write_text(json.dumps(prep))
+            stage2.subsample(argparse.Namespace(input=str(root/'in'), output=str(root/'sub'), fraction=0.5, seed=3))
+            again = root/'sub2'
+            stage2.subsample(argparse.Namespace(input=str(root/'in'), output=str(again), fraction=0.5, seed=3))
+            self.assertEqual((root/'sub'/'spatial.csv').read_text(), (again/'spatial.csv').read_text())  # seeded
+            kept = pd.read_csv(root/'sub'/'spatial.csv', index_col=0)
+            self.assertEqual(len(kept), round(0.5*len(sp)))
+            for name, src in [('full', 'in'), ('subrun', 'sub')]:
+                stage2.run(argparse.Namespace(input=str(root/src), output=str(root/name), r0_um=None, eps=0.1, rho=10.0,
+                                              diffusion_cutoff_um=stage2.COMMOT_TUTORIAL_CUTOFF_UM))
+            stage2.robustness(argparse.Namespace(full=[str(root/'full')], subsampled=[str(root/'subrun')],
+                                                 output=str(root/'rob')))
+            table = pd.read_csv(root/'rob'/'robustness_receptors.csv')
+            self.assertEqual(set(table.receptor), {'R1', 'R2'})
+            self.assertTrue(((table.fraction == 0.5) & (table.seed == 3)).all())
+            self.assertTrue(table.spearman.between(-1, 1).all())
 
 
 class Pairs(unittest.TestCase):

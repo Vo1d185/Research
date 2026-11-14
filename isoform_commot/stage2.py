@@ -243,7 +243,25 @@ def prepare(args):
           f'{nl} ligands x {nr} receptors -> {out}')
 
 
+COMMOT_HVG = dict(min_cells=3, min_mean=0.0125, max_mean=3, min_disp=0.5)   # reports/commot_repro_check.md
+
+
+def commot_hvg(counts, var):
+    """COMMOT's downstream-gene notebooks: filter_genes(min_cells=3) on raw counts, log1p, then
+    highly_variable_genes(min_mean=0.0125, max_mean=3, min_disp=0.5) (scanpy default flavor 'seurat')."""
+    import anndata
+    import scanpy as sc
+    adata = anndata.AnnData(X=sparse.csr_matrix(counts, dtype=np.float32), var=pd.DataFrame(index=pd.Index(var)))
+    sc.pp.filter_genes(adata, min_cells=COMMOT_HVG['min_cells'])
+    sc.pp.log1p(adata)
+    sc.pp.highly_variable_genes(adata, min_mean=COMMOT_HVG['min_mean'], max_mean=COMMOT_HVG['max_mean'],
+                                min_disp=COMMOT_HVG['min_disp'])
+    return pd.Series(adata.var.highly_variable.reindex(pd.Index(var)).fillna(False).astype(bool).to_numpy(),
+                     index=pd.Index(var))
+
+
 def export_genes(args):
+    launch = launch_info()
     source, out = Path(args.input), Path(args.output)
     check(not out.exists(), f'Output exists: {out}')
     prep = verified(source)
@@ -261,12 +279,14 @@ def export_genes(args):
         derived = X[:, [pos[g] for g in subunits_of[entity]]].min(axis=1)
         check(np.allclose(derived, expression[entity].to_numpy(float), rtol=1e-9, atol=1e-12),
               f'{entity} differs from expression.csv')
+    hvg = commot_hvg(v['X'][idx], v['var'])     # same spots, raw counts
     out.mkdir(parents=True)
     np.savez_compressed(out/'gene_expression.npz', X=X.astype(np.float32), spots=spatial.index.to_numpy(str),
                         genes=np.asarray(v['var'], dtype=str))
-    pd.DataFrame(dict(data_symbol=v['var'], lr_symbol=v['var'], detected_fraction=(X > 0).mean(axis=0))).to_csv(
-        out/'genes.csv', index=False)
-    write_json(out/'gene_export.json', dict(status='complete', input=str(source.resolve()),
+    pd.DataFrame(dict(data_symbol=v['var'], lr_symbol=v['var'], detected_fraction=(X > 0).mean(axis=0),
+                      commot_hvg=hvg.to_numpy())).to_csv(out/'genes.csv', index=False)
+    write_json(out/'gene_export.json', dict(status='complete', launch=launch, input=str(source.resolve()),
+        commot_hvg=dict(COMMOT_HVG, n=int(hvg.sum()), flavor='seurat (scanpy default)', on='log1p(raw counts)'),
         gene_expression_sha256=digest(out/'gene_expression.npz'), spots=len(idx), genes=len(v['var']),
         note='detected_fraction is computed over these spots; lr_symbol = data symbol (CellChat mouse symbols)'))
     print(f'Exported {len(v["var"])} genes x {len(idx)} spots -> {out}')
@@ -386,7 +406,8 @@ def run(args):
         print(f'{name}: r0={r0:g} um, {len(T):,} entries, {seconds:.0f}s, {info.get("niter")} iterations', flush=True)
     pd.DataFrame(records).to_csv(out/'summary.csv', index=False)
     from fetch_solver import SHA256, URL
-    write_json(out/'manifest.json', dict(status='complete', method='research sparse (stage 2)', launch=launch, config=cfg,
+    write_json(out/'manifest.json', dict(status='complete', method='research sparse (stage 2)', launch=launch,
+        input=str(source.resolve()), config=cfg,
         overridden={k: input_cfg.get(k) for k in OVERRIDES if input_cfg.get(k) != cfg[k]}, r0_um=r0s,
         spot_pairs=dict(diffusion=int(len(edges['diffusion'][0])), contact=int(len(edges['contact'][0]))),
         h=prep['neighbour_spacing_um'], solver=dict(url=URL, sha256=SHA256,
@@ -505,6 +526,83 @@ def pairs(args):
     print(pd.DataFrame(edges).to_string(index=False))
 
 
+# ------------------------------------------------------------------ robustness (plan section 8.11)
+def subsample(args):
+    """Keep a random fraction of the spots of a prepared input; values, pairs and coordinates unchanged."""
+    launch = launch_info()
+    source, out = Path(args.input), Path(args.output)
+    check(not out.exists(), f'Output exists: {out}')
+    check(0 < args.fraction < 1, 'fraction must be in (0, 1)')
+    prep = verified(source)
+    check('subsample' not in prep, 'Subsample the full prepared input only')
+    x = pd.read_csv(source/'expression.csv', index_col=0)
+    spatial = pd.read_csv(source/'spatial.csv', index_col=0)
+    check(list(x.index) == list(spatial.index), 'Spot order differs between expression and spatial')
+    keep = np.sort(np.random.default_rng(args.seed).choice(len(x), size=int(round(args.fraction*len(x))), replace=False))
+    out.mkdir(parents=True)
+    x.iloc[keep].to_csv(out/'expression.csv')
+    spatial.iloc[keep].to_csv(out/'spatial.csv')
+    for name in ['lr.csv', 'entities.csv', 'config.json', 'filter_audit.csv']:
+        (out/name).write_bytes((source/name).read_bytes())
+    files = ['expression.csv', 'spatial.csv', 'lr.csv', 'entities.csv', 'config.json', 'filter_audit.csv']
+    meta = {k: v for k, v in prep.items() if k != 'prepared_sha256'}
+    meta.update(prepared_sha256={f: digest(out/f) for f in files}, region='random spot subsample',
+                spots=int(len(keep)), subsample=dict(parent=str(source.resolve()), parent_prepared_sha256=prep['prepared_sha256'],
+                fraction=args.fraction, seed=args.seed, rng='numpy.random.default_rng(seed).choice(n, size, replace=False)',
+                launch=launch, note='plan 8.11: values, pairs and micrometre coordinates are not recomputed'))
+    write_json(out/'preparation.json', meta)
+    print(f'kept {len(keep)} of {len(x)} spots (fraction {args.fraction}, seed {args.seed}) -> {out}')
+
+
+def robustness(args):
+    """Plan 8.11: per receptor, Spearman between subsample and full-data received signal on the kept spots."""
+    from scipy.stats import spearmanr
+    launch = launch_info()
+    out = Path(args.output)
+    check(not out.exists(), f'Output exists: {out}')
+    full = {}
+    for folder in args.full:
+        for case in condition_cases(folder).to_dict('records'):
+            full[(case['condition'], case['r0_um'] if pd.notna(case['r0_um']) else None)] = (Path(folder), case['case'])
+    rows = []
+    for folder in args.subsampled:
+        folder = Path(folder)
+        manifest = json.loads((folder/'manifest.json').read_text())
+        info = json.loads((Path(manifest['input'])/'preparation.json').read_text())['subsample']
+        for case in condition_cases(folder).to_dict('records'):
+            key = (case['condition'], case['r0_um'] if pd.notna(case['r0_um']) else None)
+            check(key in full, f'{folder}: no full-data result for {key}')
+            fdir, fcase = full[key]
+            sub_plan, full_plan = plans.load(folder/f"{case['case']}.npz"), plans.load(fdir/f'{fcase}.npz')
+            sub_pairs = pd.read_csv(folder/'used_lr.csv', dtype=str)
+            full_pairs = pd.read_csv(fdir/'used_lr.csv', dtype=str)
+            _, sub_rec = plans.received_signal(sub_plan, sub_pairs, len(sub_plan['spots']))
+            _, full_rec = plans.received_signal(full_plan, full_pairs, len(full_plan['spots']))
+            index = pd.Index(full_plan['spots'].astype(str)).get_indexer(sub_plan['spots'].astype(str))
+            check((index >= 0).all(), f'{folder}: subsample spots missing from the full data')
+            for receptor in sorted(set(sub_rec) | set(full_rec)):
+                s, f = sub_rec.get(receptor), full_rec.get(receptor)
+                rho = np.nan
+                if s is not None and f is not None and np.ptp(s) > 0 and np.ptp(f[index]) > 0:
+                    rho = float(spearmanr(s, f[index]).statistic)
+                rows.append(dict(condition=case['condition'], r0_um=case['r0_um'], fraction=info['fraction'],
+                                 seed=info['seed'], receptor=receptor, spearman=rho,
+                                 missing=('subsample' if s is None else 'full' if f is None else None),
+                                 results=str(folder), full_results=str(fdir)))
+    table = pd.DataFrame(rows)
+    q = lambda p: (lambda s: s.quantile(p))
+    summary = table.groupby(['condition', 'r0_um', 'fraction'], dropna=False).agg(
+        receptor_runs=('spearman', 'size'), undefined=('spearman', lambda s: int(s.isna().sum())),
+        repeats=('seed', 'nunique'), min=('spearman', 'min'), q25=('spearman', q(.25)),
+        median=('spearman', 'median'), q75=('spearman', q(.75)), max=('spearman', 'max')).reset_index()
+    out.mkdir(parents=True)
+    table.to_csv(out/'robustness_receptors.csv', index=False)
+    summary.to_csv(out/'robustness_summary.csv', index=False)
+    write_json(out/'robustness.json', dict(status='complete', launch=launch, full=args.full, subsampled=args.subsampled,
+        rule='plan section 8.11', metric='Spearman(subsample, full) of receptor-level received signal on kept spots'))
+    print(summary.to_string(index=False))
+
+
 # ------------------------------------------------------------------ report (plan section 8)
 CONDITIONS = {   # code: method, scheme, eps, rho, cutoff (um); plan section 8.1
     'A': ('ours', 'collective', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),
@@ -516,7 +614,7 @@ CONDITIONS = {   # code: method, scheme, eps, rho, cutoff (um); plan section 8.1
     'C': ('COMMOT', 'mixture', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),
     'C500': ('COMMOT', 'mixture', 0.1, 10.0, 500.0),
 }
-PAIRED = [('A', 'B'), ('A', 'C'), ('A500', 'B500'), ('A500', 'C500'), ('Aeps', 'Beps')]
+PAIRED = [('A', 'B'), ('A500', 'B500'), ('Aeps', 'Beps')]   # plan 8.10: same eps, rho, pure collective
 
 
 def condition_cases(folder):
@@ -550,7 +648,105 @@ def condition_cases(folder):
     return summary
 
 
+def receptor_classes(lr):
+    """Plan 8.10: Secreted if a receptor occurs only in diffusion pairs, Contact if only in contact pairs."""
+    types = lr.groupby('receptor').type.agg(lambda s: set(s))
+    return types.map(lambda s: 'Secreted' if s == {'diffusion'} else 'Contact' if s == {'contact'} else 'both')
+
+
+def converged(case):
+    """Plan 8.7: no solve reached the iteration cap; collective conditions also pass both mass checks."""
+    cap = case.get('cap_reached')
+    if cap is None or pd.isna(cap):
+        return np.nan                                   # iteration count not recorded
+    ok = not bool(cap)
+    if case['scheme'] == 'collective':
+        ok = ok and bool(case.get('check_passed')) and pd.notna(case.get('check_kkt_tol'))
+    return ok
+
+
+def metric_table(ev, meta, cases, rule):
+    k, kind = str(meta['primary_top_tf']), meta['target_score'][0]
+    key = 'commot' if rule == 'commot' else k
+    sets = pd.read_csv(ev/'target_sets.csv', dtype={'top_tf': str})
+    evaluable = set(sets[(sets.top_tf == key) & (sets.status == 'evaluated')].receptor)
+    m = pd.read_csv(ev/'case_metrics.csv', dtype={'top_tf': str})
+    m = m[(m.level == 'receptor') & (m.top_tf == key) & (m.target_score == kind) & (m.score_mode == 'no_ppi')]
+    m = m.merge(cases[['results', 'case', 'condition', 'r0_um']], on=['results', 'case'], how='inner')
+    check(set(m.receptor) <= evaluable, 'Metrics for a receptor without an evaluated target set')
+    m['r0_key'] = m.r0_um.fillna(0.0)                        # COMMOT cases have no r0
+    check(not m.duplicated(['receptor', 'condition', 'r0_key']).any(), 'Duplicate receptor metrics')
+    wide = m.set_index(['receptor', 'condition', 'r0_key']).partial_spearman.unstack(['condition', 'r0_key'])
+    return m, wide.reindex(sorted(evaluable & set(m.receptor))), evaluable
+
+
+def select_r0(wide):
+    """Plan 8.5: condition A, receptors defined at every r0, highest mean partial Spearman; ties -> smaller r0."""
+    a = wide['A']
+    a = a.loc[a.notna().all(axis=1)]
+    selection = pd.DataFrame(dict(r0_um=a.columns.astype(float), mean_partial_spearman=a.mean().to_numpy(),
+                                  receptors=len(a))).sort_values('r0_um').reset_index(drop=True)
+    best = selection.mean_partial_spearman.max()
+    return selection, float(selection[selection.mean_partial_spearman == best].r0_um.min())
+
+
+def paired_table(wide, r0, classes):
+    """Plan 8.10: per receptor d = ours(r0) - COMMOT; distribution, counts, two-sided exact sign test."""
+    from scipy.stats import binomtest
+    rows = []
+    for x, y in PAIRED:
+        if (x, r0) not in wide.columns or y not in wide.columns.get_level_values(0):
+            continue
+        d_all = (wide[(x, r0)] - wide[y].iloc[:, 0]).dropna()
+        for group in ['all', 'Secreted', 'Contact', 'both']:
+            d = d_all if group == 'all' else d_all[d_all.index.map(classes) == group]
+            pos, neg = int((d > 0).sum()), int((d < 0).sum())
+            q = d.quantile([0, .25, .5, .75, 1]).to_numpy() if len(d) else [np.nan]*5
+            rows.append(dict(ours=x, baseline=y, r0_um=r0, receptor_class=group, receptors=len(d),
+                             ours_higher=pos, baseline_higher=neg, ties=int((d == 0).sum()),
+                             sign_test_p=binomtest(pos, pos + neg, 0.5).pvalue if pos + neg else np.nan,
+                             mean_difference=d.mean(), min=q[0], q25=q[1], median=q[2], q75=q[3], max=q[4]))
+    return pd.DataFrame(rows)
+
+
+def positive_fraction(m, r0):
+    """Plan 8.10: share of receptors with partial Spearman > 0 per condition (A-type: every r0, r0* marked)."""
+    rows = []
+    for (condition, r0_key), g in m.groupby(['condition', 'r0_key']):
+        defined = g.partial_spearman.dropna()
+        rows.append(dict(condition=condition, r0_um=r0_key if r0_key else np.nan, selected_r0=bool(r0_key == r0),
+                         receptors_defined=len(defined), partial_positive=int((defined > 0).sum()),
+                         fraction_partial_positive=float((defined > 0).mean()) if len(defined) else np.nan))
+    return pd.DataFrame(rows)
+
+
+def condition_table(cases, m, wide):
+    common = wide.loc[wide.notna().all(axis=1)].index
+    rows = []
+    for case in cases.to_dict('records'):
+        mc = m[(m.results == case['results']) & (m.case == case['case'])]
+        mm = mc[mc.receptor.isin(common)]
+        g = lambda name: case.get(name, np.nan)
+        rows.append(dict(condition=case['condition'], method=case['method'], scheme=case['scheme'], eps=case['eps'],
+            rho=case['rho'], cutoff_um=case['cutoff_um'], r0_um=case['r0_um'], frac_ligand=case['frac_ligand'],
+            frac_receptor=case['frac_receptor'], total_T=case['total_T'], total_T_contact=g('total_T_contact'),
+            total_T_diffusion=g('total_T_diffusion'), mean_distance_um=case['mean_distance'],
+            niter=g('niter'), nitermax=g('nitermax'), cap_reached=g('cap_reached'), solves=g('solves'),
+            solves_at_cap=g('solves_at_cap'), check_passed=g('check_passed'), kkt_tol=g('check_kkt_tol'),
+            rows_checked=g('check_rows_checked'), rows=g('check_rows'),
+            max_ligand_budget_excess=g('max_ligand_budget_excess'), converged=converged(case),
+            solve_seconds=case['solve_seconds'], receptors_defined=int(mc.partial_spearman.notna().sum()),
+            receptors_common=len(mm), mean_partial_spearman=mm.partial_spearman.mean(),
+            mean_spearman=mm.spearman.mean(), mean_receptor_only_spearman=mm.receptor_only_spearman.mean(),
+            results=case['results'], case=case['case']))
+    order = {c: i for i, c in enumerate(CONDITIONS)}
+    table = pd.DataFrame(rows)
+    return table.sort_values(['condition', 'r0_um'], key=lambda s: s.map(order) if s.name == 'condition' else s), common
+
+
 def report(args):
+    """Plan section 8. Posterior: selects r0 (8.5). Anterior (--posterior-report): uses the posterior r0 and
+    applies the confirmation rule (8.9). Every table is repeated under COMMOT's target rule (8.8) if evaluated."""
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
@@ -562,68 +758,51 @@ def report(args):
     check(meta.get('status') == 'complete', 'Incomplete target evaluation')
     cases = pd.concat([condition_cases(r) for r in meta['results']], ignore_index=True)
     check(not cases.duplicated(['condition', 'r0_um'], keep=False).any(), 'A condition/r0 appears twice')
-    k, kind = meta['primary_top_tf'], meta['target_score'][0]
-    sets = pd.read_csv(ev/'target_sets.csv')
-    evaluable = set(sets[(sets.top_tf == k) & (sets.status == 'evaluated')].receptor)
-    m = pd.read_csv(ev/'case_metrics.csv')
-    m = m[(m.level == 'receptor') & (m.top_tf == k) & (m.target_score == kind) & (m.score_mode == 'no_ppi')]
-    m = m.merge(cases[['results', 'case', 'condition', 'r0_um']], on=['results', 'case'], how='inner')
-    check(set(m.receptor) <= evaluable, 'Metrics for a receptor without an evaluated target set')
-    m['r0_key'] = m.r0_um.fillna(0.0)                        # COMMOT cases have no r0
-    check(not m.duplicated(['receptor', 'condition', 'r0_key']).any(), 'Duplicate receptor metrics')
-    wide = m.set_index(['receptor', 'condition', 'r0_key']).partial_spearman.unstack(['condition', 'r0_key'])
-    wide = wide.reindex(sorted(evaluable & set(m.receptor)))
-
-    # r0 selection: posterior, condition A, receptors defined at every r0; ties -> smaller r0
-    a = wide['A']
-    a = a.loc[a.notna().all(axis=1)]
-    selection = pd.DataFrame(dict(r0_um=a.columns.astype(float), mean_partial_spearman=a.mean().to_numpy(),
-                                  receptors=len(a))).sort_values('r0_um')
-    best = selection.mean_partial_spearman.max()
-    r0_star = float(selection[selection.mean_partial_spearman == best].r0_um.min())
-
-    # condition table: metrics over the receptors defined in every case
-    common = wide.loc[wide.notna().all(axis=1)].index
-    rows = []
-    for case in cases.itertuples(index=False):
-        mc = m[(m.results == case.results) & (m.case == case.case)]
-        mm = mc[mc.receptor.isin(common)]
-        get = lambda name: getattr(case, name, np.nan)
-        rows.append(dict(condition=case.condition, method=case.method, scheme=case.scheme, eps=case.eps,
-            rho=case.rho, cutoff_um=case.cutoff_um, r0_um=case.r0_um, frac_ligand=case.frac_ligand,
-            frac_receptor=case.frac_receptor, total_T=case.total_T, total_T_contact=get('total_T_contact'),
-            total_T_diffusion=get('total_T_diffusion'), mean_distance_um=case.mean_distance,
-            check_passed=case.check_passed, kkt_tol=get('check_kkt_tol'), rows_checked=get('check_rows_checked'),
-            rows=get('check_rows'), max_ligand_budget_excess=get('max_ligand_budget_excess'),
-            niter=get('niter'), cap_reached=get('cap_reached'), solves_at_cap=get('solves_at_cap'),
-            solve_seconds=case.solve_seconds, receptors_defined=int(mc.partial_spearman.notna().sum()),
-            receptors_common=len(mm), mean_partial_spearman=mm.partial_spearman.mean(),
-            mean_spearman=mm.spearman.mean(), mean_receptor_only_spearman=mm.receptor_only_spearman.mean(),
-            results=case.results, case=case.case))
-    table = pd.DataFrame(rows)
-    order = {c: i for i, c in enumerate(CONDITIONS)}
-    table = table.sort_values(['condition', 'r0_um'], key=lambda s: s.map(order) if s.name == 'condition' else s)
-
-    # paired receptor comparisons at the selected r0 (descriptive; no p-values)
-    paired = []
-    for x, y in PAIRED:
-        if x not in wide.columns.get_level_values(0) or y not in wide.columns.get_level_values(0):
-            continue
-        ours_col = wide[(x, r0_star)]
-        other = wide[y].iloc[:, 0]
-        ok = ours_col.notna() & other.notna()
-        d = (ours_col - other)[ok]
-        paired.append(dict(ours=x, r0_um=r0_star, baseline=y, receptors=int(ok.sum()),
-                           mean_difference=d.mean(), median_difference=d.median(),
-                           ours_higher=int((d > 0).sum()), baseline_higher=int((d < 0).sum()), ties=int((d == 0).sum())))
-    paired = pd.DataFrame(paired)
-
-    status = sets.groupby(['top_tf', 'status']).size().unstack(fill_value=0)
+    lr = pd.read_csv(Path(meta['input'])/'lr.csv', dtype=str)
+    classes = receptor_classes(lr)
+    m, wide, evaluable = metric_table(ev, meta, cases, 'ours')
+    selection, own_r0 = select_r0(wide)
+    confirmation = None
+    if args.posterior_report:                                  # anterior: r0 comes from the posterior (8.9)
+        post = json.loads(Path(args.posterior_report).read_text())
+        check(post.get('status') == 'complete' and post.get('role') == 'selection', 'Need the posterior report')
+        r0_star = float(post['selected_r0_um'])
+        ranked = selection.sort_values(['mean_partial_spearman', 'r0_um'], ascending=[False, True]).reset_index(drop=True)
+        confirmation = dict(posterior_r0_um=r0_star, rule_selected_r0_here=own_r0, confirmed=bool(own_r0 == r0_star),
+            rank_of_posterior_r0=int(ranked.index[ranked.r0_um == r0_star][0]) + 1,
+            gap_to_best=float(ranked.mean_partial_spearman.iloc[0] -
+                              ranked[ranked.r0_um == r0_star].mean_partial_spearman.iloc[0]),
+            receptors=int(selection.receptors.iloc[0]))
+    else:
+        r0_star = own_r0
+    table, common = condition_table(cases, m, wide)
+    paired = paired_table(wide, r0_star, classes)
+    positive = positive_fraction(m, r0_star)
+    sets = pd.read_csv(ev/'target_sets.csv', dtype={'top_tf': str})
+    if 'rule' not in sets:
+        sets['rule'] = 'ours'
+    status = sets.groupby(['rule', 'top_tf', 'status']).size().unstack(fill_value=0)
+    convergence = table[['condition', 'r0_um', 'niter', 'nitermax', 'cap_reached', 'solves', 'solves_at_cap',
+                         'check_passed', 'kkt_tol', 'rows_checked', 'rows', 'max_ligand_budget_excess', 'converged']]
     out.mkdir(parents=True)
     table.to_csv(out/'conditions.csv', index=False)
+    convergence.to_csv(out/'convergence.csv', index=False)
     selection.to_csv(out/'r0_selection.csv', index=False)
     paired.to_csv(out/'paired_receptors.csv', index=False)
+    positive.to_csv(out/'positive_fraction.csv', index=False)
     status.to_csv(out/'target_set_status.csv')
+    classes.rename('receptor_class').to_csv(out/'receptor_classes.csv')
+    commot = None
+    if (sets.rule == 'commot').any():                           # plan 8.8 sensitivity, same r0
+        mc, wc, ec = metric_table(ev, meta, cases, 'commot')
+        tc, cc = condition_table(cases, mc, wc)
+        tc.to_csv(out/'conditions_commot_rule.csv', index=False)
+        paired_table(wc, r0_star, classes).to_csv(out/'paired_receptors_commot_rule.csv', index=False)
+        positive_fraction(mc, r0_star).to_csv(out/'positive_fraction_commot_rule.csv', index=False)
+        cs = sets[sets.rule == 'commot']
+        commot = dict(receptors_evaluable=len(ec), receptors_common=len(cc),
+                      complexes_matched=int((cs.complex & (cs.n_linked_tfs > 0)).sum()),
+                      complexes_matched_in_commot_order=int((cs.complex & cs.ordered_match).sum()))
 
     # figure: one panel per setting; ours over r0, COMMOT as horizontal references
     panels = [('Main: eps 0.1, rho 10, 363 um', 'A', 'B', 'C'), ('Cutoff 500 um', 'A500', 'B500', 'C500'),
@@ -640,9 +819,10 @@ def report(args):
             if code and code in set(table.condition):
                 ax.axhline(table[table.condition == code].mean_partial_spearman.iloc[0], color=color, ls=style,
                            lw=2, label=label)
-        if o == 'A':
+        if o == 'A' and (sub.r0_um == r0_star).any():
             y = sub[sub.r0_um == r0_star].mean_partial_spearman.iloc[0]
-            ax.annotate(f'selected r0 = {r0_star:g} um', (r0_star, y), xytext=(0, 12), textcoords='offset points',
+            tag = 'selected' if not args.posterior_report else 'posterior-selected'
+            ax.annotate(f'{tag} r0 = {r0_star:g} um', (r0_star, y), xytext=(0, 12), textcoords='offset points',
                         ha='center', fontsize=8, color=PALETTE['text_secondary'])
         ax.set_xscale('log', base=2)
         ax.set_xticks(sorted(sub.r0_um), [f'{v:g}' for v in sorted(sub.r0_um)])
@@ -655,13 +835,18 @@ def report(args):
     axes[0, 0].legend(fontsize=8, frameon=False, loc='best')
     fig.savefig(out/'partial_spearman.png', dpi=180)
     plt.close(fig)
-    write_json(out/'report.json', dict(status='complete', launch=launch, eval=str(ev), results=meta['results'], top_tf=int(k),
-        target_score=kind, level='receptor', selected_r0_um=r0_star, r0_rule='plan section 8.5',
-        receptors_evaluable=len(evaluable), receptors_common=len(common),
-        receptors_for_r0_selection=int(len(a)), eval_sha256={f: digest(ev/f) for f in
-                                                            ['case_metrics.csv', 'target_sets.csv']}))
-    print(table[['condition', 'r0_um', 'frac_ligand', 'frac_receptor', 'mean_partial_spearman']].to_string(index=False))
-    print(f'selected r0 = {r0_star:g} um; {len(common)} receptors in every case -> {out}')
+    write_json(out/'report.json', dict(status='complete', launch=launch,
+        role='confirmation' if args.posterior_report else 'selection', eval=str(ev), input=meta['input'],
+        results=meta['results'], top_tf=meta['primary_top_tf'], target_score=meta['target_score'][0],
+        level='receptor', selected_r0_um=r0_star, rule_selected_r0_um=own_r0, r0_rule='plan section 8.5',
+        confirmation=confirmation, confirmation_rule='plan section 8.9' if confirmation else None,
+        all_converged=bool(table.converged.eq(True).all()), receptors_evaluable=len(evaluable),
+        receptors_common=len(common), receptors_for_r0_selection=int(selection.receptors.iloc[0]),
+        receptor_classes=classes.value_counts().to_dict(), commot_rule=commot,
+        eval_sha256={f: digest(ev/f) for f in ['case_metrics.csv', 'target_sets.csv']}))
+    print(table[['condition', 'r0_um', 'frac_ligand', 'frac_receptor', 'converged', 'mean_partial_spearman']]
+          .to_string(index=False))
+    print(f'r0 used = {r0_star:g} um (rule here: {own_r0:g}); {len(common)} receptors in every case -> {out}')
 
 
 def parser():
@@ -686,15 +871,21 @@ def parser():
     c = sub.add_parser('compare-dense'); c.add_argument('--input', required=True); c.add_argument('--results', required=True)
     s = sub.add_parser('pairs'); s.add_argument('--posterior', required=True); s.add_argument('--anterior', required=True)
     s.add_argument('--output', required=True)
+    u = sub.add_parser('subsample'); u.add_argument('--input', required=True); u.add_argument('--output', required=True)
+    u.add_argument('--fraction', type=float, required=True); u.add_argument('--seed', type=int, required=True)
+    b = sub.add_parser('robustness'); b.add_argument('--full', nargs='+', required=True)
+    b.add_argument('--subsampled', nargs='+', required=True); b.add_argument('--output', required=True)
     o = sub.add_parser('report'); o.add_argument('--eval', required=True, help='evaluate_targets.py output')
     o.add_argument('--output', required=True)
+    o.add_argument('--posterior-report', help='anterior only: report.json of the posterior (selected r0; plan 8.9)')
     return p
 
 
 def main():
     args = parser().parse_args()
     {'fetch': fetch, 'prepare': prepare, 'export-genes': export_genes, 'run': run,
-     'compare-dense': compare_dense, 'pairs': pairs, 'report': report}[args.command](args)
+     'compare-dense': compare_dense, 'pairs': pairs, 'subsample': subsample, 'robustness': robustness,
+     'report': report}[args.command](args)
 
 
 if __name__ == '__main__':
