@@ -54,7 +54,7 @@ COMMOT_TUTORIAL_CUTOFF_UM = 363.0757
 # eps = 0.2, rho = 1. `run` can override eps, rho and the cutoff; the values used are recorded.
 DEFAULTS = dict(eps=0.1, rho=10.0, r0_um=[50.0, 100.0, 200.0, 400.0], diffusion_cutoff_um=COMMOT_TUTORIAL_CUTOFF_UM,
                 min_cell_pct=0.05, nitermax=50000, stopthr=1e-11)
-OVERRIDES = ['eps', 'rho', 'diffusion_cutoff_um']
+OVERRIDES = ['eps', 'rho', 'diffusion_cutoff_um', 'nitermax', 'stopthr']
 
 
 def digest(path):
@@ -360,7 +360,7 @@ def run_config(cfg, args):
     cfg = dict(cfg)
     for key in OVERRIDES:
         if getattr(args, key, None) is not None:
-            cfg[key] = float(getattr(args, key))
+            cfg[key] = int(getattr(args, key)) if key == 'nitermax' else float(getattr(args, key))
     check(cfg['eps'] > 0 and cfg['rho'] > 0 and cfg['diffusion_cutoff_um'] > 0, 'Invalid eps/rho/cutoff')
     return cfg
 
@@ -868,6 +868,8 @@ def parser():
     r.add_argument('--eps', type=float, help='default: config eps')
     r.add_argument('--rho', type=float, help='default: config rho')
     r.add_argument('--diffusion-cutoff-um', type=float, help='default: config diffusion_cutoff_um')
+    r.add_argument('--nitermax', type=int, help='default: config nitermax (diagnostics only; plan: 50000)')
+    r.add_argument('--stopthr', type=float, help='default: config stopthr (diagnostics only; plan: 1e-11)')
     c = sub.add_parser('compare-dense'); c.add_argument('--input', required=True); c.add_argument('--results', required=True)
     s = sub.add_parser('pairs'); s.add_argument('--posterior', required=True); s.add_argument('--anterior', required=True)
     s.add_argument('--output', required=True)
