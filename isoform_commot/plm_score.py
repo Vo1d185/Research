@@ -13,7 +13,7 @@ Differences from the official batch script, all deliberate:
   * output keyed by pair_id, with the checkpoint SHA256 recorded.
 
 The PLMinteract class below is copied from the official repository
-https://github.com/liudan111/PLM-interact (commit ab2ae6aae1aa81accf4c1f7f6f341164baf97809,
+https://github.com/liudan111/PLM-interact (commit ab2ae6ae1aa81accf4c1f7f6f341164baf97809a,
 PLMinteract/inference/inference_PPI_singleGPU.py), MIT License, Copyright (c) 2024 Dan LIU.
 """
 import argparse

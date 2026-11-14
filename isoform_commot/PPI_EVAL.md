@@ -121,7 +121,7 @@ git clone https://github.com/liudan111/PLM-interact.git models/PLM-interact-src
 ```
 
 ```bash
-git -C models/PLM-interact-src checkout ab2ae6aae1aa81accf4c1f7f6f341164baf97809
+git -C models/PLM-interact-src checkout ab2ae6ae1aa81accf4c1f7f6f341164baf97809a
 ```
 
 ```bash
