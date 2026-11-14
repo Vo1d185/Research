@@ -26,6 +26,9 @@ T 是模型推断的通信量，不是测得的结合频率；S 是模型预测�
 - **NLGN1 → NRXN1 在 CCCvelo 表中被标为 diffusion。** 两者都是膜蛋白，靠跨突触接触结合，生物学上更接近 contact。第一阶段固定沿用 CCCvelo 的分类，不改；第二阶段和 CellChatDB 的注释逐对比较。
 - **FGF14**：属于 FGF11–14（FHF），细胞内蛋白，一般认为不分泌、不激活 FGFR。如果面板中有 `FGF14 → FGFR2`，其数据库注释值得怀疑，可以用来检验 PLM 分数会不会给它打低分。
 - **超长蛋白**：PTPRD 1912 aa、PLXNB3 1902 aa、SEMA5A 1077 aa 等。主分析用全长序列加 `--allow-long`；敏感性分析用 `--region extracellular`。
+- **面板**：IL1RAPL1→PTPRD、FGF14→FGFR2、NEGR1→NEGR1、NLGN1→NRXN1（CCCvelo 标为 diffusion）；EFNA5→EPHA4/EPHA5/EPHA7、SEMA5A→PLXNB3（contact）。四个 "diffusion" 对中，三个是膜蛋白之间的粘附（更接近 contact），FGF14 是细胞内蛋白。所以第一阶段 r0 的结果只能当作方法本身的行为，不能解读为分泌信号的扩散距离。第二阶段改用 CellChatDB 的 Secreted Signaling 配对。
+- **竞争结构**：只有 EFNA5 被三个 contact 对共用，所以 PPI 带来的预算重新分配预计主要出现在这一组；四个 diffusion 对互不共享实体，PPI 对它们基本只是整体缩放。
+- **长度**：全长时，IL1RAPL1–PTPRD 和 SEMA5A–PLXNB3 超过 1603 token；用胞外段时，SEMA5A–PLXNB3 仍然超过。所以两次打分都要加 `--allow-long`，并在结果里标明。
 
 ## 下一步
 

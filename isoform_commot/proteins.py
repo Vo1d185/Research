@@ -227,11 +227,13 @@ def feature_ranges(entry, kind, description=None):
 def region_sequence(entry, region):
     """Sequence used for scoring. 'full': canonical full length (main analysis).
 
-    'extracellular' (pre-specified sensitivity rule, applied to every protein):
-    the single UniProt 'Topological domain: Extracellular' segment of a single-pass
-    membrane protein; otherwise the longest mature 'Chain' (removes signal peptide
-    and propeptides, e.g. secreted or GPI-anchored proteins); otherwise the full
-    length without the signal peptide. Multi-pass proteins are refused.
+    'extracellular' (pre-specified sensitivity rule, applied to every protein, in order):
+    1. the single UniProt 'Topological domain: Extracellular' segment;
+    2. no topology annotation but exactly one 'Transmembrane' segment and a signal
+       peptide (single-pass type I): residues between the signal peptide and the TM;
+    3. the longest mature 'Chain' (secreted or GPI-anchored proteins);
+    4. the full length without the signal peptide.
+    Multi-pass proteins are refused.
     """
     sequence = entry['sequence']['value']
     accession = entry['primaryAccession']
@@ -244,11 +246,18 @@ def region_sequence(entry, region):
               'needs a documented manual rule')
         start, end = outside[0]
         return sequence[start-1:end], f'extracellular {start}-{end}'
+    membrane = feature_ranges(entry, 'Transmembrane')
+    check(len(membrane) <= 1, f'{accession}: {len(membrane)} transmembrane segments (multi-pass); '
+          'needs a documented manual rule')
+    signal = feature_ranges(entry, 'Signal')
+    if membrane and signal:  # single-pass type I without topology annotation: N-terminus is outside
+        start, end = signal[0][1] + 1, membrane[0][0] - 1
+        check(end >= start, f'{accession}: transmembrane segment overlaps the signal peptide')
+        return sequence[start-1:end], f'extracellular (signal-to-TM) {start}-{end}'
     chains = feature_ranges(entry, 'Chain')
     if chains:
         start, end = max(chains, key=lambda r: (r[1] - r[0], -r[0]))
         return sequence[start-1:end], f'mature chain {start}-{end}'
-    signal = feature_ranges(entry, 'Signal')
     start = signal[0][1] + 1 if signal else 1
     return sequence[start-1:], f'without signal peptide {start}-{len(sequence)}'
 

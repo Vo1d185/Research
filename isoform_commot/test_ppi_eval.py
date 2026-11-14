@@ -238,6 +238,10 @@ class Units(unittest.TestCase):
         seq, used = proteins.region_sequence(type1, 'extracellular')
         self.assertEqual((len(seq), used), (50, 'extracellular 21-70'))
         self.assertEqual(seq, type1['sequence']['value'][20:70])
+        # NRXN1-beta-like entry: chain runs to the C-terminus, TM annotated, no topology.
+        no_topology = seq_entry(feature('Signal', 1, 46), feature('Chain', 47, 100), feature('Transmembrane', 80, 92))
+        self.assertEqual(proteins.region_sequence(no_topology, 'extracellular')[1],
+                         'extracellular (signal-to-TM) 47-79')
         gpi = seq_entry(feature('Signal', 1, 18), feature('Chain', 19, 80), feature('Propeptide', 81, 100))
         self.assertEqual(proteins.region_sequence(gpi, 'extracellular')[1], 'mature chain 19-80')
         bare = seq_entry(feature('Signal', 1, 25))
@@ -247,6 +251,9 @@ class Units(unittest.TestCase):
                               feature('Topological domain', 40, 50, 'Extracellular'))
         with self.assertRaisesRegex(ValueError, 'multi-pass'):
             proteins.region_sequence(multipass, 'extracellular')
+        two_tm = seq_entry(feature('Signal', 1, 20), feature('Transmembrane', 30, 50), feature('Transmembrane', 60, 80))
+        with self.assertRaisesRegex(ValueError, 'multi-pass'):
+            proteins.region_sequence(two_tm, 'extracellular')
 
     def test_plm_refuses_long_altered_or_invalid_input(self):
         with tempfile.TemporaryDirectory() as d:
