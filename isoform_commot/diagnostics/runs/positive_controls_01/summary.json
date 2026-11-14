@@ -1,0 +1,17 @@
+{
+  "status": "complete",
+  "checkpoints": [
+    "PLM-interact-650M-humanV11",
+    "PLM-interact-650M-humanV12"
+  ],
+  "inputs_sha256": {
+    "scores_humanV11.csv": "d3ccbca4e5ba6af605ace54b8431915f175dbe60cf79712f538e746c4957a08f",
+    "scores_humanV12.csv": "0f3ae628725eea021f3f8683cf06f58ee2672098409e9fc7b1bdadadd04b611b"
+  },
+  "notes": [
+    "Mean of both input orders.",
+    "Cross pairs are unannotated, not negatives.",
+    "Documented cross-reactive pairs are excluded from AUROC.",
+    "Scores are model predictions, not measured affinities."
+  ]
+}

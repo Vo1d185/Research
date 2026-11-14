@@ -1,0 +1,14 @@
+gene,accession,uniprot_id,gene_primary,protein_name,taxon_id,isoform,entry_version,sequence_version,length,sequence_sha256,uniprot_release,resolution,retrieved_utc
+EFNA5,P52803,EFNA5_HUMAN,EFNA5,Ephrin-A5,9606,canonical,194,1,228,9257b44fda3f9b4f0ec1902cdce820a4561677898c72dcec439939901ff175b0,2026_04,unique_reviewed_primary_gene,2026-11-14T06:21:55+00:00
+EPHA4,P54764,EPHA4_HUMAN,EPHA4,Ephrin type-A receptor 4,9606,canonical,236,1,986,6db6f571bcd7a20ff9a2aa4669d8c0ed172d7d1e219dd324c9cbbf91e5c4488f,2026_04,unique_reviewed_primary_gene,2026-11-14T06:21:57+00:00
+EPHA5,P54756,EPHA5_HUMAN,EPHA5,Ephrin type-A receptor 5,9606,canonical,231,3,1037,08af8599be5732d7e06668e812a913da44dddd0f4b800fb923f2d66ffb097d54,2026_04,unique_reviewed_primary_gene,2026-11-14T06:21:59+00:00
+EPHA7,Q15375,EPHA7_HUMAN,EPHA7,Ephrin type-A receptor 7,9606,canonical,239,3,998,534c81103e759078f92a338086834ea6156abcbd27b99589d549e3787e70d33e,2026_04,unique_reviewed_primary_gene,2026-11-14T06:22:00+00:00
+FGF14,Q92915,FGF14_HUMAN,FGF14,Fibroblast growth factor 14,9606,canonical,199,1,247,94b9f81da3bc22fa7ce6c1ecb5f8efc4a38e73c4bb6cca35c662097c27945c36,2026_04,unique_reviewed_primary_gene,2026-11-14T06:22:02+00:00
+FGFR2,P21802,FGFR2_HUMAN,FGFR2,Fibroblast growth factor receptor 2,9606,canonical,284,1,821,c81b4e9e806e0ace9f779e65477e6c988dea6cad5eecfbcb35f2364c5fc884dd,2026_04,unique_reviewed_primary_gene,2026-11-14T06:22:04+00:00
+IL1RAPL1,Q9NZN1,IRPL1_HUMAN,IL1RAPL1,Interleukin-1 receptor accessory protein-like 1,9606,canonical,204,2,696,ff3de58e703fbaf1f8c8a6861b8546539468fb6a7ec44877d3f46cf02cb98810,2026_04,unique_reviewed_primary_gene,2026-11-14T06:22:06+00:00
+NEGR1,Q7Z3B1,NEGR1_HUMAN,NEGR1,Neuronal growth regulator 1,9606,canonical,183,3,354,2f79b31f38e07112ee6996a551342803cd0fd63e7fd2fb2e1c6b460a9b421017,2026_04,unique_reviewed_primary_gene,2026-11-14T06:22:07+00:00
+NLGN1,Q8N2Q7,NLGN1_HUMAN,NLGN1,Neuroligin-1,9606,canonical,200,3,863,888c9719c74962bf6a92e14a28b95ccad9b15b1c7d6560d7d5048243decb0e43,2026_04,unique_reviewed_primary_gene,2026-11-14T06:22:09+00:00
+NRXN1,P58400,NRX1B_HUMAN,NRXN1,Neurexin-1-beta,9606,canonical,191,3,472,0bcb76a3f7b5c45aa9c355cd82faad8544503cffc87bb0ebcd98f3f07836fc22,2026_04,manual_override,2026-11-14T06:22:10+00:00
+PLXNB3,Q9ULL4,PLXB3_HUMAN,PLXNB3,Plexin-B3,9606,canonical,190,2,1909,176043c241dec32bc4571e0c298abb30171280c1b2bcbe9493c047e95f8e4d48,2026_04,unique_reviewed_primary_gene,2026-11-14T06:22:12+00:00
+PTPRD,P23468,PTPRD_HUMAN,PTPRD,Receptor-type tyrosine-protein phosphatase delta,9606,canonical,242,2,1912,d8ae07e9c10abb6257e280b78f45f940036f9fd9aca89c1034e61150db658a56,2026_04,unique_reviewed_primary_gene,2026-11-14T06:22:13+00:00
+SEMA5A,Q13591,SEM5A_HUMAN,SEMA5A,Semaphorin-5A,9606,canonical,218,3,1074,fa1b147b8899611b594a92964357ffbe6456c757b16735d0ffc5a55f54eaa23f,2026_04,unique_reviewed_primary_gene,2026-11-14T06:22:15+00:00
