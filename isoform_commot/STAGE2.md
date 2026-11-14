@@ -39,6 +39,9 @@ python commot_baseline.py --input $IN --output commot_stage2_post_C500 --dis-thr
 python evaluate_targets.py run --input $IN --genes stage2_genes_post --output target_eval_stage2_post \
     --results stage2_results_post_A stage2_results_post_A500 stage2_results_post_Aeps \
               commot_stage2_post_B commot_stage2_post_B500 commot_stage2_post_Beps commot_stage2_post_C commot_stage2_post_C500
+
+# 计划第 8 节的汇总：条件表（运输比例、检查、靶基因指标）、r0 选择（第 8.5 节规则）、受体配对比较、图
+python stage2.py report --eval target_eval_stage2_post --output reports/stage2_post_01
 ```
 
 ## 输入目录（`prepare` 输出）

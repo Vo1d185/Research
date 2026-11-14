@@ -8,6 +8,8 @@ Plan: reports/stage2_plan.md (committed before any stage-2 OT run).
   run            sparse cost per LR pair + pinned COMMOT unot_sinkhorn_l1_sparse; sparse case files
   compare-dense  rebuild every cost densely from the full distance matrix, solve with the dense
                  solver, and compare cost entries and transport element by element
+  report         plan section 8: condition table (transported fractions, checks, target metrics),
+                 r0 selection (posterior, condition A), paired receptor comparisons, figure
 
 Model (S = 1): diffusion pairs may connect spots with d <= cutoff (d = 0 included),
 cost -log(r0/(r0+d)) = log1p(d/r0); contact pairs connect a spot with itself and its
@@ -443,6 +445,163 @@ def compare_dense(args):
     check(table.passed.all(), 'Sparse and dense results differ beyond the plan tolerance (1e-6)')
 
 
+# ------------------------------------------------------------------ report (plan section 8)
+CONDITIONS = {   # code: method, scheme, eps, rho, cutoff (um); plan section 8.1
+    'A': ('ours', 'collective', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),
+    'A500': ('ours', 'collective', 0.1, 10.0, 500.0),
+    'Aeps': ('ours', 'collective', 0.2, 1.0, COMMOT_TUTORIAL_CUTOFF_UM),
+    'B': ('COMMOT', 'collective', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),
+    'B500': ('COMMOT', 'collective', 0.1, 10.0, 500.0),
+    'Beps': ('COMMOT', 'collective', 0.2, 1.0, COMMOT_TUTORIAL_CUTOFF_UM),
+    'C': ('COMMOT', 'mixture', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),
+    'C500': ('COMMOT', 'mixture', 0.1, 10.0, 500.0),
+}
+PAIRED = [('A', 'B'), ('A', 'C'), ('A500', 'B500'), ('A500', 'C500'), ('Aeps', 'Beps')]
+
+
+def condition_cases(folder):
+    """One row per case of a result directory, with its plan-section-8 condition code."""
+    folder = Path(folder)
+    manifest = json.loads((folder/'manifest.json').read_text())
+    summary = pd.read_csv(folder/'summary.csv')
+    ours = manifest.get('method') == 'research sparse (stage 2)'
+    if ours:
+        summary['cutoff_um'] = summary.diffusion_cutoff_um
+        summary['scheme'] = 'collective'
+        summary['nitermax'], summary['stopthr'] = manifest['config']['nitermax'], manifest['config']['stopthr']
+        summary['check_passed'] = True                     # solve_sparse raises on failure
+    else:
+        summary['cutoff_um'] = summary.dis_thr_um
+        summary['r0_um'] = np.nan
+    summary['method'] = 'ours' if ours else 'COMMOT'
+    codes = []
+    for row in summary.itertuples(index=False):
+        hit = [k for k, (m, s, e, r, c) in CONDITIONS.items() if m == row.method and s == row.scheme and
+               np.isclose(row.eps, e) and np.isclose(row.rho, r) and np.isclose(row.cutoff_um, c)]
+        check(len(hit) == 1, f'{folder}/{row.case}: not a plan-section-8 condition')
+        codes.append(hit[0])
+    summary['condition'] = codes
+    summary['results'] = str(folder)
+    for code in set(codes):                                 # solver settings as in the plan
+        rows = summary[summary.condition == code]
+        expected = (10000, 1e-8) if CONDITIONS[code][1] == 'mixture' else (DEFAULTS['nitermax'], DEFAULTS['stopthr'])
+        check(np.allclose(rows.nitermax, expected[0]) and np.allclose(rows.stopthr, expected[1]),
+              f'{folder}: {code} must use nitermax/stopthr {expected}')
+    return summary
+
+
+def report(args):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    from analyze import PALETTE, style_axis
+    ev, out = Path(args.eval), Path(args.output)
+    check(not out.exists(), f'Output exists: {out}')
+    meta = json.loads((ev/'eval_manifest.json').read_text())
+    check(meta.get('status') == 'complete', 'Incomplete target evaluation')
+    cases = pd.concat([condition_cases(r) for r in meta['results']], ignore_index=True)
+    check(not cases.duplicated(['condition', 'r0_um'], keep=False).any(), 'A condition/r0 appears twice')
+    k, kind = meta['primary_top_tf'], meta['target_score'][0]
+    sets = pd.read_csv(ev/'target_sets.csv')
+    evaluable = set(sets[(sets.top_tf == k) & (sets.status == 'evaluated')].receptor)
+    m = pd.read_csv(ev/'case_metrics.csv')
+    m = m[(m.level == 'receptor') & (m.top_tf == k) & (m.target_score == kind) & (m.score_mode == 'no_ppi')]
+    m = m.merge(cases[['results', 'case', 'condition', 'r0_um']], on=['results', 'case'], how='inner')
+    check(set(m.receptor) <= evaluable, 'Metrics for a receptor without an evaluated target set')
+    m['r0_key'] = m.r0_um.fillna(0.0)                        # COMMOT cases have no r0
+    check(not m.duplicated(['receptor', 'condition', 'r0_key']).any(), 'Duplicate receptor metrics')
+    wide = m.set_index(['receptor', 'condition', 'r0_key']).partial_spearman.unstack(['condition', 'r0_key'])
+    wide = wide.reindex(sorted(evaluable & set(m.receptor)))
+
+    # r0 selection: posterior, condition A, receptors defined at every r0; ties -> smaller r0
+    a = wide['A']
+    a = a.loc[a.notna().all(axis=1)]
+    selection = pd.DataFrame(dict(r0_um=a.columns.astype(float), mean_partial_spearman=a.mean().to_numpy(),
+                                  receptors=len(a))).sort_values('r0_um')
+    best = selection.mean_partial_spearman.max()
+    r0_star = float(selection[selection.mean_partial_spearman == best].r0_um.min())
+
+    # condition table: metrics over the receptors defined in every case
+    common = wide.loc[wide.notna().all(axis=1)].index
+    rows = []
+    for case in cases.itertuples(index=False):
+        mc = m[(m.results == case.results) & (m.case == case.case)]
+        mm = mc[mc.receptor.isin(common)]
+        get = lambda name: getattr(case, name, np.nan)
+        rows.append(dict(condition=case.condition, method=case.method, scheme=case.scheme, eps=case.eps,
+            rho=case.rho, cutoff_um=case.cutoff_um, r0_um=case.r0_um, frac_ligand=case.frac_ligand,
+            frac_receptor=case.frac_receptor, total_T=case.total_T, total_T_contact=get('total_T_contact'),
+            total_T_diffusion=get('total_T_diffusion'), mean_distance_um=case.mean_distance,
+            check_passed=case.check_passed, kkt_tol=get('check_kkt_tol'), rows_checked=get('check_rows_checked'),
+            rows=get('check_rows'), max_ligand_budget_excess=get('max_ligand_budget_excess'),
+            solve_seconds=case.solve_seconds, receptors_defined=int(mc.partial_spearman.notna().sum()),
+            receptors_common=len(mm), mean_partial_spearman=mm.partial_spearman.mean(),
+            mean_spearman=mm.spearman.mean(), mean_receptor_only_spearman=mm.receptor_only_spearman.mean(),
+            results=case.results, case=case.case))
+    table = pd.DataFrame(rows)
+    order = {c: i for i, c in enumerate(CONDITIONS)}
+    table = table.sort_values(['condition', 'r0_um'], key=lambda s: s.map(order) if s.name == 'condition' else s)
+
+    # paired receptor comparisons at the selected r0 (descriptive; no p-values)
+    paired = []
+    for x, y in PAIRED:
+        if x not in wide.columns.get_level_values(0) or y not in wide.columns.get_level_values(0):
+            continue
+        ours_col = wide[(x, r0_star)]
+        other = wide[y].iloc[:, 0]
+        ok = ours_col.notna() & other.notna()
+        d = (ours_col - other)[ok]
+        paired.append(dict(ours=x, r0_um=r0_star, baseline=y, receptors=int(ok.sum()),
+                           mean_difference=d.mean(), median_difference=d.median(),
+                           ours_higher=int((d > 0).sum()), baseline_higher=int((d < 0).sum()), ties=int((d == 0).sum())))
+    paired = pd.DataFrame(paired)
+
+    status = sets.groupby(['top_tf', 'status']).size().unstack(fill_value=0)
+    out.mkdir(parents=True)
+    table.to_csv(out/'conditions.csv', index=False)
+    selection.to_csv(out/'r0_selection.csv', index=False)
+    paired.to_csv(out/'paired_receptors.csv', index=False)
+    status.to_csv(out/'target_set_status.csv')
+
+    # figure: one panel per setting; ours over r0, COMMOT as horizontal references
+    panels = [('Main: eps 0.1, rho 10, 363 um', 'A', 'B', 'C'), ('Cutoff 500 um', 'A500', 'B500', 'C500'),
+              ('eps 0.2, rho 1, 363 um', 'Aeps', 'Beps', None)]
+    panels = [p for p in panels if p[1] in set(table.condition)]
+    fig, axes = plt.subplots(1, len(panels), figsize=(3.6*len(panels) + .6, 3.6), sharey=True,
+                             constrained_layout=True, squeeze=False)
+    for ax, (title, o, b, c) in zip(axes[0], panels):
+        sub = table[table.condition == o].sort_values('r0_um')
+        ax.plot(sub.r0_um, sub.mean_partial_spearman, color=PALETTE['series1'], lw=2, marker='o', ms=6,
+                label='ours (r0)')
+        for code, color, style, label in [(b, PALETTE['series2'], '--', 'COMMOT collective'),
+                                          (c, PALETTE['series3'], ':', 'COMMOT mixture')]:
+            if code and code in set(table.condition):
+                ax.axhline(table[table.condition == code].mean_partial_spearman.iloc[0], color=color, ls=style,
+                           lw=2, label=label)
+        if o == 'A':
+            y = sub[sub.r0_um == r0_star].mean_partial_spearman.iloc[0]
+            ax.annotate(f'selected r0 = {r0_star:g} um', (r0_star, y), xytext=(0, 12), textcoords='offset points',
+                        ha='center', fontsize=8, color=PALETTE['text_secondary'])
+        ax.set_xscale('log', base=2)
+        ax.set_xticks(sorted(sub.r0_um), [f'{v:g}' for v in sorted(sub.r0_um)])
+        ax.minorticks_off()
+        ax.set_xlabel('r0 (um)', fontsize=9, color=PALETTE['text_secondary'])
+        ax.set_title(title, fontsize=9, loc='left')
+        style_axis(ax)
+    axes[0, 0].set_ylabel(f'Mean partial Spearman ({len(common)} receptors)', fontsize=9,
+                          color=PALETTE['text_secondary'])
+    axes[0, 0].legend(fontsize=8, frameon=False, loc='best')
+    fig.savefig(out/'partial_spearman.png', dpi=180)
+    plt.close(fig)
+    write_json(out/'report.json', dict(status='complete', eval=str(ev), results=meta['results'], top_tf=int(k),
+        target_score=kind, level='receptor', selected_r0_um=r0_star, r0_rule='plan section 8.5',
+        receptors_evaluable=len(evaluable), receptors_common=len(common),
+        receptors_for_r0_selection=int(len(a)), eval_sha256={f: digest(ev/f) for f in
+                                                            ['case_metrics.csv', 'target_sets.csv']}))
+    print(table[['condition', 'r0_um', 'frac_ligand', 'frac_receptor', 'mean_partial_spearman']].to_string(index=False))
+    print(f'selected r0 = {r0_star:g} um; {len(common)} receptors in every case -> {out}')
+
+
 def parser():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest='command', required=True)
@@ -463,13 +622,15 @@ def parser():
     r.add_argument('--rho', type=float, help='default: config rho')
     r.add_argument('--diffusion-cutoff-um', type=float, help='default: config diffusion_cutoff_um')
     c = sub.add_parser('compare-dense'); c.add_argument('--input', required=True); c.add_argument('--results', required=True)
+    o = sub.add_parser('report'); o.add_argument('--eval', required=True, help='evaluate_targets.py output')
+    o.add_argument('--output', required=True)
     return p
 
 
 def main():
     args = parser().parse_args()
     {'fetch': fetch, 'prepare': prepare, 'export-genes': export_genes, 'run': run,
-     'compare-dense': compare_dense}[args.command](args)
+     'compare-dense': compare_dense, 'report': report}[args.command](args)
 
 
 if __name__ == '__main__':

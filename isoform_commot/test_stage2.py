@@ -179,6 +179,45 @@ class EndToEnd(unittest.TestCase):
             self.assertEqual(summary.check_rows_checked.iloc[0], summary.check_rows.iloc[0])
 
 
+class Report(unittest.TestCase):
+    def test_r0_rule_tie_and_undefined_receptors(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            cut = stage2.COMMOT_TUTORIAL_CUTOFF_UM
+            ours, commot, ev = root/'A', root/'B', root/'eval'
+            for folder in (ours, commot, ev):
+                folder.mkdir()
+            (ours/'manifest.json').write_text(json.dumps(dict(method='research sparse (stage 2)',
+                config=dict(nitermax=50000, stopthr=1e-11))))
+            pd.DataFrame(dict(case=['case_000', 'case_001', 'case_002'], r0_um=[50.0, 100.0, 200.0], eps=0.1,
+                              rho=10.0, diffusion_cutoff_um=cut, frac_ligand=.5, frac_receptor=.4, total_T=1.0,
+                              mean_distance=10.0, solve_seconds=1.0)).to_csv(ours/'summary.csv', index=False)
+            (commot/'manifest.json').write_text(json.dumps(dict(method='COMMOT original')))
+            pd.DataFrame(dict(case=['case_000'], r0=[cut], dis_thr_um=[cut], eps=0.1, rho=10.0, scheme='collective',
+                              nitermax=50000, stopthr=1e-11, frac_ligand=.5, frac_receptor=.4, total_T=1.0,
+                              mean_distance=10.0, solve_seconds=1.0, check_passed=True)).to_csv(commot/'summary.csv',
+                                                                                              index=False)
+            pd.DataFrame(dict(receptor=['R1', 'R2', 'R3'], top_tf=10, status='evaluated')).to_csv(ev/'target_sets.csv',
+                                                                                                  index=False)
+            # R1, R2 defined at every r0: means 0.3, 0.3, 0.2 -> tie between 50 and 100, rule picks 50.
+            # R3 undefined at r0 = 200: excluded from the selection although it favours 100.
+            partial = {('A', 'case_000'): [.2, .4, .0], ('A', 'case_001'): [.4, .2, .9],
+                       ('A', 'case_002'): [.2, .2, np.nan], ('B', 'case_000'): [.1, .1, .1]}
+            rows = [dict(results=str(root/f), case=c, level='receptor', top_tf=10, target_score='mean',
+                         score_mode='no_ppi', receptor=r, partial_spearman=v, spearman=v, receptor_only_spearman=0.0)
+                    for (f, c), values in partial.items() for r, v in zip(['R1', 'R2', 'R3'], values)]
+            pd.DataFrame(rows).to_csv(ev/'case_metrics.csv', index=False)
+            (ev/'eval_manifest.json').write_text(json.dumps(dict(status='complete', results=[str(ours), str(commot)],
+                                                                 primary_top_tf=10, target_score=['mean'])))
+            stage2.report(argparse.Namespace(eval=str(ev), output=str(root/'report')))
+            out = json.loads((root/'report'/'report.json').read_text())
+            self.assertEqual(out['selected_r0_um'], 50.0)
+            self.assertEqual(out['receptors_for_r0_selection'], 2)
+            paired = pd.read_csv(root/'report'/'paired_receptors.csv').iloc[0]
+            self.assertEqual((paired.ours, paired.baseline, paired.receptors), ('A', 'B', 3))
+            self.assertAlmostEqual(paired.mean_difference, np.mean([.1, .3, -.1]))
+
+
 class Preprocessing(unittest.TestCase):
     def test_normalize_filter_and_complex_minimum(self):
         X = sparse.csr_matrix(np.array([[1, 0, 3, 0], [0, 2, 2, 0], [4, 0, 0, 5]], float))
