@@ -20,6 +20,7 @@ from scipy import sparse
 
 import analyze
 import commot_baseline
+import plans
 import evaluate_targets as ev
 import plm_score
 import proteins
@@ -319,11 +320,17 @@ class Units(unittest.TestCase):
             commot_baseline.run(root/'in', root/'mix', dis_thr_h=(2,))
             commot_baseline.run(root/'in', root/'pure', dis_thr_h=(2,), weights=(1, 0, 0, 0))
             pure = pd.read_csv(root/'pure'/'summary.csv').iloc[0]
+            self.assertTrue(pure.check_passed)                  # same mass check as research.solve_sparse
+            self.assertEqual(pure.check_kkt_rows, pure.check_rows)  # every row, although rho/eps = 100 leaves
+            self.assertLessEqual(pure.check_kkt_tol, 1e-7)            # unused mass below double precision
+            self.assertNotIn('check_passed', pd.read_csv(root/'mix'/'summary.csv'))
             self.assertLessEqual(pure.max_ligand_budget_excess, 1e-6)
             self.assertLessEqual(pure.max_receptor_budget_excess, 1e-6)
-            with np.load(root/'mix'/'case_000.npz') as z:
-                self.assertTrue((z['T'][~np.isfinite(z['C'])] == 0).all())
-                self.assertGreater(np.trace(z['T'][:8, :8]), 0)  # same-spot transport allowed as in COMMOT
+            plan = plans.load(root/'mix'/'case_000.npz')
+            self.assertTrue(plan['sparse'])
+            T = plans.to_coo(plan).toarray()        # stored entries = eligible connections only
+            self.assertTrue((plan['C'] <= 2*json.loads((root/'mix'/'manifest.json').read_text())['h'] + 1e-9).all())
+            self.assertGreater(np.trace(T[:8, :8]), 0)  # same-spot transport allowed as in COMMOT
             self.assertTrue(json.loads((root/'pure'/'manifest.json').read_text())['budget_feasible'])
 
 

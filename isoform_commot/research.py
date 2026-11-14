@@ -18,14 +18,166 @@ def check(condition, message):
         raise ValueError(message)
 
 
-def backend():
+def _official_unot():
     check(TARGET.is_file(), 'Run python fetch_solver.py first')
     check(hashlib.sha256(TARGET.read_bytes()).hexdigest() == SHA256,
           'Official solver checksum mismatch')
     spec = importlib.util.spec_from_file_location('official_unot', TARGET)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return module.unot_sinkhorn_l1_dense
+    return module
+
+
+def backend():
+    return _official_unot().unot_sinkhorn_l1_dense
+
+
+def backend_sparse():
+    return _official_unot().unot_sinkhorn_l1_sparse
+
+
+def sparse_mass_check(row, col, c, t, aa, bb, eps, rho, tol=1e-7):
+    """Mass balance for the sparse solver, which returns T but not the duals.
+
+    The official iteration ends with a g-update, so column constraints hold exactly:
+    nu = b - T^T 1. At the optimum T_ij = mu_i nu_j exp((2 rho - C_ij)/eps), so mu is
+    recovered from T and nu; then |T 1 + mu - a| < tol is the same row check as the
+    dense solver's, and every stored entry must have that multiplicative form.
+    All quantities are on the normalized scale (budgets divided by the common scale).
+
+    nu is only resolvable where the unused receptor mass exceeds rounding error; with a
+    large rho/eps it can fall far below double precision (e.g. 1e-88), where b - T^T 1 is
+    noise. Rows are checked through resolvable columns only; the numbers of checked rows
+    and columns are reported. Feasibility (no budget exceeded) is checked everywhere.
+    """
+    check(((2*rho - c.min()) / eps) < 700, 'exp((2 rho - C)/eps) overflows; use a smaller rho/eps')
+    E = np.exp((2*rho - c) / eps)
+    rowsum = np.bincount(row, weights=t, minlength=len(aa))
+    colsum = np.bincount(col, weights=t, minlength=len(bb))
+    nu = bb - colsum
+    check(nu.min() > -tol and (aa - rowsum).min() > -tol, 'Budget exceeded: solver has not converged')
+    ok_col = nu > 1e-9 * bb
+    use = ok_col[col]
+    num = np.bincount(row, weights=np.where(use, t, 0.0), minlength=len(aa))
+    denom = np.bincount(row, weights=np.where(use, nu[col] * E, 0.0), minlength=len(aa))
+    ok_row = denom > 0
+    mu = np.zeros(len(aa))
+    mu[ok_row] = num[ok_row] / denom[ok_row]
+    row_error = float(np.max(np.abs(rowsum + mu - aa)[ok_row])) if ok_row.any() else 0.0
+    entries = ok_row[row] & use
+    shape_error = float(np.max(np.abs(t - mu[row] * nu[col] * E)[entries])) if entries.any() else 0.0
+    check(row_error < tol and shape_error < tol,
+          f'Solver has not converged to the mass constraints (row {row_error:.2e}, form {shape_error:.2e})')
+    return dict(row_error=row_error, shape_error=shape_error, rows_checked=int(ok_row.sum()),
+                cols_checked=int(ok_col.sum()), rows=len(aa), cols=len(bb))
+
+
+KKT_LADDER = (1e-7, 1e-9, 1e-11, 1e-13, 1e-15)
+
+
+def sparse_kkt_check(row, col, c, t, aa, bb, eps, rho, tol=1e-7, shape_tol=1e-8):
+    """Optimality check covering every row and column, at any rho/eps (complements sparse_mass_check).
+
+    The solver returns T_ij = exp((f_i + g_j - C_ij)/eps); the unused masses are
+    mu_i = exp((f_i - rho)/eps) and nu_j = exp((g_j - rho)/eps). So log T + C/eps = phi_i + psi_j
+    with phi = f/eps, psi = g/eps. phi and psi are recovered along a spanning tree of each
+    connected component of the positive entries, up to one gauge constant gamma per component
+    (phi + gamma, psi - gamma); all other entries test the additive form (shape_error, log scale).
+    T is optimal within tol iff some gamma makes every row |T 1 + mu - a| <= tol and every column
+    |T^T 1 + nu - b| <= tol. Each condition bounds gamma from one or both sides; the check passes
+    if the bounds intersect in every component. Unlike sparse_mass_check, mu and nu need not be
+    resolvable in double precision, so no row or column is skipped. Normalized scale, as there.
+    Also reports kkt_tol, the smallest tolerance in KKT_LADDER that passes.
+    """
+    from scipy import sparse
+    from scipy.sparse.csgraph import breadth_first_order, connected_components
+    row, col, c, t = (np.asarray(v) for v in (row, col, c, t))
+    R, K = len(aa), len(bb)
+    pos = t > 0
+    r, s = row[pos], col[pos]
+    L = np.log(t[pos]) + c[pos] / eps
+    nodes = R + K
+    G = sparse.coo_matrix((np.ones(len(r)), (r, R + s)), shape=(nodes, nodes)).tocsr()
+    ncomp, label = connected_components(G, directed=False)
+    reps = np.unique(label, return_index=True)[1]
+    root = nodes                                     # virtual root joined to one node per component
+    G = sparse.coo_matrix((np.ones(len(r) + ncomp), (np.r_[r, np.full(ncomp, root)], np.r_[R + s, reps])),
+                          shape=(nodes + 1, nodes + 1)).tocsr()
+    order, pred = breadth_first_order(G, root, directed=False, return_predecessors=True)
+    order = order[1:]
+    p = pred[order]
+    tree = p != root
+    rnode = np.where(order < R, order, p)[tree]
+    cnode = np.where(order < R, p, order)[tree] - R
+    keys = r * K + s
+    sorter = np.argsort(keys)
+    where = sorter[np.searchsorted(keys, rnode * K + cnode, sorter=sorter)]
+    check(np.array_equal(keys[where], rnode * K + cnode), 'Spanning-tree edge lookup failed')
+    edge_value = np.zeros(len(order))
+    edge_value[tree] = L[where]
+    value = np.zeros(nodes + 1)
+    for v, u, w, is_edge in zip(order.tolist(), p.tolist(), edge_value.tolist(), tree.tolist()):
+        value[v] = w - value[u] if is_edge else 0.0
+    phi, psi = value[:R], value[R:nodes]
+    shape_error = float(np.max(np.abs(L - phi[r] - psi[s]))) if len(r) else 0.0
+    check(shape_error < shape_tol, f'Transport is not of the form exp((f + g - C)/eps): log error {shape_error:.3g}')
+    delta = aa - np.bincount(row, weights=t, minlength=R)      # = mu at the optimum
+    gap = bb - np.bincount(col, weights=t, minlength=K)        # = nu at the optimum
+    lab_r, lab_c = label[:R], label[R:]
+    m = rho / eps
+
+    def feasible(tol):
+        if delta.min() <= -tol or gap.min() <= -tol:
+            return False
+        lower, upper = np.full(ncomp, -np.inf), np.full(ncomp, np.inf)
+        np.minimum.at(upper, lab_r, np.log(delta + tol) - phi + m)            # mu <= delta + tol
+        np.maximum.at(lower, lab_c, psi - m - np.log(gap + tol))              # nu <= gap + tol
+        hi = delta > tol                                                      # mu >= delta - tol
+        np.maximum.at(lower, lab_r[hi], np.log(delta[hi] - tol) - phi[hi] + m)
+        hi = gap > tol                                                        # nu >= gap - tol
+        np.minimum.at(upper, lab_c[hi], psi[hi] - m - np.log(gap[hi] - tol))
+        return bool((lower <= upper).all())
+
+    check(feasible(tol), f'Marginal conditions fail for every gauge at tol {tol:g}: solver has not converged')
+    passed = [x for x in KKT_LADDER if feasible(x)]
+    return dict(kkt_shape_error=shape_error, kkt_components=int(ncomp), kkt_rows=R, kkt_cols=K,
+                kkt_tol=float(min(passed)))
+
+
+def solve_sparse(row, col, c, a, b, eps=0.2, rho=1.0, nitermax=50000, stopthr=1e-11):
+    """Sparse counterpart of solve(): only the stored (row, col) entries are allowed.
+
+    Zero costs must be stored explicitly. Returns transport on the same entries, in the
+    original budget units, plus the mass-check diagnostics.
+    """
+    from scipy import sparse
+    a, b = np.asarray(a, float), np.asarray(b, float)
+    row, col, c = np.asarray(row, np.int64), np.asarray(col, np.int64), np.asarray(c, float)
+    check(a.ndim == b.ndim == 1 and row.shape == col.shape == c.shape, 'Wrong dimensions')
+    check(np.isfinite(a).all() and np.isfinite(b).all() and (a >= 0).all() and (b >= 0).all(),
+          'Invalid expression budgets')
+    check(np.isfinite([eps, rho]).all() and min(eps, rho) > 0, 'Invalid OT parameters')
+    check(len(c) == 0 or (np.isfinite(c).all() and (c >= 0).all()), 'Invalid costs')
+    check(len(row) == 0 or (row.min() >= 0 and row.max() < len(a) and col.min() >= 0 and col.max() < len(b)),
+          'Entry outside the budget vectors')
+    check(len(np.unique(row * len(b) + col)) == len(row), 'Duplicate entries')
+    T = np.zeros(len(c))
+    scale = max(float(a.sum()), float(b.sum()))
+    keep = (a[row] > 0) & (b[col] > 0) if len(c) else np.zeros(0, bool)
+    if not scale or not keep.any():
+        return T, dict(entries=0)
+    ia, r = np.unique(row[keep], return_inverse=True)
+    ib, s = np.unique(col[keep], return_inverse=True)
+    aa, bb = a[ia] / scale, b[ib] / scale
+    C = sparse.coo_matrix((c[keep], (r, s)), shape=(len(ia), len(ib)))
+    K = backend_sparse()(aa, bb, C, eps, rho, nitermax=nitermax, stopthr=stopthr)
+    check(np.array_equal(K.row, C.row) and np.array_equal(K.col, C.col), 'Solver changed the entry order')
+    check(np.isfinite(K.data).all(), 'Nonfinite transport')
+    info = sparse_mass_check(r, s, c[keep], K.data, aa, bb, eps, rho)
+    info.update(sparse_kkt_check(r, s, c[keep], K.data, aa, bb, eps, rho))
+    T[keep] = K.data * scale
+    info.update(entries=int(keep.sum()), active_rows=len(ia), active_cols=len(ib))
+    return T, info
 
 
 def solve(C, a, b, eps=0.2, rho=1.0):

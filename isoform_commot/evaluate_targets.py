@@ -35,6 +35,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import rankdata
 
+import plans
 from research import check
 
 SCSEQCOMM_COMMIT = '95c9bb251cd94eb8d38db41086e71c1bf46f625a'
@@ -110,14 +111,25 @@ def load_db(folder):
 
 
 def target_sets(receptors, symbol, receptor_tf, tf_tg, detected, panel_genes, top_tf,
-                min_targets=5, min_detected=0.05):
-    """receptors: LR symbols; symbol: LR symbol -> data symbol; detected: data symbol -> fraction."""
+                min_targets=5, min_detected=0.05, subunits=None, link_rule='any'):
+    """receptors: LR symbols; symbol: LR symbol -> data symbol; detected: data symbol -> fraction.
+
+    Complex receptors (subunits: entity -> member symbols): the TFs linked to any subunit,
+    each TF weighted by its highest weight over the subunits, top-k of those. link_rule 'all'
+    additionally requires every subunit to have a receptor->TF link (stage-2 plan, item 7).
+    """
+    check(link_rule in ('any', 'all'), 'link_rule must be any or all')
+    subunits = subunits or {}
     targets_of = tf_tg.groupby('tf').target.apply(set).to_dict()
     weighted = 'weight' in receptor_tf and receptor_tf.weight.notna().any()
     rows = []
     for receptor in receptors:
-        data_symbol = symbol[receptor]
-        links = receptor_tf[receptor_tf.receptor == data_symbol]
+        members = [symbol[m] for m in subunits.get(receptor, [receptor])]
+        data_symbol = ';'.join(members)
+        links = receptor_tf[receptor_tf.receptor.isin(members)]
+        all_linked = set(members) <= set(links.receptor)
+        if link_rule == 'all' and not all_linked:
+            links = links.iloc[:0]
         if weighted:
             ranked = links.groupby('tf').weight.max().reset_index().sort_values(['weight', 'tf'],
                                                                                  ascending=[False, True])
@@ -126,7 +138,8 @@ def target_sets(receptors, symbol, receptor_tf, tf_tg, detected, panel_genes, to
             tfs = sorted(links.tf.unique())
         candidates = set().union(*[targets_of.get(tf, set()) for tf in tfs]) if tfs else set()
         kept = sorted(g for g in candidates - panel_genes if detected.get(g, 0) >= min_detected)
-        status = ('no_receptor_tf_link' if not len(links) else
+        status = (('not_all_subunits_linked' if link_rule == 'all' and len(members) > 1 and not all_linked
+                   else 'no_receptor_tf_link') if not len(links) else
                   'too_few_targets' if len(kept) < min_targets else 'evaluated')
         rows.append(dict(receptor=receptor, data_symbol=data_symbol, top_tf=top_tf if weighted else 'all',
                          n_linked_tfs=int(links.tf.nunique()), tfs=';'.join(tfs),
@@ -169,18 +182,6 @@ def target_scores(X, genes, targets, kind):
 
 
 # ------------------------------------------------------------------ evaluation
-def received_signal(T, ligands, receptors, n, pairs):
-    li, ri = {v: i for i, v in enumerate(ligands)}, {v: i for i, v in enumerate(receptors)}
-    per_pair = {}
-    for row in pairs.itertuples(index=False):
-        i, j = li[row.ligand], ri[row.receptor]
-        per_pair[(row.ligand, row.receptor)] = T[i*n:(i+1)*n, j*n:(j+1)*n].sum(axis=0)
-    per_receptor = {}
-    for (ligand, receptor), signal in per_pair.items():
-        per_receptor[receptor] = per_receptor.get(receptor, 0) + signal
-    return per_pair, per_receptor
-
-
 def load_results(folder, input_dir):
     folder = Path(folder)
     manifest = json.loads((folder/'manifest.json').read_text())
@@ -220,13 +221,19 @@ def evaluate(args):
     receptor_tf, tf_tg, db_meta = load_db(args.db)
     results = [(Path(r),) + load_results(r, inp) for r in args.results]
     panel = pd.read_csv(inp/'lr.csv', dtype=str)
-    panel_genes = {symbol[g] for g in set(panel.ligand) | set(panel.receptor) if g in symbol}
+    subunits = {}
+    if (inp/'entities.csv').is_file():  # stage 2: complexes listed with their subunits
+        entities = pd.read_csv(inp/'entities.csv', dtype=str)
+        subunits = {r.entity: r.subunits.split(';') for r in entities.itertuples(index=False)}
+    members = lambda e: subunits.get(e, [e])
+    panel_genes = {symbol[g] for e in set(panel.ligand) | set(panel.receptor) for g in members(e) if g in symbol}
     receptors = sorted(set(panel.receptor))
-    missing = [r for r in receptors if r not in symbol]
-    check(not missing, f'Receptors without data symbol: {missing}')
+    missing = [m for r in receptors for m in members(r) if m not in symbol]
+    check(not missing, f'Receptors/subunits without data symbol: {missing}')
 
     sets = pd.concat([target_sets(receptors, symbol, receptor_tf, tf_tg, detected, panel_genes, k,
-                                  args.min_targets, args.min_detected) for k in args.top_tf])
+                                  args.min_targets, args.min_detected, subunits, args.complex_link)
+                      for k in args.top_tf])
     sets = sets.drop_duplicates(['receptor', 'top_tf'])
     primary_k = sets.top_tf.iloc[0]
     scores = {}
@@ -239,11 +246,9 @@ def evaluate(args):
     for folder, manifest, summary, pairs in results:
         refs = {}
         for case in summary.itertuples(index=False):
-            with np.load(folder/f'{case.case}.npz', allow_pickle=False) as z:
-                T = z['T']
-                check(list(z['spots'].astype(str)) == list(spots), f'{folder}/{case.case}: spot order differs')
-                ligands, recs = list(z['ligands'].astype(str)), list(z['receptors'].astype(str))
-            per_pair, per_receptor = received_signal(T, ligands, recs, len(spots), pairs)
+            plan = plans.load(folder/f'{case.case}.npz')   # dense (stage 1) or sparse COO (stage 2)
+            check(list(plan['spots'].astype(str)) == list(spots), f'{folder}/{case.case}: spot order differs')
+            per_pair, per_receptor = plans.received_signal(plan, pairs, len(spots))
             key = (str(folder), case.family, None if pd.isna(case.r0) else float(case.r0))
             units = [('pair', f'{l}->{r}', r, s, sum(pairs.receptor == r)) for (l, r), s in per_pair.items()]
             units += [('receptor', r, r, s, sum(pairs.receptor == r)) for r, s in per_receptor.items()]
@@ -271,8 +276,11 @@ def evaluate(args):
     sets.to_csv(out/'target_sets.csv', index=False)
     metrics.to_csv(out/'case_metrics.csv', index=False)
     main = metrics[(metrics.top_tf.astype(str) == str(primary_k)) & (metrics.target_score == args.target_score[0])]
-    method = (main[main.score_mode == 'no_ppi'].groupby(['results', 'method', 'family', 'r0', 'r0_h', 'level'],
-              dropna=False)[['spearman', 'partial_spearman', 'receptor_only_spearman']].mean().reset_index())
+    keys = ['results', 'method', 'family', 'r0', 'r0_h', 'level']
+    grouped = main[main.score_mode == 'no_ppi'].groupby(keys, dropna=False)
+    method = grouped[['spearman', 'partial_spearman', 'receptor_only_spearman']].mean().reset_index()
+    counts = grouped.agg(n_units=('unit', 'size'), n_partial_defined=('partial_spearman', 'count')).reset_index()
+    method = method.merge(counts, on=keys, how='left')
     method.to_csv(out/'method_summary.csv', index=False)
     comparison, permutation = ppi_tables(main)
     comparison.to_csv(out/'ppi_comparison.csv', index=False)
@@ -282,7 +290,7 @@ def evaluate(args):
         gene_export_sha256=export['gene_expression_sha256'], database=db_meta,
         results=[str(r[0]) for r in results], primary_top_tf=primary_k, top_tf=args.top_tf,
         target_score=args.target_score, min_targets=args.min_targets, min_detected=args.min_detected,
-        covariate=args.covariate, receptors_evaluated=sorted(set(metrics.receptor)),
+        covariate=args.covariate, complex_link=args.complex_link, receptors_evaluated=sorted(set(metrics.receptor)),
         receptors_not_evaluated=sets[sets.status != 'evaluated'][['receptor', 'top_tf', 'status']].to_dict('records'),
         notes=['Effect sizes only; spatial autocorrelation invalidates naive p-values.',
                'rank_corr_vs_no_ppi == 1 means PPI only rescaled that unit: Spearman cannot change.',
@@ -384,6 +392,8 @@ def parser():
     r.add_argument('--min-targets', type=int, default=5)
     r.add_argument('--min-detected', type=float, default=0.05)
     r.add_argument('--covariate', help='column of cell_meta.csv, e.g. a cell-type annotation')
+    r.add_argument('--complex-link', choices=['any', 'all'], default='any',
+                   help='complex receptors: TF link needed for any subunit (default) or all subunits')
     return p
 
 
