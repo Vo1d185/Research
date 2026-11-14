@@ -1,0 +1,22 @@
+{
+  "status": "complete",
+  "test_file": "/home/liu/Research/isoform_commot/models/PLM-interact-src/data/test/mouse.ppi.qrels.seq.test.csv",
+  "test_file_sha256": "b78cf5f216896721dfddedb3ba1a4405cec87f3da501056df24024988c1a1658",
+  "n": 2000,
+  "positives": 179,
+  "seed": 2,
+  "aupr": 0.8377357371721189,
+  "auroc": 0.955156936915379,
+  "note": "Compare with the cross-species result reported in the PLM-interact paper for the same species; a large gap suggests a wrong base model, checkpoint or environment.",
+  "checkpoint": "/home/liu/Research/isoform_commot/models/plm_650m_humanV12/pytorch_model.bin",
+  "checkpoint_sha256": "92565937d65a9b91a4e897c99653c972b99cfe37067eb42d9e783af688350547",
+  "checkpoint_name": "danliu1226/PLM-interact-650M-humanV12",
+  "checkpoint_revision": "2d0e7fb3deef94efa3f217daccc79092a6a42ceb",
+  "base_model": "models/esm2_t33_650M_UR50D",
+  "python": "3.10.22",
+  "torch": "2.4.1+cu121",
+  "transformers": "4.40.1",
+  "device": "cuda:0",
+  "embedding_size": 1280,
+  "cuda": "12.1"
+}

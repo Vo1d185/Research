@@ -1,0 +1,7 @@
+checkpoint,transform,candidate,auroc,n_first,n_ligands,direction_consistent,n_panel_cognate,pass_auroc,pass_rank,pass_direction,pass_all
+V11,raw,False,0.79585326953748,4,15,4,8,False,False,False,False
+V11,double_centered,True,0.8414673046251994,6,15,2,8,False,False,False,False
+V12,raw,False,0.8070175438596491,5,15,5,8,False,False,False,False
+V12,double_centered,True,0.8185007974481658,4,15,6,8,False,False,False,False
+LeakageFree,raw,True,0.5250398724082934,2,15,6,8,False,False,False,False
+LeakageFree,double_centered,True,0.5390749601275917,0,15,4,8,False,False,False,False
