@@ -11,7 +11,7 @@ from scipy import sparse
 
 import plans
 import stage2
-from research import backend_sparse, solve, solve_sparse, sparse_kkt_check, sparse_mass_check
+from research import backend_sparse, counted, solve, solve_sparse, sparse_kkt_check, sparse_mass_check
 
 
 def hex_slide(rows=6, cols=12):
@@ -49,6 +49,9 @@ class SparseSolver(unittest.TestCase):
             self.assertLessEqual(np.abs(D - Td).max(), 1e-10 * Td.max())
             self.assertEqual(Td[~np.isfinite(C)].sum(), 0)
             self.assertEqual(info['kkt_rows'], info['active_rows'])     # every row and column covered
+            self.assertFalse(info['cap_reached'])
+            self.assertLess(0, info['niter'])
+            self.assertLessEqual(info['niter'], info['nitermax'])
             self.assertLessEqual(info['kkt_tol'], 1e-9)
 
     def test_mass_check_detects_wrong_plans(self):
@@ -92,7 +95,8 @@ class SparseSolver(unittest.TestCase):
         self.assertEqual(info['kkt_rows'], 40)
         s = max(a.sum(), b.sum())
         coo = sparse.coo_matrix((C[r, c], (r, c)), shape=C.shape)
-        early = backend_sparse()(a/s, b/s, coo, 0.1, 10.0, nitermax=3, stopthr=1e-11)   # not converged
+        early, iterations = counted(backend_sparse(), a/s, b/s, coo, 0.1, 10.0, nitermax=3, stopthr=1e-11)
+        self.assertEqual(iterations, [4])                           # cap reached: nitermax + 1
         with self.assertRaisesRegex(ValueError, 'not converged'):
             sparse_kkt_check(early.row, early.col, early.data * 0 + C[early.row, early.col], early.data,
                              a/s, b/s, 0.1, 10.0)
@@ -107,7 +111,8 @@ class SparseSolver(unittest.TestCase):
 class CommotPureCollective(unittest.TestCase):
     def test_cot_sparse_equals_combine_with_weights_1000(self):
         import commot_baseline
-        combine, collective = commot_baseline.official_cot()
+        module = commot_baseline.official_cot()
+        combine, collective = module.cot_combine_sparse, module.cot_sparse
         rng = np.random.default_rng(7)
         xy = rng.uniform(0, 5, (15, 2))
         M = np.hypot(*(xy[:, None] - xy[None]).transpose(2, 0, 1))
@@ -118,6 +123,12 @@ class CommotPureCollective(unittest.TestCase):
         P2 = combine(S, D, A, M, cut, eps_p=0.1, rho=10.0, weights=(1.0, 0.0, 0.0, 0.0), nitermax=50000,
                      stopthr=1e-11)
         self.assertEqual(set(P1), set(P2))
+        P3, iterations = commot_baseline.solve_counted(module, 'cot_sparse', S, D, A, M, cut, eps_p=0.1, rho=10.0,
+                                                       nitermax=50000, stopthr=1e-11)
+        self.assertEqual(len(iterations), 1)                        # one collective solve, counted
+        self.assertIs(module.unot.__name__, 'unot')                 # original restored
+        for key in P1:
+            np.testing.assert_array_equal(P1[key].toarray(), P3[key].toarray())   # counting changes nothing
         for key in P1:
             np.testing.assert_array_equal(P1[key].toarray(), P2[key].toarray())
 

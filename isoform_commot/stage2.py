@@ -370,6 +370,7 @@ def run(args):
                           pair_receptor=lr.receptor.to_numpy(str), pair_type=lr.type.to_numpy(str))
         total = float(T.sum())
         rec = dict(case=name, family='r0_raw', r0=float(r0), r0_um=float(r0), score_mode='no_ppi',
+                   niter=info.get('niter'), nitermax=info.get('nitermax'), cap_reached=info.get('cap_reached'),
                    eps=cfg['eps'], rho=cfg['rho'], diffusion_cutoff_um=cfg['diffusion_cutoff_um'],
                    total_T=total, frac_ligand=total/float(a.sum()), frac_receptor=total/float(b.sum()),
                    unused_ligand=float(a.sum() - total), unused_receptor=float(b.sum() - total),
@@ -380,7 +381,7 @@ def run(args):
             rec[f'total_T_{kind}'] = float(T[m].sum())
             rec[f'mean_distance_{kind}'] = float((T[m]*d[m]).sum()/T[m].sum()) if T[m].sum() else None
         records.append(rec)
-        print(f'{name}: r0={r0:g} um, {len(T):,} entries, total_T={total:.4g}, {seconds:.0f}s', flush=True)
+        print(f'{name}: r0={r0:g} um, {len(T):,} entries, {seconds:.0f}s, {info.get("niter")} iterations', flush=True)
     pd.DataFrame(records).to_csv(out/'summary.csv', index=False)
     from fetch_solver import SHA256, URL
     write_json(out/'manifest.json', dict(status='complete', method='research sparse (stage 2)', launch=launch, config=cfg,
@@ -536,6 +537,7 @@ def report(args):
             total_T_diffusion=get('total_T_diffusion'), mean_distance_um=case.mean_distance,
             check_passed=case.check_passed, kkt_tol=get('check_kkt_tol'), rows_checked=get('check_rows_checked'),
             rows=get('check_rows'), max_ligand_budget_excess=get('max_ligand_budget_excess'),
+            niter=get('niter'), cap_reached=get('cap_reached'), solves_at_cap=get('solves_at_cap'),
             solve_seconds=case.solve_seconds, receptors_defined=int(mc.partial_spearman.notna().sum()),
             receptors_common=len(mm), mean_partial_spearman=mm.partial_spearman.mean(),
             mean_spearman=mm.spearman.mean(), mean_receptor_only_spearman=mm.receptor_only_spearman.mean(),

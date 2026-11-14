@@ -1,10 +1,13 @@
 """Experimental costs in the official collective L1-UNOT core (not full COMMOT)."""
 import argparse
+import contextlib
 import csv
 import hashlib
 import importlib.util
+import io
 import json
 from pathlib import Path
+import re
 
 import numpy as np
 import pandas as pd
@@ -93,6 +96,19 @@ def sparse_mass_check(row, col, c, t, aa, bb, eps, rho, tol=1e-7):
 
 
 KKT_LADDER = (1e-7, 1e-9, 1e-11, 1e-13, 1e-15)
+ITERATIONS = re.compile(r'Number of iterations in unot: (\d+)')
+
+
+def counted(function, /, *args, **kwargs):
+    """Call a pinned COMMOT solver with verbose=True and return (result, [iteration counts]).
+
+    verbose only adds the final print 'Number of iterations in unot: N' (N > nitermax means the
+    iteration cap was reached); the computation is unchanged. Empty problems print nothing.
+    """
+    buffer = io.StringIO()
+    with contextlib.redirect_stdout(buffer):
+        result = function(*args, **dict(kwargs, verbose=True))
+    return result, [int(v) for v in ITERATIONS.findall(buffer.getvalue())]
 
 
 def sparse_kkt_check(row, col, c, t, aa, bb, eps, rho, tol=1e-7, shape_tol=1e-8):
@@ -190,13 +206,15 @@ def solve_sparse(row, col, c, a, b, eps=0.2, rho=1.0, nitermax=50000, stopthr=1e
     ib, s = np.unique(col[keep], return_inverse=True)
     aa, bb = a[ia] / scale, b[ib] / scale
     C = sparse.coo_matrix((c[keep], (r, s)), shape=(len(ia), len(ib)))
-    K = backend_sparse()(aa, bb, C, eps, rho, nitermax=nitermax, stopthr=stopthr)
+    K, iterations = counted(backend_sparse(), aa, bb, C, eps, rho, nitermax=nitermax, stopthr=stopthr)
+    check(len(iterations) == 1, 'Iteration count not reported by the solver')
     check(np.array_equal(K.row, C.row) and np.array_equal(K.col, C.col), 'Solver changed the entry order')
     check(np.isfinite(K.data).all(), 'Nonfinite transport')
     info = sparse_mass_check(r, s, c[keep], K.data, aa, bb, eps, rho)
     info.update(sparse_kkt_check(r, s, c[keep], K.data, aa, bb, eps, rho))
     T[keep] = K.data * scale
-    info.update(entries=int(keep.sum()), active_rows=len(ia), active_cols=len(ib))
+    info.update(entries=int(keep.sum()), active_rows=len(ia), active_cols=len(ib), niter=iterations[0],
+                nitermax=int(nitermax), cap_reached=bool(iterations[0] > nitermax))
     return T, info
 
 

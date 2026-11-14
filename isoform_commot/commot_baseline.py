@@ -30,7 +30,7 @@ from scipy.spatial.distance import cdist
 
 from fetch_solver import COMMIT, COT_SHA256, COT_URL, PACKAGE, SHA256, URL, VENDOR
 import plans
-from research import check, launch_info, numeric_table, sparse_kkt_check, sparse_mass_check
+from research import check, counted, launch_info, numeric_table, sparse_kkt_check, sparse_mass_check
 
 
 def official_cot():
@@ -41,8 +41,23 @@ def official_cot():
     matplotlib.use('Agg')  # the official _unot.py imports pyplot
     if str(VENDOR) not in sys.path:
         sys.path.insert(0, str(VENDOR))
-    module = importlib.import_module('commot_ot._cot')
-    return module.cot_combine_sparse, module.cot_sparse
+    return importlib.import_module('commot_ot._cot')
+
+
+def solve_counted(module, function, *args, **kwargs):
+    """Run a COMMOT _cot function while recording the iteration count of every unot() call it makes
+    (research.counted: verbose=True only adds the final print). Returns (plans, iteration counts)."""
+    original, iterations = module.unot, []
+
+    def unot(*a, **k):
+        result, found = counted(original, *a, **k)
+        iterations.extend(found)
+        return result
+    module.unot = unot
+    try:
+        return getattr(module, function)(*args, **kwargs), iterations
+    finally:
+        module.unot = original
 
 
 def run(folder, output, dis_thr_h=(3.0, 5.0, 10.0), eps=0.1, rho=10.0,
@@ -79,7 +94,7 @@ def run(folder, output, dis_thr_h=(3.0, 5.0, 10.0), eps=0.1, rho=10.0,
     for row in lr.itertuples(index=False):
         A[ligands.index(row.ligand), receptors.index(row.receptor)] = 1.0
     a, b = S.T.reshape(-1), R.T.reshape(-1)
-    combine, collective = official_cot()
+    module = official_cot()
     max_amount = max(a.sum(), b.sum())   # COMMOT cot_sparse: budgets / max(S.sum(), D.sum())
     cutoffs = [(float(c), float(c)/h) for c in sorted(set(dis_thr_um))] if dis_thr_um else \
               [(m*h, float(m)) for m in sorted(set(dis_thr_h))]
@@ -90,9 +105,12 @@ def run(folder, output, dis_thr_h=(3.0, 5.0, 10.0), eps=0.1, rho=10.0,
         cut = dis_thr*np.ones_like(A)
         start = time.time()
         if pure:
-            P = collective(S, R, A, D, cut, eps_p=eps, rho=rho, nitermax=nitermax, stopthr=stopthr)
+            P, iterations = solve_counted(module, 'cot_sparse', S, R, A, D, cut, eps_p=eps, rho=rho,
+                                          nitermax=nitermax, stopthr=stopthr)
         else:
-            P = combine(S, R, A, D, cut, eps_p=eps, rho=rho, weights=weights, nitermax=nitermax, stopthr=stopthr)
+            P, iterations = solve_counted(module, 'cot_combine_sparse', S, R, A, D, cut, eps_p=eps, rho=rho,
+                                          weights=weights, nitermax=nitermax, stopthr=stopthr)
+        check(len(iterations) > 0, 'No iteration count recorded')
         seconds = time.time() - start
         rows, cols, Ts, Cs = [], [], [], []
         for (i, j), plan in P.items():
@@ -133,7 +151,9 @@ def run(folder, output, dis_thr_h=(3.0, 5.0, 10.0), eps=0.1, rho=10.0,
             max_receptor_budget_excess=excess_r, entries=len(T),
             mean_distance=float((T*C).sum()/total) if total else None, eps=eps, rho=rho,
             scheme='collective' if pure else 'mixture', weights=' '.join(f'{w:g}' for w in weights),
-            nitermax=nitermax, stopthr=stopthr, cost_scale=cost_scale, frac_ligand=total/float(a.sum()),
+            nitermax=nitermax, stopthr=stopthr, solves=len(iterations), niter=max(iterations),
+            solves_at_cap=int(sum(i > nitermax for i in iterations)),
+            cap_reached=bool(max(iterations) > nitermax), cost_scale=cost_scale, frac_ligand=total/float(a.sum()),
             frac_receptor=total/float(b.sum()), solve_seconds=round(seconds, 1), **checked))
         print(f'COMMOT dis_thr={dis_thr:g} ({multiple:g}h) total_T={total:.4g} {seconds:.0f}s', flush=True)
     pd.DataFrame(records).to_csv(output/'summary.csv', index=False)

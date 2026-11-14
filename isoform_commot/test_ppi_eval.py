@@ -334,6 +334,8 @@ class Units(unittest.TestCase):
             manifest = json.loads((root/'pure'/'manifest.json').read_text())
             self.assertTrue(manifest['budget_feasible'])
             self.assertEqual(manifest['launch']['recorded'], 'at launch')
+            self.assertEqual(pure.solves, 1)
+            self.assertGreater(pd.read_csv(root/'mix'/'summary.csv').solves.iloc[0], 1)   # four setups
 
 
 if __name__ == '__main__':
