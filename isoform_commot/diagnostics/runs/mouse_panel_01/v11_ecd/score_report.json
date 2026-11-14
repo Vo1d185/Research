@@ -1,0 +1,68 @@
+{
+  "status": "complete",
+  "score_provenance": "PLM-interact danliu1226/PLM-interact-650M-humanV11@e86e392dec13dd0c23252c94947b04a7a9821b0e (pytorch_model.bin sha256 68c50e1dc84ee3cb); mouse UniProt canonical sequences, region=extracellular; mean of both input orders; no truncation; model prediction, not measured affinity",
+  "model": {
+    "status": "complete",
+    "input": "/home/liu/Research/isoform_commot/plm_jobs_01_ecd/plm_input.csv",
+    "input_sha256": "402cf988f41b0ff00619f9dfefc59c13b985ce408613951b9e12b8449cafd6ee",
+    "n_pairs": 96,
+    "started_utc": "2026-11-14T06:06:47+00:00",
+    "finished_utc": "2026-11-14T06:06:57+00:00",
+    "truncation": "disabled; token count verified per pair",
+    "max_tokens": 1603,
+    "scored_beyond_max_tokens": [
+      "SEMA5A__PLXNB3__LR",
+      "SEMA5A__PLXNB3__RL",
+      "NLGN1__PLXNB3__LR",
+      "NLGN1__PLXNB3__RL",
+      "NLGN1__PTPRD__LR",
+      "NLGN1__PTPRD__RL",
+      "SEMA5A__PTPRD__LR",
+      "SEMA5A__PTPRD__RL"
+    ],
+    "output_sha256": "380383d821239f256043a21be15e6a8f2631a72e530471cba4d8057dd80a46db",
+    "checkpoint": "/home/liu/Research/isoform_commot/models/plm_650m_humanV11/pytorch_model.bin",
+    "checkpoint_sha256": "68c50e1dc84ee3cb6c08a7c83eefb382a29a3c1237fd577986854f746c63d665",
+    "checkpoint_name": "danliu1226/PLM-interact-650M-humanV11",
+    "checkpoint_revision": "e86e392dec13dd0c23252c94947b04a7a9821b0e",
+    "base_model": "models/esm2_t33_650M_UR50D",
+    "python": "3.10.22",
+    "torch": "2.4.1+cu121",
+    "transformers": "4.40.1",
+    "device": "cuda:0",
+    "embedding_size": 1280,
+    "cuda": "12.1"
+  },
+  "jobs_sha256": "402cf988f41b0ff00619f9dfefc59c13b985ce408613951b9e12b8449cafd6ee",
+  "ppi_sha256": "8eebb1d339346cec8de75aae82e5f60f47a18aad584f07cf6e867da3198b47f6",
+  "cognate": {
+    "n": 8,
+    "min": 2.59998287219787e-05,
+    "max": 0.33928897976875305,
+    "mean": 0.04301710257675493,
+    "by_type": {
+      "contact": {
+        "min": 2.59998287219787e-05,
+        "mean": 0.0848750415007089,
+        "max": 0.33928897976875305
+      },
+      "diffusion": {
+        "min": 3.190601546521066e-05,
+        "mean": 0.0011591636528009628,
+        "max": 0.0031774835661053
+      }
+    }
+  },
+  "order_asymmetry": {
+    "max": 0.23575488477945328,
+    "mean": 0.009544155180454547
+  },
+  "cognate_vs_unannotated_cross_auroc": 0.615625,
+  "n_unannotated_cross": 40,
+  "jobs_beyond_training_length": 36,
+  "interpretation": [
+    "Scores near 1 for all cognate pairs mean the PPI cost term is ~0 (saturated prior).",
+    "AUROC uses unannotated panel pairs, which are not proven negatives.",
+    "Checkpoints are trained on human PPIs; mouse use is cross-species."
+  ]
+}

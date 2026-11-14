@@ -1,0 +1,32 @@
+{
+  "status": "complete",
+  "input": "/home/liu/Research/isoform_commot/plm_jobs_01_ecd/plm_input.csv",
+  "input_sha256": "402cf988f41b0ff00619f9dfefc59c13b985ce408613951b9e12b8449cafd6ee",
+  "n_pairs": 96,
+  "started_utc": "2026-11-14T06:19:03+00:00",
+  "finished_utc": "2026-11-14T06:19:14+00:00",
+  "truncation": "disabled; token count verified per pair",
+  "max_tokens": 1603,
+  "scored_beyond_max_tokens": [
+    "SEMA5A__PLXNB3__LR",
+    "SEMA5A__PLXNB3__RL",
+    "NLGN1__PLXNB3__LR",
+    "NLGN1__PLXNB3__RL",
+    "NLGN1__PTPRD__LR",
+    "NLGN1__PTPRD__RL",
+    "SEMA5A__PTPRD__LR",
+    "SEMA5A__PTPRD__RL"
+  ],
+  "output_sha256": "38747882887975f6bfef1423e1a1d138818db628d1ac9bd98bac124e1c57d851",
+  "checkpoint": "/home/liu/Research/isoform_commot/models/plm_650m_humanV12/pytorch_model.bin",
+  "checkpoint_sha256": "92565937d65a9b91a4e897c99653c972b99cfe37067eb42d9e783af688350547",
+  "checkpoint_name": "danliu1226/PLM-interact-650M-humanV12",
+  "checkpoint_revision": "2d0e7fb3deef94efa3f217daccc79092a6a42ceb",
+  "base_model": "models/esm2_t33_650M_UR50D",
+  "python": "3.10.22",
+  "torch": "2.4.1+cu121",
+  "transformers": "4.40.1",
+  "device": "cuda:0",
+  "embedding_size": 1280,
+  "cuda": "12.1"
+}

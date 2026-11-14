@@ -1,0 +1,19 @@
+cls,step,pairs,ligands,receptors,pairs_sharing_ligand,pairs_sharing_receptor,pairs_sharing_either,ligands_in_2plus,receptors_in_2plus
+Secreted Signaling,0 all,1280,386,385,1124,1125,1214,230,230
+Secreted Signaling,a single-gene L and R,628,260,250,523,524,586,155,146
+Secreted Signaling,b both detected >=5% spots,23,16,17,11,11,18,4,5
+Secreted Signaling,c1 receptor has TF link,12,10,9,4,5,8,2,2
+Secreted Signaling,c >=5 targets (top-10 TF),8,7,6,2,3,5,1,1
+Secreted Signaling,c sensitivity: own L/R excluded,8,7,6,2,3,5,1,1
+Cell-Cell Contact,0 all,662,295,275,506,505,588,139,118
+Cell-Cell Contact,a single-gene L and R,591,266,244,450,454,518,125,107
+Cell-Cell Contact,b both detected >=5% spots,110,45,59,88,76,95,23,25
+Cell-Cell Contact,c1 receptor has TF link,41,24,25,25,25,37,8,9
+Cell-Cell Contact,c >=5 targets (top-10 TF),14,12,10,3,6,9,1,2
+Cell-Cell Contact,c sensitivity: own L/R excluded,14,12,10,3,6,9,1,2
+both classes,0 all,1942,680,641,1631,1648,1808,369,347
+both classes,a single-gene L and R,1219,526,484,973,987,1109,280,252
+both classes,b both detected >=5% spots,133,61,74,99,87,113,27,28
+both classes,c1 receptor has TF link,53,34,34,29,30,45,10,11
+both classes,c >=5 targets (top-10 TF),22,19,16,5,9,14,2,3
+both classes,c sensitivity: own L/R excluded,22,19,16,5,9,14,2,3

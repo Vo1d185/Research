@@ -1,0 +1,23 @@
+{
+  "status": "complete",
+  "verdict": "fail_all_candidates",
+  "passing_candidates": [],
+  "thresholds": {
+    "auroc_min": 0.85,
+    "first_min": 10,
+    "direction": "all 8 cognate pairs",
+    "clip": 1e-06
+  },
+  "inputs_sha256": {
+    "V11/controls": "d3ccbca4e5ba6af605ace54b8431915f175dbe60cf79712f538e746c4957a08f",
+    "V11/full": "4ae2542f3ff5d24c4015bcad92a662fd6975475fc9eee7aadd4b5dec8c941121",
+    "V11/ecd": "380383d821239f256043a21be15e6a8f2631a72e530471cba4d8057dd80a46db",
+    "V12/controls": "0f3ae628725eea021f3f8683cf06f58ee2672098409e9fc7b1bdadadd04b611b",
+    "V12/full": "054c6d4397c916616f2752799dc37c1d0e2cc3399d61ebf97a7f32cd9af14318",
+    "V12/ecd": "38747882887975f6bfef1423e1a1d138818db628d1ac9bd98bac124e1c57d851",
+    "LeakageFree/controls": "04ae0a75f9277509b556d3484adffabcb729f52656bfa54cf88de80e11fcc814",
+    "LeakageFree/full": "b1e63f572448d8ec8355cd48a5b71a59e60b8335ca53843a1586eac622f53672",
+    "LeakageFree/ecd": "4189e1207efdebd9aed5ca500e27296a96d316973d93ed91cfefc38ab6e068ea"
+  },
+  "note": "Non-candidate rows (V11/V12 raw) are reference only and do not affect the verdict."
+}

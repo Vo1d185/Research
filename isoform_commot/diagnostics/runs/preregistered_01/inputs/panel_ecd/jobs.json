@@ -1,0 +1,39 @@
+{
+  "status": "complete",
+  "proteins_fasta_sha256": "95477c575f2b219603f491c5cfc167b8a87b08abdc6caa6526f928025728836b",
+  "lr_sha256": "03b4f929cff5c9a0ea007c1a5c5af67db0caf29dc171eb3ae9b86daba8996ab5",
+  "n_jobs": 96,
+  "region": "extracellular",
+  "regions_used": {
+    "EFNA5": "mature chain 21-203",
+    "EPHA4": "extracellular 20-547",
+    "EPHA5": "extracellular 27-412",
+    "EPHA7": "extracellular 28-555",
+    "FGF14": "mature chain 1-247",
+    "FGFR2": "extracellular 22-377",
+    "IL1RAPL1": "extracellular 25-357",
+    "NEGR1": "mature chain 32-318",
+    "NLGN1": "extracellular 46-697",
+    "NRXN1": "extracellular (signal-to-TM) 47-392",
+    "PLXNB3": "extracellular 37-1245",
+    "PTPRD": "extracellular 21-1266",
+    "SEMA5A": "extracellular 22-971"
+  },
+  "n_cognate_pairs": 8,
+  "n_cross_pairs": 40,
+  "cross_pairs_in_lr_database": 8,
+  "max_tokens": 2199,
+  "jobs_over_official_1603_tokens": [
+    "SEMA5A__PLXNB3__LR",
+    "SEMA5A__PLXNB3__RL",
+    "NLGN1__PLXNB3__LR",
+    "NLGN1__PLXNB3__RL",
+    "NLGN1__PTPRD__LR",
+    "NLGN1__PTPRD__RL",
+    "SEMA5A__PTPRD__LR",
+    "SEMA5A__PTPRD__RL"
+  ],
+  "jobs_beyond_training_length": 36,
+  "plm_input_sha256": "402cf988f41b0ff00619f9dfefc59c13b985ce408613951b9e12b8449cafd6ee",
+  "note": "panel_cross pairs are NOT negatives: unannotated, not proven non-interacting; they only check whether cognate pairs score higher."
+}

@@ -1,0 +1,937 @@
+ligand,receptor,annotation,pathway_name,evidence,cccvelo_type,cccvelo_origin,orientation,relation,step_b,step_c
+App,Cd74,Cell-Cell Contact,APP,PMID: 19849849,contact,stMLnet,same,agree,False,False
+Entpd1,Adora1,Cell-Cell Contact,CD39,PMID: 21677139,contact,stMLnet,same,agree,False,False
+Entpd1,Adora2a,Cell-Cell Contact,CD39,PMID: 21677139,contact,stMLnet,same,agree,False,False
+Entpd1,Adora2b,Cell-Cell Contact,CD39,PMID: 21677139,contact,stMLnet,same,agree,False,False
+Entpd1,Adora3,Cell-Cell Contact,CD39,uniprot,contact,stMLnet,same,agree,False,False
+Ptprc,Cd22,Cell-Cell Contact,CD45,PMID: 12115612,contact,stMLnet,same,agree,False,False
+Ptprc,Mrc1,Cell-Cell Contact,CD45,PMID: 27601670; PMID: 10575006,contact,stMLnet,same,agree,False,False
+Cdh1,Klrg1,Cell-Cell Contact,CDH1,PMID: 19604491,contact,stMLnet,same,agree,False,False
+Efna2,Epha1,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna2,Epha2,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna2,Epha4,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna2,Epha5,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna2,Epha7,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna2,Epha8,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna3,Epha1,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna3,Epha2,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna3,Epha4,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna3,Epha5,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna3,Epha7,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna3,Epha8,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna5,Epha1,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna5,Epha2,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna5,Epha4,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,True,False
+Efna5,Epha5,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,True,False
+Efna5,Epha7,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,True,False
+Efna5,Epha8,Cell-Cell Contact,EPHA,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efna5,Ephb2,Cell-Cell Contact,EPHA,PMID:15107857; PMID: 15114347,contact,stMLnet,same,agree,True,False
+Efnb1,Epha4,Cell-Cell Contact,EPHB,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efnb1,Ephb1,Cell-Cell Contact,EPHB,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efnb1,Ephb2,Cell-Cell Contact,EPHB,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efnb1,Ephb3,Cell-Cell Contact,EPHB,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Efnb1,Ephb4,Cell-Cell Contact,EPHB,PMID: 15114347,contact,stMLnet,same,agree,False,False
+Nectin3,Nectin2,Cell-Cell Contact,NECTIN,PMID: 23027581,contact,stMLnet,same,agree,False,False
+Dlk1,Notch1,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dlk1,Notch2,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dlk1,Notch3,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dlk1,Notch4,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll1,Notch1,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll1,Notch2,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll1,Notch3,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll1,Notch4,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll3,Notch1,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll3,Notch2,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll3,Notch3,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll3,Notch4,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll4,Notch1,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll4,Notch2,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll4,Notch3,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Dll4,Notch4,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Jag1,Notch1,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Jag1,Notch2,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Jag1,Notch3,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Jag1,Notch4,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Jag2,Notch1,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Jag2,Notch2,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Jag2,Notch3,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Jag2,Notch4,Cell-Cell Contact,NOTCH,PMID: 22353464,contact,stMLnet,same,agree,False,False
+Sele,Cd44,Cell-Cell Contact,SELE,PMC4571854,contact,stMLnet,same,agree,False,False
+Sema4g,Plxnb2,Cell-Cell Contact,SEMA4,PMID: 27533782,contact,stMLnet,same,agree,False,False
+Sema5a,Plxnb3,Cell-Cell Contact,SEMA5,PMID: 27533782,contact,stMLnet,same,agree,False,False
+Sema7a,Plxnc1,Cell-Cell Contact,SEMA7,PMID: 27533782,contact,stMLnet,same,agree,True,False
+Adipoq,Adipor1,Secreted Signaling,ADIPONECTIN,PMID: 21284979,diffusion,stMLnet,same,agree,False,False
+Adipoq,Adipor2,Secreted Signaling,ADIPONECTIN,PMID: 21284979,diffusion,stMLnet,same,agree,False,False
+Agt,Agtr2,Secreted Signaling,AGT,PMID: 20606419,diffusion,stMLnet,same,agree,False,False
+Agt,Mas1,Secreted Signaling,AGT,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Angpt1,Tek,Secreted Signaling,ANGPT,PMID: 20651738,diffusion,stMLnet,same,agree,False,False
+Angpt2,Tek,Secreted Signaling,ANGPT,PMID: 20651738,diffusion,stMLnet,same,agree,False,False
+Angptl2,Tlr4,Secreted Signaling,ANGPTL,PMID: 24478758,diffusion,stMLnet,same,agree,False,False
+Angptl4,Cdh11,Secreted Signaling,ANGPTL,PMID: 30049845,diffusion,stMLnet,same,agree,False,False
+Angptl4,Cdh5,Secreted Signaling,ANGPTL,PMID: 30049845,diffusion,stMLnet,same,agree,False,False
+Angptl4,Sdc1,Secreted Signaling,ANGPTL,PMID: 29017031,diffusion,stMLnet,same,agree,False,False
+Angptl4,Sdc2,Secreted Signaling,ANGPTL,PMID: 29017031,diffusion,stMLnet,same,agree,False,False
+Angptl4,Sdc3,Secreted Signaling,ANGPTL,PMID: 29017031,diffusion,stMLnet,same,agree,False,False
+Angptl4,Sdc4,Secreted Signaling,ANGPTL,PMID: 29017031,diffusion,stMLnet,same,agree,False,False
+Anxa1,Fpr1,Secreted Signaling,ANNEXIN,PMID: 23230437,diffusion,stMLnet,same,agree,False,False
+Anxa1,Fpr2,Secreted Signaling,ANNEXIN,PMID: 23230437,diffusion,stMLnet,same,agree,False,False
+Anxa1,Fpr3,Secreted Signaling,ANNEXIN,PMID: 33082511,diffusion,stMLnet,same,agree,False,False
+Apln,Aplnr,Secreted Signaling,APELIN,KEGG: mmu04371,diffusion,stMLnet,same,agree,False,False
+Apela,Aplnr,Secreted Signaling,APJ,PMID: 25995451,diffusion,stMLnet,same,agree,False,False
+Tnfsf13,Tnfrsf13b,Secreted Signaling,APRIL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Tnfsf13,Tnfrsf17,Secreted Signaling,APRIL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Avp,Avpr1a,Secreted Signaling,AVP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Avp,Avpr1b,Secreted Signaling,AVP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Avp,Avpr2,Secreted Signaling,AVP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Tnfsf13b,Tnfrsf13b,Secreted Signaling,BAFF,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Tnfsf13b,Tnfrsf13c,Secreted Signaling,BAFF,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Tnfsf13b,Tnfrsf17,Secreted Signaling,BAFF,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Kng1,Bdkrb1,Secreted Signaling,BRADYKININ,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Kng1,Bdkrb2,Secreted Signaling,BRADYKININ,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Btla,Tnfrsf14,Secreted Signaling,BTLA,PMID: 21941365,diffusion,stMLnet,same,agree,False,False
+Cck,Cckar,Secreted Signaling,CCK,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Cck,Cckbr,Secreted Signaling,CCK,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ccl1,Ackr1,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl1,Ackr4,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl1,Ccr8,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl11,Ackr1,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl11,Ackr2,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl11,Ccr3,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl12,Ccr2,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl17,Ackr1,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl17,Ackr2,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl17,Ccr4,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl19,Ackr4,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl19,Ccr7,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl2,Ackr1,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl2,Ackr2,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl2,Ccr2,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl20,Ccr6,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl21,Ackr4,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl21,Ccr7,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl22,Ackr2,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl22,Ccr4,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl24,Ackr2,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl24,Ccr3,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl25,Ackr4,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl25,Ccr9,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl26,Ackr2,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl26,Ccr3,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl28,Ccr10,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl28,Ccr3,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl3,Ackr2,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl3,Ccr1,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl3,Ccr5,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl4,Ackr2,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl4,Ccr5,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl5,Ackr1,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl5,Ackr2,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl5,Ccr1,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl5,Ccr3,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl5,Ccr4,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl5,Ccr5,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl7,Ackr1,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl7,Ccr1,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl7,Ccr2,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl7,Ccr3,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl8,Ackr1,Secreted Signaling,CCL,PMID: 26740381,diffusion,stMLnet,same,agree,False,False
+Ccl8,Ackr4,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl8,Ccr1,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl8,Ccr2,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ccl8,Ccr5,Secreted Signaling,CCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Tnfsf9,Tnfrsf9,Secreted Signaling,CD137,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cd70,Cd27,Secreted Signaling,CD70,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Rarres2,Cmklr1,Secreted Signaling,CHEMERIN,PMID: 24671882,diffusion,stMLnet,same,agree,False,False
+C3,C3ar1,Secreted Signaling,COMPLEMENT,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+C3,Cr2,Secreted Signaling,COMPLEMENT,PMID: 16234578,diffusion,stMLnet,same,agree,False,False
+C4a,C3ar1,Secreted Signaling,COMPLEMENT,PMID: 16234578,diffusion,stMLnet,same,agree,False,False
+Crh,Crhr1,Secreted Signaling,CRH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Crh,Crhr2,Secreted Signaling,CRH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Csf1,Csf1r,Secreted Signaling,CSF,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Il34,Csf1r,Secreted Signaling,CSF,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Csf3,Csf3r,Secreted Signaling,CSF3,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cx3cl1,Cx3cr1,Secreted Signaling,CX3C,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl1,Ackr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl1,Cxcr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl1,Cxcr2,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl10,Ackr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl10,Cxcr3,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl11,Ackr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl11,Ackr3,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl11,Cxcr3,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl12,Ackr3,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl12,Cxcr4,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl13,Ackr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl13,Cxcr3,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl13,Cxcr5,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl16,Cxcr6,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl2,Ackr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl2,Cxcr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl2,Cxcr2,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl3,Ackr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl3,Cxcr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl3,Cxcr2,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl5,Ackr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl5,Cxcr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl5,Cxcr2,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl9,Ackr1,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Cxcl9,Cxcr3,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Pf4,Cxcr3,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ppbp,Cxcr2,Secreted Signaling,CXCL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Eda,Eda2r,Secreted Signaling,EDA,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Eda,Edar,Secreted Signaling,EDA,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Edn1,Ednra,Secreted Signaling,EDN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Edn1,Ednrb,Secreted Signaling,EDN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Edn2,Ednra,Secreted Signaling,EDN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Edn2,Ednrb,Secreted Signaling,EDN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Edn3,Ednra,Secreted Signaling,EDN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Edn3,Ednrb,Secreted Signaling,EDN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Areg,Egfr,Secreted Signaling,EGF,KEGG: mmu04012,diffusion,stMLnet,same,agree,False,False
+Btc,Egfr,Secreted Signaling,EGF,KEGG: mmu04012,diffusion,stMLnet,same,agree,False,False
+Btc,Erbb4,Secreted Signaling,EGF,KEGG: mmu04012,diffusion,stMLnet,same,agree,False,False
+Egf,Egfr,Secreted Signaling,EGF,KEGG: mmu04012,diffusion,stMLnet,same,agree,False,False
+Ereg,Egfr,Secreted Signaling,EGF,KEGG: mmu04012,diffusion,stMLnet,same,agree,False,False
+Ereg,Erbb4,Secreted Signaling,EGF,KEGG: mmu04012,diffusion,stMLnet,same,agree,False,False
+Hbegf,Egfr,Secreted Signaling,EGF,KEGG: mmu04012,diffusion,stMLnet,same,agree,False,False
+Hbegf,Erbb4,Secreted Signaling,EGF,KEGG: mmu04012,diffusion,stMLnet,same,agree,False,False
+Tgfa,Egfr,Secreted Signaling,EGF,KEGG: mmu04012,diffusion,stMLnet,same,agree,True,True
+Enho,Gpr19,Secreted Signaling,ENHO,PMID: 28476646,diffusion,stMLnet,same,agree,False,False
+Epo,Epor,Secreted Signaling,EPO,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Fgf1,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf1,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf1,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf1,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf10,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf10,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf16,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf16,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf16,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf16,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf17,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf17,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf17,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf17,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf18,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf18,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf18,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf18,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf2,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf2,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf2,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf2,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf20,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf20,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf20,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf20,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf21,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf21,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf22,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf23,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf23,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf23,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf3,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf3,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf4,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf4,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf4,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf4,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf5,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf5,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf5,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf5,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf6,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf6,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf6,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf6,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf7,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf7,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf8,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf8,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf8,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf8,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf9,Fgfr1,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf9,Fgfr2,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf9,Fgfr3,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Fgf9,Fgfr4,Secreted Signaling,FGF,PMC: 4393358,diffusion,stMLnet,same,agree,False,False
+Cga,Fshr,Secreted Signaling,FSH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Fshb,Fshr,Secreted Signaling,FSH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gal,Galr1,Secreted Signaling,GALANIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gal,Galr2,Secreted Signaling,GALANIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gal,Galr3,Secreted Signaling,GALANIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Galp,Galr1,Secreted Signaling,GALANIN,PMID: 23233848,diffusion,stMLnet,same,agree,False,False
+Galp,Galr2,Secreted Signaling,GALANIN,PMID: 23233848,diffusion,stMLnet,same,agree,False,False
+Galp,Galr3,Secreted Signaling,GALANIN,PMID: 23233848,diffusion,stMLnet,same,agree,False,False
+Lgals9,Cd44,Secreted Signaling,GALECTIN,PMID: 25065622,diffusion,stMLnet,same,agree,False,False
+Lgals9,Havcr2,Secreted Signaling,GALECTIN,PMID: 27192565,diffusion,stMLnet,same,agree,False,False
+Lgals9,Ptprc,Secreted Signaling,GALECTIN,PMID: 30120235,diffusion,stMLnet,same,agree,False,False
+Gas6,Axl,Secreted Signaling,GAS,PMID: 27801848,diffusion,stMLnet,same,agree,False,False
+Gas6,Mertk,Secreted Signaling,GAS,PMID: 27801848,diffusion,stMLnet,same,agree,True,False
+Gas6,Tyro3,Secreted Signaling,GAS,PMID: 27801848,diffusion,stMLnet,same,agree,True,False
+Gcg,Gcgr,Secreted Signaling,GCG,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gcg,Glp1r,Secreted Signaling,GCG,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gcg,Glp2r,Secreted Signaling,GCG,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gdf15,Tgfbr2,Secreted Signaling,GDF,KEGG: mmu04350,diffusion,stMLnet,same,agree,False,False
+Ghrl,Ghsr,Secreted Signaling,GHRELIN,KEGG: mmu04080; PMID: 29233536,diffusion,stMLnet,same,agree,False,False
+Ghrh,Ghrhr,Secreted Signaling,GHRH,PMID: 26917260,diffusion,stMLnet,same,agree,False,False
+Ghrh,Ghsr,Secreted Signaling,GHRH,PMID: 19088192,diffusion,stMLnet,same,agree,False,False
+Ghrh,Vipr1,Secreted Signaling,GHRH,PMID: 10655511,diffusion,stMLnet,same,agree,False,False
+Ghrh,Vipr2,Secreted Signaling,GHRH,PMID: 10655511,diffusion,stMLnet,same,agree,False,False
+Gcg,Gipr,Secreted Signaling,GIPR,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gip,Gipr,Secreted Signaling,GIPR,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Tnfsf18,Tnfrsf18,Secreted Signaling,GITRL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Gnrh1,Gnrhr,Secreted Signaling,GNRH,PMID: 19640273,diffusion,stMLnet,same,agree,False,False
+Grp,Grpr,Secreted Signaling,GPR,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Nmb,Nmbr,Secreted Signaling,GPR,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Grn,Sort1,Secreted Signaling,GRN,PMID: 29555433,diffusion,stMLnet,same,agree,False,False
+Grp,Nmbr,Secreted Signaling,GRP,PMID:25209280;PMID:29133874,diffusion,stMLnet,same,agree,False,False
+Guca2a,Gucy2c,Secreted Signaling,GUCA,PMID: 22384056,diffusion,stMLnet,same,agree,False,False
+Guca2b,Gucy2c,Secreted Signaling,GUCA,PMID: 22384056,diffusion,stMLnet,same,agree,False,False
+Hcrt,Hcrtr1,Secreted Signaling,HCRT,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Hcrt,Hcrtr2,Secreted Signaling,HCRT,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Hgf,Met,Secreted Signaling,HGF,PMID: 28475121,diffusion,stMLnet,same,agree,False,False
+Igf1,Igf1r,Secreted Signaling,IGF,PMID: 14604834,diffusion,stMLnet,same,agree,False,False
+Igf2,Igf1r,Secreted Signaling,IGF,PMID: 14604834,diffusion,stMLnet,same,agree,False,False
+Igf2,Igf2r,Secreted Signaling,IGF,PMID: 14604834,diffusion,stMLnet,same,agree,False,False
+Igfl3,Igflr1,Secreted Signaling,IGF,PMID: 21454693,diffusion,stMLnet,same,agree,False,False
+Il16,Cd4,Secreted Signaling,IL16,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Il17b,Il17rb,Secreted Signaling,IL17,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Il13,Il13ra1,Secreted Signaling,IL4,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Il13,Il13ra2,Secreted Signaling,IL4,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Kiss1,Kiss1r,Secreted Signaling,KISS1,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Lep,Lepr,Secreted Signaling,LEP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Cga,Lhcgr,Secreted Signaling,LHB,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Lhb,Lhcgr,Secreted Signaling,LHB,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Tnfsf14,Ltbr,Secreted Signaling,LIGHT,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Tnfsf14,Tnfrsf14,Secreted Signaling,LIGHT,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Lta,Tnfrsf14,Secreted Signaling,LT,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Lta,Tnfrsf1a,Secreted Signaling,LT,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Lta,Tnfrsf1b,Secreted Signaling,LT,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Pomc,Mc1r,Secreted Signaling,MELANOCORTIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pomc,Mc2r,Secreted Signaling,MELANOCORTIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pomc,Mc3r,Secreted Signaling,MELANOCORTIN,KEGG: mmu04080; PMID: 11024027,diffusion,stMLnet,same,agree,False,False
+Pomc,Mc4r,Secreted Signaling,MELANOCORTIN,KEGG: mmu04080; PMID: 11024027,diffusion,stMLnet,same,agree,False,False
+Pomc,Mc5r,Secreted Signaling,MELANOCORTIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Mif,Ackr3,Secreted Signaling,MIF,PMID: 26175090,diffusion,stMLnet,same,agree,False,False
+Mdk,Alk,Secreted Signaling,MK,PMID: 19459784,diffusion,stMLnet,same,agree,False,False
+Mdk,Lrp1,Secreted Signaling,MK,PMID: 28356350,diffusion,stMLnet,same,agree,False,False
+Mdk,Ncl,Secreted Signaling,MK,PMID: 28356350,diffusion,stMLnet,same,agree,False,False
+Mdk,Ptprz1,Secreted Signaling,MK,PMID: 28356350,diffusion,stMLnet,same,agree,False,False
+Mdk,Sdc1,Secreted Signaling,MK,PMID: 28356350,diffusion,stMLnet,same,agree,False,False
+Mdk,Sdc2,Secreted Signaling,MK,PMID: 28356350,diffusion,stMLnet,same,agree,False,False
+Mdk,Sdc4,Secreted Signaling,MK,PMID: 28356350,diffusion,stMLnet,same,agree,False,False
+Ngf,Ngfr,Secreted Signaling,NGF,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Nms,Nmur1,Secreted Signaling,NMU,PMID: 29288685,diffusion,stMLnet,same,agree,False,False
+Nms,Nmur2,Secreted Signaling,NMU,PMID: 29288685,diffusion,stMLnet,same,agree,False,False
+Nmu,Nmur1,Secreted Signaling,NMU,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Nmu,Nmur2,Secreted Signaling,NMU,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Npff,Npffr1,Secreted Signaling,NPFF,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Npff,Npffr2,Secreted Signaling,NPFF,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Nppa,Npr1,Secreted Signaling,NPR1,KEGG: mmu04080; PMID:29934640,diffusion,stMLnet,same,agree,False,False
+Nppb,Npr1,Secreted Signaling,NPR1,KEGG: mmu04080; PMID:29934640,diffusion,stMLnet,same,agree,False,False
+Nppc,Npr2,Secreted Signaling,NPR2,KEGG: mmu04080; PMID:29934640,diffusion,stMLnet,same,agree,False,False
+Nps,Npsr1,Secreted Signaling,NPS,PMID: 19732772,diffusion,stMLnet,same,agree,False,False
+Npvf,Npffr1,Secreted Signaling,NPVF,PMID: 29106375,diffusion,stMLnet,same,agree,False,False
+Npvf,Npffr2,Secreted Signaling,NPVF,PMID: 29106375,diffusion,stMLnet,same,agree,False,False
+Npb,Npbwr1,Secreted Signaling,NPW-B,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Npw,Npbwr1,Secreted Signaling,NPW-B,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Npy,Gpr83,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Npy,Npy1r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Npy,Npy2r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Npy,Npy4r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Npy,Npy5r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ppy,Gpr83,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ppy,Npy1r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ppy,Npy2r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ppy,Npy4r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ppy,Npy5r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pyy,Gpr83,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pyy,Npy1r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pyy,Npy2r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pyy,Npy4r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pyy,Npy5r,Secreted Signaling,NPY,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Nrg1,Erbb3,Secreted Signaling,NRG,KEGG: mmu04012,diffusion,stMLnet,same,agree,False,False
+Nrg1,Erbb4,Secreted Signaling,NRG,KEGG: mmu04012,diffusion,stMLnet,same,agree,True,True
+Nrg2,Erbb3,Secreted Signaling,NRG,KEGG: mmu04012,diffusion,stMLnet,same,agree,False,False
+Nrg2,Erbb4,Secreted Signaling,NRG,KEGG: mmu04012,diffusion,stMLnet,same,agree,True,True
+Nrg3,Erbb4,Secreted Signaling,NRG,KEGG: mmu04012,diffusion,stMLnet,same,agree,True,True
+Nrg4,Erbb4,Secreted Signaling,NRG,KEGG: mmu04012,diffusion,stMLnet,same,agree,False,False
+Bdnf,Ngfr,Secreted Signaling,NT,uniprot,diffusion,stMLnet,same,agree,False,False
+Bdnf,Ntrk2,Secreted Signaling,NT,PMID: 27908981,diffusion,stMLnet,same,agree,False,False
+Bdnf,Sort1,Secreted Signaling,NT,uniprot,diffusion,stMLnet,same,agree,False,False
+Ngf,Ntrk1,Secreted Signaling,NT,PMID: 27908981,diffusion,stMLnet,same,agree,False,False
+Ntf3,Ngfr,Secreted Signaling,NT,uniprot,diffusion,stMLnet,same,agree,False,False
+Ntf3,Ntrk1,Secreted Signaling,NT,PMID: 27908981,diffusion,stMLnet,same,agree,False,False
+Ntf3,Ntrk2,Secreted Signaling,NT,PMID: 27908981,diffusion,stMLnet,same,agree,False,False
+Ntf3,Ntrk3,Secreted Signaling,NT,PMID: 27908981,diffusion,stMLnet,same,agree,False,False
+Nts,Ntsr1,Secreted Signaling,NTS,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Nts,Ntsr2,Secreted Signaling,NTS,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Nts,Sort1,Secreted Signaling,NTS,PMID: 34038712,diffusion,stMLnet,same,agree,False,False
+Pdyn,Oprd1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pdyn,Oprk1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pdyn,Oprl1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pdyn,Oprm1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Penk,Oprd1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Penk,Oprk1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Penk,Oprl1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Penk,Oprm1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pomc,Oprd1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pomc,Oprk1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pomc,Oprl1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pomc,Oprm1,Secreted Signaling,OPIOID,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ostn,Npr3,Secreted Signaling,OSTN,PMID: 29326144,diffusion,stMLnet,same,agree,False,False
+Oxt,Oxtr,Secreted Signaling,OXT,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Adcyap1,Adcyap1r1,Secreted Signaling,PACAP,PMID: 21350482,diffusion,stMLnet,same,agree,False,False
+Ctsg,F2r,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ctsg,F2rl1,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ctsg,F2rl2,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ctsg,F2rl3,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ctsg,Pard3,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+F2,F2r,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+F2,F2rl1,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+F2,F2rl2,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+F2,F2rl3,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+F2,Pard3,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gzma,F2r,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gzma,F2rl1,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gzma,F2rl2,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gzma,F2rl3,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Gzma,Pard3,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Plg,F2rl3,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Plg,Pard3,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Prss2,F2r,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Prss2,F2rl1,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Prss2,F2rl2,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Prss2,F2rl3,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Prss2,Pard3,Secreted Signaling,PARs,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pdgfa,Pdgfra,Secreted Signaling,PDGF,PMID: 15207812,diffusion,stMLnet,same,agree,False,False
+Pdgfa,Pdgfrb,Secreted Signaling,PDGF,PMID: 15207812,diffusion,stMLnet,same,agree,False,False
+Pdgfb,Pdgfra,Secreted Signaling,PDGF,PMID: 15207812,diffusion,stMLnet,same,agree,False,False
+Pdgfb,Pdgfrb,Secreted Signaling,PDGF,PMID: 15207812,diffusion,stMLnet,same,agree,False,False
+Pdgfc,Pdgfra,Secreted Signaling,PDGF,PMID: 15207812,diffusion,stMLnet,same,agree,False,False
+Pdgfd,Pdgfrb,Secreted Signaling,PDGF,PMID: 15207812,diffusion,stMLnet,same,agree,False,False
+Plau,Plaur,Secreted Signaling,PLAU,uniprot,diffusion,stMLnet,same,agree,False,False
+Pmch,Mchr1,Secreted Signaling,PMCH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pmch,Mertk,Secreted Signaling,PMCH,PMID: 30501104,diffusion,stMLnet,same,agree,False,False
+Prl,Prlr,Secreted Signaling,PRL,KEGG: mmu04060; PMID: 23192981,diffusion,stMLnet,same,agree,False,False
+Prlh,Prlhr,Secreted Signaling,PRLH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Prok1,Prokr1,Secreted Signaling,PROK,PMID: 24496457,diffusion,stMLnet,same,agree,False,False
+Prok1,Prokr2,Secreted Signaling,PROK,PMID: 24496457,diffusion,stMLnet,same,agree,False,False
+Prok2,Prokr1,Secreted Signaling,PROK,PMID: 24496457,diffusion,stMLnet,same,agree,False,False
+Prok2,Prokr2,Secreted Signaling,PROK,PMID: 24496457,diffusion,stMLnet,same,agree,False,False
+Pros1,Axl,Secreted Signaling,PROS,PMID: 29531161,diffusion,stMLnet,same,agree,False,False
+Pros1,Mertk,Secreted Signaling,PROS,PMID: 34631419,diffusion,stMLnet,same,agree,False,False
+Pros1,Tyro3,Secreted Signaling,PROS,PMID: 30501104,diffusion,stMLnet,same,agree,False,False
+Psap,Gpr37,Secreted Signaling,PSAP,PMID: 23690594,diffusion,stMLnet,same,agree,False,False
+Psap,Gpr37l1,Secreted Signaling,PSAP,PMID: 23690594,diffusion,stMLnet,same,agree,True,False
+Pth,Pth1r,Secreted Signaling,PTH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pth,Pth2r,Secreted Signaling,PTH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pth2,Pth1r,Secreted Signaling,PTH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pth2,Pth2r,Secreted Signaling,PTH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pthlh,Pth1r,Secreted Signaling,PTH,PMID: 29577935,diffusion,stMLnet,same,agree,False,False
+Ptn,Alk,Secreted Signaling,PTN,PMID: 28356350; PMID: 25620911,diffusion,stMLnet,same,agree,True,True
+Ptn,Ncl,Secreted Signaling,PTN,PMID: 28356350; PMID: 25620911,diffusion,stMLnet,same,agree,True,False
+Ptn,Ptprz1,Secreted Signaling,PTN,PMID: 28356350; PMID: 25620911,diffusion,stMLnet,same,agree,True,False
+Ptn,Sdc1,Secreted Signaling,PTN,PMID: 28356350; PMID: 25620911,diffusion,stMLnet,same,agree,False,False
+Ptn,Sdc2,Secreted Signaling,PTN,PMID: 28356350; PMID: 25620911,diffusion,stMLnet,same,agree,True,True
+Ptn,Sdc3,Secreted Signaling,PTN,PMID: 28356350; PMID: 25620911,diffusion,stMLnet,same,agree,True,False
+Ptn,Sdc4,Secreted Signaling,PTN,PMID: 28356350; PMID: 25620911,diffusion,stMLnet,same,agree,False,False
+Qrfp,Qrfpr,Secreted Signaling,QRFP,PMID: 25386115,diffusion,stMLnet,same,agree,False,False
+Tnfsf11,Tnfrsf11a,Secreted Signaling,RANKL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Tnfsf11,Tnfrsf11b,Secreted Signaling,RANKL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Rbp4,Stra6,Secreted Signaling,RBP4,PMID: 33199363,diffusion,stMLnet,same,agree,False,False
+Retn,Cap1,Secreted Signaling,RESISTIN,PMID: 30809105,diffusion,stMLnet,same,agree,False,False
+Retn,Tlr4,Secreted Signaling,RESISTIN,PMID: 30809105,diffusion,stMLnet,same,agree,False,False
+Insl3,Rxfp1,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Insl3,Rxfp2,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Insl3,Rxfp3,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Insl3,Rxfp4,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Insl5,Rxfp1,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Insl5,Rxfp2,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Insl5,Rxfp3,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Insl5,Rxfp4,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Rln1,Rxfp1,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Rln1,Rxfp2,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Rln1,Rxfp3,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Rln1,Rxfp4,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Rln3,Rxfp1,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Rln3,Rxfp2,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Rln3,Rxfp3,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Rln3,Rxfp4,Secreted Signaling,RLN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Sct,Sctr,Secreted Signaling,SCT,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Sema3c,Plxnd1,Secreted Signaling,SEMA3,PMID: 27533782,diffusion,stMLnet,same,agree,False,False
+Sema3e,Plxnd1,Secreted Signaling,SEMA3,PMID: 22325954,diffusion,stMLnet,same,agree,True,False
+Slit1,Robo1,Secreted Signaling,SLIT,PMID:10102268,diffusion,stMLnet,same,agree,True,False
+Slit2,Robo1,Secreted Signaling,SLIT,PMID:10102268,diffusion,stMLnet,same,agree,True,False
+Slit2,Robo2,Secreted Signaling,SLIT,PMID:10102268,diffusion,stMLnet,same,agree,True,False
+Slitrk1,Ptprd,Secreted Signaling,SLITRK,PMID: 30648269;PMID: 30822649,diffusion,stMLnet,same,agree,True,False
+Slitrk1,Ptprs,Secreted Signaling,SLITRK,PMID: 30648269;PMID: 30822649,diffusion,stMLnet,same,agree,True,False
+Slitrk2,Ptprd,Secreted Signaling,SLITRK,PMID: 30648269;PMID: 30822649,diffusion,stMLnet,same,agree,False,False
+Slitrk2,Ptprs,Secreted Signaling,SLITRK,PMID: 30648269;PMID: 30822649,diffusion,stMLnet,same,agree,False,False
+Slitrk3,Ptprd,Secreted Signaling,SLITRK,PMID: 30648269;PMID: 30822649,diffusion,stMLnet,same,agree,True,False
+Slitrk6,Ptprs,Secreted Signaling,SLITRK,PMID: 30648269;PMID: 30822649,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrna1,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrna10,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrna2,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrna3,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrna4,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrna5,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrna6,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrna7,Secreted Signaling,SLURP,KEGG: mmu04080; PMID: 29545933;,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrna9,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrnb1,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrnb2,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrnb3,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrnb4,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrnd,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrne,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp1,Chrng,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrna1,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrna10,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrna2,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrna3,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrna4,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrna5,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrna6,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrna7,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrna9,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrnb1,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrnb2,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrnb3,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrnb4,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrnd,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrne,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Slurp2,Chrng,Secreted Signaling,SLURP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Cort,Sstr1,Secreted Signaling,SOMATOSTATIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Cort,Sstr2,Secreted Signaling,SOMATOSTATIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Cort,Sstr3,Secreted Signaling,SOMATOSTATIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Cort,Sstr4,Secreted Signaling,SOMATOSTATIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Cort,Sstr5,Secreted Signaling,SOMATOSTATIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Sst,Sstr1,Secreted Signaling,SOMATOSTATIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Sst,Sstr2,Secreted Signaling,SOMATOSTATIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Sst,Sstr3,Secreted Signaling,SOMATOSTATIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Sst,Sstr4,Secreted Signaling,SOMATOSTATIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Sst,Sstr5,Secreted Signaling,SOMATOSTATIN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Spp1,Cd44,Secreted Signaling,SPP1,PMID: 21907263,diffusion,stMLnet,same,agree,False,False
+Tac1,Tacr1,Secreted Signaling,TAC,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Tac1,Tacr2,Secreted Signaling,TAC,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Tac4,Tacr1,Secreted Signaling,TAC,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Tafa4,Fpr1,Secreted Signaling,TAFA,PMID: 35712659;PMID: 35712659,diffusion,stMLnet,same,agree,False,False
+Thpo,Mpl,Secreted Signaling,THPO,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Tnf,Tnfrsf1a,Secreted Signaling,TNF,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Tnf,Tnfrsf1b,Secreted Signaling,TNF,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Tnfsf10,Tnfrsf10b,Secreted Signaling,TRAIL,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Trh,Trhr,Secreted Signaling,TRH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Cga,Tshr,Secreted Signaling,TSH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Tshb,Tshr,Secreted Signaling,TSH,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Tnfsf12,Tnfrsf12a,Secreted Signaling,TWEAK,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Ucn,Crhr1,Secreted Signaling,UCN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ucn,Crhr2,Secreted Signaling,UCN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ucn2,Crhr1,Secreted Signaling,UCN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ucn2,Crhr2,Secreted Signaling,UCN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ucn3,Crhr1,Secreted Signaling,UCN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Ucn3,Crhr2,Secreted Signaling,UCN,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Scgb3a2,Marco,Secreted Signaling,UGRP1,PMID: 12847263,diffusion,stMLnet,same,agree,False,False
+Uts2b,Sstr5,Secreted Signaling,UROTENSIN,PMID: 31556942,diffusion,stMLnet,same,agree,False,False
+Uts2b,Uts2r,Secreted Signaling,UROTENSIN,PMID: 31556942,diffusion,stMLnet,same,agree,False,False
+Uts2,Uts2r,Secreted Signaling,UTS2,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Pgf,Flt1,Secreted Signaling,VEGF,KEGG: mmu04370; PMID: 16633338,diffusion,stMLnet,same,agree,False,False
+Vegfa,Flt1,Secreted Signaling,VEGF,KEGG: mmu04370; PMID: 16633338,diffusion,stMLnet,same,agree,True,True
+Vegfa,Kdr,Secreted Signaling,VEGF,KEGG: mmu04370; PMID: 16633338,diffusion,stMLnet,same,agree,False,False
+Vegfb,Flt1,Secreted Signaling,VEGF,KEGG: mmu04370; PMID: 16633338,diffusion,stMLnet,same,agree,False,False
+Vegfc,Flt4,Secreted Signaling,VEGF,KEGG: mmu04370; PMID: 16633338,diffusion,stMLnet,same,agree,False,False
+Vegfc,Kdr,Secreted Signaling,VEGF,KEGG: mmu04370; PMID: 16633338,diffusion,stMLnet,same,agree,False,False
+Vegfd,Flt4,Secreted Signaling,VEGF,KEGG: mmu04370; PMID: 16633338,diffusion,stMLnet,same,agree,False,False
+Vegfd,Kdr,Secreted Signaling,VEGF,KEGG: mmu04370; PMID: 16633338,diffusion,stMLnet,same,agree,False,False
+Tnfsf15,Tnfrsf25,Secreted Signaling,VEGI,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Vip,Sctr,Secreted Signaling,VIP,PMID: 21597914,diffusion,stMLnet,same,agree,False,False
+Vip,Vipr1,Secreted Signaling,VIP,PMID: 10655512,diffusion,stMLnet,same,agree,False,False
+Vip,Vipr2,Secreted Signaling,VIP,KEGG: mmu04080,diffusion,stMLnet,same,agree,False,False
+Xcl1,Xcr1,Secreted Signaling,XCR,KEGG: mmu04060,diffusion,stMLnet,same,agree,False,False
+Wnt11,Fzd1,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt11,Fzd10,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt11,Fzd2,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt11,Fzd3,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt11,Fzd4,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt11,Fzd5,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt11,Fzd6,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt11,Fzd7,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt11,Fzd8,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt11,Fzd9,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5a,Fzd1,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5a,Fzd10,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5a,Fzd2,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5a,Fzd3,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5a,Fzd4,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5a,Fzd5,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5a,Fzd6,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5a,Fzd7,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5a,Fzd8,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5a,Fzd9,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5b,Fzd1,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5b,Fzd10,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5b,Fzd2,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5b,Fzd3,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5b,Fzd4,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5b,Fzd5,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5b,Fzd6,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5b,Fzd7,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5b,Fzd8,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Wnt5b,Fzd9,Secreted Signaling,ncWNT,KEGG: mmu04310,diffusion,stMLnet,same,agree,False,False
+Cd46,Jag1,Cell-Cell Contact,CD46,PMID: 23086448,contact,stMLnet,swapped,agree,False,False
+Cd80,Cd28,Cell-Cell Contact,CD80,PMID: 23954143,contact,stMLnet,swapped,agree,False,False
+Cd80,Ctla4,Cell-Cell Contact,CD80,PMID: 23954143,contact,CellSig,swapped,agree,False,False
+Cd86,Cd28,Cell-Cell Contact,CD86,PMID: 23954143,contact,stMLnet,swapped,agree,False,False
+Cd86,Ctla4,Cell-Cell Contact,CD86,PMID: 23954143,contact,CellSig,swapped,agree,False,False
+Icam1,Spn,Cell-Cell Contact,ICAM,PMID: 1683685,contact,stMLnet,swapped,agree,False,False
+Nectin2,Tigit,Cell-Cell Contact,NECTIN,KEGG: mmu04514,contact,stMLnet,swapped,agree,False,False
+Pecam1,Cd177,Cell-Cell Contact,PECAM1,PMID:17580308,contact,stMLnet,swapped,agree,False,False
+Selplg,Sele,Cell-Cell Contact,SELPLG,PMC4571854,contact,stMLnet,swapped,agree,False,False
+Selplg,Sell,Cell-Cell Contact,SELPLG,"PMC2431087; PMID:  8892633,PMID:  8896607",contact,stMLnet,swapped,agree,False,False
+Selplg,Selp,Cell-Cell Contact,SELPLG,PMID: 19118202; PMID: 9829984,contact,stMLnet,swapped,agree,False,False
+Sema4d,Cd72,Cell-Cell Contact,SEMA4,PMID: 22325954,contact,CellSig,swapped,agree,False,False
+Btla,Tnfrsf14,Secreted Signaling,BTLA,PMID: 21941365,diffusion,stMLnet,swapped,agree,False,False
+Tnfsf4,Tnfrsf4,Secreted Signaling,OX40,KEGG: mmu04060,diffusion,stMLnet,swapped,agree,False,False
+Ptprs,Ntrk3,Secreted Signaling,PTPR,PMID:21262467;PMID:25385546;,diffusion,stMLnet,swapped,agree,True,True
+Agrn,Dag1,ECM-Receptor,AGRN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col1a1,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col1a1,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col1a1,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col1a1,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col1a2,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col1a2,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col1a2,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col1a2,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col2a1,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col2a1,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col2a1,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col2a1,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a1,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a1,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a1,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a1,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a2,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a2,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a2,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a2,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a3,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a3,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a3,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a3,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a4,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a4,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a4,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a4,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a5,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a5,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a5,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a5,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a6,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a6,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a6,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col4a6,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a1,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a1,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a1,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a1,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a2,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a2,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a2,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a2,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a3,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a3,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a3,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a3,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a5,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a5,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a5,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a5,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a6,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a6,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a6,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col6a6,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a1,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a1,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a1,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a1,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a2,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a2,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a2,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a2,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a3,Cd44,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a3,Gp6,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a3,Sdc1,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Col9a3,Sdc4,ECM-Receptor,COLLAGEN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Fn1,Cd44,ECM-Receptor,FN1,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Fn1,Sdc1,ECM-Receptor,FN1,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Fn1,Sdc4,ECM-Receptor,FN1,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Hspg2,Dag1,ECM-Receptor,HSPG,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama1,Cd44,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama1,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama1,Sv2a,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama1,Sv2b,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama1,Sv2c,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama2,Cd44,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama2,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama2,Sv2a,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama2,Sv2b,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama2,Sv2c,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama3,Cd44,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama3,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama3,Sv2a,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama3,Sv2b,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama3,Sv2c,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama4,Cd44,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama4,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama4,Sv2a,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama4,Sv2b,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama4,Sv2c,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama5,Cd44,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama5,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama5,Sv2a,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama5,Sv2b,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama5,Sv2c,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb1,Cd44,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb1,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb1,Sv2a,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb1,Sv2b,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb1,Sv2c,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb2,Cd44,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb2,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb2,Sv2a,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb2,Sv2b,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb2,Sv2c,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb3,Cd44,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb3,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb3,Sv2a,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb3,Sv2b,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamb3,Sv2c,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc1,Cd44,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc1,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc1,Sv2a,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc1,Sv2b,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc1,Sv2c,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc2,Cd44,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc2,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc2,Sv2a,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc2,Sv2b,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc2,Sv2c,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc3,Cd44,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc3,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc3,Sv2a,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc3,Sv2b,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lamc3,Sv2c,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Reln,Lrp8,ECM-Receptor,RELN,PMID: 14578885,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Reln,Vldlr,ECM-Receptor,RELN,PMID: 14578885,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Tnc,Sdc1,ECM-Receptor,TENASCIN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Tnc,Sdc4,ECM-Receptor,TENASCIN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Tnn,Sdc1,ECM-Receptor,TENASCIN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Tnn,Sdc4,ECM-Receptor,TENASCIN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Tnr,Sdc1,ECM-Receptor,TENASCIN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Tnr,Sdc4,ECM-Receptor,TENASCIN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Tnxb,Sdc1,ECM-Receptor,TENASCIN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Tnxb,Sdc4,ECM-Receptor,TENASCIN,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Comp,Cd36,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Comp,Cd47,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Comp,Sdc1,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Comp,Sdc4,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs1,Cd36,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs1,Cd47,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs1,Sdc1,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs1,Sdc4,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs2,Cd36,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs2,Cd47,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs2,Sdc1,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs2,Sdc4,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs3,Cd36,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs3,Cd47,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs3,Sdc1,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs3,Sdc4,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs4,Cd36,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs4,Cd47,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs4,Sdc1,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Thbs4,Sdc4,ECM-Receptor,THBS,KEGG: mmu04512,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Vtn,Plaur,ECM-Receptor,VTN,PMID: 29222114,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Pnoc,Oprl1,Non-protein Signaling,OPIOID,PMID: 29934561;PMID: 34724150,diffusion,stMLnet,same,cellchat_class_without_cccvelo_counterpart,,
+Lama4,Dag1,ECM-Receptor,LAMININ,KEGG: mmu04512,diffusion,stMLnet,swapped,cellchat_class_without_cccvelo_counterpart,,
+Cd55,Adgre5,Cell-Cell Contact,ADGRE,PMID: 31462748,diffusion,stMLnet,same,conflict,False,False
+Cadm1,Cadm1,Cell-Cell Contact,CADM,PMID: 24503895,diffusion,stMLnet,same,conflict,True,False
+Cadm1,Nectin3,Cell-Cell Contact,CADM,uniprot,diffusion,stMLnet,same,conflict,True,True
+Cadm3,Cadm1,Cell-Cell Contact,CADM,PMID: 33397712;,diffusion,stMLnet,same,conflict,True,False
+Cadm3,Cadm3,Cell-Cell Contact,CADM,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Cadm3,Nectin3,Cell-Cell Contact,CADM,uniprot,diffusion,stMLnet,same,conflict,True,True
+Crtam,Cadm1,Cell-Cell Contact,CADM,PMID: 26694968,diffusion,stMLnet,same,conflict,False,False
+Cd160,Tnfrsf14,Cell-Cell Contact,CD160,PMID:21959263;PMID:18193050,diffusion,stMLnet,same,conflict,False,False
+Cd200,Cd200r1,Cell-Cell Contact,CD200,PMID: 15187158,diffusion,stMLnet,same,conflict,False,False
+Cd34,Selp,Cell-Cell Contact,CD34,PMID: 18606703,diffusion,stMLnet,same,conflict,False,False
+Cd40lg,Cd40,Cell-Cell Contact,CD40,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Cd46,Jag1,Cell-Cell Contact,CD46,PMID: 23086448,diffusion,stMLnet,same,conflict,False,False
+Cd6,Alcam,Cell-Cell Contact,CD6,PMID: 23602662,diffusion,stMLnet,same,conflict,False,False
+Cd80,Cd274,Cell-Cell Contact,CD80,PMID: 17629517; PMID: 18585785,diffusion,stMLnet,same,conflict,False,False
+Cd80,Cd28,Cell-Cell Contact,CD80,PMID: 23954143,diffusion,stMLnet,same,conflict,False,False
+Cd80,Ctla4,Cell-Cell Contact,CD80,PMID: 23954143,diffusion,stMLnet,same,conflict,False,False
+Cd86,Cd28,Cell-Cell Contact,CD86,PMID: 23954143,diffusion,stMLnet,same,conflict,False,False
+Cd86,Ctla4,Cell-Cell Contact,CD86,PMID: 23954143,diffusion,stMLnet,same,conflict,False,False
+Cd96,Pvr,Cell-Cell Contact,CD96,PMID: 15034010,diffusion,stMLnet,same,conflict,False,False
+Cd99,Cd99,Cell-Cell Contact,CD99,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Cd99,Pilra,Cell-Cell Contact,CD99,PMID: 18234675,diffusion,stMLnet,same,conflict,False,False
+Cdh15,Cdh15,Cell-Cell Contact,CDH,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Cdh2,Cdh2,Cell-Cell Contact,CDH,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Cdh3,Cdh3,Cell-Cell Contact,CDH,KEGG: hsa04514,diffusion,stMLnet,same,conflict,False,False
+Cdh4,Cdh4,Cell-Cell Contact,CDH,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Cdh5,Cdh5,Cell-Cell Contact,CDH5,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Cldn11,Cldn11,Cell-Cell Contact,CLDN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,True
+Clec2d,Klrb1,Cell-Cell Contact,CLEC,PMID:24223577,diffusion,stMLnet,same,conflict,False,False
+Cntn1,Notch1,Cell-Cell Contact,CNTN,PMID:14567914,diffusion,stMLnet,same,conflict,True,True
+Cntn1,Notch2,Cell-Cell Contact,CNTN,PMID:14567914;PMID: 33957164,diffusion,stMLnet,same,conflict,True,False
+Cntn1,Nrcam,Cell-Cell Contact,CNTN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Cntn2,Cntn2,Cell-Cell Contact,CNTN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Cntn2,L1cam,Cell-Cell Contact,CNTN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Dsc1,Dsg2,Cell-Cell Contact,DESMOSOME,PMID: 27298358,diffusion,stMLnet,same,conflict,False,False
+Dsc1,Dsg3,Cell-Cell Contact,DESMOSOME,PMID: 27298358,diffusion,stMLnet,same,conflict,False,False
+Dsc1,Dsg4,Cell-Cell Contact,DESMOSOME,PMID: 27298358,diffusion,stMLnet,same,conflict,False,False
+Dsc2,Dsg2,Cell-Cell Contact,DESMOSOME,PMID: 27298358,diffusion,stMLnet,same,conflict,False,False
+Dsc2,Dsg3,Cell-Cell Contact,DESMOSOME,PMID: 27298358,diffusion,stMLnet,same,conflict,False,False
+Dsc2,Dsg4,Cell-Cell Contact,DESMOSOME,PMID: 27298358,diffusion,stMLnet,same,conflict,False,False
+Dsc3,Dsg3,Cell-Cell Contact,DESMOSOME,PMID: 27298358,diffusion,stMLnet,same,conflict,False,False
+Dsc3,Dsg4,Cell-Cell Contact,DESMOSOME,PMID: 27298358,diffusion,stMLnet,same,conflict,False,False
+Dsg2,Dsc3,Cell-Cell Contact,DESMOSOME,PMID: 27298358,diffusion,stMLnet,same,conflict,False,False
+Epgn,Egfr,Cell-Cell Contact,EPGN,PMID: 27298358,diffusion,stMLnet,same,conflict,False,False
+Efna1,Epha1,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna1,Epha2,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna1,Epha3,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna1,Epha4,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna1,Epha5,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna1,Epha7,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna1,Epha8,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna4,Epha1,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna4,Epha2,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna4,Epha3,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna4,Epha4,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna4,Epha5,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna4,Epha7,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efna4,Epha8,Cell-Cell Contact,EPHA,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efnb2,Epha4,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,same,conflict,True,False
+Efnb2,Ephb1,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,same,conflict,True,False
+Efnb2,Ephb2,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,same,conflict,True,False
+Efnb2,Ephb3,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efnb2,Ephb4,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efnb3,Epha4,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,same,conflict,True,False
+Efnb3,Ephb1,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,same,conflict,True,False
+Efnb3,Ephb2,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,same,conflict,True,False
+Efnb3,Ephb3,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efnb3,Ephb4,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Efnb3,Ephb6,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,same,conflict,False,False
+Esam,Esam,Cell-Cell Contact,ESAM,KEGG: mmu04514; PMID: 11279107,diffusion,stMLnet,same,conflict,False,False
+Icam1,Itgal,Cell-Cell Contact,ICAM,PMID: 23602662,diffusion,stMLnet,same,conflict,False,False
+Icam1,Spn,Cell-Cell Contact,ICAM,PMID: 1683685,diffusion,stMLnet,same,conflict,False,False
+F11r,F11r,Cell-Cell Contact,JAM,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Jam2,F11r,Cell-Cell Contact,JAM,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Jam2,Jam2,Cell-Cell Contact,JAM,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Jam2,Jam3,Cell-Cell Contact,JAM,PMC1237098;  PMID: 11590146,diffusion,stMLnet,same,conflict,False,False
+Jam3,F11r,Cell-Cell Contact,JAM,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Jam3,Jam3,Cell-Cell Contact,JAM,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,True
+L1cam,L1cam,Cell-Cell Contact,L1CAM,PMID: 18701456,diffusion,stMLnet,same,conflict,True,False
+Mag,Mag,Cell-Cell Contact,MAG,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Ulbp1,Klrk1,Cell-Cell Contact,MHC-I,PMID: 24223577,diffusion,stMLnet,same,conflict,False,False
+Ncam1,Fgfr1,Cell-Cell Contact,NCAM,PMID: 12791257,diffusion,stMLnet,same,conflict,True,True
+Ncam1,L1cam,Cell-Cell Contact,NCAM,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Ncam1,Ncam1,Cell-Cell Contact,NCAM,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,True
+Ncam1,Ncam2,Cell-Cell Contact,NCAM,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,True
+Ncam2,L1cam,Cell-Cell Contact,NCAM,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Nectin1,Cadm3,Cell-Cell Contact,NECTIN,PMID: 23027581,diffusion,stMLnet,same,conflict,True,False
+Nectin1,Cd96,Cell-Cell Contact,NECTIN,PMID: 23027581,diffusion,stMLnet,same,conflict,False,False
+Nectin1,Nectin3,Cell-Cell Contact,NECTIN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,True
+Nectin1,Nectin4,Cell-Cell Contact,NECTIN,PMID: 23027581,diffusion,stMLnet,same,conflict,False,False
+Nectin2,Cd226,Cell-Cell Contact,NECTIN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Nectin2,Tigit,Cell-Cell Contact,NECTIN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Negr1,Negr1,Cell-Cell Contact,NEGR,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Lrrc4,Ntng2,Cell-Cell Contact,NGL,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Lrrc4b,Ptprf,Cell-Cell Contact,NGL,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,True
+Lrrc4c,Ntng1,Cell-Cell Contact,NGL,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Nrxn1,Nlgn1,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Nrxn1,Nlgn2,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Nrxn1,Nlgn3,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Nrxn2,Nlgn1,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Nrxn2,Nlgn2,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Nrxn2,Nlgn3,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Nrxn3,Nlgn1,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Nrxn3,Nlgn2,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Nrxn3,Nlgn3,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,False
+Ntn1,Dcc,Cell-Cell Contact,Netrin,PMID: 22685302,diffusion,stMLnet,same,conflict,False,False
+Ntn1,Unc5a,Cell-Cell Contact,Netrin,PMID: 22685302,diffusion,stMLnet,same,conflict,False,False
+Ntn1,Unc5b,Cell-Cell Contact,Netrin,PMID: 22685302,diffusion,stMLnet,same,conflict,False,False
+Ntn1,Unc5c,Cell-Cell Contact,Netrin,PMID: 22685302,diffusion,stMLnet,same,conflict,False,False
+Ocln,Ocln,Cell-Cell Contact,OCLN,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Cd274,Pdcd1,Cell-Cell Contact,PD-L1,PMID: 23954143,diffusion,stMLnet,same,conflict,False,False
+Pdcd1lg2,Pdcd1,Cell-Cell Contact,PDL2,PMID: 23954143,diffusion,stMLnet,same,conflict,False,False
+Pecam1,Pecam1,Cell-Cell Contact,PECAM1,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Pecam1,Cd38,Cell-Cell Contact,PECAM2,PMID:26407101,diffusion,stMLnet,same,conflict,False,False
+Lrrc4b,Ptprd,Cell-Cell Contact,PTPR,PMID: 29674953;PMID: 23916315,diffusion,stMLnet,same,conflict,True,False
+Lrrc4b,Ptprs,Cell-Cell Contact,PTPR,PMID: 29674953;PMID: 23916315,diffusion,stMLnet,same,conflict,True,False
+Ptprm,Ptprm,Cell-Cell Contact,PTPRM,KEGG: mmu04514,diffusion,stMLnet,same,conflict,True,True
+Pvr,Cd226,Cell-Cell Contact,PVR,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Pvr,Tigit,Cell-Cell Contact,PVR,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Selplg,Sele,Cell-Cell Contact,SELPLG,PMC4571854,diffusion,stMLnet,same,conflict,False,False
+Selplg,Sell,Cell-Cell Contact,SELPLG,"PMC2431087; PMID:  8892633,PMID:  8896607",diffusion,stMLnet,same,conflict,False,False
+Selplg,Selp,Cell-Cell Contact,SELPLG,PMID: 19118202; PMID: 9829984,diffusion,stMLnet,same,conflict,False,False
+Sema4c,Plxnb2,Cell-Cell Contact,SEMA4,PMID: 27533782,diffusion,stMLnet,same,conflict,False,False
+Sema4d,Cd72,Cell-Cell Contact,SEMA4,PMID: 22325954,diffusion,stMLnet,same,conflict,False,False
+Sema4d,Plxnb1,Cell-Cell Contact,SEMA4,PMID: 27533782,diffusion,stMLnet,same,conflict,True,False
+Sema4d,Plxnb2,Cell-Cell Contact,SEMA4,PMID: 27533782,diffusion,stMLnet,same,conflict,False,False
+Sema4d,Plxnb3,Cell-Cell Contact,SEMA4,PMID: 27533782,diffusion,stMLnet,same,conflict,False,False
+Sema5b,Plxna1,Cell-Cell Contact,SEMA5,PMID: 27533782,diffusion,stMLnet,same,conflict,True,False
+Sema5b,Plxna3,Cell-Cell Contact,SEMA5,PMID: 27533782,diffusion,stMLnet,same,conflict,False,False
+Sema6a,Plxna2,Cell-Cell Contact,SEMA6,PMID: 27533782,diffusion,stMLnet,same,conflict,True,False
+Sema6a,Plxna4,Cell-Cell Contact,SEMA6,PMID: 27533782,diffusion,stMLnet,same,conflict,True,False
+Sema6b,Plxna2,Cell-Cell Contact,SEMA6,PMID: 27533782,diffusion,stMLnet,same,conflict,True,False
+Sema6b,Plxna4,Cell-Cell Contact,SEMA6,PMID: 27533782,diffusion,stMLnet,same,conflict,True,False
+Siglec1,Spn,Cell-Cell Contact,SN,KEGG: mmu04514; PMID: 11238599,diffusion,stMLnet,same,conflict,False,False
+Vsir,Igsf11,Cell-Cell Contact,VISTA,KEGG: mmu04514,diffusion,stMLnet,same,conflict,False,False
+Tnfsf8,Tnfrsf8,Secreted Signaling,CD30,KEGG: mmu04060,contact,stMLnet,same,conflict,False,False
+Tnfsf4,Tnfrsf4,Secreted Signaling,OX40,KEGG: mmu04060,contact,stMLnet,same,conflict,False,False
+Rtn4r,Adgrb1,Cell-Cell Contact,ADGRB,PMID: 31462748,diffusion,stMLnet,swapped,conflict,True,False
+Cd55,Adgre5,Cell-Cell Contact,ADGRE,PMID: 31462748,diffusion,stMLnet,swapped,conflict,False,False
+Cadm3,Cadm1,Cell-Cell Contact,CADM,PMID: 33397712;,diffusion,stMLnet,swapped,conflict,True,False
+Crtam,Cadm1,Cell-Cell Contact,CADM,PMID: 26694968,diffusion,stMLnet,swapped,conflict,False,False
+Cd160,Tnfrsf14,Cell-Cell Contact,CD160,PMID:21959263;PMID:18193050,diffusion,stMLnet,swapped,conflict,False,False
+Cd200,Cd200r1,Cell-Cell Contact,CD200,PMID: 15187158,diffusion,stMLnet,swapped,conflict,False,False
+Cd40lg,Cd40,Cell-Cell Contact,CD40,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,False,False
+Ptprc,Cd22,Cell-Cell Contact,CD45,PMID: 12115612,diffusion,stMLnet,swapped,conflict,False,False
+Ptprc,Mrc1,Cell-Cell Contact,CD45,PMID: 27601670; PMID: 10575006,diffusion,stMLnet,swapped,conflict,False,False
+Cd6,Alcam,Cell-Cell Contact,CD6,PMID: 23602662,diffusion,stMLnet,swapped,conflict,False,False
+Cd80,Cd274,Cell-Cell Contact,CD80,PMID: 17629517; PMID: 18585785,diffusion,stMLnet,swapped,conflict,False,False
+Cd96,Pvr,Cell-Cell Contact,CD96,PMID: 15034010,diffusion,stMLnet,swapped,conflict,False,False
+Cd8a,Ceacam5,Cell-Cell Contact,CEACAM,PMID: 24104458,diffusion,stMLnet,swapped,conflict,False,False
+Sele,Ceacam1,Cell-Cell Contact,CEACAM,PMID: 1378450,diffusion,stMLnet,swapped,conflict,False,False
+Clec2d,Klrb1,Cell-Cell Contact,CLEC,PMID:24223577,diffusion,stMLnet,swapped,conflict,False,False
+Dsc1,Dsg2,Cell-Cell Contact,DESMOSOME,PMID: 27298358,diffusion,stMLnet,swapped,conflict,False,False
+Dsg2,Dsc3,Cell-Cell Contact,DESMOSOME,PMID: 27298358,diffusion,stMLnet,swapped,conflict,False,False
+Efnb1,Epha4,Cell-Cell Contact,EPHB,PMID: 15114347,diffusion,stMLnet,swapped,conflict,False,False
+Icam1,Itgal,Cell-Cell Contact,ICAM,PMID: 23602662,diffusion,stMLnet,swapped,conflict,False,False
+Jam2,F11r,Cell-Cell Contact,JAM,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,False,False
+Jam2,Jam3,Cell-Cell Contact,JAM,PMC1237098;  PMID: 11590146,diffusion,stMLnet,swapped,conflict,False,False
+Jam3,F11r,Cell-Cell Contact,JAM,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,False,False
+Ncam1,L1cam,Cell-Cell Contact,NCAM,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Nectin1,Cadm3,Cell-Cell Contact,NECTIN,PMID: 23027581,diffusion,stMLnet,swapped,conflict,True,False
+Nectin1,Cd96,Cell-Cell Contact,NECTIN,PMID: 23027581,diffusion,stMLnet,swapped,conflict,False,False
+Nectin2,Cd226,Cell-Cell Contact,NECTIN,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,False,False
+Nectin3,Nectin2,Cell-Cell Contact,NECTIN,PMID: 23027581,diffusion,stMLnet,swapped,conflict,False,False
+Nectin3,Pvr,Cell-Cell Contact,NECTIN,PMID: 23027581,diffusion,stMLnet,swapped,conflict,False,False
+Lrrc4,Ntng2,Cell-Cell Contact,NGL,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Lrrc4c,Ntng1,Cell-Cell Contact,NGL,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Nrxn1,Nlgn1,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Nrxn1,Nlgn2,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Nrxn1,Nlgn3,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Nrxn2,Nlgn1,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Nrxn2,Nlgn2,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Nrxn2,Nlgn3,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Nrxn3,Nlgn1,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Nrxn3,Nlgn2,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Nrxn3,Nlgn3,Cell-Cell Contact,NRXN,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,True,False
+Pecam1,Cd38,Cell-Cell Contact,PECAM2,PMID:26407101,diffusion,stMLnet,swapped,conflict,False,False
+Pvr,Cd226,Cell-Cell Contact,PVR,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,False,False
+Sele,Cd44,Cell-Cell Contact,SELE,PMC4571854,diffusion,stMLnet,swapped,conflict,False,False
+Sele,Glg1,Cell-Cell Contact,SELE,PMID: 11404363,diffusion,stMLnet,swapped,conflict,False,False
+Sell,Cd34,Cell-Cell Contact,SELL,PMID: 7692600; PMID: 8977216,diffusion,stMLnet,swapped,conflict,False,False
+Sell,Podxl,Cell-Cell Contact,SELL,PMID: 22814396,diffusion,stMLnet,swapped,conflict,False,False
+Vsir,Igsf11,Cell-Cell Contact,VISTA,KEGG: mmu04514,diffusion,stMLnet,swapped,conflict,False,False

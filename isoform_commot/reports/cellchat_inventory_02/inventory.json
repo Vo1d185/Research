@@ -1,0 +1,47 @@
+{
+  "status": "complete",
+  "datasets": {
+    "Stereo-seq bin60": {
+      "n_spots": 7765,
+      "n_genes": 25691,
+      "duplicated_symbols_summed": 0,
+      "duplicated_symbols_used_by_cellchat": []
+    },
+    "Visium posterior": {
+      "n_spots": 3355,
+      "n_genes": 32245,
+      "duplicated_symbols_summed": 38,
+      "duplicated_symbols_used_by_cellchat": [
+        "Ccl19",
+        "Ccl21a",
+        "Ccl21b",
+        "Ccl27a",
+        "Il11ra2",
+        "Pcdha11"
+      ]
+    }
+  },
+  "h5ad_sha256": "f780d5e6da61e17232c03be36f123bcae302fd296951ffb378e3c40a692e2597",
+  "visium_matrix_sha256": "df962209143860488bd679ff7a1b3bb14985208d0929fb814934ba7571c488b6",
+  "cellchat": {
+    "commit": "75253cd0c9e68410e6e721a6d3a0419a1d7e358f",
+    "raw_sha256": "dd59b19646e546b3ed41f394ad2cf64cf44f3d3fcfbb58ac176f0fe1322f9413"
+  },
+  "scseqcomm": "scSeqComm 95c9bb251cd94eb8d38db41086e71c1bf46f625a",
+  "cccvelo_db": {
+    "source": "CCCvelo fac213c600e7929b5d14e7d95dbdaabd722f9bc9 Databases/Database.rar",
+    "raw_sha256": "0afe64a0f0c7c5db14fba2a8c50e031d534233556a03254c46a2c1e9a3c016df"
+  },
+  "thresholds": [
+    0.01,
+    0.05
+  ],
+  "top_tf": 10,
+  "min_targets": 5,
+  "complex_rules": [
+    "single_gene_only",
+    "complex_any_subunit_tf",
+    "complex_all_subunits_tf"
+  ],
+  "note": "Counts only; no panel selected; no OT."
+}
