@@ -248,6 +248,29 @@ class Report(unittest.TestCase):
             self.assertAlmostEqual(paired.mean_difference, np.mean([.1, .3, -.1]))
 
 
+class Pairs(unittest.TestCase):
+    def test_each_slide_keeps_its_own_pairs(self):
+        sp = hex_slide(4, 8)
+        x = pd.DataFrame(1.0, index=sp.index, columns=['L1', 'L2', 'R1'])
+        cfg = dict(stage2.DEFAULTS, coordinate_unit='micrometer', expression_level='gene', expression_state='processed')
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            for name, keep in [('p', [0, 1]), ('a', [1, 2])]:
+                lr = pd.DataFrame(dict(ligand=['L1', 'L2', 'L1'], receptor=['R1', 'R1', 'R2'],
+                                       type=['diffusion', 'contact', 'contact'], pathway_name='x'))
+                write_input(root/name, sp, x, lr.iloc[keep], cfg)
+                audit = lr.assign(reason=['selected' if i in keep else 'subunit_below_min_cell_pct' for i in range(3)])
+                audit.to_csv(root/name/'filter_audit.csv', index=False)
+            stage2.pairs(argparse.Namespace(posterior=str(root/'p'), anterior=str(root/'a'), output=str(root/'out')))
+            counts = pd.read_csv(root/'out'/'counts.csv').set_index('type')
+            self.assertEqual(tuple(counts.loc['all', ['posterior', 'anterior', 'intersection', 'union']]), (2, 2, 1, 3))
+            union = pd.read_csv(root/'out'/'pairs_union.csv')
+            only_p = union[union.in_posterior & ~union.in_anterior].iloc[0]
+            self.assertEqual((only_p.ligand, only_p.anterior_filter), ('L1', 'subunit_below_min_cell_pct'))
+            edges = pd.read_csv(root/'out'/'spot_pairs.csv')
+            self.assertTrue((edges.max_distance_within <= edges.cutoff_um).all())
+
+
 class Preprocessing(unittest.TestCase):
     def test_normalize_filter_and_complex_minimum(self):
         X = sparse.csr_matrix(np.array([[1, 0, 3, 0], [0, 2, 2, 0], [4, 0, 0, 5]], float))

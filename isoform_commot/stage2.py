@@ -8,6 +8,8 @@ Plan: reports/stage2_plan.md (committed before any stage-2 OT run).
   run            sparse cost per LR pair + pinned COMMOT unot_sinkhorn_l1_sparse; sparse case files
   compare-dense  rebuild every cost densely from the full distance matrix, solve with the dense
                  solver, and compare cost entries and transport element by element
+  pairs          filtered LR pairs of two prepared slides (each slide's own COMMOT filter) and their
+                 intersection, with the spot-pair counts at the plan's cutoffs (plan sections 2, 8.3)
   report         plan section 8: condition table (transported fractions, checks, target metrics),
                  r0 selection (posterior, condition A), paired receptor comparisons, figure
 
@@ -447,6 +449,62 @@ def compare_dense(args):
     check(table.passed.all(), 'Sparse and dense results differ beyond the plan tolerance (1e-6)')
 
 
+# ------------------------------------------------------------------ pair lists of two slides
+def pairs(args):
+    """Each slide keeps the pairs that pass its own filter; report both lists and their intersection."""
+    from scipy.spatial import cKDTree
+    out = Path(args.output)
+    check(not out.exists(), f'Output exists: {out}')
+    sources = {'posterior': Path(args.posterior), 'anterior': Path(args.anterior)}
+    preps = {k: verified(v) for k, v in sources.items()}
+    keys = ['ligand', 'receptor', 'type', 'pathway_name']
+    lists = {k: pd.read_csv(v/'lr.csv', dtype=str)[keys] for k, v in sources.items()}
+    audits = {k: pd.read_csv(v/'filter_audit.csv', dtype={'ligand': str, 'receptor': str})
+              for k, v in sources.items()}
+    both = lists['posterior'].merge(lists['anterior'], on=keys, how='outer', indicator=True)
+    both['in_posterior'] = both._merge.isin(['both', 'left_only'])
+    both['in_anterior'] = both._merge.isin(['both', 'right_only'])
+    for k in sources:   # why a pair missing on one slide was excluded there
+        reason = audits[k].set_index(['ligand', 'receptor']).reason
+        both[f'{k}_filter'] = [reason.get((l, r), 'not_in_database') for l, r in zip(both.ligand, both.receptor)]
+    both = both.drop(columns='_merge').sort_values(['type', 'ligand', 'receptor'])
+    rows = []
+    for kind in ['diffusion', 'contact', 'all']:
+        sub_ = both if kind == 'all' else both[both.type == kind]
+        p_, a_ = sub_[sub_.in_posterior], sub_[sub_.in_anterior]
+        i_ = sub_[sub_.in_posterior & sub_.in_anterior]
+        rows.append(dict(type=kind, posterior=len(p_), anterior=len(a_), intersection=len(i_),
+                         union=len(sub_), jaccard=len(i_)/len(sub_) if len(sub_) else np.nan,
+                         receptors_posterior=p_.receptor.nunique(), receptors_anterior=a_.receptor.nunique(),
+                         receptors_intersection=len(set(p_.receptor) & set(a_.receptor))))
+    counts = pd.DataFrame(rows)
+    edges = []
+    for k, v in sources.items():
+        sp = pd.read_csv(v/'spatial.csv', index_col=0)
+        xy = sp[['x', 'y']].to_numpy(float)
+        pr = cKDTree(xy).query_pairs(520.0, output_type='ndarray')
+        d = np.linalg.norm(xy[pr[:, 0]] - xy[pr[:, 1]], axis=1)
+        for cut in [COMMOT_TUTORIAL_CUTOFF_UM, 363.0, 500.0]:
+            edges.append(dict(slide=k, cutoff_um=cut, spot_pairs=int((d <= cut).sum()),
+                              max_distance_within=float(d[d <= cut].max()),
+                              min_distance_beyond=float(d[d > cut].min()) if (d > cut).any() else np.nan,
+                              spots=len(sp), um_per_px=preps[k].get('um_per_px'),
+                              neighbour_spacing_um=preps[k].get('neighbour_spacing_um')))
+    out.mkdir(parents=True)
+    for k in sources:
+        both[both[f'in_{k}']][keys].to_csv(out/f'pairs_{k}.csv', index=False)
+    both.to_csv(out/'pairs_union.csv', index=False)
+    counts.to_csv(out/'counts.csv', index=False)
+    pd.DataFrame(edges).to_csv(out/'spot_pairs.csv', index=False)
+    write_json(out/'pairs.json', dict(status='complete', launch=launch_info(),
+        inputs={k: dict(path=str(v), sample=preps[k]['sample'], prepared_sha256=preps[k]['prepared_sha256'])
+                for k, v in sources.items()},
+        notes=['Each slide uses only its own filtered pairs (plan: same rules, independent filtering).',
+               'spot_pairs counts unordered spot pairs with 0 < d <= cutoff (self pairs excluded).']))
+    print(counts.to_string(index=False))
+    print(pd.DataFrame(edges).to_string(index=False))
+
+
 # ------------------------------------------------------------------ report (plan section 8)
 CONDITIONS = {   # code: method, scheme, eps, rho, cutoff (um); plan section 8.1
     'A': ('ours', 'collective', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),
@@ -626,6 +684,8 @@ def parser():
     r.add_argument('--rho', type=float, help='default: config rho')
     r.add_argument('--diffusion-cutoff-um', type=float, help='default: config diffusion_cutoff_um')
     c = sub.add_parser('compare-dense'); c.add_argument('--input', required=True); c.add_argument('--results', required=True)
+    s = sub.add_parser('pairs'); s.add_argument('--posterior', required=True); s.add_argument('--anterior', required=True)
+    s.add_argument('--output', required=True)
     o = sub.add_parser('report'); o.add_argument('--eval', required=True, help='evaluate_targets.py output')
     o.add_argument('--output', required=True)
     return p
@@ -634,7 +694,7 @@ def parser():
 def main():
     args = parser().parse_args()
     {'fetch': fetch, 'prepare': prepare, 'export-genes': export_genes, 'run': run,
-     'compare-dense': compare_dense, 'report': report}[args.command](args)
+     'compare-dense': compare_dense, 'pairs': pairs, 'report': report}[args.command](args)
 
 
 if __name__ == '__main__':
