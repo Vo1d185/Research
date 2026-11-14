@@ -104,8 +104,8 @@ def sparse_kkt_check(row, col, c, t, aa, bb, eps, rho, tol=1e-7, shape_tol=1e-8)
     G = sparse.coo_matrix((np.ones(len(r) + ncomp), (np.r_[r, np.full(ncomp, root)], np.r_[R + s, reps])),
                           shape=(nodes + 1, nodes + 1)).tocsr()
     order, pred = breadth_first_order(G, root, directed=False, return_predecessors=True)
-    order = order[1:]
-    p = pred[order]
+    order = order[1:].astype(np.int64)               # csgraph returns int32; row*K + col needs int64
+    p = pred[order].astype(np.int64)
     tree = p != root
     rnode = np.where(order < R, order, p)[tree]
     cnode = np.where(order < R, p, order)[tree] - R

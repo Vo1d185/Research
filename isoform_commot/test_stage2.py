@@ -68,6 +68,19 @@ class SparseSolver(unittest.TestCase):
             with self.assertRaises(ValueError):
                 sparse_kkt_check(*args)
 
+    def test_kkt_check_large_index_space(self):
+        # whole-slide sizes: row * n_cols exceeds int32 (csgraph returns int32 node indices)
+        rng = np.random.default_rng(9)
+        C = rng.uniform(0, 1, (6, 5))
+        a, b = rng.uniform(.1, 1, 6), rng.uniform(.1, 1, 5)
+        r, c = np.nonzero(np.isfinite(C))
+        T, info = solve_sparse(r, c, C[r, c], a, b, 0.1, 10.0)
+        s, R, K, off = max(a.sum(), b.sum()), 60000, 60000, 59990
+        aa, bb = np.zeros(R), np.zeros(K)
+        aa[off:off+6], bb[off:off+5] = a/s, b/s
+        out = sparse_kkt_check(r + off, c + off, C[r, c], T/s, aa, bb, 0.1, 10.0)
+        self.assertLessEqual(out['kkt_tol'], 1e-9)
+
     def test_kkt_check_covers_rows_the_primal_check_cannot(self):
         rng = np.random.default_rng(8)
         C = rng.uniform(0, 1, (40, 30)); C[rng.uniform(size=C.shape) < .7] = np.inf
