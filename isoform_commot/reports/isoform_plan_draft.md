@@ -1,7 +1,8 @@
 # isoform 部分方案草稿：按结合结构域判断兼容性
 
 **状态：草稿，只是文档，没有运行任何东西。等与导师讨论后再执行。** 2026-11-15。
-依据 [`reports/isoform_candidates_01/`](isoform_candidates_01/README.md)（后部面板 358 个基因，96 个候选）。
+依据 [`reports/isoform_candidates_02/`](isoform_candidates_02/README.md)（后部面板 358 个基因，97 个候选；
+02 在 [01](isoform_candidates_01/README.md) 的基础上把同一基因的多个已审阅条目当作 isoform，新增 Nrxn2）。
 标"待讨论"的是需要决定的地方；标"待文献核对"的生物学说法在执行前要逐条核对原文。
 
 ## 0. 要回答的问题
@@ -15,7 +16,12 @@ Visium 3′ 计数只给基因层面的表达，分不出 isoform。若某个 is
 
 - 每个基因 g 的 isoform 集合 I_g：UniProt 已审阅条目 ALTERNATIVE PRODUCTS 中的 isoform（canonical 加 alternative products）。
 - **同一基因有多个已审阅条目时**（Nrxn1、Nrxn2、Nrxn3 的 α/β），把各条目及其 isoform 合并为同一基因的 isoform 集合。
-  盘点 01 的候选规则只看 `Alternative sequence`，因而漏掉了 Nrxn2（两个条目都没有注释的可变区）；执行时这类基因单独处理。
+  条目按主基因名和 MGI 交叉引用归入基因（盘点 02 的规则；本面板中没有只能通过 MGI 找到的条目）。
+- **Nrxn2 在盘点 01 中被漏掉的原因：** 盘点 01 的候选规则只在单个条目内找带标记的 `Alternative sequence` 特征。
+  Nrxn2 的 α（E9Q7X7）和 β（E9PUN2）是两个已审阅条目，各自的 ALTERNATIVE PRODUCTS 列出 1a、1b 两个 isoform，
+  但另一个 isoform 的序列在另一个条目中，所以两个条目都没有 `Alternative sequence` 特征；01 列出了"有多个条目的基因"，
+  但没有比较条目之间的序列。Nrxn1、Nrxn3 的 α 条目本身有 `Alternative sequence`，所以没有被漏掉。
+  盘点 02 增加了条目间比较（与最长条目比较，相同的连续片段 ≥ 10 aa 算共有），Nrxn2 因 α 的 1–1135 在 β 中被替换而成为候选。
 - 盘点中找不到条目的 11 个基因（Flt3l、Kitl、Pcdhb* 等）暂不处理（待讨论：是否用同义名查找）。
 
 ## 2. 兼容性判断（每个 isoform k × 每个含该基因的 LR 对）
@@ -26,7 +32,9 @@ Visium 3′ 计数只给基因层面的表达，分不出 isoform。若某个 is
    得到每个 isoform 保留、删除、替换的 canonical 区段。
 2. **拓扑：** `Signal`、`Transmembrane`、`Topological domain`（胞外 / 胞内）。
 3. **结合决定区（BD）：** 依次取
-   (a) UniProt `Region` 中描述提到该配对蛋白或其家族（如 "Interaction with NLGN1"）的区段，以及 `Binding site`；
+   (a) UniProt `Region` 中描述提到该配对蛋白或其家族（如 "Interaction with NLGN1"）的区段，以及配体是该配对蛋白的 `Binding site`；
+       配体是金属离子或小分子的 `Binding site`（如 neurexin LNS 结构域中的 Ca²⁺ 位点）不算结合决定区
+       （盘点 01/02 的"结合"标记包含这些位点，只用于筛选候选）；
    (b) 没有 (a) 时，用 Pfam 结构域（经 InterPro 映射到 canonical 坐标）和 UniProt `Domain`，**但只有在人工整理的表中写明"该类相互作用由此结构域介导"并附文献时才用**；
    (c) 都没有：BD 未知。
 4. 所有来源记录版本（UniProt release、InterPro / Pfam release）和查询时间，原始响应保存哈希。
@@ -64,9 +72,9 @@ Visium 3′ 计数只给基因层面的表达，分不出 isoform。若某个 is
 
 | 基因 | UniProt | 盘点 01 中的可变区 | 后部面板中的配对 |
 |---|---|---|---|
-| Nrxn1 | α Q9CS84（1514 aa）、β P0DI97（468 aa） | α 上 6 个：379–393、387–393（Laminin G-like 2，即 SS2 位置，待核对）；1247–1276（Laminin G-like 6，30 aa，即 SS4 位置，待核对）；isoform 6 替换 1–1372（类似 β 的 N 端） | Adgrl1、Clstn1–3、Dag1、Lrrtm1–4、Nlgn1–3（12 对） |
-| Nrxn2 | E9PUN2、E9Q7X7 | 没有注释的可变区（盘点规则漏掉） | 与 Nrxn1 相同的 12 个受体 |
-| Nrxn3 | Q8C985、Q6P9K9 | 3 个（1–373 替换，含 EGF-like 1、Laminin G-like 1–2；1047；1364–1470） | Adgrl1、Lrrtm1–4、Nlgn1–3 |
+| Nrxn1 | α Q9CS84（1514 aa）、β P0DI97（468 aa） | α 上 6 个：379–393、387–393（Laminin G-like 2，即 SS2 位置，待核对）；1247–1276（Laminin G-like 6，30 aa，即 SS4 位置，待核对）；isoform 6 替换 1–1372（类似 β 的 N 端）。条目间：α 1–1129 被 β 1–83 替换，C 端 385 aa 相同 | Adgrl1、Clstn1–3、Dag1、Lrrtm1–4、Nlgn1–3（12 对） |
+| Nrxn2 | α E9Q7X7（1710 aa）、β E9PUN2（660 aa） | 两个条目都没有 `Alternative sequence`（盘点 01 因此漏掉）。条目间：α 1–1135 被 β 1–85 替换，C 端 575 aa 相同 | 与 Nrxn1 相同的 12 个受体 |
+| Nrxn3 | α Q6P9K9（1571 aa）、β Q8C985（567 aa） | α 上 3 个（1–373 替换，含 EGF-like 1、Laminin G-like 1–2；1047；1364–1470）。条目间：α 1–1088 被 β 1–81 替换；β 在 α 1364/1365 之间多 3 aa | Adgrl1、Lrrtm1–4、Nlgn1–3 |
 
 **待文献核对的要点**（执行前逐条找原始文献）：
 - α-neurexin 有 6 个 LNS（Laminin G-like）结构域和 3 个 EGF 样结构域，β-neurexin 只有与 α 的 LNS6 相同的一个 LNS 结构域和 β 特有的 N 端。
