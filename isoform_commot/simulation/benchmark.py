@@ -311,7 +311,7 @@ def solve_commot(scen, dis_thr, eps, rho, nitermax, stopthr, square=False):
     a, b = S.T.reshape(-1), R.T.reshape(-1)
     max_amount = max(a.sum(), b.sum())
     cost_scale = float(M[M <= cut].max())
-    info = dict(entries=len(row), solves=len(iterations), niter=max(iterations), nitermax=nitermax,
+    info = dict(entries=len(row), solves=len(iterations), niter=max(iterations),
                 cap_reached=bool(max(iterations) > nitermax), cost_scale=cost_scale,
                 forbidden_mass=float(T[Mval > cut * (1 + 1e-12)].sum()), total_T=float(T.sum()),
                 frac_ligand=float(T.sum() / a.sum()), frac_receptor=float(T.sum() / b.sum()))
@@ -350,10 +350,12 @@ def ot(args):
     seconds = round(time.time() - start, 1)
     if signal is not None:
         np.savez_compressed(out/f'{name}.npz', signal=signal, pairs=np.array(pairs_of(scen['binding'])))
-    write_json(target, dict(status='complete', launch=launch, finished=now(), scenario=args.scenario,
+    record = dict(status='complete', launch=launch, finished=now(), scenario=args.scenario,
         family=family, condition=args.condition, k=args.k if family in ('inv', 'r0') else None,
         eps=args.eps, rho=args.rho, nitermax=args.nitermax, stopthr=args.stopthr, seconds=seconds,
-        signal_saved=signal is not None, **setting, **info))
+        signal_saved=signal is not None, **setting)
+    record.update({(f'solver_{key}' if key in record else key): v for key, v in info.items()})   # never clash
+    write_json(target, record)
     print(name, json.dumps({k: info.get(k) for k in ['entries', 'niter', 'cap_reached', 'check_passed']}), seconds, flush=True)
 
 

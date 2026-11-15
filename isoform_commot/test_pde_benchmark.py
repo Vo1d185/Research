@@ -249,5 +249,24 @@ class Analysis(unittest.TestCase):
         self.assertTrue((diffs[diffs.comparison == 'O-inv - Cd 4 lambda'].mean_difference == 0).all())
 
 
+class EndToEnd(unittest.TestCase):
+    def test_ot_writes_records_for_every_family(self):
+        import argparse, json, tempfile
+        scen = small_scenario()
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            np.savez_compressed(d/'toy.npz', **scen)
+            for cond, eps, rho, nitermax, stopthr in [('r0_1', 0.2, 1.0, 50000, 1e-11), ('inv', 0.2, 1.0, 50000, 1e-11),
+                                                      ('cd_4lambda', 0.2, 1.0, 50000, 1e-11),
+                                                      ('ref', 0.25, 1.0, 10000, 1e-8)]:
+                bm.ot(argparse.Namespace(scenarios=str(d), scenario='toy', k=0, condition=cond, eps=eps, rho=rho,
+                                         nitermax=nitermax, stopthr=stopthr, output=str(d/'ot')))
+                name = bm.run_name(0, cond, eps, rho, nitermax)
+                record = json.loads((d/'ot'/'toy'/f'{name}.json').read_text())
+                self.assertEqual(record['nitermax'], nitermax)
+                self.assertTrue(record['check_passed'], record)
+                self.assertTrue((d/'ot'/'toy'/f'{name}.npz').exists())
+
+
 if __name__ == '__main__':
     unittest.main()
