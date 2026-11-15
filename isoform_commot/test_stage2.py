@@ -462,6 +462,129 @@ class Validation(unittest.TestCase):
                 stage2.shuffle(argparse.Namespace(input=str(root/'s1'), output=str(root/'s1x'), seed=1))
 
 
+class R0Validation(unittest.TestCase):
+    """Plan section 9: condition codes, evaluation of shuffled results, criteria (a)-(d), negative control."""
+
+    def table(self, a, f, i, b, n=40, seed=0):
+        rng = np.random.default_rng(seed)
+        noise = lambda: rng.normal(0, 0.01, n)
+        idx = [f'R{k}' for k in range(n)]
+        return pd.DataFrame({'A_50': 0.1 + noise(), 'A_200': a + noise(), 'F': f + noise(), 'I': i + noise(),
+                             'B': b + noise(), 'P1': 0.0 + noise(), 'P2': 0.0 + noise(), 'P3': 0.0 + noise()}, index=idx)
+
+    def test_bootstrap_is_seeded_and_criteria_verdicts(self):
+        import r0_validation as rv
+        x = np.random.default_rng(3).normal(0.1, 0.05, 30)
+        self.assertEqual(rv.bootstrap_mean(x), rv.bootstrap_mean(x))
+        b = rv.bootstrap_mean(x)
+        self.assertTrue(b['ci_low'] < b['mean'] < b['ci_high'])
+        classes = {f'R{k}': 'Secreted' if k < 20 else 'Contact' if k < 35 else 'both' for k in range(40)}
+        t = self.table(0.30, 0.20, 0.20, 0.20)
+        t.loc[t.index[20:35], 'A_200'] = t.loc[t.index[20:35], 'F'] + 0.001        # contact receptors: no gain
+        summary, receptors, common = rv.difference_tables(t, 200.0, classes)
+        c = rv.criteria(summary, receptors)
+        self.assertEqual([c[k]['met'] for k in 'abcd'], [True, True, True, True])
+        self.assertEqual(c['verdict'], 'useful')
+        self.assertEqual((c['d']['secreted_n'], c['d']['contact_n'], c['d']['both_n']), (20, 15, 5))
+        self.assertGreater(c['d']['secreted_mean'], c['d']['contact_mean'])
+        t = self.table(0.20, 0.30, 0.30, 0.30)                                       # A worse everywhere
+        c = rv.criteria(*rv.difference_tables(t, 200.0, classes)[:2])
+        self.assertFalse(c['a']['met'] or c['b']['met'] or c['c']['met'])
+        t = self.table(0.30, 0.20, 0.20, 0.40)                                       # better than F and I, worse than B
+        c = rv.criteria(*rv.difference_tables(t, 200.0, classes)[:2])
+        self.assertTrue(c['a']['met'] and c['c']['met'] and not c['b']['met'])
+        self.assertTrue(c['b']['I_met'] and not c['b']['B_met'])
+        self.assertTrue(c['verdict'].startswith('partly met: a'))
+        t = self.table(0.20, 0.20, 0.20, 0.20)                                       # interval includes 0
+        c = rv.criteria(*rv.difference_tables(t, 200.0, classes)[:2])
+        self.assertFalse(c['a']['met'])
+
+    def test_negative_control_and_curve(self):
+        import r0_validation as rv
+        t = self.table(0.30, 0.2, 0.2, 0.2)
+        table, verdict = rv.negative_control(t)
+        self.assertFalse(verdict['insensitive'])                                     # A(200) clearly above shuffled
+        self.assertAlmostEqual(verdict['mean_difference'], 0.30, places=2)
+        t[['P1', 'P2', 'P3']] = t[['A_200']].to_numpy() + np.random.default_rng(1).normal(0, .01, (40, 3))
+        self.assertTrue(rv.negative_control(t)[1]['insensitive'])
+        self.assertEqual(rv.negative_control(t.drop(columns='P3')), (None, None))
+        t.loc['R0', 'F'] = np.nan                                                    # R0 leaves the common set
+        curve, common = rv.curve_table(t, [50.0, 200.0], pd.Series(0.05, index=t.index))
+        self.assertEqual(len(common), 39)
+        self.assertEqual(curve.condition.tolist(), ['A', 'A', 'F', 'I', 'B', 'receptor_only'])
+        self.assertTrue((curve.n == 39).all())
+
+    def test_condition_codes_and_report_on_real_runs(self):
+        import commot_baseline
+        import evaluate_targets
+        import r0_validation as rv
+        sp = hex_slide(5, 10)
+        rng = np.random.default_rng(7)
+        x = pd.DataFrame(rng.poisson(3, (len(sp), 4)).astype(float) + 1, index=sp.index, columns=['L1', 'R1', 'R2', 'R3'])
+        lr = pd.DataFrame(dict(ligand=['L1', 'L1', 'L1'], receptor=['R1', 'R2', 'R3'],
+                               type=['diffusion', 'contact', 'diffusion'], pathway_name='p'))
+        cfg = dict(stage2.DEFAULTS, coordinate_unit='micrometer', expression_level='gene', expression_state='processed')
+        cut = stage2.COMMOT_TUTORIAL_CUTOFF_UM
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            write_input(root/'in', sp, x, lr, cfg)
+            lr.assign(reason='selected').to_csv(root/'in'/'filter_audit.csv', index=False)
+            prep = json.loads((root/'in'/'preparation.json').read_text())
+            prep['prepared_sha256']['filter_audit.csv'] = stage2.digest(root/'in'/'filter_audit.csv')
+            (root/'in'/'preparation.json').write_text(json.dumps(prep))
+            main = dict(eps=0.1, rho=10.0, diffusion_cutoff_um=cut)
+            run = lambda name, src='in', **kw: stage2.run(argparse.Namespace(input=str(root/src), output=str(root/name),
+                                                                             **dict(main, **kw)))
+            run('A', r0_um=[100.0, 200.0], kernel='r0')
+            run('F', r0_um=None, kernel='flat')
+            run('I', r0_um=None, kernel='inverse')
+            for seed in (1, 2, 3):
+                stage2.shuffle(argparse.Namespace(input=str(root/'in'), output=str(root/f's{seed}'), seed=seed))
+                run(f'P{seed}', src=f's{seed}', r0_um=[200.0], kernel='r0')
+            commot_baseline.run(root/'in', root/'B', dis_thr_um=[cut], eps=0.1, rho=10.0, weights=(1, 0, 0, 0),
+                                nitermax=50000, stopthr=1e-11)
+            folders = ['A', 'F', 'I', 'P1', 'P2', 'P3', 'B']
+            codes = {f: stage2.condition_cases(root/f).condition.tolist() for f in folders}
+            self.assertEqual(codes, dict(A=['A', 'A'], F=['F'], I=['I'], P1=['P1'], P2=['P2'], P3=['P3'], B=['B']))
+            for f in folders:                                    # shuffled results evaluate against the unshuffled input
+                evaluate_targets.load_results(root/f, root/'in')
+            with self.assertRaises(ValueError):
+                evaluate_targets.load_results(root/'A', root/'s1')
+            for f in ('F', 'P1'):
+                case = stage2.condition_cases(root/f).to_dict('records')[0]
+                case['forbidden_mass'] = stage2.forbidden_mass(case)
+                self.assertTrue(stage2.converged(case))
+            ev = root/'eval'
+            ev.mkdir()
+            receptors = ['R1', 'R2', 'R3']
+            pd.DataFrame(dict(receptor=receptors, top_tf=10, status='evaluated')).to_csv(ev/'target_sets.csv', index=False)
+            value = {('A', 'case_000'): [.2, .1, .3], ('A', 'case_001'): [.4, .1, .5], ('F', 'case_000'): [.1, .1, .2],
+                     ('I', 'case_000'): [.2, .1, .2], ('B', 'case_000'): [.3, .1, .1], ('P1', 'case_000'): [.0, .1, .0],
+                     ('P2', 'case_000'): [.1, .0, .0], ('P3', 'case_000'): [.0, .0, .1]}
+            rows = [dict(results=str(root/f), case=c, level='receptor', top_tf=10, target_score='mean', score_mode='no_ppi',
+                         receptor=r, partial_spearman=v, spearman=v, receptor_only_spearman=0.05)
+                    for (f, c), values in value.items() for r, v in zip(receptors, values)]
+            pd.DataFrame(rows).to_csv(ev/'case_metrics.csv', index=False)
+            (ev/'eval_manifest.json').write_text(json.dumps(dict(status='complete', results=[str(root/f) for f in folders],
+                primary_top_tf=10, target_score=['mean'], input=str(root/'in'))))
+            rv.run(argparse.Namespace(eval=str(ev), output=str(root/'val_post'), posterior=None))
+            post = json.loads((root/'val_post'/'validation.json').read_text())
+            self.assertEqual((post['role'], post['r0_star_um'], post['receptors_curve']), ('selection', 200.0, 3))
+            self.assertEqual(post['receptor_classes'], dict(Secreted=2, Contact=1))
+            self.assertAlmostEqual(post['criteria']['a']['mean_difference'], (0.3 + 0.0 + 0.3) / 3)
+            self.assertAlmostEqual(post['criteria']['d']['secreted_mean'], 0.3)
+            self.assertAlmostEqual(post['criteria']['d']['contact_mean'], 0.0)
+            self.assertAlmostEqual(post['negative_control']['mean_difference'], (0.4 + 0.1 + 0.5) / 3 - 0.1 / 3 * 3 / 3, places=6)
+            for name in ['curve.csv', 'differences.csv', 'differences_receptors.csv', 'negative_control.csv', 'curve.png',
+                         'differences.png', 'r0_selection.csv']:
+                self.assertTrue((root/'val_post'/name).exists(), name)
+            rv.run(argparse.Namespace(eval=str(ev), output=str(root/'val_ant'), posterior=str(root/'val_post'/'validation.json')))
+            ant = json.loads((root/'val_ant'/'validation.json').read_text())
+            self.assertEqual((ant['role'], ant['r0_star_um'], ant['criteria_role']), ('confirmation', 200.0, 'confirmatory (plan 9.5)'))
+            stage2.report(argparse.Namespace(eval=str(ev), output=str(root/'rep'), posterior_report=None))   # section 8
+            self.assertEqual(set(pd.read_csv(root/'rep'/'conditions.csv').condition), {'A', 'B'})          # ignores F, I, P
+
+
 class Pairs(unittest.TestCase):
     def test_each_slide_keeps_its_own_pairs(self):
         sp = hex_slide(4, 8)

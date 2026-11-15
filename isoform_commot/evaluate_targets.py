@@ -215,8 +215,12 @@ def load_results(folder, input_dir):
     folder = Path(folder)
     manifest = json.loads((folder/'manifest.json').read_text())
     check(manifest.get('status') == 'complete', f'{folder}: incomplete results')
-    for name in ['expression.csv', 'spatial.csv', 'lr.csv']:
-        check(manifest['input_sha256'].get(name) == digest(Path(input_dir)/name),
+    shuffle = manifest.get('shuffle')       # stage-2 plan 9.1, condition P: same spots, expression and pairs;
+    for name in ['expression.csv', 'spatial.csv', 'lr.csv']:   # only the positions were permuted
+        expected = manifest['input_sha256'].get(name)
+        if shuffle and name == 'spatial.csv':
+            expected = shuffle['parent_prepared_sha256'].get(name)
+        check(expected == digest(Path(input_dir)/name),
               f'{folder}: {name} differs from --input; results were computed on other inputs')
     summary = pd.read_csv(folder/'summary.csv')
     pairs = pd.read_csv(folder/'used_lr.csv', dtype=str)

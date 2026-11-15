@@ -780,7 +780,15 @@ CONDITIONS = {   # code: method, scheme, eps, rho, cutoff (um); plan section 8.1
     'C': ('COMMOT', 'mixture', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),
     'C500': ('COMMOT', 'mixture', 0.1, 10.0, 500.0),
     'C726': ('COMMOT', 'mixture', 0.1, 10.0, COMMOT_PAPER_CUTOFF_UM),   # plan 8.12, sensitivity only
+    # plan section 9 (r0 validation): main setting of A; told apart by the kernel / the coordinate shuffle
+    'F': ('ours', 'collective', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),      # flat kernel
+    'I': ('ours', 'collective', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),      # inverse kernel
+    'P1': ('ours', 'collective', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),     # positions permuted, seed 1..3, r0 = 200 um
+    'P2': ('ours', 'collective', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),
+    'P3': ('ours', 'collective', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),
 }
+VALIDATION = ('F', 'I', 'P1', 'P2', 'P3')
+SHUFFLE_R0_UM = 200.0
 PAIRED = [('A', 'B'), ('A500', 'B500'), ('Aeps', 'Beps')]   # plan 8.10: same eps, rho, pure collective
 
 
@@ -802,10 +810,23 @@ def condition_cases(folder, strict=True):
     summary['method'] = 'ours' if ours else 'COMMOT'
     codes = []
     for row in summary.itertuples(index=False):
-        hit = [k for k, (m, s, e, r, c) in CONDITIONS.items() if m == row.method and s == row.scheme and
-               np.isclose(row.eps, e) and np.isclose(row.rho, r) and np.isclose(row.cutoff_um, c)]
+        hit = [k for k, (m, s, e, r, c) in CONDITIONS.items() if k not in VALIDATION and m == row.method and
+               s == row.scheme and np.isclose(row.eps, e) and np.isclose(row.rho, r) and np.isclose(row.cutoff_um, c)]
         check(len(hit) == 1, f'{folder}/{row.case}: not a plan-section-8 condition')
-        codes.append(hit[0])
+        code = hit[0]
+        kernel = getattr(row, 'kernel', 'r0') if ours else None
+        kernel = 'r0' if ours and (not isinstance(kernel, str)) else kernel     # summaries written before plan 9
+        shuffled = manifest.get('shuffle') if ours else None
+        if ours and (kernel != 'r0' or shuffled):                              # plan section 9 conditions
+            check(code == 'A', f'{folder}/{row.case}: flat/inverse/shuffled runs use the main setting of A')
+            check(not (kernel != 'r0' and shuffled), f'{folder}/{row.case}: shuffled runs use the r0 kernel')
+            if shuffled:
+                check(np.isclose(row.r0_um, SHUFFLE_R0_UM) and shuffled['seed'] in (1, 2, 3),
+                      f'{folder}/{row.case}: condition P uses r0 = {SHUFFLE_R0_UM:g} um and seeds 1-3')
+                code = f"P{shuffled['seed']}"
+            else:
+                code = {'flat': 'F', 'inverse': 'I'}[kernel]
+        codes.append(code)
     summary['condition'] = codes
     summary['results'] = str(folder)
     for code in set(codes) if strict else []:              # solver settings as in the plan
@@ -949,6 +970,7 @@ def report(args):
     meta = json.loads((ev/'eval_manifest.json').read_text())
     check(meta.get('status') == 'complete', 'Incomplete target evaluation')
     cases = pd.concat([condition_cases(r) for r in meta['results']], ignore_index=True)
+    cases = cases[~cases.condition.isin(VALIDATION)].reset_index(drop=True)   # section 9: r0_validation.py
     check(not cases.duplicated(['condition', 'r0_um'], keep=False).any(), 'A condition/r0 appears twice')
     lr = pd.read_csv(Path(meta['input'])/'lr.csv', dtype=str)
     classes = receptor_classes(lr)
