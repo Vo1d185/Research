@@ -227,6 +227,15 @@ class Report(unittest.TestCase):
                           solves=1, solves_at_cap=0, cap_reached=False)).to_csv(commot/'summary.csv', index=False)
         pd.DataFrame(dict(receptor=['R1', 'R2', 'R3'], top_tf=10, status='evaluated')).to_csv(ev/'target_sets.csv',
                                                                                               index=False)
+        common = dict(shape=(4, 4), a=np.ones(4), b=np.ones(4), spots=['s0', 's1'], ligands=['L1', 'L2'],
+                      receptors=['R1', 'R2'], pair_type=np.array(['diffusion', 'contact']))
+        for k, far in enumerate([False, True, False]):            # case_001 carries mass beyond the cutoff
+            d = [10.0, cut + 50.0 if far else 20.0, 100.0]
+            plans.save_sparse(ours/f'case_{k:03d}.npz', [0, 1, 2], [0, 1, 2], [0.1, 0.2, 0.0], [1.0, 0.5, 0.2],
+                              common['shape'], common['a'], common['b'], common['spots'], common['ligands'],
+                              common['receptors'], D=np.array(d), pair=np.array([0, 0, 1]), pair_type=common['pair_type'])
+        plans.save_sparse(commot/'case_000.npz', [0, 1], [0, 1], [10.0, cut], [1.0, 0.5], common['shape'], common['a'],
+                          common['b'], common['spots'], common['ligands'], common['receptors'])
         rows = [dict(results=str(root/f), case=c, level='receptor', top_tf=10, target_score='mean',
                      score_mode='no_ppi', receptor=r, partial_spearman=v, spearman=v, receptor_only_spearman=0.0)
                 for (f, c), values in partial.items() for r, v in zip(['R1', 'R2', 'R3'], values)]
@@ -251,9 +260,11 @@ class Report(unittest.TestCase):
             out = json.loads((root/'post'/'report'/'report.json').read_text())
             self.assertIn('git_head', out['launch'])
             self.assertEqual((out['role'], out['selected_r0_um'], out['receptors_for_r0_selection']), ('selection', 50.0, 2))
-            self.assertFalse(out['all_converged'])                      # r0 = 100 reached the iteration cap
+            self.assertFalse(out['all_converged'])
             conv = pd.read_csv(root/'post'/'report'/'convergence.csv')
-            self.assertEqual(list(conv.converged), [True, False, True, True])
+            self.assertEqual(list(conv.converged), [True, False, True, True])   # mass beyond the cutoff
+            self.assertEqual(list(conv.forbidden_mass), [0.0, 0.5, 0.0, 0.0])
+            self.assertTrue(conv.cap_reached.iloc[1])                    # recorded; not by itself a failure
             paired = pd.read_csv(root/'post'/'report'/'paired_receptors.csv').set_index('receptor_class')
             self.assertEqual(tuple(paired.loc['all', ['receptors', 'ours_higher', 'baseline_higher']]), (3, 2, 1))
             self.assertAlmostEqual(paired.loc['all', 'sign_test_p'], 1.0)
@@ -275,6 +286,49 @@ class Report(unittest.TestCase):
             self.assertEqual((out['role'], out['selected_r0_um']), ('confirmation', 50.0))
             self.assertEqual((c['rule_selected_r0_here'], c['confirmed'], c['rank_of_posterior_r0']), (100.0, False, 3))
             self.assertAlmostEqual(c['gap_to_best'], 0.2)
+            self.assertFalse(c['strict_confirmed'])
+            self.assertAlmostEqual(c['delta'], 0.2)
+            self.assertAlmostEqual(c['bootstrap_se'], 0.0)             # identical receptors: no spread
+            self.assertFalse(c['tolerance_confirmed'])
+
+    def test_tolerance_confirmation_bootstrap(self):
+        a = pd.DataFrame({50.0: [.1, .5, .3, .2], 100.0: [.2, .4, .3, .3]})
+        out = stage2.tolerance_confirmation(a, 100.0, 50.0)
+        self.assertAlmostEqual(out['delta'], 0.025)
+        self.assertGreater(out['bootstrap_se'], out['delta'])          # within one standard error
+        self.assertTrue(out['tolerance_confirmed'])
+        self.assertEqual(out, stage2.tolerance_confirmation(a, 100.0, 50.0))   # fixed seed
+
+
+class Stability(unittest.TestCase):
+    def test_50k_vs_200k_and_determinism(self):
+        sp = hex_slide(5, 10)
+        rng = np.random.default_rng(12)
+        x = pd.DataFrame(rng.poisson(3, (len(sp), 3)).astype(float) + 1, index=sp.index, columns=['L1', 'R1', 'R2'])
+        lr = pd.DataFrame(dict(ligand=['L1', 'L1'], receptor=['R1', 'R2'], type=['diffusion', 'contact']))
+        cfg = dict(stage2.DEFAULTS, r0_um=[50.0], coordinate_unit='micrometer', expression_level='gene',
+                   expression_state='processed')
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            write_input(root/'in', sp, x, lr, cfg)
+            for name, n in [('k50', 50000), ('k200', 200000), ('again', 50000)]:
+                stage2.run(argparse.Namespace(input=str(root/'in'), output=str(root/name), r0_um=None, eps=0.1, rho=10.0,
+                                              diffusion_cutoff_um=None, nitermax=n, stopthr=None))
+            args = dict(at_50k=[str(root/'k50')], at_200k=[str(root/'k200')], same_a=[str(root/'k50')],
+                        same_b=[str(root/'again')])
+            stage2.stability(argparse.Namespace(output=str(root/'s1'), **args))
+            v = pd.read_csv(root/'s1'/'stability.csv').iloc[0]
+            self.assertTrue(v.stable and v.rel_total_difference == 0 and v.receptors == 2)
+            self.assertTrue(pd.read_csv(root/'s1'/'determinism.csv').identical.all())
+            with np.load(root/'k200'/'case_000.npz', allow_pickle=False) as z:   # 1% more transport: fails
+                data = {k: z[k] for k in z.files}
+            data['T'] = data['T'] * 1.01
+            np.savez_compressed(root/'k200'/'case_000.npz', **data)
+            stage2.stability(argparse.Namespace(output=str(root/'s2'), **args))
+            v = pd.read_csv(root/'s2'/'stability.csv').iloc[0]
+            self.assertFalse(v.stable)
+            self.assertAlmostEqual(v.rel_total_difference, 0.01 / 1.01)
+            self.assertFalse(json.loads((root/'s2'/'stability.json').read_text())['all_stable'])
 
 
 class CommotRule(unittest.TestCase):

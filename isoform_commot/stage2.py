@@ -50,6 +50,7 @@ CLASSES = {'Secreted Signaling': 'diffusion', 'Cell-Cell Contact': 'contact'}
 # COMMOT tutorial dis_thr = 500 px on full-resolution pixels of the posterior slide:
 # 500 x 65 um / 89.513 px = 363.0757 um (plan section 8.3); used as a physical distance on both slides.
 COMMOT_TUTORIAL_CUTOFF_UM = 363.0757
+COMMOT_PAPER_CUTOFF_UM = 726.1514     # dis_thr = 1000 px in COMMOT's Visium mouse-brain analysis (plan 8.12)
 # Main analysis (plan section 8): eps = 0.1, rho = 10, cutoff 363.08 um. Sensitivity: cutoff 500 um;
 # eps = 0.2, rho = 1. `run` can override eps, rho and the cutoff; the values used are recorded.
 DEFAULTS = dict(eps=0.1, rho=10.0, r0_um=[50.0, 100.0, 200.0, 400.0], diffusion_cutoff_um=COMMOT_TUTORIAL_CUTOFF_UM,
@@ -603,6 +604,83 @@ def robustness(args):
     print(summary.to_string(index=False))
 
 
+# ------------------------------------------------------------------ stability (plan section 8.7)
+STABILITY = dict(rel_l1=1e-3, spearman=0.999, total=1e-3)
+
+
+def _cases_by_key(folders):
+    out = {}
+    for folder in folders:
+        for case in condition_cases(folder, strict=False).to_dict('records'):
+            key = (case['condition'], None if pd.isna(case['r0_um']) else float(case['r0_um']))
+            check(key not in out, f'{folder}: {key} appears twice')
+            out[key] = case
+    return out
+
+
+def stability(args):
+    """Plan 8.7: 50000- vs 200000-iteration results per receptor; and exact identity of repeated runs."""
+    from scipy.stats import spearmanr
+    launch = launch_info()
+    out = Path(args.output)
+    check(not out.exists(), f'Output exists: {out}')
+    short, long_ = _cases_by_key(args.at_50k), _cases_by_key(args.at_200k)
+    rows, totals = [], []
+    for key, lc in long_.items():
+        check(key in short, f'No 50000-iteration result for {key}')
+        sc = short[key]
+        check(int(sc['nitermax']) == 50000 and int(lc['nitermax']) == 200000, f'{key}: nitermax must be 50000 / 200000')
+        loaded = []
+        for c in (sc, lc):
+            plan = plans.load(Path(c['results'])/f"{c['case']}.npz")
+            pairs = pd.read_csv(Path(c['results'])/'used_lr.csv', dtype=str)
+            loaded.append((plan, plans.received_signal(plan, pairs, len(plan['spots']))[1]))
+        (p50, s50), (p200, s200) = loaded
+        check(list(p50['spots']) == list(p200['spots']), f'{key}: spot order differs')
+        t50, t200 = float(p50['T'].sum()), float(p200['T'].sum())
+        totals.append(dict(condition=key[0], r0_um=key[1], total_T_50k=t50, total_T_200k=t200,
+                           rel_total_difference=abs(t50 - t200)/t200, niter_50k=sc.get('niter'), niter_200k=lc.get('niter'),
+                           cap_reached_200k=lc.get('cap_reached')))
+        for receptor in sorted(set(s50) | set(s200)):
+            a, b = s50.get(receptor), s200.get(receptor)
+            zero = (a is None or not np.any(a)) and (b is None or not np.any(b))
+            l1 = rho = np.nan
+            if not zero and a is not None and b is not None:
+                l1 = float(np.abs(a - b).sum() / np.abs(b).sum()) if np.abs(b).sum() else np.inf
+                if np.ptp(a) > 0 and np.ptp(b) > 0:
+                    rho = float(spearmanr(a, b).statistic)
+            ok = (not zero) and l1 <= STABILITY['rel_l1'] and rho >= STABILITY['spearman']
+            rows.append(dict(condition=key[0], r0_um=key[1], receptor=receptor, both_zero=zero, rel_l1=l1,
+                             spearman=rho, meets=None if zero else bool(ok)))
+    receptors, totals = pd.DataFrame(rows), pd.DataFrame(totals)
+    verdict = []
+    for t_ in totals.to_dict('records'):
+        r = receptors[(receptors.condition == t_['condition']) & (receptors.r0_um.fillna(-1) == (t_['r0_um'] or -1))]
+        used = r[~r.both_zero]
+        verdict.append(dict(t_, receptors=len(used), receptors_both_zero=int(r.both_zero.sum()),
+            receptors_failing=int((~used.meets.astype(bool)).sum()), max_rel_l1=used.rel_l1.max(),
+            min_spearman=used.spearman.min(),
+            stable=bool(used.meets.astype(bool).all() and t_['rel_total_difference'] <= STABILITY['total'])))
+    verdict = pd.DataFrame(verdict)
+    identical = []
+    if args.same_a:
+        a_, b_ = _cases_by_key(args.same_a), _cases_by_key(args.same_b)
+        for key in sorted(set(a_) & set(b_), key=str):
+            pa, pb = (plans.load(Path(c['results'])/f"{c['case']}.npz") for c in (a_[key], b_[key]))
+            same = all(np.array_equal(pa[k], pb[k]) for k in ['row', 'col', 'T'])
+            identical.append(dict(condition=key[0], r0_um=key[1], entries=len(pa['T']), identical=bool(same),
+                                  max_abs_T_difference=float(np.abs(pa['T'] - pb['T']).max()) if len(pa['T']) == len(pb['T']) else np.nan))
+    identical = pd.DataFrame(identical)
+    out.mkdir(parents=True)
+    receptors.to_csv(out/'stability_receptors.csv', index=False)
+    verdict.to_csv(out/'stability.csv', index=False)
+    identical.to_csv(out/'determinism.csv', index=False)
+    write_json(out/'stability.json', dict(status='complete', launch=launch, rule='plan section 8.7 (fourth decision)',
+        thresholds=STABILITY, at_50k=args.at_50k, at_200k=args.at_200k, same_a=args.same_a, same_b=args.same_b,
+        all_stable=bool(verdict.stable.all()), deterministic=bool(identical.identical.all()) if len(identical) else None))
+    print(verdict.to_string(index=False)); print(identical.to_string(index=False))
+
+
 # ------------------------------------------------------------------ report (plan section 8)
 CONDITIONS = {   # code: method, scheme, eps, rho, cutoff (um); plan section 8.1
     'A': ('ours', 'collective', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),
@@ -613,12 +691,14 @@ CONDITIONS = {   # code: method, scheme, eps, rho, cutoff (um); plan section 8.1
     'Beps': ('COMMOT', 'collective', 0.2, 1.0, COMMOT_TUTORIAL_CUTOFF_UM),
     'C': ('COMMOT', 'mixture', 0.1, 10.0, COMMOT_TUTORIAL_CUTOFF_UM),
     'C500': ('COMMOT', 'mixture', 0.1, 10.0, 500.0),
+    'C726': ('COMMOT', 'mixture', 0.1, 10.0, COMMOT_PAPER_CUTOFF_UM),   # plan 8.12, sensitivity only
 }
 PAIRED = [('A', 'B'), ('A500', 'B500'), ('Aeps', 'Beps')]   # plan 8.10: same eps, rho, pure collective
 
 
-def condition_cases(folder):
-    """One row per case of a result directory, with its plan-section-8 condition code."""
+def condition_cases(folder, strict=True):
+    """One row per case of a result directory, with its plan-section-8 condition code. strict: the solver
+    settings must be the plan's (diagnostic runs with another nitermax are read with strict=False)."""
     folder = Path(folder)
     manifest = json.loads((folder/'manifest.json').read_text())
     summary = pd.read_csv(folder/'summary.csv')
@@ -640,7 +720,7 @@ def condition_cases(folder):
         codes.append(hit[0])
     summary['condition'] = codes
     summary['results'] = str(folder)
-    for code in set(codes):                                 # solver settings as in the plan
+    for code in set(codes) if strict else []:              # solver settings as in the plan
         rows = summary[summary.condition == code]
         expected = (10000, 1e-8) if CONDITIONS[code][1] == 'mixture' else (DEFAULTS['nitermax'], DEFAULTS['stopthr'])
         check(np.allclose(rows.nitermax, expected[0]) and np.allclose(rows.stopthr, expected[1]),
@@ -654,15 +734,25 @@ def receptor_classes(lr):
     return types.map(lambda s: 'Secreted' if s == {'diffusion'} else 'Contact' if s == {'contact'} else 'both')
 
 
+def forbidden_mass(case):
+    """Plan 8.7: transport on connections the condition forbids (recomputed from the case file)."""
+    plan = plans.load(Path(case['results'])/f"{case['case']}.npz")
+    if case['method'] == 'ours':
+        kinds = plan['pair_type'][plan['pair']]
+        allowed = np.where(kinds == 'diffusion', plan['D'] <= case['cutoff_um'] * (1 + 1e-12),
+                           plan['D'] <= 1.1 * PITCH_UM)
+    else:
+        allowed = plan['C'] <= case['cutoff_um'] * (1 + 1e-12)   # C stores the raw distance
+    return float(plan['T'][~allowed].sum())
+
+
 def converged(case):
-    """Plan 8.7: no solve reached the iteration cap; collective conditions also pass both mass checks."""
-    cap = case.get('cap_reached')
-    if cap is None or pd.isna(cap):
-        return np.nan                                   # iteration count not recorded
-    ok = not bool(cap)
-    if case['scheme'] == 'collective':
-        ok = ok and bool(case.get('check_passed')) and pd.notna(case.get('check_kkt_tol'))
-    return ok
+    """Plan 8.7 (fourth decision): collective conditions pass both mass checks within 1e-7 and carry no
+    mass on forbidden connections; reaching the iteration cap is recorded, not a failure. Mixture: n/a."""
+    if case['scheme'] != 'collective':
+        return np.nan
+    kkt = case.get('check_kkt_tol')
+    return bool(case.get('check_passed') and pd.notna(kkt) and kkt <= 1e-7 and case.get('forbidden_mass') == 0)
 
 
 def metric_table(ev, meta, cases, rule):
@@ -680,14 +770,25 @@ def metric_table(ev, meta, cases, rule):
     return m, wide.reindex(sorted(evaluable & set(m.receptor))), evaluable
 
 
-def select_r0(wide):
+def select_r0(wide, matrix=False):
     """Plan 8.5: condition A, receptors defined at every r0, highest mean partial Spearman; ties -> smaller r0."""
     a = wide['A']
     a = a.loc[a.notna().all(axis=1)]
     selection = pd.DataFrame(dict(r0_um=a.columns.astype(float), mean_partial_spearman=a.mean().to_numpy(),
                                   receptors=len(a))).sort_values('r0_um').reset_index(drop=True)
     best = selection.mean_partial_spearman.max()
-    return selection, float(selection[selection.mean_partial_spearman == best].r0_um.min())
+    r0 = float(selection[selection.mean_partial_spearman == best].r0_um.min())
+    return (selection, r0, a) if matrix else (selection, r0)
+
+
+def tolerance_confirmation(a, best, r0, replicates=1000, seed=1):
+    """Plan 8.9 (fourth decision): difference of mean partial Spearman between the slide's best r0 and r0,
+    and its bootstrap standard error over receptors (both r0 fixed; resampled with replacement)."""
+    x, y = a[best].to_numpy(float), a[r0].to_numpy(float)
+    idx = np.random.default_rng(seed).integers(0, len(x), size=(replicates, len(x)))
+    diffs = x[idx].mean(axis=1) - y[idx].mean(axis=1)
+    delta, se = float(x.mean() - y.mean()), float(diffs.std(ddof=1))
+    return dict(delta=delta, bootstrap_se=se, replicates=replicates, seed=seed, tolerance_confirmed=bool(delta <= se))
 
 
 def paired_table(wide, r0, classes):
@@ -724,6 +825,7 @@ def condition_table(cases, m, wide):
     common = wide.loc[wide.notna().all(axis=1)].index
     rows = []
     for case in cases.to_dict('records'):
+        case['forbidden_mass'] = forbidden_mass(case)
         mc = m[(m.results == case['results']) & (m.case == case['case'])]
         mm = mc[mc.receptor.isin(common)]
         g = lambda name: case.get(name, np.nan)
@@ -734,7 +836,9 @@ def condition_table(cases, m, wide):
             niter=g('niter'), nitermax=g('nitermax'), cap_reached=g('cap_reached'), solves=g('solves'),
             solves_at_cap=g('solves_at_cap'), check_passed=g('check_passed'), kkt_tol=g('check_kkt_tol'),
             rows_checked=g('check_rows_checked'), rows=g('check_rows'),
-            max_ligand_budget_excess=g('max_ligand_budget_excess'), converged=converged(case),
+            max_ligand_budget_excess=g('max_ligand_budget_excess'), forbidden_mass=case['forbidden_mass'],
+            row_error=g('check_row_error'), shape_error=g('check_shape_error'), kkt_shape_error=g('check_kkt_shape_error'),
+            converged=converged(case),
             solve_seconds=case['solve_seconds'], receptors_defined=int(mc.partial_spearman.notna().sum()),
             receptors_common=len(mm), mean_partial_spearman=mm.partial_spearman.mean(),
             mean_spearman=mm.spearman.mean(), mean_receptor_only_spearman=mm.receptor_only_spearman.mean(),
@@ -761,7 +865,7 @@ def report(args):
     lr = pd.read_csv(Path(meta['input'])/'lr.csv', dtype=str)
     classes = receptor_classes(lr)
     m, wide, evaluable = metric_table(ev, meta, cases, 'ours')
-    selection, own_r0 = select_r0(wide)
+    selection, own_r0, a_matrix = select_r0(wide, matrix=True)
     confirmation = None
     if args.posterior_report:                                  # anterior: r0 comes from the posterior (8.9)
         post = json.loads(Path(args.posterior_report).read_text())
@@ -773,6 +877,8 @@ def report(args):
             gap_to_best=float(ranked.mean_partial_spearman.iloc[0] -
                               ranked[ranked.r0_um == r0_star].mean_partial_spearman.iloc[0]),
             receptors=int(selection.receptors.iloc[0]))
+        confirmation['strict_confirmed'] = confirmation['confirmed']
+        confirmation.update(tolerance_confirmation(a_matrix, own_r0, r0_star))
     else:
         r0_star = own_r0
     table, common = condition_table(cases, m, wide)
@@ -783,7 +889,8 @@ def report(args):
         sets['rule'] = 'ours'
     status = sets.groupby(['rule', 'top_tf', 'status']).size().unstack(fill_value=0)
     convergence = table[['condition', 'r0_um', 'niter', 'nitermax', 'cap_reached', 'solves', 'solves_at_cap',
-                         'check_passed', 'kkt_tol', 'rows_checked', 'rows', 'max_ligand_budget_excess', 'converged']]
+                         'check_passed', 'row_error', 'shape_error', 'kkt_shape_error', 'kkt_tol', 'rows_checked', 'rows',
+                         'forbidden_mass', 'max_ligand_budget_excess', 'converged']]
     out.mkdir(parents=True)
     table.to_csv(out/'conditions.csv', index=False)
     convergence.to_csv(out/'convergence.csv', index=False)
@@ -840,7 +947,8 @@ def report(args):
         results=meta['results'], top_tf=meta['primary_top_tf'], target_score=meta['target_score'][0],
         level='receptor', selected_r0_um=r0_star, rule_selected_r0_um=own_r0, r0_rule='plan section 8.5',
         confirmation=confirmation, confirmation_rule='plan section 8.9' if confirmation else None,
-        all_converged=bool(table.converged.eq(True).all()), receptors_evaluable=len(evaluable),
+        all_converged=bool(table[table.scheme == 'collective'].converged.eq(True).all()),
+        convergence_rule='plan section 8.7 (fourth decision)', receptors_evaluable=len(evaluable),
         receptors_common=len(common), receptors_for_r0_selection=int(selection.receptors.iloc[0]),
         receptor_classes=classes.value_counts().to_dict(), commot_rule=commot,
         eval_sha256={f: digest(ev/f) for f in ['case_metrics.csv', 'target_sets.csv']}))
@@ -877,6 +985,10 @@ def parser():
     u.add_argument('--fraction', type=float, required=True); u.add_argument('--seed', type=int, required=True)
     b = sub.add_parser('robustness'); b.add_argument('--full', nargs='+', required=True)
     b.add_argument('--subsampled', nargs='+', required=True); b.add_argument('--output', required=True)
+    y = sub.add_parser('stability'); y.add_argument('--at-50k', nargs='+', required=True)
+    y.add_argument('--at-200k', nargs='+', required=True); y.add_argument('--output', required=True)
+    y.add_argument('--same-a', nargs='*', default=[], help='determinism check: runs ...')
+    y.add_argument('--same-b', nargs='*', default=[], help='... repeated with identical settings')
     o = sub.add_parser('report'); o.add_argument('--eval', required=True, help='evaluate_targets.py output')
     o.add_argument('--output', required=True)
     o.add_argument('--posterior-report', help='anterior only: report.json of the posterior (selected r0; plan 8.9)')
@@ -887,6 +999,7 @@ def main():
     args = parser().parse_args()
     {'fetch': fetch, 'prepare': prepare, 'export-genes': export_genes, 'run': run,
      'compare-dense': compare_dense, 'pairs': pairs, 'subsample': subsample, 'robustness': robustness,
+     'stability': stability,
      'report': report}[args.command](args)
 
 
