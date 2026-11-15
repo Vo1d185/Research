@@ -1,0 +1,27 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-15T04:09:18+00:00",
+    "git_head": "9a740b6e292b55f022418e161263ad7acca12b12",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [],
+    "recorded": "at launch"
+  },
+  "created": "2026-11-15T04:11:49+00:00",
+  "archive": "data/zenodo_7272562/pde_model_comparison.zip",
+  "archive_sha256": "ec8eb74c878f299b0b7c017a1ca758777c188c2ea1c672120e62b2de42ccc50f",
+  "archive_cases": [
+    "1:1",
+    "2:1",
+    "6:1",
+    "10:1"
+  ],
+  "rates": {
+    "D": 200.0,
+    "a": 1.0,
+    "b": 0.001,
+    "c": 0.2
+  },
+  "no_optimal_transport": true
+}
