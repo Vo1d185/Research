@@ -604,6 +604,36 @@ def robustness(args):
     print(summary.to_string(index=False))
 
 
+CONVERGENCE_COLUMNS = ['condition', 'r0_um', 'niter', 'nitermax', 'cap_reached', 'solves', 'solves_at_cap',
+                       'check_passed', 'check_row_error', 'check_shape_error', 'check_kkt_shape_error', 'check_kkt_tol',
+                       'check_rows_checked', 'check_rows', 'forbidden_mass', 'max_ligand_budget_excess',
+                       'frac_ligand', 'frac_receptor', 'solve_seconds', 'converged', 'results', 'case']
+
+
+def convergence(args):
+    """Plan 8.7 (fourth decision) for result directories, before any target evaluation."""
+    launch = launch_info()
+    out = Path(args.output)
+    check(not out.exists(), f'Output exists: {out}')
+    cases = pd.concat([condition_cases(r) for r in args.results], ignore_index=True)
+    check(not cases.duplicated(['condition', 'r0_um'], keep=False).any(), 'A condition/r0 appears twice')
+    rows = []
+    for case in cases.to_dict('records'):
+        case['forbidden_mass'] = forbidden_mass(case)
+        case['converged'] = converged(case)
+        rows.append({c: case.get(c, np.nan) for c in CONVERGENCE_COLUMNS})
+    order = {c: i for i, c in enumerate(CONDITIONS)}
+    table = pd.DataFrame(rows).sort_values(['condition', 'r0_um'], key=lambda s: s.map(order) if s.name == 'condition' else s)
+    collective = table[table.condition.map(lambda c: CONDITIONS[c][1]) == 'collective']
+    out.mkdir(parents=True)
+    table.to_csv(out/'convergence.csv', index=False)
+    write_json(out/'convergence.json', dict(status='complete', launch=launch, rule='plan section 8.7 (fourth decision)',
+        results=args.results, collective_cases=len(collective),
+        all_collective_converged=bool(collective.converged.eq(True).all()),
+        cases_at_iteration_cap=int(table.cap_reached.eq(True).sum())))
+    print(table.drop(columns=['results', 'case']).to_string(index=False))
+
+
 # ------------------------------------------------------------------ stability (plan section 8.7)
 STABILITY = dict(rel_l1=1e-3, spearman=0.999, total=1e-3)
 
@@ -985,6 +1015,8 @@ def parser():
     u.add_argument('--fraction', type=float, required=True); u.add_argument('--seed', type=int, required=True)
     b = sub.add_parser('robustness'); b.add_argument('--full', nargs='+', required=True)
     b.add_argument('--subsampled', nargs='+', required=True); b.add_argument('--output', required=True)
+    v = sub.add_parser('convergence'); v.add_argument('--results', nargs='+', required=True)
+    v.add_argument('--output', required=True)
     y = sub.add_parser('stability'); y.add_argument('--at-50k', nargs='+', required=True)
     y.add_argument('--at-200k', nargs='+', required=True); y.add_argument('--output', required=True)
     y.add_argument('--same-a', nargs='*', default=[], help='determinism check: runs ...')
@@ -999,7 +1031,7 @@ def main():
     args = parser().parse_args()
     {'fetch': fetch, 'prepare': prepare, 'export-genes': export_genes, 'run': run,
      'compare-dense': compare_dense, 'pairs': pairs, 'subsample': subsample, 'robustness': robustness,
-     'stability': stability,
+     'stability': stability, 'convergence': convergence,
      'report': report}[args.command](args)
 
 

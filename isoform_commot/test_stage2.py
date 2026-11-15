@@ -317,6 +317,9 @@ class Stability(unittest.TestCase):
             args = dict(at_50k=[str(root/'k50')], at_200k=[str(root/'k200')], same_a=[str(root/'k50')],
                         same_b=[str(root/'again')])
             stage2.stability(argparse.Namespace(output=str(root/'s1'), **args))
+            stage2.convergence(argparse.Namespace(results=[str(root/'k50')], output=str(root/'conv')))
+            conv = pd.read_csv(root/'conv'/'convergence.csv').iloc[0]
+            self.assertTrue(conv.converged and conv.forbidden_mass == 0 and not conv.cap_reached)
             v = pd.read_csv(root/'s1'/'stability.csv').iloc[0]
             self.assertTrue(v.stable and v.rel_total_difference == 0 and v.receptors == 2)
             self.assertTrue(pd.read_csv(root/'s1'/'determinism.csv').identical.all())
