@@ -24,3 +24,4 @@ stage2_genes*/
 stage2_*.log
 commot_stage2*/
 target_eval_stage2*/
+pde_r0_results/

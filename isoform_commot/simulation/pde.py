@@ -122,6 +122,35 @@ class System:
             dC[k] = flux - self.m.e[i, j]*C[k]
         return np.concatenate([dL.ravel(), dR.ravel(), dC.ravel()])
 
+    def jacobian(self, t, y):
+        """Sparse Jacobian of rhs (for implicit solvers, e.g. BDF)."""
+        L, R, C = self.split(y)
+        n, nl, nr = self.size, self.m.nl, self.m.nr
+        diag = lambda v: sparse.diags(np.ravel(v))
+        eye = sparse.identity(n, format='csr')
+        lap = self.grid.laplacian_matrix()
+        nf = self.nfields
+        blocks = [[None]*nf for _ in range(nf)]
+
+        def add(r, c, block):
+            blocks[r][c] = block if blocks[r][c] is None else blocks[r][c] + block
+        for i in range(nl):
+            add(i, i, self.m.D[i]*lap - self.m.c[i]*eye)
+        for j in range(nr):
+            add(nl + j, nl + j, -self.m.g[j]*eye)
+        for k, (i, j) in enumerate(self.m.pairs):
+            a, b, e = self.m.a[i, j], self.m.b[i, j], self.m.e[i, j]
+            lr, ll, ck = nl + j, i, nl + nr + k
+            for row, sign in [(ll, -1.0), (lr, -1.0), (ck, 1.0)]:      # flux = a L R - b C
+                add(row, ll, sign*a*diag(R[j]))
+                add(row, lr, sign*a*diag(L[i]))
+                add(row, ck, -sign*b*eye)
+            add(ck, ck, -e*eye)
+        for r in range(nf):                                              # bmat needs a block in each row/column
+            if blocks[r][r] is None:
+                blocks[r][r] = sparse.csr_matrix((n, n))
+        return sparse.bmat(blocks, format='csc')
+
     def integrate(self, times, rtol=1e-8, atol=1e-10, method='RK45', y0=None):
         """Fields at the requested times; method/rtol/atol passed to scipy.integrate.solve_ivp."""
         sol = solve_ivp(self.rhs, (times[0], times[-1]), self.initial() if y0 is None else y0, t_eval=times,
@@ -143,17 +172,26 @@ class System:
         C = np.stack([K[i, j]*L[i]*R[j] for i, j in self.m.pairs])
         return L, R, C
 
-    def run_to_steady_state(self, t_chunk=500.0, tol=1e-8, t_max=1e5, method='LSODA', rtol=1e-10, atol=1e-12):
+    def run_to_steady_state(self, t_chunk=500.0, tol=1e-8, t_max=1e5, method='LSODA', rtol=1e-10, atol=1e-12,
+                            per_field=False):
         """Integrate in chunks until the largest change of any complex over a chunk, relative to the largest
-        complex value, is below tol. Independent of steady_state()."""
+        complex value, is below tol (per_field: relative to each complex field's own maximum).
+        Independent of steady_state(). BDF/Radau/LSODA get the analytic sparse Jacobian except LSODA
+        (which needs a dense one)."""
         y, t, history = self.initial(), 0.0, []
+        jac = self.jacobian if method in ('BDF', 'Radau') else None
         while t < t_max:
-            sol = solve_ivp(self.rhs, (t, t + t_chunk), y, method=method, rtol=rtol, atol=atol)
+            sol = solve_ivp(self.rhs, (t, t + t_chunk), y, method=method, rtol=rtol, atol=atol, jac=jac)
             if not sol.success:
                 raise RuntimeError(sol.message)
             y_new, t = sol.y[:, -1], t + t_chunk
             C_old, C_new = self.split(y)[2], self.split(y_new)[2]
-            change = float(np.abs(C_new - C_old).max() / max(np.abs(C_new).max(), 1e-300))
+            if per_field:
+                axes = tuple(range(1, C_new.ndim))
+                change = float((np.abs(C_new - C_old).max(axis=axes) / np.maximum(np.abs(C_new).max(axis=axes),
+                                                                                1e-300)).max())
+            else:
+                change = float(np.abs(C_new - C_old).max() / max(np.abs(C_new).max(), 1e-300))
             history.append((t, change))
             y = y_new
             if change < tol:
