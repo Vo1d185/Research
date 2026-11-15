@@ -9,6 +9,7 @@
   python -m simulation.benchmark pipeline  --archive ZIP --results DIR --output DIR
   python -m simulation.benchmark stability --results DIR --output DIR
   python -m simulation.benchmark evaluate  --scenarios DIR --results DIR --output DIR
+  python -m simulation.benchmark analyze   --metrics DIR --output DIR
 
 calibrate  archived input statistics and the one-off generator calibration (section 4.2; no PDE, no OT)
 scenarios  generated scenarios (structures 2-10 = archive cases, repeats 1-5) and archived scenarios (sim 1)
@@ -19,6 +20,7 @@ jobs       job list in the priority order of section 11 (for simulation.jobqueue
 pipeline   condition R vs the archive's own COT output (section 10)
 stability  D1-D3: 50000 vs 200000 iterations (section 10, stage-2 8.7 thresholds)
 evaluate   per-pair Spearman and RMSE of every run against both truths (section 8)
+analyze    section 9: r0* selection, hypothesis H, bootstrap, descriptive comparisons (simulation/analysis.py)
 """
 import argparse
 from datetime import datetime, timezone
@@ -545,6 +547,16 @@ def evaluate(args):
     write_json(out/'metrics.json', dict(status='complete', launch=launch, finished=now(), rows=len(rows)))
 
 
+def analyze(args):
+    """Plan section 9 (simulation/analysis.py) on the metrics of `evaluate`."""
+    from simulation import analysis
+    launch = launch_info()
+    summaries = analysis.run(Path(args.metrics)/'metrics.csv.gz', args.output)
+    write_json(Path(args.output)/'manifest.json', dict(status='complete', launch=launch, finished=now(),
+                                                       metrics=str(args.metrics)))
+    print(json.dumps(summaries, indent=2, default=str))
+
+
 def parser():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest='command', required=True)
@@ -566,13 +578,14 @@ def parser():
     c = sub.add_parser('stability'); c.add_argument('--results', required=True); c.add_argument('--output', required=True)
     c = sub.add_parser('evaluate'); c.add_argument('--scenarios', required=True); c.add_argument('--results', required=True)
     c.add_argument('--output', required=True)
+    c = sub.add_parser('analyze'); c.add_argument('--metrics', required=True); c.add_argument('--output', required=True)
     return p
 
 
 def main():
     args = parser().parse_args()
     dict(calibrate=calibrate, scenarios=scenarios, truth=truth, ot=ot, jobs=jobs, pipeline=pipeline,
-         stability=stability, evaluate=evaluate)[args.command](args)
+         stability=stability, evaluate=evaluate, analyze=analyze)[args.command](args)
 
 
 if __name__ == '__main__':

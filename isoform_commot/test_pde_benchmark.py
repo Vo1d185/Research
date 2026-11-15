@@ -191,5 +191,63 @@ class Metrics(unittest.TestCase):
             self.assertEqual(mine['rmse'], rmse)
 
 
+def synthetic_metrics(best_exponent):
+    """Spearman peaks at r0/lambda = 2**best_exponent(k) (all scenarios, with small noise); Cd constant."""
+    from simulation import analysis
+    rng = np.random.default_rng(0)
+    rows = []
+    for structure in (2, 3):
+        for repeat in range(1, 6):
+            for k in bm.KS:
+                for g in bm.R0_OVER_LAMBDA:
+                    value = 0.9 - 0.05 * (np.log2(g) - best_exponent(k)) ** 2
+                    for pair in range(2):
+                        for truth in ('steady', 't50'):
+                            rows.append(dict(scenario=f'gen_c{structure:02d}_s{repeat}', structure=structure, repeat=repeat,
+                                             source='generated', k=k, family='r0', condition=f'r0_{bm.fmt(g)}',
+                                             r0=g * bm.lam(k), dis_thr=np.nan, eps=0.1, rho=10.0, nitermax=50000,
+                                             truth=truth, pair=pair, check_passed=True, kkt_tol=1e-9,
+                                             forbidden_mass=0.0, cap_reached=True, spearman_nan=False,
+                                             spearman=value + rng.normal(0, 1e-4), rmse=1 - value))
+                for name, d in [('inv', np.nan), ('cd_4lambda', 4 * bm.lam(k))]:
+                    for pair in range(2):
+                        rows.append(dict(scenario=f'gen_c{structure:02d}_s{repeat}', structure=structure, repeat=repeat,
+                                         source='generated', k=k, family='inv' if name == 'inv' else 'cd',
+                                         condition=name, r0=np.nan, dis_thr=d, eps=0.1, rho=10.0, nitermax=50000,
+                                         truth='steady', pair=pair, check_passed=True, kkt_tol=1e-9, forbidden_mass=0.0,
+                                         cap_reached=True, spearman_nan=False, spearman=0.5, rmse=0.5))
+    return analysis.label(pd.DataFrame(rows))
+
+
+class Analysis(unittest.TestCase):
+    def test_selection_and_hypothesis(self):
+        from simulation import analysis
+        m = synthetic_metrics(lambda k: 0)                       # r0* = lambda at every lambda: H holds
+        s, sel, boot, se, per = analysis.analyse_setting(m, 'main', analysis.SETTINGS['main'])
+        self.assertTrue(s['hypothesis_holds'])
+        self.assertEqual(set(sel.r0_over_lambda), {1.0})
+        self.assertEqual(s['structures_holding'], 2)
+        self.assertEqual(s['bootstrap_share_holding'], 1.0)
+        self.assertTrue((boot.ci_low == 1.0).all() and (boot.ci_high == 1.0).all())
+        s, sel, *_ = analysis.analyse_setting(m, 'rmse', analysis.SETTINGS['rmse'])
+        self.assertTrue(s['hypothesis_holds'])
+        m = synthetic_metrics(lambda k: -k)                      # absolute r0* constant: not strictly larger
+        s, sel, *_ = analysis.analyse_setting(m, 'main', analysis.SETTINGS['main'])
+        self.assertFalse(s['hypothesis_holds'])
+        self.assertEqual(sel.r0_over_lambda.tolist(), [4.0, 2.0, 1.0, 0.5, 0.25])
+        m = synthetic_metrics(lambda k: 3 if k < 0 else 0)       # decreasing absolute r0*, boundary at 8
+        s, sel, *_ = analysis.analyse_setting(m, 'main', analysis.SETTINGS['main'])
+        self.assertFalse(s['hypothesis_holds'])
+        self.assertTrue(sel.at_boundary.iloc[0])
+
+    def test_cost_only_difference(self):
+        from simulation import analysis
+        m = synthetic_metrics(lambda k: 0)
+        table, diffs = analysis.comparisons(m)
+        d = diffs[diffs.comparison == 'O-r0 at r0/lambda = 1 - Cd 4 lambda']
+        np.testing.assert_allclose(d.mean_difference, 0.4, atol=1e-3)
+        self.assertTrue((diffs[diffs.comparison == 'O-inv - Cd 4 lambda'].mean_difference == 0).all())
+
+
 if __name__ == '__main__':
     unittest.main()
