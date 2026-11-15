@@ -19,29 +19,47 @@ python stage2.py prepare --data data/visium_mouse_brain_sagittal_posterior --out
 python stage2.py run --input stage2_input_post_roi128 --output stage2_results_post_roi128
 python stage2.py compare-dense --input stage2_input_post_roi128 --results stage2_results_post_roi128
 
-# 整张切片：输入与全转录组表达
-IN=stage2_input_post
-python stage2.py prepare --data data/visium_mouse_brain_sagittal_posterior --output $IN
-python stage2.py export-genes --input $IN --output stage2_genes_post
+# 整张切片：每张切片按同一规则独立预处理；配对清单与交集（reports/stage2_pairs_01）
+python stage2.py prepare --sample posterior --data data/visium_mouse_brain_sagittal_posterior --output stage2_input_post
+python stage2.py prepare --sample anterior --data data/visium_mouse_brain_sagittal_anterior --output stage2_input_ant
+python stage2.py pairs --posterior stage2_input_post --anterior stage2_input_ant --output reports/stage2_pairs_01
+python stage2.py export-genes --input stage2_input_post --output stage2_genes_post_v2   # 含 COMMOT 高变基因标记
+python stage2.py export-genes --input stage2_input_ant --output stage2_genes_ant
 
-# 计划第 8 节的条件（--eps、--rho、--diffusion-cutoff-um 覆盖 config.json，实际取值写入 summary.csv 和 manifest.json）
-python stage2.py run --input $IN --output stage2_results_post_A    --eps 0.1 --rho 10 --diffusion-cutoff-um 363.0757
-python stage2.py run --input $IN --output stage2_results_post_A500 --eps 0.1 --rho 10 --diffusion-cutoff-um 500
-python stage2.py run --input $IN --output stage2_results_post_Aeps --eps 0.2 --rho 1  --diffusion-cutoff-um 363.0757
+# 计划第 8 节的条件（每张切片 S = post / ant；A 类条件每个 r0 一个进程和输出目录）。
+# --eps、--rho、--diffusion-cutoff-um（以及仅供诊断的 --nitermax、--stopthr）覆盖 config.json，实际取值写入 summary.csv 和 manifest.json；
+# manifest 还记录启动时间、启动时的 git HEAD 和工作区是否有未提交修改，以及每次求解的迭代次数。
+for r in 50 100 200 400; do
+  python stage2.py run --input stage2_input_$S --output stage2_results_${S}_A_r$r    --r0-um $r --eps 0.1 --rho 10 --diffusion-cutoff-um 363.0757
+  python stage2.py run --input stage2_input_$S --output stage2_results_${S}_A500_r$r --r0-um $r --eps 0.1 --rho 10 --diffusion-cutoff-um 500
+  python stage2.py run --input stage2_input_$S --output stage2_results_${S}_Aeps_r$r --r0-um $r --eps 0.2 --rho 1  --diffusion-cutoff-um 363.0757
+done
 SAME="--weights 1 0 0 0 --nitermax 50000 --stopthr 1e-11"    # 纯 collective，求解设置与 A 相同
-python commot_baseline.py --input $IN --output commot_stage2_post_B    --dis-thr-um 363.0757 $SAME
-python commot_baseline.py --input $IN --output commot_stage2_post_B500 --dis-thr-um 500 $SAME
-python commot_baseline.py --input $IN --output commot_stage2_post_Beps --dis-thr-um 363.0757 $SAME --eps 0.2 --rho 1
-python commot_baseline.py --input $IN --output commot_stage2_post_C    --dis-thr-um 363.0757   # 按原文：默认混合
-python commot_baseline.py --input $IN --output commot_stage2_post_C500 --dis-thr-um 500
+python commot_baseline.py --input stage2_input_$S --output commot_stage2_${S}_B    --dis-thr-um 363.0757 $SAME
+python commot_baseline.py --input stage2_input_$S --output commot_stage2_${S}_B500 --dis-thr-um 500 $SAME
+python commot_baseline.py --input stage2_input_$S --output commot_stage2_${S}_Beps --dis-thr-um 363.0757 $SAME --eps 0.2 --rho 1
+python commot_baseline.py --input stage2_input_$S --output commot_stage2_${S}_C    --dis-thr-um 363.0757   # 按原文：默认混合
+python commot_baseline.py --input stage2_input_$S --output commot_stage2_${S}_C500 --dis-thr-um 500
+python commot_baseline.py --input stage2_input_$S --output commot_stage2_${S}_C726 --dis-thr-um 726.1514   # 第 8.12 节
 
-# 靶基因评价（scSeqComm；复合物受体"任一亚基有关联"）
-python evaluate_targets.py run --input $IN --genes stage2_genes_post --output target_eval_stage2_post \
-    --results stage2_results_post_A stage2_results_post_A500 stage2_results_post_Aeps \
-              commot_stage2_post_B commot_stage2_post_B500 commot_stage2_post_Beps commot_stage2_post_C commot_stage2_post_C500
+# 收敛（第 8.7 节）：两项质量守恒检查、禁止连接上的质量、迭代次数
+python stage2.py convergence --results <全部第 8 节结果目录> --output <输出>
+# 稳定性诊断（第 8.7 节）：A（r0 = 50、400）、B 用 nitermax = 200000 重跑，与 50000 次的结果比较；--same-a/--same-b 核对重复运行完全相同
+python stage2.py stability --at-50k <50000 次结果> --at-200k <200000 次结果> --same-a <运行> --same-b <同设置的重复运行> --output <输出>
 
-# 计划第 8 节的汇总：条件表（运输比例、检查、靶基因指标）、r0 选择（第 8.5 节规则）、受体配对比较、图
+# 靶基因评价（scSeqComm；复合物受体"任一亚基有关联"；--commot-rule 加入第 8.8 节的 COMMOT 规则作敏感性）
+python evaluate_targets.py run --input stage2_input_$S --genes stage2_genes_<post_v2|ant> --commot-rule \
+    --results <该切片全部第 8 节结果目录> --output target_eval_stage2_$S
+# 第 8 节报告：后部选出 r0（第 8.5 节）；前部用后部的 r0 做严格确认和容差确认（第 8.9 节）
 python stage2.py report --eval target_eval_stage2_post --output reports/stage2_post_01
+python stage2.py report --eval target_eval_stage2_ant --output reports/stage2_ant_01 --posterior-report reports/stage2_post_01/report.json
+
+# 稳健性（第 8.11 节，只做后部）：seed 1–15 依次对应 90%、80%、50%；A（r0*）、B、C 在每个子样本上运行
+python stage2.py subsample --input stage2_input_post --output stage2_input_post_sub90_s1 --fraction 0.9 --seed 1   # …共 15 个
+python stage2.py robustness --full <全数据 A(r0*)、B、C> --subsampled <子样本上的运行> --output <输出>
+
+# isoform 候选清单（只盘点）
+python isoform_inventory.py --input stage2_input_post --output reports/isoform_candidates_01
 ```
 
 ## 输入目录（`prepare` 输出）
@@ -76,6 +94,9 @@ python stage2.py report --eval target_eval_stage2_post --output reports/stage2_p
   μ = exp(φ + γ − ρ/ε)、ν = exp(ψ − γ − ρ/ε)。每一行 |T1 + μ − a| ≤ tol、每一列 |Tᵀ1 + ν − b| ≤ tol 都给 γ 一个上界或下界，
   每个分量的上下界相交才通过（tol = 1e-7，与原检查相同）。`kkt_tol` 报告 1e-7、1e-9、…、1e-15 中能通过的最小值。
   COMMOT 纯 collective（条件 B）用 COMMOT 内部归一化后的 cost（d / 截断内最大距离）做同样两项检查。
+- **迭代次数（`research.counted`）：** 以 `verbose=True` 调用固定版本函数，解析它最后打印的迭代次数（计算本身不变）；
+  `niter > nitermax` 表示达到上限。COMMOT 的每一次 `unot` 求解都计数（混合方案有多次求解）。
+- **禁止连接上的质量（第 8.7 节）：** 由 case 文件重新核对每个存储元素的距离（`stage2.forbidden_mass`）。
 - **单元测试（`test_stage2.py`）：** 三组 ε/ρ 下与稠密版本逐项一致（≤ 1e-10 相对误差）；两项检查都能发现偏离最优的行和错误的 cost，
   全行列检查能发现未收敛的解（3 次迭代），且在 ρ = 10、ε = 0.1 下覆盖原检查跳过的行；
   COMMOT `cot_sparse` 与 `cot_combine_sparse(weights = 1 0 0 0)` 结果逐项相同；
