@@ -63,6 +63,25 @@ def load_archived(zf, case, sim):
     return system, data, times, labels
 
 
+def archive_conservation(zf):
+    """Receptor + complex totals of every archived simulation (conserved exactly by Eq. 19 with e = g = 0),
+    with the solver start date and step count recorded by py-pde."""
+    import h5py
+    rows = []
+    for case in range(1, 11):
+        for sim in range(1, 11):
+            base = f'pde_model_comparison/data/case_{case}/sim_{sim}/pde/'
+            with h5py.File(io.BytesIO(zf.read(base + 'result.h5')), 'r') as h:
+                data = h['data'][:]
+                ctrl, solver = json.loads(h.attrs['controller']), json.loads(h.attrs['solver'])
+            labels = zf.read(base + 'result_labels.txt').decode().split()
+            total = sum(data[:, k].sum(axis=(1, 2)) for k, lab in enumerate(labels) if lab.startswith(('Receptor', 'Complex')))
+            rows.append(dict(case=case, sim=sim, max_rel_drift=float(np.abs(total - total[0]).max() / total[0]),
+                             solver_start=ctrl['solver_start'], steps=solver.get('steps'), t_final=ctrl.get('t_final'),
+                             stop_reason=ctrl.get('stop_reason')))
+    return pd.DataFrame(rows)
+
+
 def complexes_of(system, fields_list):
     return np.stack([f[2] for f in fields_list])                  # times x pairs x grid
 
@@ -195,10 +214,12 @@ def run(args):
     zf = zipfile.ZipFile(zpath)
     cases = [tuple(map(int, c.split(':'))) for c in args.cases]
     table = archive_check(zf, cases)
+    conservation = archive_conservation(zf)
     x, ex1 = example_1d()
     xy, sys2, L2, R2, C2, C50_2 = example_2d()
     out.mkdir(parents=True)
     table.to_csv(out/'archive_check.csv', index=False)
+    conservation.to_csv(out/'archive_conservation.csv', index=False)
     rows = []
     for name, r in ex1.items():
         for i in range(2):
