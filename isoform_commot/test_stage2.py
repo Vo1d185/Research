@@ -387,6 +387,81 @@ class Robustness(unittest.TestCase):
             self.assertTrue(table.spearman.between(-1, 1).all())
 
 
+class Validation(unittest.TestCase):
+    """Plan section 9: flat and inverse kernels, coordinate shuffle."""
+
+    def test_diffusion_cost_kernels(self):
+        d = np.array([0.0, 100.0, 200.0, 300.0])
+        np.testing.assert_allclose(stage2.diffusion_cost(d, 'r0', r0=100.0), np.log1p(d / 100.0))
+        np.testing.assert_array_equal(stage2.diffusion_cost(d, 'flat'), np.zeros(4))
+        np.testing.assert_allclose(stage2.diffusion_cost(d, 'inverse', d_ref=100.0), [0, 0, np.log(2), np.log(3)])
+        with self.assertRaises(ValueError):
+            stage2.diffusion_cost(d, 'inverse')
+        sp = hex_slide(6, 12)
+        self.assertAlmostEqual(stage2.min_spot_distance(sp), 100.0, places=6)
+
+    def test_flat_inverse_runs_and_shuffle(self):
+        sp = hex_slide(6, 12)
+        rng = np.random.default_rng(5)
+        x = pd.DataFrame(rng.poisson(3, (len(sp), 3)).astype(float) + 1, index=sp.index, columns=['L1', 'R1', 'R2'])
+        lr = pd.DataFrame(dict(ligand=['L1', 'L1'], receptor=['R1', 'R2'], type=['diffusion', 'contact'],
+                               pathway_name='p'))
+        cfg = dict(stage2.DEFAULTS, r0_um=[100.0, 200.0], diffusion_cutoff_um=250.0, coordinate_unit='micrometer',
+                   expression_level='gene', expression_state='processed')
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            write_input(root/'in', sp, x, lr, cfg)
+            lr.assign(reason='selected').to_csv(root/'in'/'filter_audit.csv', index=False)
+            prep = json.loads((root/'in'/'preparation.json').read_text())
+            prep['prepared_sha256']['filter_audit.csv'] = stage2.digest(root/'in'/'filter_audit.csv')
+            (root/'in'/'preparation.json').write_text(json.dumps(prep))
+            base = dict(input=str(root/'in'), eps=0.2, rho=1.0, diffusion_cutoff_um=250.0)
+            stage2.run(argparse.Namespace(output=str(root/'A'), r0_um=[200.0], kernel='r0', **base))
+            stage2.run(argparse.Namespace(output=str(root/'F'), r0_um=None, kernel='flat', **base))
+            stage2.run(argparse.Namespace(output=str(root/'I'), r0_um=None, kernel='inverse', **base))
+            with self.assertRaises(ValueError):
+                stage2.run(argparse.Namespace(output=str(root/'bad'), r0_um=[100.0], kernel='flat', **base))
+            pa, pf, pi = (plans.load(root/k/'case_000.npz') for k in 'AFI')
+            for k in ['row', 'col', 'D']:                                  # same connections, only the cost differs
+                np.testing.assert_array_equal(pa[k], pf[k]); np.testing.assert_array_equal(pa[k], pi[k])
+            diffusion = pa['pair_type'][pa['pair']] == 'diffusion'
+            self.assertTrue((pf['C'] == 0).all())
+            np.testing.assert_allclose(pa['C'][diffusion], np.log1p(pa['D'][diffusion] / 200.0))
+            np.testing.assert_allclose(pi['C'][diffusion], np.maximum(np.log(np.maximum(pi['D'][diffusion], 100.0) / 100.0), 0),
+                                       atol=1e-9)
+            self.assertTrue((pi['C'][~diffusion] == 0).all() and (pa['C'][~diffusion] == 0).all())
+            for k in 'FI':
+                summary = pd.read_csv(root/k/'summary.csv')
+                self.assertEqual(len(summary), 1)
+                self.assertTrue(summary.r0.isna().all())
+                manifest = json.loads((root/k/'manifest.json').read_text())
+                self.assertEqual(manifest['kernel'], {'F': 'flat', 'I': 'inverse'}[k])
+            self.assertAlmostEqual(json.loads((root/'I'/'manifest.json').read_text())['d_ref_um'], 100.0, places=6)
+            self.assertEqual(pd.read_csv(root/'F'/'summary.csv').family.tolist(), ['flat'])
+
+            stage2.shuffle(argparse.Namespace(input=str(root/'in'), output=str(root/'s1'), seed=1))
+            stage2.shuffle(argparse.Namespace(input=str(root/'in'), output=str(root/'s1b'), seed=1))
+            stage2.shuffle(argparse.Namespace(input=str(root/'in'), output=str(root/'s2'), seed=2))
+            self.assertEqual((root/'s1'/'spatial.csv').read_text(), (root/'s1b'/'spatial.csv').read_text())
+            self.assertNotEqual((root/'s1'/'spatial.csv').read_text(), (root/'s2'/'spatial.csv').read_text())
+            self.assertEqual((root/'s1'/'expression.csv').read_bytes(), (root/'in'/'expression.csv').read_bytes())
+            moved = pd.read_csv(root/'s1'/'spatial.csv', index_col=0)
+            original = pd.read_csv(root/'in'/'spatial.csv', index_col=0)
+            self.assertEqual(list(moved.index), list(original.index))       # spots keep their order and expression
+            perm = np.random.default_rng(1).permutation(len(original))
+            np.testing.assert_array_equal(moved.to_numpy(), original.to_numpy()[perm])   # rows move as a whole
+            self.assertEqual(list(moved.dtypes), list(original.dtypes))
+            stage2.run(argparse.Namespace(output=str(root/'P'), r0_um=[200.0], kernel='r0',
+                                          **dict(base, input=str(root/'s1'))))
+            pp = plans.load(root/'P'/'case_000.npz')
+            self.assertEqual(list(pp['spots']), list(pa['spots']))
+            np.testing.assert_array_equal(pp['a'], pa['a'])                    # budgets unchanged
+            self.assertFalse(np.array_equal(np.sort(pp['row']*10**6 + pp['col']), np.sort(pa['row']*10**6 + pa['col'])))
+            self.assertEqual(json.loads((root/'P'/'manifest.json').read_text())['shuffle']['seed'], 1)
+            with self.assertRaises(ValueError):
+                stage2.shuffle(argparse.Namespace(input=str(root/'s1'), output=str(root/'s1x'), seed=1))
+
+
 class Pairs(unittest.TestCase):
     def test_each_slide_keeps_its_own_pairs(self):
         sp = hex_slide(4, 8)

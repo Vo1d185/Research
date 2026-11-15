@@ -323,7 +323,28 @@ def spatial_edges(spatial, cutoff):
     return diffusion, contact
 
 
-def build_sparse_cost(lr, ligands, receptors, a, b, n, edges, r0):
+KERNELS = ('r0', 'flat', 'inverse')     # diffusion kernel F: r0/(r0+d) | 1 | min(1, d_ref/d)  (plan 3, 9.1)
+
+
+def diffusion_cost(d, kernel, r0=None, d_ref=None):
+    """-log F(d) for diffusion pairs within the cutoff (contact pairs always cost 0)."""
+    if kernel == 'r0':
+        return np.log1p(d / r0)
+    if kernel == 'flat':
+        return np.zeros(len(d))
+    check(kernel == 'inverse' and d_ref is not None and d_ref > 0, 'Unknown kernel or missing d_ref')
+    return np.where(d > d_ref, np.log(np.maximum(d, d_ref) / d_ref), 0.0)
+
+
+def min_spot_distance(spatial):
+    """Smallest non-zero distance between two spots (um): d_ref of the inverse kernel (plan 9.1)."""
+    xy = spatial[['x', 'y']].to_numpy(float)
+    d = cKDTree(xy).query(xy, k=2)[0][:, 1]
+    check((d > 0).all(), 'Coincident spots')
+    return float(d.min())
+
+
+def build_sparse_cost(lr, ligands, receptors, a, b, n, edges, r0, kernel='r0', d_ref=None):
     """Concatenate per-LR-pair sparse blocks; entries with a zero sender or receiver budget are omitted."""
     li, ri = {v: i for i, v in enumerate(ligands)}, {v: i for i, v in enumerate(receptors)}
     rows, cols, costs, dists, kinds = [], [], [], [], []
@@ -331,7 +352,7 @@ def build_sparse_cost(lr, ligands, receptors, a, b, n, edges, r0):
         s, t, d = edges[pair.type]
         r, c = li[pair.ligand]*n + s, ri[pair.receptor]*n + t
         keep = (a[r] > 0) & (b[c] > 0)
-        cost = np.log1p(d[keep] / r0) if pair.type == 'diffusion' else np.zeros(int(keep.sum()))
+        cost = diffusion_cost(d[keep], kernel, r0, d_ref) if pair.type == 'diffusion' else np.zeros(int(keep.sum()))
         rows.append(r[keep]); cols.append(c[keep]); costs.append(cost); dists.append(d[keep])
         kinds.append(np.full(int(keep.sum()), p, np.int32))
     cat = lambda x: np.concatenate(x) if x else np.zeros(0)
@@ -373,7 +394,12 @@ def run(args):
     prep = verified(source)
     cfg, x, spatial, lr, ligands, receptors, a, b = load_input(source)
     input_cfg, cfg = cfg, run_config(cfg, args)
-    r0s = args.r0_um or cfg['r0_um']
+    kernel = getattr(args, 'kernel', None) or 'r0'
+    check(kernel in KERNELS, f'Unknown kernel {kernel}')
+    check(kernel == 'r0' or not args.r0_um, '--r0-um applies to the r0 kernel only')
+    r0s = (args.r0_um or cfg['r0_um']) if kernel == 'r0' else [None]      # flat / inverse: one case, no r0
+    d_ref = min_spot_distance(spatial) if kernel == 'inverse' else None
+    family = {'r0': 'r0_raw', 'flat': 'flat', 'inverse': 'inverse'}[kernel]
     n = len(x)
     edges = dict(zip(['diffusion', 'contact'], spatial_edges(spatial, cfg['diffusion_cutoff_um'])))
     from research import backend_sparse
@@ -383,7 +409,7 @@ def run(args):
     records = []
     for k, r0 in enumerate(r0s):
         name = f'case_{k:03d}'
-        row, col, c, d, p = build_sparse_cost(lr, ligands, receptors, a, b, n, edges, r0)
+        row, col, c, d, p = build_sparse_cost(lr, ligands, receptors, a, b, n, edges, r0, kernel, d_ref)
         start = time.time()
         T, info = solve_sparse(row, col, c, a, b, cfg['eps'], cfg['rho'], cfg['nitermax'], cfg['stopthr'])
         seconds = time.time() - start
@@ -392,7 +418,8 @@ def run(args):
                           x.index, ligands, receptors, D=d, pair=p, pair_ligand=lr.ligand.to_numpy(str),
                           pair_receptor=lr.receptor.to_numpy(str), pair_type=lr.type.to_numpy(str))
         total = float(T.sum())
-        rec = dict(case=name, family='r0_raw', r0=float(r0), r0_um=float(r0), score_mode='no_ppi',
+        rec = dict(case=name, family=family, kernel=kernel, r0=None if r0 is None else float(r0),
+                   r0_um=None if r0 is None else float(r0), d_ref_um=d_ref, score_mode='no_ppi',
                    niter=info.get('niter'), nitermax=info.get('nitermax'), cap_reached=info.get('cap_reached'),
                    eps=cfg['eps'], rho=cfg['rho'], diffusion_cutoff_um=cfg['diffusion_cutoff_um'],
                    total_T=total, frac_ligand=total/float(a.sum()), frac_receptor=total/float(b.sum()),
@@ -404,12 +431,14 @@ def run(args):
             rec[f'total_T_{kind}'] = float(T[m].sum())
             rec[f'mean_distance_{kind}'] = float((T[m]*d[m]).sum()/T[m].sum()) if T[m].sum() else None
         records.append(rec)
-        print(f'{name}: r0={r0:g} um, {len(T):,} entries, {seconds:.0f}s, {info.get("niter")} iterations', flush=True)
+        print(f'{name}: kernel={kernel} r0={r0} um, {len(T):,} entries, {seconds:.0f}s, {info.get("niter")} iterations',
+              flush=True)
     pd.DataFrame(records).to_csv(out/'summary.csv', index=False)
     from fetch_solver import SHA256, URL
     write_json(out/'manifest.json', dict(status='complete', method='research sparse (stage 2)', launch=launch,
         input=str(source.resolve()), config=cfg,
-        overridden={k: input_cfg.get(k) for k in OVERRIDES if input_cfg.get(k) != cfg[k]}, r0_um=r0s,
+        overridden={k: input_cfg.get(k) for k in OVERRIDES if input_cfg.get(k) != cfg[k]},
+        r0_um=r0s if kernel == 'r0' else None, kernel=kernel, d_ref_um=d_ref, shuffle=prep.get('shuffle'),
         spot_pairs=dict(diffusion=int(len(edges['diffusion'][0])), contact=int(len(edges['contact'][0]))),
         h=prep['neighbour_spacing_um'], solver=dict(url=URL, sha256=SHA256,
         function='unot_sinkhorn_l1_sparse'), format='sparse coo (plans.py)', sample=prep['sample'],
@@ -553,6 +582,35 @@ def subsample(args):
                 launch=launch, note='plan 8.11: values, pairs and micrometre coordinates are not recomputed'))
     write_json(out/'preparation.json', meta)
     print(f'kept {len(keep)} of {len(x)} spots (fraction {args.fraction}, seed {args.seed}) -> {out}')
+
+
+def shuffle(args):
+    """Plan 9.1 (condition P): permute the spot positions among the spots of a prepared input. Coordinates and
+    array_row/array_col move together; expression, pairs and config are unchanged."""
+    launch = launch_info()
+    source, out = Path(args.input), Path(args.output)
+    check(not out.exists(), f'Output exists: {out}')
+    prep = verified(source)
+    check('subsample' not in prep and 'shuffle' not in prep, 'Shuffle the full prepared input only')
+    spatial = pd.read_csv(source/'spatial.csv', index_col=0)
+    perm = np.random.default_rng(args.seed).permutation(len(spatial))
+    moved = pd.DataFrame(spatial.to_numpy()[perm], index=spatial.index, columns=spatial.columns)
+    for c in spatial.columns:
+        moved[c] = moved[c].astype(spatial[c].dtype)
+    out.mkdir(parents=True)
+    moved.to_csv(out/'spatial.csv')
+    files = ['expression.csv', 'spatial.csv', 'lr.csv', 'entities.csv', 'config.json', 'filter_audit.csv']
+    for name in files:
+        if name != 'spatial.csv':
+            (out/name).write_bytes((source/name).read_bytes())
+    meta = {k: v for k, v in prep.items() if k != 'prepared_sha256'}
+    meta.update(prepared_sha256={f: digest(out/f) for f in files}, region='whole slide, spot positions permuted',
+                shuffle=dict(parent=str(source.resolve()), parent_prepared_sha256=prep['prepared_sha256'], seed=args.seed,
+                             rng='numpy.random.default_rng(seed).permutation(n); spot i gets the position of spot perm[i]',
+                             fixed_points=int((perm == np.arange(len(perm))).sum()), launch=launch,
+                             note='plan 9.1: expression, pairs and config unchanged; x, y, array_row, array_col move together'))
+    write_json(out/'preparation.json', meta)
+    print(f'permuted the positions of {len(perm)} spots (seed {args.seed}) -> {out}')
 
 
 def robustness(args):
@@ -1003,6 +1061,8 @@ def parser():
     e = sub.add_parser('export-genes'); e.add_argument('--input', required=True); e.add_argument('--output', required=True)
     r = sub.add_parser('run'); r.add_argument('--input', required=True); r.add_argument('--output', required=True)
     r.add_argument('--r0-um', type=float, nargs='+', help='default: config r0_um')
+    r.add_argument('--kernel', choices=KERNELS, default='r0',
+                   help='diffusion kernel: r0/(r0+d) (default) | flat (F = 1) | inverse (min(1, d_ref/d)); plan 9.1')
     r.add_argument('--eps', type=float, help='default: config eps')
     r.add_argument('--rho', type=float, help='default: config rho')
     r.add_argument('--diffusion-cutoff-um', type=float, help='default: config diffusion_cutoff_um')
@@ -1013,6 +1073,8 @@ def parser():
     s.add_argument('--output', required=True)
     u = sub.add_parser('subsample'); u.add_argument('--input', required=True); u.add_argument('--output', required=True)
     u.add_argument('--fraction', type=float, required=True); u.add_argument('--seed', type=int, required=True)
+    w = sub.add_parser('shuffle'); w.add_argument('--input', required=True); w.add_argument('--output', required=True)
+    w.add_argument('--seed', type=int, required=True)
     b = sub.add_parser('robustness'); b.add_argument('--full', nargs='+', required=True)
     b.add_argument('--subsampled', nargs='+', required=True); b.add_argument('--output', required=True)
     v = sub.add_parser('convergence'); v.add_argument('--results', nargs='+', required=True)
@@ -1030,7 +1092,8 @@ def parser():
 def main():
     args = parser().parse_args()
     {'fetch': fetch, 'prepare': prepare, 'export-genes': export_genes, 'run': run,
-     'compare-dense': compare_dense, 'pairs': pairs, 'subsample': subsample, 'robustness': robustness,
+     'compare-dense': compare_dense, 'pairs': pairs, 'subsample': subsample, 'shuffle': shuffle,
+     'robustness': robustness,
      'stability': stability, 'convergence': convergence,
      'report': report}[args.command](args)
 
