@@ -1,0 +1,67 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-16T05:18:14+00:00",
+    "git_head": "7ff2bc7b18ab0ddd33f57d0e6fbed1b50be6af52",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [],
+    "recorded": "at launch"
+  },
+  "role": "selection",
+  "eval": "target_eval_stage2_post",
+  "input": "/home/liu/Research/isoform_commot/stage2_input_post",
+  "results": [
+    "stage2_results_post_A_r50",
+    "stage2_results_post_A_r100",
+    "stage2_results_post_A_r200",
+    "stage2_results_post_A_r400",
+    "stage2_results_post_A500_r50",
+    "stage2_results_post_A500_r100",
+    "stage2_results_post_A500_r200",
+    "stage2_results_post_A500_r400",
+    "stage2_results_post_Aeps_r50",
+    "stage2_results_post_Aeps_r100",
+    "stage2_results_post_Aeps_r200",
+    "stage2_results_post_Aeps_r400",
+    "commot_stage2_post_B",
+    "commot_stage2_post_B500",
+    "commot_stage2_post_Beps_v2",
+    "commot_stage2_post_C",
+    "commot_stage2_post_C500",
+    "commot_stage2_post_C726",
+    "stage2_results_post_F",
+    "stage2_results_post_I",
+    "stage2_results_post_P_s1",
+    "stage2_results_post_P_s2",
+    "stage2_results_post_P_s3"
+  ],
+  "top_tf": "10",
+  "target_score": "mean",
+  "level": "receptor",
+  "selected_r0_um": 50.0,
+  "rule_selected_r0_um": 50.0,
+  "r0_rule": "plan section 8.5",
+  "confirmation": null,
+  "confirmation_rule": null,
+  "all_converged": true,
+  "convergence_rule": "plan section 8.7 (fourth decision)",
+  "receptors_evaluable": 138,
+  "receptors_common": 137,
+  "receptors_for_r0_selection": 137,
+  "receptor_classes": {
+    "Contact": 109,
+    "Secreted": 106,
+    "both": 9
+  },
+  "commot_rule": {
+    "receptors_evaluable": 77,
+    "receptors_common": 76,
+    "complexes_matched": 34,
+    "complexes_matched_in_commot_order": 34
+  },
+  "eval_sha256": {
+    "case_metrics.csv": "7df7d5063caa61aebe033cea1cef767efadb91f36d55de347a7f970c25752629",
+    "target_sets.csv": "4bce1a9f8e58625a1208a1d3fa909770f3acd49cdab1abd4772a291382da53e1"
+  }
+}

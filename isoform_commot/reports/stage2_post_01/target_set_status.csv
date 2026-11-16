@@ -1,0 +1,5 @@
+rule,top_tf,evaluated,no_receptor_tf_link,too_few_targets
+commot,commot,77,147,0
+ours,10,138,77,9
+ours,20,138,77,9
+ours,5,136,77,11

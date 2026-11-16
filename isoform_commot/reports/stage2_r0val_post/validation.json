@@ -1,0 +1,148 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-16T05:19:37+00:00",
+    "git_head": "b2072738378951f833880eba0a71243320a84ab5",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [
+      "isoform_commot/reports/stage2_post_01/"
+    ],
+    "recorded": "at launch"
+  },
+  "role": "selection",
+  "slide": "posterior",
+  "eval": "target_eval_stage2_post",
+  "input": "/home/liu/Research/isoform_commot/stage2_input_post",
+  "results": [
+    "commot_stage2_post_B",
+    "stage2_results_post_A_r100",
+    "stage2_results_post_A_r200",
+    "stage2_results_post_A_r400",
+    "stage2_results_post_A_r50",
+    "stage2_results_post_F",
+    "stage2_results_post_I",
+    "stage2_results_post_P_s1",
+    "stage2_results_post_P_s2",
+    "stage2_results_post_P_s3"
+  ],
+  "top_tf": "10",
+  "target_score": "mean",
+  "r0_star_um": 50.0,
+  "rule_selected_r0_um": 50.0,
+  "r0_rule": "plan section 8.5 (posterior); fixed on the anterior",
+  "replicates": 1000,
+  "seed": 1,
+  "receptors_evaluable": 138,
+  "receptors_curve": 137,
+  "receptors_differences": 137,
+  "receptor_classes": {
+    "Contact": 109,
+    "Secreted": 106,
+    "both": 9
+  },
+  "criteria": {
+    "a": {
+      "met": true,
+      "mean_difference": 0.006889383699726356,
+      "ci_low": 0.0036365891959097636,
+      "ci_high": 0.010740608568682657,
+      "n": 137
+    },
+    "b": {
+      "met": true,
+      "I_met": true,
+      "I_mean": 0.0035025827651927696,
+      "I_ci_low": 0.001132692379025666,
+      "I_ci_high": 0.006092405176625938,
+      "B_met": true,
+      "B_mean": 0.0068498707298114084,
+      "B_ci_low": 0.0024755311006369,
+      "B_ci_high": 0.011631924892887375
+    },
+    "c": {
+      "met": true,
+      "a_higher": 63,
+      "f_higher": 26,
+      "ties": 48,
+      "sign_test_p": 0.00010992624937112814
+    },
+    "d": {
+      "met": true,
+      "secreted_mean": 0.011882767727568232,
+      "contact_mean": 0.00030312888117848576,
+      "secreted_n": 75,
+      "contact_n": 55,
+      "both_mean": 0.005137985547153783,
+      "both_n": 7,
+      "difference": 0.011579638846389746,
+      "ci_low": 0.005660714906639129,
+      "ci_high": 0.018286812165074454
+    },
+    "verdict": "useful"
+  },
+  "criteria_role": "exploratory: r0* selected on this slide",
+  "negative_control": {
+    "insensitive": false,
+    "mean_difference": 0.00951225756559414,
+    "ci_low": 0.002933480531801776,
+    "ci_high": 0.01633164746934385,
+    "receptors": 137
+  },
+  "commot_rule": {
+    "criteria": {
+      "a": {
+        "met": false,
+        "mean_difference": 0.004483048204593579,
+        "ci_low": -0.000597917596025859,
+        "ci_high": 0.010299716811369054,
+        "n": 76
+      },
+      "b": {
+        "met": false,
+        "I_met": true,
+        "I_mean": 0.003594263496466407,
+        "I_ci_low": 8.11843770603238e-05,
+        "I_ci_high": 0.007823806838193444,
+        "B_met": false,
+        "B_mean": 0.0023616572091187124,
+        "B_ci_low": -0.003165028183619975,
+        "B_ci_high": 0.008473997522390916
+      },
+      "c": {
+        "met": true,
+        "a_higher": 31,
+        "f_higher": 17,
+        "ties": 28,
+        "sign_test_p": 0.05946337525377034
+      },
+      "d": {
+        "met": true,
+        "secreted_mean": 0.005157638322282273,
+        "contact_mean": -0.00015995194358843997,
+        "secreted_n": 58,
+        "contact_n": 15,
+        "both_mean": 0.014655973336855596,
+        "both_n": 3,
+        "difference": 0.005317590265870713,
+        "ci_low": -0.0006192929516442777,
+        "ci_high": 0.012193122919732244
+      },
+      "verdict": "partly met: c, d"
+    },
+    "negative_control": {
+      "insensitive": false,
+      "mean_difference": 0.0071665372422186685,
+      "ci_low": 0.00015158534145906253,
+      "ci_high": 0.014057670289385137,
+      "receptors": 76
+    },
+    "receptors_curve": 76,
+    "receptors_differences": 76,
+    "rule_selected_r0_um": 50.0
+  },
+  "eval_sha256": {
+    "case_metrics.csv": "7df7d5063caa61aebe033cea1cef767efadb91f36d55de347a7f970c25752629",
+    "target_sets.csv": "4bce1a9f8e58625a1208a1d3fa909770f3acd49cdab1abd4772a291382da53e1"
+  }
+}
