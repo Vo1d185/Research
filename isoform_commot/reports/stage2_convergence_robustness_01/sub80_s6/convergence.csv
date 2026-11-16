@@ -1,0 +1,4 @@
+condition,r0_um,niter,nitermax,cap_reached,solves,solves_at_cap,check_passed,check_row_error,check_shape_error,check_kkt_shape_error,check_kkt_tol,check_rows_checked,check_rows,forbidden_mass,max_ligand_budget_excess,frac_ligand,frac_receptor,solve_seconds,converged,results,case
+A,50.0,50001,50000,True,,,True,1.4150429257534728e-10,7.561535574066898e-12,2.9132252166164113e-13,1e-07,52352.0,147869.0,0.0,,0.6277838224035727,0.6301224946401652,7634.0,True,stage2_results_post_sub80_s6_A_r50,case_000
+B,,50001,50000,True,1.0,1.0,True,1.1101730702193613e-08,9.942211193966756e-12,2.273736754432321e-13,1e-07,53020.0,539484.0,0.0,0.0019443128824456,0.6435025847887488,0.6458998138595125,20306.7,True,commot_stage2_post_sub80_s6_B,case_000
+C,,10001,10000,True,966.0,219.0,,,,,,,,0.0,5.470956392521392,0.8701864765820555,0.873428167241826,6948.3,,commot_stage2_post_sub80_s6_C,case_000

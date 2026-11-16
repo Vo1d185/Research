@@ -2,7 +2,7 @@
 
 本文件总结此前网页版会话中的决定，在新的会话中先读它。
 
-## 当前状态（2026-11-16 05:45 UTC）：先读这一节
+## 当前状态（2026-11-16 08:05 UTC）：先读这一节
 
 分支 `research/isoform-commot-v1`，代码在 `/home/liu/Research/isoform_commot`，主环境 `/home/liu/.conda/envs/commot-research/bin/python`。
 PPI 作为 cost 的方向已按预先登记的检查停止（S = 1）；现在的 cost 是 C = −log F(d)。下面的"第一阶段"各节是历史记录。
@@ -40,22 +40,16 @@ PPI 作为 cost 的方向已按预先登记的检查停止（S = 1）；现在�
 
 | 运行 | 状态 |
 |---|---|
-| 稳健性：`stage2_results_post_sub{90,80,50}_s{1..15}_A_r50`（15 个，A 在 r₀\* = 50 µm） | 11-16 05:20:30 启动（`d1aac56`，脱离会话，每个 2 线程）；估计每个 2–4 小时 |
-| PDE 队列（`pde_r0_results/`，`simulation.jobqueue`） | 同时 16 个进程；上限在 `pde_r0_results/limit`，稳健性运行结束后可改为 28 |
+| PDE 队列（`pde_r0_results/`，`simulation.jobqueue`） | 11-16 07:58 起并发上限改为 28（`pde_r0_results/limit`）；4404 个作业完成约 2360 个，剩下的都是 ε = 0.1、ρ = 10 |
+
+第二阶段没有还在运行的任务。稳健性（8.11）已完成：`reports/stage2_robustness_01/`，报告第 11 节。
 
 ### 接下来的顺序（不用等用户）
 
-1. **稳健性（8.11）：** 15 个运行结束后（每个目录出现 `manifest.json`）：
-   ```
-   python stage2.py robustness --full stage2_results_post_A_r50 commot_stage2_post_B commot_stage2_post_C \
-       --subsampled stage2_results_post_sub*_A_r50 commot_stage2_post_sub*_B commot_stage2_post_sub*_C --output reports/stage2_robustness_01
-   ```
-   先看 `python stage2.py robustness -h` 核对参数；结果填进 `reports/stage2_section8/report.md` 第 11 节，提交，提醒推送。
-2. **PDE：** 把 `pde_r0_results/limit` 改为 28；全部作业结束、稳定性诊断（D1–D3）和第 5.1 节的检查通过后，
-   `simulation.benchmark evaluate` → `analyze`，写 `reports/pde_r0_01/`。
-3. **等用户决定下一步。** r₀ 验证的结论是前部没有重复出后部的结果；报告第 5、8 节列了两个规则之外的观察
+1. **PDE：** 全部作业结束、稳定性诊断（D1–D3）和第 5.1 节的检查通过后，`simulation.benchmark evaluate` → `analyze`，写 `reports/pde_r0_01/`。
+2. **等用户决定第二阶段的下一步。** r₀ 验证的结论是前部没有重复出后部的结果；报告列了规则之外的观察
    （坐标打乱后指标仍保留约 80%；ε = 0.2、ρ = 1 下 r₀ 的作用更明显且两张切片一致）。是否据此改评价方法或加条件，由用户决定并先登记。
-4. isoform 方案草稿仍在等用户与导师讨论，不执行。
+3. isoform 方案草稿仍在等用户与导师讨论，不执行。
 
 ## 研究目标（第一阶段起的历史记录，以下各节同）
 
