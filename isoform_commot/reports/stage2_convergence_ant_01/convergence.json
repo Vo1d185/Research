@@ -1,0 +1,39 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-16T03:44:16+00:00",
+    "git_head": "5ed7ace48a48fcb2e4bcc80ecc5c6dd6ed80c665",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [
+      "isoform_commot/reports/stage2_stability_01/"
+    ],
+    "recorded": "at launch"
+  },
+  "rule": "plan section 8.7 (fourth decision)",
+  "results": [
+    "stage2_results_ant_A_r50",
+    "stage2_results_ant_A_r100",
+    "stage2_results_ant_A_r200",
+    "stage2_results_ant_A_r400",
+    "stage2_results_ant_A500_r50",
+    "stage2_results_ant_A500_r100",
+    "stage2_results_ant_A500_r200",
+    "stage2_results_ant_A500_r400",
+    "stage2_results_ant_Aeps_r50",
+    "stage2_results_ant_Aeps_r100",
+    "stage2_results_ant_Aeps_r200",
+    "stage2_results_ant_Aeps_r400",
+    "commot_stage2_ant_B",
+    "commot_stage2_ant_B500",
+    "commot_stage2_ant_Beps",
+    "commot_stage2_ant_C",
+    "commot_stage2_ant_C500",
+    "commot_stage2_ant_C726",
+    "stage2_results_ant_F",
+    "stage2_results_ant_I"
+  ],
+  "collective_cases": 17,
+  "all_collective_converged": true,
+  "cases_at_iteration_cap": 15
+}

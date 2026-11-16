@@ -1,0 +1,5 @@
+condition,r0_um,entries,identical,max_abs_T_difference
+Aeps,100.0,4598429,True,0.0
+Aeps,200.0,4598429,True,0.0
+Aeps,400.0,4598429,True,0.0
+Aeps,50.0,4598429,True,0.0

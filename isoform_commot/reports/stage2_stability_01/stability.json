@@ -1,0 +1,40 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-16T03:43:46+00:00",
+    "git_head": "5ed7ace48a48fcb2e4bcc80ecc5c6dd6ed80c665",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [],
+    "recorded": "at launch"
+  },
+  "rule": "plan section 8.7 (fourth decision)",
+  "thresholds": {
+    "rel_l1": 0.001,
+    "spearman": 0.999,
+    "total": 0.001
+  },
+  "at_50k": [
+    "stage2_results_post_A_r50",
+    "stage2_results_post_A_r400",
+    "commot_stage2_post_B",
+    "stage2_results_post_F"
+  ],
+  "at_200k": [
+    "stage2_results_diag_post_A_r50_iter200k",
+    "stage2_results_diag_post_A_r400_iter200k",
+    "commot_stage2_diag_post_B_iter200k",
+    "stage2_results_diag_post_F_iter200k"
+  ],
+  "same_a": [
+    "stage2_results_post_Aeps"
+  ],
+  "same_b": [
+    "stage2_results_post_Aeps_r50",
+    "stage2_results_post_Aeps_r100",
+    "stage2_results_post_Aeps_r200",
+    "stage2_results_post_Aeps_r400"
+  ],
+  "all_stable": true,
+  "deterministic": true
+}
