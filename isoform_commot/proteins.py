@@ -2,6 +2,9 @@
 
   map     LR symbols of a prepared input -> original data symbols -> exactly one
           reviewed (Swiss-Prot) MOUSE UniProt entry per gene; canonical sequence.
+          Also: --genes (a symbol list instead of a prepared input) and --species human,
+          same rule; --allow-unresolved writes the resolved genes and lists the rest
+          (used by lr_benchmark.py; the default still refuses).
   pairs   PLM-interact jobs: every cognate LR pair in both orders, plus panel
           cross pairs (ligand x receptor not in lr.csv) used ONLY to check the scores.
   import  PLM scores -> ppi.csv for the cognate pairs (mean of both orders) and a
@@ -15,6 +18,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import time
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
@@ -24,6 +28,7 @@ import pandas as pd
 from research import check
 
 MOUSE_TAXON = 10090
+TAXA = {'mouse': (MOUSE_TAXON, 'Mus musculus (taxon 10090)'), 'human': (9606, 'Homo sapiens (taxon 9606)')}
 ESM_LETTERS = set('ACDEFGHIKLMNPQRSTVWYXBUZO')
 TRAINING_MAX_AA = 800          # official test sets contain 50-800 aa proteins
 OFFICIAL_MAX_TOKENS = 1603     # 800 + 800 + 3 special tokens
@@ -43,13 +48,29 @@ def write_json(path, obj):
     Path(path).write_text(json.dumps(obj, indent=2, ensure_ascii=False, allow_nan=False))
 
 
-def http_json(url):
-    """GET JSON from UniProt. No personal data is sent; generic client name only."""
+def http_json(url, attempts=8, pause=0.2):
+    """GET JSON from UniProt. No personal data is sent; generic client name only.
+
+    Retries on HTTP 429/5xx and network errors (Retry-After or exponential backoff)."""
+    from urllib.error import HTTPError, URLError
     request = Request(url, headers={'Accept': 'application/json',
                                     'User-Agent': 'isoform-commot-research/1.0'})
-    with urlopen(request, timeout=60) as response:
-        headers = {k.lower(): v for k, v in response.headers.items()}
-        return json.loads(response.read().decode()), headers
+    for attempt in range(attempts):
+        try:
+            with urlopen(request, timeout=60) as response:
+                headers = {k.lower(): v for k, v in response.headers.items()}
+                result = json.loads(response.read().decode()), headers
+            time.sleep(pause)
+            return result
+        except HTTPError as exc:
+            if exc.code != 429 and exc.code < 500 or attempt == attempts - 1:
+                raise
+            wait = exc.headers.get('Retry-After')
+            time.sleep(float(wait) if wait and wait.isdigit() else min(2 ** attempt, 60))
+        except URLError:
+            if attempt == attempts - 1:
+                raise
+            time.sleep(min(2 ** attempt, 60))
 
 
 # ---------------------------------------------------------------- map
@@ -98,27 +119,28 @@ def entry_fields(entry):
         sequence=sequence)
 
 
-def search(symbol, fetch=http_json):
-    """Reviewed mouse entries whose PRIMARY gene name is the symbol."""
-    query = quote(f'(gene_exact:{symbol}) AND (organism_id:{MOUSE_TAXON}) AND (reviewed:true)')
+def search(symbol, fetch=http_json, taxon=MOUSE_TAXON):
+    """Reviewed entries of the taxon (default mouse) whose PRIMARY gene name is the symbol."""
+    query = quote(f'(gene_exact:{symbol}) AND (organism_id:{taxon}) AND (reviewed:true)')
     found, headers = fetch(SEARCH.format(query=query))
     hits = []
     for entry in found.get('results', []):
         fields = entry_fields(entry)
-        if (fields['taxon_id'] == MOUSE_TAXON and fields['reviewed'] and
+        if (fields['taxon_id'] == taxon and fields['reviewed'] and
                 str(fields['gene_primary']).lower() == symbol.lower()):
             hits.append((entry, fields))
     return hits, headers
 
 
-def resolve(symbol, override=None, fetch=http_json):
-    """Exactly one reviewed mouse entry whose PRIMARY gene name is the symbol."""
+def resolve(symbol, override=None, fetch=http_json, taxon=MOUSE_TAXON):
+    """Exactly one reviewed entry of the taxon whose PRIMARY gene name is the symbol."""
     if override:
         entry, headers = fetch(f'{UNIPROT}/{quote(override)}.json')
         fields = entry_fields(entry)
-        check(fields['taxon_id'] == MOUSE_TAXON, f'Override {override} is not a mouse entry')
+        name = next(k for k, (t, _) in TAXA.items() if t == taxon)
+        check(fields['taxon_id'] == taxon, f'Override {override} is not a {name} entry')
         return entry, fields, headers, 'manual_override'
-    hits, headers = search(symbol, fetch)
+    hits, headers = search(symbol, fetch, taxon)
     check(len(hits) == 1, f'{symbol}: {len(hits)} reviewed mouse entries with this primary gene name '
           f'{[h[1]["accession"] for h in hits]}; resolve manually with --override (lr_symbol,accession,reason)')
     return hits[0][0], hits[0][1], headers, 'unique_reviewed_primary_gene'
@@ -127,16 +149,32 @@ def resolve(symbol, override=None, fetch=http_json):
 def candidate_rows(lr_symbol, data_symbol, hits):
     if not hits:
         return [dict(lr_symbol=lr_symbol, data_symbol=data_symbol, n_hits=0, accession=None, uniprot_id=None,
-                     protein_name='no reviewed mouse entry with this primary gene name', length=None)]
+                     protein_name='no reviewed entry of this species with this primary gene name', length=None)]
     return [dict(lr_symbol=lr_symbol, data_symbol=data_symbol, n_hits=len(hits), accession=f['accession'],
                  uniprot_id=f['uniprot_id'], protein_name=f['protein_name'], length=len(f['sequence']))
             for _, f in hits]
 
 
+def gene_list(path):
+    """--genes CSV with a 'symbol' column: each symbol is looked up as itself."""
+    table = pd.read_csv(path, dtype=str)
+    check('symbol' in table and table.symbol.notna().all(), f'{path} needs a non-empty symbol column')
+    check(table.symbol.is_unique, f'Duplicate symbols in {path}')
+    return {g: g for g in sorted(table.symbol)}, f'gene list {Path(path).name} sha256={digest(path)}'
+
+
 def map_proteins(args, fetch=http_json):
     out = Path(args.output)
     check(not out.exists(), f'Output exists: {out}')
-    symbols, symbol_source = data_symbols(args.input, args.h5ad, args.gene_map, args.symbol_table)
+    species = getattr(args, 'species', 'mouse') or 'mouse'
+    taxon, species_name = TAXA[species]
+    genes_file = getattr(args, 'genes', None)
+    allow_unresolved = getattr(args, 'allow_unresolved', False)
+    check((genes_file is None) != (args.input is None), 'Give exactly one of --input or --genes')
+    if genes_file:
+        symbols, symbol_source = gene_list(genes_file)
+    else:
+        symbols, symbol_source = data_symbols(args.input, args.h5ad, args.gene_map, args.symbol_table)
     overrides = {}
     if args.override:
         table = pd.read_csv(args.override, dtype=str)
@@ -148,9 +186,9 @@ def map_proteins(args, fetch=http_json):
     rows, raw, releases, unresolved = [], {}, set(), []
     for lr_symbol, data_symbol in symbols.items():
         if lr_symbol in overrides:
-            entry, f, headers, how = resolve(data_symbol, overrides[lr_symbol], fetch)
+            entry, f, headers, how = resolve(data_symbol, overrides[lr_symbol], fetch, taxon)
         else:  # check every gene first, then report all ambiguous ones together
-            hits, headers = search(data_symbol, fetch)
+            hits, headers = search(data_symbol, fetch, taxon)
             if len(hits) != 1:
                 unresolved.extend(candidate_rows(lr_symbol, data_symbol, hits))
                 continue
@@ -169,16 +207,26 @@ def map_proteins(args, fetch=http_json):
             retrieved_utc=datetime.now(timezone.utc).isoformat(timespec='seconds'),
             resolution=how, longer_than_training_max=len(f['sequence']) > TRAINING_MAX_AA,
             sequence=f['sequence']))
+    table = pd.DataFrame(rows)
+    shared = table[table.accession.duplicated(keep=False)]
+    if allow_unresolved and not shared.empty:  # never guess which gene owns the entry
+        for r in shared.itertuples(index=False):
+            unresolved.append(dict(lr_symbol=r.lr_symbol, data_symbol=r.data_symbol, n_hits=1,
+                accession=r.accession, uniprot_id=r.uniprot_id,
+                protein_name=f'{r.protein_name} (entry shared with another gene of the list)', length=r.length))
+        table = table[~table.accession.duplicated(keep=False)].reset_index(drop=True)
+        shared = table.iloc[:0]
+    unresolved_genes = sorted({r['lr_symbol'] for r in unresolved})
     if unresolved:
         candidates = Path(str(out) + '_candidates.csv')
         pd.DataFrame(unresolved).to_csv(candidates, index=False)
-        genes = sorted({r['lr_symbol'] for r in unresolved})
-        raise ValueError(f'{len(genes)} gene(s) without exactly one reviewed mouse entry: {genes}. '
-                         f'Candidates (name, length) written to {candidates}. Choose one per gene and pass '
-                         '--override override.csv with columns lr_symbol,accession,reason. Nothing else was written.')
-    table = pd.DataFrame(rows)
-    shared = table[table.accession.duplicated(keep=False)]
+        if not allow_unresolved:
+            raise ValueError(f'{len(unresolved_genes)} gene(s) without exactly one reviewed {species} entry: '
+                             f'{unresolved_genes}. Candidates (name, length) written to {candidates}. Choose one per '
+                             'gene and pass --override override.csv with columns lr_symbol,accession,reason. '
+                             'Nothing else was written.')
     check(shared.empty, f'Different genes mapped to the same accession: {shared.lr_symbol.tolist()}')
+    raw = {a: e for a, e in raw.items() if a in set(table.accession)}
     out.mkdir(parents=True)
     (out/'uniprot').mkdir()
     for accession, entry in raw.items():
@@ -187,13 +235,17 @@ def map_proteins(args, fetch=http_json):
     with (out/'proteins.fasta').open('w') as fasta:
         for row in table.itertuples(index=False):
             fasta.write(f'>{row.accession}|{row.lr_symbol}|{row.data_symbol}\n{row.sequence}\n')
-    write_json(out/'proteins.json', dict(status='complete', input=str(Path(args.input).resolve()),
-        lr_sha256=digest(Path(args.input)/'lr.csv'), symbol_source=symbol_source,
-        species='Mus musculus (taxon 10090)', sequence='UniProt canonical, full length incl. signal peptide',
+    write_json(out/'proteins.json', dict(status='complete',
+        input=str(Path(args.input or genes_file).resolve()),
+        lr_sha256=digest(Path(args.input)/'lr.csv') if args.input else None, symbol_source=symbol_source,
+        species=species_name, sequence='UniProt canonical, full length incl. signal peptide',
+        unresolved=unresolved_genes,
+        candidates_file=str(Path(str(out) + '_candidates.csv').name) if unresolved else None,
         uniprot_releases=sorted(r for r in releases if r), n_proteins=len(table),
         longer_than_training_max=table.loc[table.longer_than_training_max, 'lr_symbol'].tolist(),
-        rule='exactly one reviewed mouse entry whose primary gene name equals the data symbol; '
-             'otherwise refused unless a documented override is given',
+        rule=f'exactly one reviewed {species} entry whose primary gene name equals the data symbol; '
+             + ('otherwise listed as unresolved (no guessing) unless a documented override is given'
+                if allow_unresolved else 'otherwise refused unless a documented override is given'),
         fasta_sha256=digest(out/'proteins.fasta')))
     print(f'Mapped {len(table)} genes; review {out}/protein_map.csv before scoring')
 
@@ -393,7 +445,11 @@ def parser():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest='command', required=True)
     m = sub.add_parser('map')
-    m.add_argument('--input', required=True, help='prepared input directory (stage1_input_01)')
+    m.add_argument('--input', help='prepared input directory (stage1_input_01)')
+    m.add_argument('--genes', help='CSV with a symbol column, instead of --input (each symbol looked up as itself)')
+    m.add_argument('--species', choices=sorted(TAXA), default='mouse')
+    m.add_argument('--allow-unresolved', action='store_true',
+                   help='write the resolved genes; list the others in proteins.json and <output>_candidates.csv')
     m.add_argument('--output', required=True)
     m.add_argument('--h5ad', help='defaults to the path in preparation.json')
     m.add_argument('--gene-map', help='same --gene-map file used by prepare, if any')
