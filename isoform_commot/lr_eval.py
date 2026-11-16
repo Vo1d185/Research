@@ -29,9 +29,9 @@ MAIN_MODEL, MAIN_SET = 'humanV11', 'H-M'
 N_BOOT, BOOT_SEED, MAX_AA, TOL = 2000, 1, 800, 1e-3
 CRITERIA = dict(random_auroc=0.85, degree_auroc=0.75, top5=0.50)        # plan 5 (pending confirmation)
 CLASSES = ['Secreted', 'Contact', 'ECM']
-SCOPE = {  # set -> (jobset, models); plan 3.5
-    'H-M': ('human_full', MODELS), 'H-A': ('human_full', MODELS), 'H-X': ('human_full', MODELS),
-    'M-M': ('mouse_full', ['humanV11']), 'M-A': ('mouse_full', ['humanV11']),
+SCOPE = {  # set -> (species, models); plan 3.5. plm_score.py: <species>_full; official: <species>_pn (plan 9.4)
+    'H-M': ('human', MODELS), 'H-A': ('human', MODELS), 'H-X': ('human', MODELS),
+    'M-M': ('mouse', ['humanV11']), 'M-A': ('mouse', ['humanV11']),
 }
 TRAINING = {
     'humanV11': ['cross_species_benchmarking/train/human.ppi.qrels.seq.train.csv',
@@ -156,7 +156,7 @@ def score_table(folder, scores, extra=None):
     tables = [pos] + [pd.read_csv(p, dtype=str) for p in sorted(folder.glob('negatives_*.csv'))]
     t = pd.concat(tables, ignore_index=True)
     t['label'] = (t.negative == 'positive').astype(int)
-    t['max_len'] = t.max_len.astype(int)
+    t['max_len'] = t.max_len.astype(float).astype(int)
     t['complex'] = t.ligand_accessions.str.contains(';') | t.receptor_accessions.str.contains(';')
     t['score'] = [scores.entity(l, r) for l, r in zip(t.ligand_accessions, t.receptor_accessions)]
     for name, other in (extra or {}).items():
@@ -317,7 +317,7 @@ def reverse_id(pid):
 
 def consistency(official, ours, jobset, model):
     a = official.table.merge(ours.table[['pair_id', 'score']], on='pair_id', suffixes=('_official', '_ours'))
-    check(len(a) == len(official.table) == len(ours.table), 'official and own scores cover different jobs')
+    check(len(a) == len(official.table), 'some official jobs have no own score')
     a['truncated'] = a.truncated.astype(str) == 'True'
     full = a[~a.truncated]
     diff = (full.score_official - full.score_ours).abs()
@@ -376,13 +376,15 @@ def overlap_category(t, sequences, seen_pos, seen_neg, proteins):
 
 
 # ---------------------------------------------------------------- figures
-def histograms(t, title, path, column='score'):
+def histograms(t, title, path, column='score', homophilic=None):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     groups = [('positives', t[t.label == 1][column])]
-    groups += [(n, t[t.negative == n][column]) for n in ['random_s1', 'degree_s1', 'degree_s2', 'degree_s3']
+    groups += [(n, t[t.negative == n][column]) for n in ['random', 'degree_s1', 'degree_s2', 'degree_s3']
                if (t.negative == n).any()]
+    if homophilic is not None:
+        groups.append(('homophilic (L = R)', homophilic))
     fig, axes = plt.subplots(1, 2, figsize=(11, 3.8))
     bins = np.linspace(0, 1, 41)
     for name, v in groups:
@@ -410,18 +412,21 @@ def evaluate(args):
     metrics, rank_rows, hub_rows, cons_rows = [], [], [], []
     cc_counts = cellchat_gene_counts(data)
     sequences = {}
-    for species in ['human', 'mouse']:
-        for p in (data/f'proteins_{species}'/'uniprot').glob('*.json'):
+    for map_dir in [args.human_map, args.mouse_map]:
+        for p in (Path(map_dir)/'uniprot').glob('*.json'):
             sequences[p.stem] = json.loads(p.read_text())['sequence']['value']
-    overlap = {}
-    for model in MODELS:
+    models_run = [m for m in MODELS if m in args.models]
+    check(MAIN_MODEL in models_run, 'the main model must be evaluated')
+    overlap, homophilic_rows = {}, []
+    for model in models_run:
         try:
             overlap[model] = training_pairs(data/'plm_training', model)
         except (FileNotFoundError, ValueError) as exc:
             overlap[model] = str(exc)
-    for set_name, (jobset, models) in SCOPE.items():
+    for set_name, (species, models) in SCOPE.items():
+        models = [m for m in models if m in models_run]
         for model in models:
-            ours, official = load(jobset, model, 'ours'), load(jobset, model, 'official')
+            ours, official = load(f'{species}_full', model, 'ours'), load(f'{species}_pn', model, 'official')
             extra = dict(score_official=official)
             if set_name == 'H-M' and model == MAIN_MODEL:
                 extra['score_ecd'] = load('human_ecd', model, 'ours')
@@ -449,7 +454,18 @@ def evaluate(args):
                                               stratum='training:pos_not_seen_vs_neg_not_seen'))
             t.drop(columns=['query', 'text'], errors='ignore').to_csv(
                 out/'pair_scores'/f'{set_name}__{model}.csv.gz', index=False)
-            histograms(t, f'{set_name}, {model}, plm_score.py, full length', out/'figures'/f'hist_{set_name}_{model}.png')
+            homo = pd.read_csv(dataset/f'homophilic_{species}.csv', dtype=str)
+            homo['score'] = [ours.pair(a, a) for a in homo.ligand_accessions]
+            homo['score_official'] = [official.pair(a, a) for a in homo.ligand_accessions]
+            if set_name in ('H-A', 'M-A'):  # plan 9.2: descriptive only, once per species and model
+                homo.to_csv(out/'pair_scores'/f'homophilic_{species}__{model}.csv', index=False)
+                pos = t[t.label == 1].score
+                homophilic_rows.append(dict(species=species, model=model, n=len(homo),
+                    median=float(homo.score.median()), gt_05=float((homo.score > 0.5).mean()),
+                    positives_set=set_name, positives_median=float(pos.median()), positives_gt_05=float((pos > 0.5).mean()),
+                    auroc_homophilic_vs_random_negatives=auroc(homo.score, t[t.negative == 'random'].score)))
+            histograms(t, f'{set_name}, {model}, plm_score.py, full length', out/'figures'/f'hist_{set_name}_{model}.png',
+                       homophilic=homo.score)
             if set_name.endswith('-M'):
                 per = ranking(dataset/set_name, ours)
                 per.to_csv(out/'pair_scores'/f'ranking_{set_name}__{model}.csv', index=False)
@@ -462,9 +478,9 @@ def evaluate(args):
                     hub_rows.append(dict(set=set_name, model=model, versus=other, proteins=len(h),
                                          spearman=rho, lo=lo, hi=hi))
         for model in models:
-            if not any(r['jobset'] == jobset and r['model'] == model for r in cons_rows):
-                cons_rows.append(consistency(load(jobset, model, 'official'), load(jobset, model, 'ours'),
-                                             jobset, model))
+            if not any(r['jobset'] == f'{species}_pn' and r['model'] == model for r in cons_rows):
+                cons_rows.append(consistency(load(f'{species}_pn', model, 'official'),
+                                             load(f'{species}_full', model, 'ours'), f'{species}_pn', model))
     m = pd.DataFrame(metrics)
     m = pd.concat([m, degree_mean(m)], ignore_index=True)
     m.to_csv(out/'metrics.csv', index=False)
@@ -472,10 +488,11 @@ def evaluate(args):
     ranks.to_csv(out/'ranking.csv', index=False)
     pd.DataFrame(hub_rows).to_csv(out/'hub.csv', index=False)
     pd.DataFrame(cons_rows).to_csv(out/'consistency.csv', index=False)
+    pd.DataFrame(homophilic_rows).to_csv(out/'homophilic.csv', index=False)
     main = m[(m.set == MAIN_SET) & (m.model == MAIN_MODEL) & (m.scorer == 'ours') & (m.region == 'full')
              & (m.stratum == 'all')].set_index('negatives')
     top5 = float(ranks[(ranks.set == MAIN_SET) & (ranks.model == MAIN_MODEL)].top5.iloc[0])
-    checks = dict(random_auroc=float(main.loc['random_s1', 'auroc']),
+    checks = dict(random_auroc=float(main.loc['random', 'auroc']),
                   degree_auroc=float(main.loc['degree_mean', 'auroc']), top5=top5)
     verdict = dict(criteria=CRITERIA, values=checks,
                    met={k: checks[k] >= CRITERIA[k] for k in CRITERIA},
@@ -498,6 +515,10 @@ def parser():
     e.add_argument('--data', default='data/lr_benchmark')
     e.add_argument('--dataset', default='reports/plm_lr_benchmark/dataset')
     e.add_argument('--output', default='reports/plm_lr_benchmark/results')
+    e.add_argument('--human-map', default='data/lr_benchmark/proteins_human_v2')
+    e.add_argument('--mouse-map', default='data/lr_benchmark/proteins_mouse_v2')
+    e.add_argument('--models', nargs='+', choices=MODELS, default=MODELS,
+                   help='plan 9.4: humanV11 first, then all three')
     return p
 
 

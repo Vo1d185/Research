@@ -34,6 +34,7 @@ TRAINING_MAX_AA = 800          # official test sets contain 50-800 aa proteins
 OFFICIAL_MAX_TOKENS = 1603     # 800 + 800 + 3 special tokens
 UNIPROT = 'https://rest.uniprot.org/uniprotkb'
 SEARCH = UNIPROT + '/search?query={query}&format=json&size=25'
+SEARCH_ALL = UNIPROT + '/search?query={query}&format=json&size=500'   # --synonyms: completeness is checked
 
 
 def sha256_text(text):
@@ -132,6 +133,30 @@ def search(symbol, fetch=http_json, taxon=MOUSE_TAXON):
     return hits, headers
 
 
+def synonyms(entry):
+    return {s.get('value', '').upper() for g in entry.get('genes') or [] for s in g.get('synonyms') or []}
+
+
+def search_with_synonyms(symbol, fetch=http_json, taxon=MOUSE_TAXON):
+    """Reviewed entries of the taxon whose primary gene name is the symbol, and those (with a different
+    primary name) listing it as a gene synonym. complete=False when UniProt reports more results than returned."""
+    query = quote(f'(gene_exact:{symbol}) AND (organism_id:{taxon}) AND (reviewed:true)')
+    found, headers = fetch(SEARCH_ALL.format(query=query))
+    results = found.get('results', [])
+    total = headers.get('x-total-results')
+    complete = total is None or int(total) <= len(results)
+    primary, synonym = [], []
+    for entry in results:
+        fields = entry_fields(entry)
+        if fields['taxon_id'] != taxon or not fields['reviewed']:
+            continue
+        if str(fields['gene_primary']).lower() == symbol.lower():
+            primary.append((entry, fields))
+        elif symbol.upper() in synonyms(entry):
+            synonym.append((entry, fields))
+    return primary, synonym, headers, complete
+
+
 def resolve(symbol, override=None, fetch=http_json, taxon=MOUSE_TAXON):
     """Exactly one reviewed entry of the taxon whose PRIMARY gene name is the symbol."""
     if override:
@@ -146,12 +171,14 @@ def resolve(symbol, override=None, fetch=http_json, taxon=MOUSE_TAXON):
     return hits[0][0], hits[0][1], headers, 'unique_reviewed_primary_gene'
 
 
-def candidate_rows(lr_symbol, data_symbol, hits):
+def candidate_rows(lr_symbol, data_symbol, hits, match='primary', note=None):
     if not hits:
         return [dict(lr_symbol=lr_symbol, data_symbol=data_symbol, n_hits=0, accession=None, uniprot_id=None,
-                     protein_name='no reviewed entry of this species with this primary gene name', length=None)]
+                     protein_name='no reviewed entry of this species with this primary gene name', length=None,
+                     match='none', note=note)]
     return [dict(lr_symbol=lr_symbol, data_symbol=data_symbol, n_hits=len(hits), accession=f['accession'],
-                 uniprot_id=f['uniprot_id'], protein_name=f['protein_name'], length=len(f['sequence']))
+                 uniprot_id=f['uniprot_id'], protein_name=f['protein_name'], length=len(f['sequence']),
+                 match=match, note=note, gene_primary=f['gene_primary'])
             for _, f in hits]
 
 
@@ -170,6 +197,8 @@ def map_proteins(args, fetch=http_json):
     taxon, species_name = TAXA[species]
     genes_file = getattr(args, 'genes', None)
     allow_unresolved = getattr(args, 'allow_unresolved', False)
+    use_synonyms = getattr(args, 'synonyms', False)
+    check(not use_synonyms or allow_unresolved, '--synonyms is only used with --allow-unresolved')
     check((genes_file is None) != (args.input is None), 'Give exactly one of --input or --genes')
     if genes_file:
         symbols, symbol_source = gene_list(genes_file)
@@ -188,11 +217,26 @@ def map_proteins(args, fetch=http_json):
         if lr_symbol in overrides:
             entry, f, headers, how = resolve(data_symbol, overrides[lr_symbol], fetch, taxon)
         else:  # check every gene first, then report all ambiguous ones together
-            hits, headers = search(data_symbol, fetch, taxon)
-            if len(hits) != 1:
-                unresolved.extend(candidate_rows(lr_symbol, data_symbol, hits))
-                continue
-            (entry, f), how = hits[0], 'unique_reviewed_primary_gene'
+            if use_synonyms:
+                hits, syn, headers, complete = search_with_synonyms(data_symbol, fetch, taxon)
+                if not complete:
+                    unresolved.extend(candidate_rows(lr_symbol, data_symbol, hits + syn, 'mixed',
+                                                     'search incomplete (more results than returned)'))
+                    continue
+                if len(hits) == 1:
+                    (entry, f), how = hits[0], 'unique_reviewed_primary_gene'
+                elif not hits and len(syn) == 1:
+                    (entry, f), how = syn[0], 'via synonym'
+                else:
+                    unresolved.extend(candidate_rows(lr_symbol, data_symbol, hits or syn,
+                                                     'primary' if hits else 'synonym'))
+                    continue
+            else:
+                hits, headers = search(data_symbol, fetch, taxon)
+                if len(hits) != 1:
+                    unresolved.extend(candidate_rows(lr_symbol, data_symbol, hits))
+                    continue
+                (entry, f), how = hits[0], 'unique_reviewed_primary_gene'
         bad = sorted(set(f['sequence']) - ESM_LETTERS)
         check(f['sequence'] and not bad, f'{lr_symbol}: empty sequence or letters outside ESM vocabulary {bad}')
         release = headers.get('x-uniprot-release')
@@ -209,11 +253,21 @@ def map_proteins(args, fetch=http_json):
             sequence=f['sequence']))
     table = pd.DataFrame(rows)
     shared = table[table.accession.duplicated(keep=False)]
+    if use_synonyms and not shared.empty:  # a primary-name match keeps its entry; synonym matches yield
+        taken = set(table[table.resolution != 'via synonym'].accession)
+        lose = (table.resolution == 'via synonym') & table.accession.isin(taken) & table.accession.duplicated(keep=False)
+        for r in table[lose].itertuples(index=False):
+            unresolved.append(dict(lr_symbol=r.lr_symbol, data_symbol=r.data_symbol, n_hits=1, accession=r.accession,
+                uniprot_id=r.uniprot_id, protein_name=r.protein_name, length=r.length, match='synonym',
+                note='entry already matched by primary gene name of another gene', gene_primary=r.gene_primary))
+        table = table[~lose].reset_index(drop=True)
+        shared = table[table.accession.duplicated(keep=False)]
     if allow_unresolved and not shared.empty:  # never guess which gene owns the entry
         for r in shared.itertuples(index=False):
             unresolved.append(dict(lr_symbol=r.lr_symbol, data_symbol=r.data_symbol, n_hits=1,
                 accession=r.accession, uniprot_id=r.uniprot_id,
-                protein_name=f'{r.protein_name} (entry shared with another gene of the list)', length=r.length))
+                protein_name=f'{r.protein_name} (entry shared with another gene of the list)', length=r.length,
+                match=r.resolution, note='entry shared with another gene of the list', gene_primary=r.gene_primary))
         table = table[~table.accession.duplicated(keep=False)].reset_index(drop=True)
         shared = table.iloc[:0]
     unresolved_genes = sorted({r['lr_symbol'] for r in unresolved})
@@ -243,6 +297,9 @@ def map_proteins(args, fetch=http_json):
         candidates_file=str(Path(str(out) + '_candidates.csv').name) if unresolved else None,
         uniprot_releases=sorted(r for r in releases if r), n_proteins=len(table),
         longer_than_training_max=table.loc[table.longer_than_training_max, 'lr_symbol'].tolist(),
+        synonym_rule=('if no primary-name match: exactly one reviewed entry listing the symbol as a gene synonym '
+                      '(resolution "via synonym"); an entry already matched by primary name is not reused')
+                     if use_synonyms else None,
         rule=f'exactly one reviewed {species} entry whose primary gene name equals the data symbol; '
              + ('otherwise listed as unresolved (no guessing) unless a documented override is given'
                 if allow_unresolved else 'otherwise refused unless a documented override is given'),
@@ -448,6 +505,9 @@ def parser():
     m.add_argument('--input', help='prepared input directory (stage1_input_01)')
     m.add_argument('--genes', help='CSV with a symbol column, instead of --input (each symbol looked up as itself)')
     m.add_argument('--species', choices=sorted(TAXA), default='mouse')
+    m.add_argument('--synonyms', action='store_true',
+                   help='with --allow-unresolved: if no primary-name match, accept exactly one reviewed entry '
+                        'listing the symbol as a gene synonym (marked "via synonym")')
     m.add_argument('--allow-unresolved', action='store_true',
                    help='write the resolved genes; list the others in proteins.json and <output>_candidates.csv')
     m.add_argument('--output', required=True)

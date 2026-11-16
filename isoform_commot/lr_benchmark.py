@@ -427,6 +427,7 @@ def build_set(name, pos, ent, out):
     folder = out/name
     folder.mkdir(parents=True)
     pos = pos.sort_values(['ligand', 'receptor']).reset_index(drop=True)
+    pos = pos.astype({'max_len': int, 'n_subunit_pairs': int})
     pos.to_csv(folder/'positives.csv', index=False)
     classes = ligand_classes(pos)
     cands, ligands, receptors, removed, annotated = candidates(pos, ent)
@@ -554,6 +555,13 @@ def set_pairs(folder, grid=False):
     return pairs
 
 
+def homophilic_pairs(path):
+    """Single-gene L = R pairs: scored descriptively (plan 9.2), one job each (both orders are the same)."""
+    t = pd.read_csv(path, dtype=str)
+    check((t.ligand_accessions == t.receptor_accessions).all(), 'homophilic pairs must be single proteins')
+    return {frozenset([a]) for a in t.ligand_accessions}
+
+
 def ecd_pairs(folder):
     """H-M positives and negatives only (plan 3.5: no ranking on extracellular regions)."""
     return set_pairs(folder, grid=False)
@@ -564,8 +572,8 @@ def write_jobs(name, pairs, sequences, out, chunk):
     folder.mkdir(parents=True)
     rows = []
     for key in sorted(tuple(sorted(k)) for k in pairs):
-        a, b = key
-        for q, t in [(a, b), (b, a)]:
+        a, b = key if len(key) == 2 else (key[0], key[0])
+        for q, t in ([(a, b), (b, a)] if a != b else [(a, a)]):
             rows.append(dict(pair_id=f'{q}__{t}', query_accession=q, text_accession=t,
                              query=sequences[q], text=sequences[t],
                              n_tokens=len(sequences[q]) + len(sequences[t]) + 3))
@@ -591,10 +599,16 @@ def jobs(args):
                                     ('mouse', args.mouse_map, [('M-M', True), ('M-A', False)])]:
         entries = {p.stem: json.loads(p.read_text()) for p in (Path(map_dir)/'uniprot').glob('*.json')}
         full = {a: e['sequence']['value'] for a, e in entries.items()}
-        pairs = set()
+        homophilic = homophilic_pairs(data/f'homophilic_{species}.csv')
+        pn, grid_only = set(homophilic), set()
         for name, grid in sets:
-            pairs |= set_pairs(data/name, grid)
-        summary[f'{species}_full'] = write_jobs(f'{species}_full', pairs, full, out, args.chunk)
+            pn |= set_pairs(data/name, False)
+            if grid:
+                grid_only |= set_pairs(data/name, True)
+        # plan 9.4: plm_score.py on everything; the official script on positives, homophilic pairs and negatives only
+        summary[f'{species}_full'] = write_jobs(f'{species}_full', pn | grid_only, full, out, args.chunk)
+        summary[f'{species}_pn'] = write_jobs(f'{species}_pn', pn, full, out, args.chunk)
+        summary[f'{species}_full']['homophilic_pairs'] = len(homophilic)
         if species == 'human':
             ecd, refused = {}, {}
             for a, e in entries.items():
@@ -622,20 +636,20 @@ CHECKPOINTS = {  # model -> (local file, HF name, revision); plan 3.1
     'LeakageFree': ('models/plm_650m_leakagefree/pytorch_model.bin',
                     'danliu1226/PLM-interact-650M-Leakage-Free-Dataset', 'd995319a6e53510bfbb4eff6ab0292fedf2ec4db'),
 }
-SCORING = [  # (jobset, model, scorers); plan 3.5
-    ('human_full', 'humanV11', ['ours', 'official']), ('human_full', 'humanV12', ['ours', 'official']),
-    ('human_full', 'LeakageFree', ['ours', 'official']), ('mouse_full', 'humanV11', ['ours', 'official']),
-    ('human_ecd', 'humanV11', ['ours']),
+SCORING = [  # (jobset, model, scorer); plan 3.5 as amended by 9.4 (official script: no ranking grid)
+    ('human_full', 'humanV11', 'ours'), ('human_pn', 'humanV11', 'official'),
+    ('mouse_full', 'humanV11', 'ours'), ('mouse_pn', 'humanV11', 'official'), ('human_ecd', 'humanV11', 'ours'),
+    ('human_full', 'humanV12', 'ours'), ('human_pn', 'humanV12', 'official'),
+    ('human_full', 'LeakageFree', 'ours'), ('human_pn', 'LeakageFree', 'official'),
 ]
 PLM_PYTHON = '/home/liu/.conda/envs/plminteract/bin/python'
 
 
-def tasks(runs):
+def tasks(runs, models):
     out = []
-    for jobset, model, scorers in SCORING:
-        for chunk in sorted((runs/'jobs'/jobset).glob('chunk_*.csv')):
-            for scorer in scorers:
-                out.append((jobset, model, scorer, chunk))
+    for jobset, model, scorer in SCORING:
+        if model in models:
+            out += [(jobset, model, scorer, chunk) for chunk in sorted((runs/'jobs'/jobset).glob('chunk_*.csv'))]
     return out
 
 
@@ -643,7 +657,7 @@ def work(args):
     """Worker w of n: every n-th task; finished tasks (score file + meta) are skipped, so it can resume."""
     runs = Path(args.runs)
     ckpt = {m: (str(ROOT/f), n, r) for m, (f, n, r) in CHECKPOINTS.items()}
-    for i, (jobset, model, scorer, chunk) in enumerate(tasks(runs)):
+    for i, (jobset, model, scorer, chunk) in enumerate(tasks(runs, args.models)):
         if i % args.of != args.worker:
             continue
         target = runs/'scores'/jobset/model/scorer/chunk.name
@@ -694,6 +708,8 @@ def parser():
     w.add_argument('--runs', default='plm_lr_benchmark_runs')
     w.add_argument('--worker', type=int, required=True)
     w.add_argument('--of', type=int, default=3)
+    w.add_argument('--models', nargs='+', choices=sorted(CHECKPOINTS), required=True,
+                   help='plan 9.4: humanV11 first, then humanV12 and LeakageFree')
     return p
 
 

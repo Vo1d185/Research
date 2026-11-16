@@ -69,6 +69,42 @@ class Negatives(unittest.TestCase):
         self.assertEqual(int((annotated.positive == False).sum()), 1)  # noqa: E712
 
 
+def uniprot_entry(acc, primary, syns=(), taxon=9606):
+    return dict(primaryAccession=acc, uniProtkbId=f'{acc}_X', entryType='UniProtKB reviewed (Swiss-Prot)',
+                genes=[dict(geneName=dict(value=primary), synonyms=[dict(value=x) for x in syns])],
+                organism=dict(taxonId=taxon), proteinDescription=dict(recommendedName=dict(fullName=dict(value=acc))),
+                entryAudit=dict(entryVersion=1, sequenceVersion=1), sequence=dict(value='MKT' * 20))
+
+
+class SynonymMapping(unittest.TestCase):
+    def test_rule(self):
+        import proteins
+        from urllib.parse import unquote
+        entries = [uniprot_entry('P1', 'A', ['C']), uniprot_entry('P2', 'B2', ['B']),
+                   uniprot_entry('P3', 'D3', ['D']), uniprot_entry('P4', 'D4', ['D']),
+                   uniprot_entry('P5', 'E'), uniprot_entry('P6', 'E')]
+
+        def fetch(url):
+            gene = unquote(url).split('gene_exact:')[1].split(')')[0]
+            hits = [e for e in entries if gene.upper() in {e['genes'][0]['geneName']['value'].upper()}
+                    | proteins.synonyms(e)]
+            return dict(results=hits), {'x-total-results': str(len(hits)), 'x-uniprot-release': 'test'}
+        with tempfile.TemporaryDirectory() as tmp:
+            genes = Path(tmp)/'genes.csv'
+            pd.DataFrame(dict(symbol=['A', 'B', 'C', 'D', 'E'])).to_csv(genes, index=False)
+            out = Path(tmp)/'map'
+            args = proteins.parser().parse_args(['map', '--genes', str(genes), '--species', 'human',
+                                                 '--allow-unresolved', '--synonyms', '--output', str(out)])
+            proteins.map_proteins(args, fetch=fetch)
+            table = pd.read_csv(out/'protein_map.csv').set_index('lr_symbol')
+            self.assertEqual(table.loc['A', 'resolution'], 'unique_reviewed_primary_gene')
+            self.assertEqual(table.loc['B', 'accession'], 'P2')
+            self.assertEqual(table.loc['B', 'resolution'], 'via synonym')
+            self.assertEqual(sorted(table.index), ['A', 'B'])
+            import json
+            self.assertEqual(json.loads((out/'proteins.json').read_text())['unresolved'], ['C', 'D', 'E'])
+
+
 class Metrics(unittest.TestCase):
     def test_auroc_aupr(self):
         self.assertEqual(le.auroc([.9, .8], [.1, .8]), .875)
