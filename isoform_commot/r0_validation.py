@@ -198,7 +198,7 @@ def figure_curve(curve, r0_star, title, path):
     rx.set_title('Reference conditions', fontsize=9, loc='left')
     for axis in (ax, rx):
         style_axis(axis)
-    fig.suptitle(title + '  (bars: 95% bootstrap intervals over receptors)', fontsize=10, x=0.01, ha='left')
+    fig.suptitle(title + '\n(bars: 95% bootstrap intervals over receptors)', fontsize=10, x=0.01, ha='left')
     fig.legend(handles=[h] + handles, fontsize=8, frameon=False, loc='outside lower center', ncol=3)
     fig.savefig(path, dpi=180)
     plt.close(fig)
