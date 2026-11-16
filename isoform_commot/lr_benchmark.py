@@ -58,9 +58,9 @@ def now():
 
 def git_state():
     head = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
-    dirty = subprocess.run(['git', 'status', '--porcelain', '--untracked-files=no'], cwd=ROOT,
-                           capture_output=True, text=True).stdout.strip()
-    return dict(git_head=head, tracked_changes=bool(dirty))
+    dirty = subprocess.run(['git', 'status', '--porcelain', '--untracked-files=no', '--', '.'], cwd=ROOT,
+                           capture_output=True, text=True).stdout.splitlines()
+    return dict(git_head=head, tracked_changes=bool(dirty), tracked_changes_paths=[d[3:] for d in dirty])
 
 
 # ---------------------------------------------------------------- fetch
