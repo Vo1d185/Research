@@ -2,7 +2,7 @@
 
 本文件总结此前网页版会话中的决定，在新的会话中先读它。
 
-## 当前状态（2026-11-16 03:30 UTC）：先读这一节
+## 当前状态（2026-11-16 05:45 UTC）：先读这一节
 
 分支 `research/isoform-commot-v1`，代码在 `/home/liu/Research/isoform_commot`，主环境 `/home/liu/.conda/envs/commot-research/bin/python`。
 PPI 作为 cost 的方向已按预先登记的检查停止（S = 1）；现在的 cost 是 C = −log F(d)。下面的"第一阶段"各节是历史记录。
@@ -10,9 +10,8 @@ PPI 作为 cost 的方向已按预先登记的检查停止（S = 1）；现在�
 ### 必须遵守的规则
 
 - **先登记，后计算：** 任何新的选择先写进计划并提交，再运行；已经看到相关结果时，停下来问用户。
-- **评价之前不看结果：** 到本节写下时，没有运行过任何整张切片的靶基因评价，也没有看过任何靶基因指标。
-  ε = 0.1 / ρ = 10 的运输结果只看过收敛量和用时。小区域流程测试（11-14，128 个 spot）用户已确认不算。
-- **顺序：** 后部选出 r₀\* 并提交之后，才能做或看前部的任何评价。
+- **第二阶段两张切片的靶基因评价都已经做完并看过结果**（后部 11-16 03:46，前部 05:20，各一次）。
+  之后任何新的分析（换评价方法、换参数、加条件）都属于"看过结果之后"，必须先由用户决定并登记。
 - **提交与推送：** 用 `git -c user.name=Claude -c user.email=noreply@anthropic.com commit`；不推送，每次提交后提醒用户推送。
 - **运行方式：** 长运行用 `setsid nohup` 与会话分离，manifest 记录启动时的 git HEAD 和工作区状态；不删除已有输出（需要时改名移走）。
 - **PDE 队列不能停：** 它在 SCHED_IDLE 下运行，第二阶段的任务优先。
@@ -29,50 +28,34 @@ PPI 作为 cost 的方向已按预先登记的检查停止（S = 1）；现在�
 
 ### 已经完成并提交的
 
-- 第 8 节全部条件的 OT 运行（两张切片的 A、A500、Aε 各四个 r₀，B、B500、Bε，C、C500、C726）。
-- 稳健性子样本（后部，seed 1–15）的 B、C 运行；A(r₀\*) 的 15 个运行要等 r₀\* 选出后再启动。
-- 第 9 节的运行（11-15 15:08 启动，`0fbdae4`）：后部和前部的 F、I，后部的 P（seed 1–3），后部 F 的 200000 次诊断。全部结束，都跑满 50000 次（诊断为 200000 次）。
-- 代码：`stage2.py run --kernel flat|inverse`、`stage2.py shuffle`、`r0_validation.py`（第 9 节的分析和图，`28a0848`）、
-  `stage2.py stability` 对没有 r₀ 的条件的修正（`db64797`）。全部测试通过。
-- **稳定性诊断的初步结果**（暂存目录，正式结果等 B 结束后一起生成并提交）：A（r₀ = 50、400）和 F 都满足第 8.7 节的标准。
-  224 个受体的最大相对 L1 差为 8.4e-7（标准 1e-3），Spearman 都是 1.0，总运输量相对差 2.5e-8。
+- 收敛判断（`7ff2bc7`，计划第 9.9 节）：两张切片全部条件的硬性要求通过；稳定性诊断 A（r₀ = 50、400）、B、F 都满足，50000 次的结果全部接受。
+- 后部评价和 r₀ 选择（`d1aac56`，计划第 9.10 节）：**r₀\* = 50 µm**（网格最小值，四个 r₀ 之间差别很小）。
+- 前部确认性检验（`fd75068`，计划第 9.11 节）：**第 9.5 节判为"部分满足"**，(a)、(b) 不满足，(c)、(d) 只按字面规则满足；
+  第 8.9 节的严格确认和容差确认都不通过。
+- 报告：`reports/stage2_section8/r0_validation.md`（r₀ 验证，完整）和 `reports/stage2_section8/report.md`（第 8 节，除第 11 节外已填）。
+- 结果目录：`reports/stage2_{post,ant}_01/`（第 8 节）、`reports/stage2_r0val_{post,ant}/`（第 9 节）、`reports/stage2_stability_01/`、
+  `reports/stage2_convergence_{post,ant}_01/`；评价输出在 `target_eval_stage2_{post,ant}/`（不入库）。
 
 ### 还在运行的
 
 | 运行 | 状态 |
 |---|---|
-| `commot_stage2_diag_post_B_iter200k`（B 的 200000 次诊断，pid 431496） | 11-15 03:44 启动，仍在计算；预计 11-16 05:00–11:30 UTC 之间结束（按元素数和其他诊断的用时估计，不确定） |
-| PDE 队列（`pde_r0_results/`，`simulation.jobqueue`） | 4404 个作业完成 2353 个，同时 16 个进程；上限在 `pde_r0_results/limit`，第二阶段任务全部结束后可改为 28 |
+| 稳健性：`stage2_results_post_sub{90,80,50}_s{1..15}_A_r50`（15 个，A 在 r₀\* = 50 µm） | 11-16 05:20:30 启动（`d1aac56`，脱离会话，每个 2 线程）；估计每个 2–4 小时 |
+| PDE 队列（`pde_r0_results/`，`simulation.jobqueue`） | 同时 16 个进程；上限在 `pde_r0_results/limit`，稳健性运行结束后可改为 28 |
 
 ### 接下来的顺序（不用等用户）
 
-1. **等 B 的诊断结束**，然后生成正式的稳定性和收敛结果并按第 8.7、9.2 节判断，提交：
+1. **稳健性（8.11）：** 15 个运行结束后（每个目录出现 `manifest.json`）：
    ```
-   python stage2.py stability --at-50k stage2_results_post_A_r50 stage2_results_post_A_r400 commot_stage2_post_B stage2_results_post_F \
-       --at-200k stage2_results_diag_post_A_r50_iter200k stage2_results_diag_post_A_r400_iter200k commot_stage2_diag_post_B_iter200k stage2_results_diag_post_F_iter200k \
-       --same-a stage2_results_post_Aeps --same-b stage2_results_post_Aeps_r50 stage2_results_post_Aeps_r100 stage2_results_post_Aeps_r200 stage2_results_post_Aeps_r400 \
-       --output reports/stage2_stability_01
-   python stage2.py convergence --results <后部全部条件目录> --output reports/stage2_convergence_post_01     # 前部同样
+   python stage2.py robustness --full stage2_results_post_A_r50 commot_stage2_post_B commot_stage2_post_C \
+       --subsampled stage2_results_post_sub*_A_r50 commot_stage2_post_sub*_B commot_stage2_post_sub*_C --output reports/stage2_robustness_01
    ```
-   B 不满足时，按 8.7 用 200000 次重跑 B、B500、Bε（两张切片），重跑结束后再评价。
-2. **后部评价（一次完成，工作区无修改）**，选 r₀\*、画曲线，把 r₀\* 和数字写进计划，提交：
-   ```
-   python evaluate_targets.py run --input stage2_input_post --genes stage2_genes_post_v2 --commot-rule \
-       --results stage2_results_post_A_r{50,100,200,400} stage2_results_post_A500_r{50,100,200,400} stage2_results_post_Aeps_r{50,100,200,400} \
-                 commot_stage2_post_{B,B500,Beps_v2,C,C500,C726} stage2_results_post_{F,I,P_s1,P_s2,P_s3} \
-       --output target_eval_stage2_post
-   python stage2.py report --eval target_eval_stage2_post --output reports/stage2_post_01
-   python r0_validation.py --eval target_eval_stage2_post --output reports/stage2_r0val_post
-   ```
-   后部的 Aε、Bε 用重跑的目录（`stage2_results_post_Aeps_r*`、`commot_stage2_post_Beps_v2`），不用旧的 `stage2_results_post_Aeps`、`commot_stage2_post_Beps`。
-3. **然后才是前部**（`stage2_input_ant`、`stage2_genes_ant`；前部的 Bε 目录是 `commot_stage2_ant_Beps`）：
-   `stage2.py report --posterior-report reports/stage2_post_01/report.json`，`r0_validation.py --posterior reports/stage2_r0val_post/validation.json`；
-   按第 9.5 节 (a)–(d) 和第 8.9 节判断，提交。
-4. **稳健性（8.11）：** 在 15 个子样本输入上跑 A(r₀\*)，然后 `stage2.py robustness`，提交。
-5. **报告：** `reports/stage2_section8/r0_validation.md`（第 9 节，用户列出的内容：两张切片的曲线、按受体的配对差值图、坐标打乱对照、
-   第 9.5 节逐项判断、全部偏离计划之处）和 `reports/stage2_section8/report.md` 的结果部分；提交，提醒推送，把报告发给用户。
-   报告里只写观察到的结果和事先定好的判断；某个结论只在部分设置下成立时照实写。
-6. **PDE：** 全部作业结束、稳定性诊断（D1–D3）和第 5.1 节的检查通过后，`simulation.benchmark evaluate` → `analyze`，写 `reports/pde_r0_01/`。
+   先看 `python stage2.py robustness -h` 核对参数；结果填进 `reports/stage2_section8/report.md` 第 11 节，提交，提醒推送。
+2. **PDE：** 把 `pde_r0_results/limit` 改为 28；全部作业结束、稳定性诊断（D1–D3）和第 5.1 节的检查通过后，
+   `simulation.benchmark evaluate` → `analyze`，写 `reports/pde_r0_01/`。
+3. **等用户决定下一步。** r₀ 验证的结论是前部没有重复出后部的结果；报告第 5、8 节列了两个规则之外的观察
+   （坐标打乱后指标仍保留约 80%；ε = 0.2、ρ = 1 下 r₀ 的作用更明显且两张切片一致）。是否据此改评价方法或加条件，由用户决定并先登记。
+4. isoform 方案草稿仍在等用户与导师讨论，不执行。
 
 ## 研究目标（第一阶段起的历史记录，以下各节同）
 
