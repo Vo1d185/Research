@@ -32,7 +32,7 @@ PPI 作为 cost 的方向已按预先登记的检查停止（S = 1）；现在�
 - 后部评价和 r₀ 选择（`d1aac56`，计划第 9.10 节）：**r₀\* = 50 µm**（网格最小值，四个 r₀ 之间差别很小）。
 - 前部确认性检验（`fd75068`，计划第 9.11 节）：**第 9.5 节判为"部分满足"**，(a)、(b) 不满足，(c)、(d) 只按字面规则满足；
   第 8.9 节的严格确认和容差确认都不通过。
-- 报告：`reports/stage2_section8/r0_validation.md`（r₀ 验证，完整）和 `reports/stage2_section8/report.md`（第 8 节，除第 11 节外已填）。
+- 报告：`reports/stage2_section8/r0_validation.md`（r₀ 验证，完整）和 `reports/stage2_section8/report.md`（第 8 节，全部已填，稳健性见第 11 节，`ef89eff`）。
 - 结果目录：`reports/stage2_{post,ant}_01/`（第 8 节）、`reports/stage2_r0val_{post,ant}/`（第 9 节）、`reports/stage2_stability_01/`、
   `reports/stage2_convergence_{post,ant}_01/`；评价输出在 `target_eval_stage2_{post,ant}/`（不入库）。
 
