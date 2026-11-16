@@ -2604,6 +2604,7 @@ MDK,ITGA9_ITGB1,False,cellchat_human;cellchat_mouse
 MDK,ITGAV_ITGB1,False,cellchat_human;cellchat_mouse
 MDK,ITGB1_ITGA1,False,cellchat_human;cellchat_mouse
 MDK,LRP1,True,cellchat_human;cellchat_mouse
+MDK,NCL,True,cellchat_human;cellchat_mouse
 MDK,PTPRZ1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 MDK,SDC1,True,cellchat_human;cellchat_mouse
 MDK,SDC2,True,cellchat_human;cellchat_mouse
@@ -2721,6 +2722,7 @@ NPY,NPY1R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 NPY,NPY2R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 NPY,NPY4R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 NPY,NPY5R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+NPY,NPY6R,True,cellchat_human;cellchat_mouse
 NPY,PRLHR,False,cellphonedb_v5
 NRG1,EGFR_ERBB2,False,cellchat_human;cellchat_mouse
 NRG1,ERBB2_ERBB3,True,cellchat_human;cellchat_mouse;cellphonedb_v5
@@ -2880,6 +2882,7 @@ PPY,NPY1R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PPY,NPY2R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PPY,NPY4R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PPY,NPY5R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+PPY,NPY6R,True,cellchat_human;cellchat_mouse
 PRL,PRLR,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PRLH,PRLHR,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PROC,F2R,False,cellchat_human;cellchat_mouse
@@ -2932,6 +2935,7 @@ PTN,ITGAV_ITGB5,False,cellchat_human;cellchat_mouse
 PTN,ITGAV_ITGB6,False,cellchat_human;cellchat_mouse
 PTN,ITGAV_ITGB8,False,cellchat_human;cellchat_mouse
 PTN,MMP14_ITGAV_ITGB3,False,cellchat_human;cellchat_mouse
+PTN,NCL,True,cellchat_human;cellchat_mouse
 PTN,PTPRZ1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PTN,SDC1,True,cellchat_human;cellchat_mouse
 PTN,SDC2,True,cellchat_human;cellchat_mouse
@@ -2949,6 +2953,7 @@ PYY,NPY1R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PYY,NPY2R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PYY,NPY4R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PYY,NPY5R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+PYY,NPY6R,True,cellchat_human;cellchat_mouse
 QRFP,QRFPR,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 RAET1E,KLRK1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 RAET1E,NKG2D_HCST,True,cellchat_human;cellchat_mouse;cellphonedb_v5
@@ -2957,6 +2962,7 @@ RAET1G,NKG2D_HCST,False,cellchat_human;cellphonedb_v5
 RAET1L,KLRK1,True,cellchat_human;cellphonedb_v5
 RAET1L,NKG2D_HCST,False,cellchat_human;cellphonedb_v5
 RARRES2,CMKLR1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+RARRES2,GPR1,True,cellchat_human;cellphonedb_v5
 RBP4,STRA6,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 RELN,ITGA10_ITGB1,False,cellchat_human;cellchat_mouse
 RELN,ITGA11_ITGB1,False,cellchat_human;cellchat_mouse

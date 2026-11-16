@@ -8,20 +8,17 @@
   "unresolved": [
     "CALCA",
     "CCL3L3",
-    "GPR1",
     "MT-RNR2",
-    "NCL",
-    "NPY6R",
     "NRXN1",
     "NRXN2",
     "NRXN3",
     "PRNP"
   ],
-  "candidates_file": "proteins_human_candidates.csv",
+  "candidates_file": "proteins_human_v2_candidates.csv",
   "uniprot_releases": [
     "2026_04"
   ],
-  "n_proteins": 1138,
+  "n_proteins": 1141,
   "longer_than_training_max": [
     "ABCA1",
     "ADGRA2",
@@ -301,6 +298,7 @@
     "VLDLR",
     "VWF"
   ],
+  "synonym_rule": "if no primary-name match: exactly one reviewed entry listing the symbol as a gene synonym (resolution \"via synonym\"); an entry already matched by primary name is not reused",
   "rule": "exactly one reviewed human entry whose primary gene name equals the data symbol; otherwise listed as unresolved (no guessing) unless a documented override is given",
-  "fasta_sha256": "462744d80640f928a47ca4247d67a5a72ef3579ee7a75f452527a0c1790c5d5e"
+  "fasta_sha256": "3d86b43e67c562a8a37a344888d472970b7800bbc13bc5b0d3987a7c2ca83882"
 }

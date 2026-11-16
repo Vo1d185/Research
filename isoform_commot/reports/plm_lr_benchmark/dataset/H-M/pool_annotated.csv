@@ -380,6 +380,7 @@ LTA,LTBR,False,cellchat_human;cellchat_mouse
 LTA,TNFRSF14,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 LTA,TNFRSF1A,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 LTA,TNFRSF1B,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+MDK,NCL,True,cellchat_human;cellchat_mouse
 MDK,SDC1,True,cellchat_human;cellchat_mouse
 MDK,SDC2,True,cellchat_human;cellchat_mouse
 MDK,SDC4,True,cellchat_human;cellchat_mouse
@@ -416,6 +417,7 @@ NPY,NPY1R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 NPY,NPY2R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 NPY,NPY4R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 NPY,NPY5R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+NPY,NPY6R,True,cellchat_human;cellchat_mouse
 NPY,PRLHR,False,cellphonedb_v5
 NTF3,NGFR,True,cellchat_cofactor_human;cellchat_cofactor_mouse;cellchat_human;cellchat_mouse;cellphonedb_v5
 NTF3,NTRK1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
@@ -460,6 +462,7 @@ PPY,NPY1R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PPY,NPY2R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PPY,NPY4R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PPY,NPY5R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+PPY,NPY6R,True,cellchat_human;cellchat_mouse
 PRL,PRLR,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PRLH,PRLHR,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PROC,F2R,False,cellchat_human;cellchat_mouse
@@ -489,6 +492,7 @@ PTH2,PTH2R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PTHLH,PRLHR,False,cellphonedb_v5
 PTHLH,PTH1R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PTHLH,PTH2R,False,cellphonedb_v5
+PTN,NCL,True,cellchat_human;cellchat_mouse
 PTN,SDC1,True,cellchat_human;cellchat_mouse
 PTN,SDC2,True,cellchat_human;cellchat_mouse
 PTN,SDC3,True,cellchat_human;cellchat_mouse
@@ -500,11 +504,13 @@ PYY,NPY1R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PYY,NPY2R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PYY,NPY4R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 PYY,NPY5R,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+PYY,NPY6R,True,cellchat_human;cellchat_mouse
 QRFP,QRFPR,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 RAET1E,KLRK1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 RAET1G,KLRK1,True,cellchat_human;cellphonedb_v5
 RAET1L,KLRK1,True,cellchat_human;cellphonedb_v5
 RARRES2,CMKLR1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+RARRES2,GPR1,True,cellchat_human;cellphonedb_v5
 RBP4,STRA6,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 RETN,CAP1,True,cellchat_human;cellchat_mouse
 RLN1,RXFP1,True,cellchat_human;cellchat_mouse;cellphonedb_v5

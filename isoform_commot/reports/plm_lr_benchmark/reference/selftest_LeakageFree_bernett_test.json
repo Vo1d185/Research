@@ -1,0 +1,22 @@
+{
+  "status": "complete",
+  "test_file": "/home/liu/Research/isoform_commot/models/bernett/pairs_uniprot_seqs_test.csv",
+  "test_file_sha256": "89f164f9bd391fd3a2cb400cb3b402d87b73af8142143c58cac56d55d3d7abcc",
+  "n": 2000,
+  "positives": 988,
+  "seed": 2,
+  "aupr": 0.6610209212213932,
+  "auroc": 0.6800479269014739,
+  "note": "Compare with the cross-species result reported in the PLM-interact paper for the same species; a large gap suggests a wrong base model, checkpoint or environment.",
+  "checkpoint": "/home/liu/Research/isoform_commot/models/plm_650m_leakagefree/pytorch_model.bin",
+  "checkpoint_sha256": "207f1bf02e9bebc393fe510a98c0f9af04039d0a9258047ac107c6d24221c7e2",
+  "checkpoint_name": "danliu1226/PLM-interact-650M-Leakage-Free-Dataset",
+  "checkpoint_revision": "d995319a6e53510bfbb4eff6ab0292fedf2ec4db",
+  "base_model": "models/esm2_t33_650M_UR50D",
+  "python": "3.10.22",
+  "torch": "2.4.1+cu121",
+  "transformers": "4.40.1",
+  "device": "cuda:0",
+  "embedding_size": 1280,
+  "cuda": "12.1"
+}

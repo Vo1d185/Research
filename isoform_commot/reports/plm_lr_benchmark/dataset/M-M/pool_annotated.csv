@@ -20,6 +20,7 @@ Anxa1,Fpr-rs6,True,cellchat_mouse
 Anxa1,Fpr-rs7,True,cellchat_mouse
 Anxa1,Fpr1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Anxa1,Fpr2,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+Anxa1,Fpr3,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Apela,Aplnr,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Apln,Aplnr,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 App,Cd74,True,cellchat_human;cellchat_mouse;cellphonedb_v5
@@ -112,6 +113,7 @@ Cd276,Treml2,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Cd34,Sell,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Cd34,Selp,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Cd40lg,Cd40,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+Cd48,Cd244a,True,cellchat_mouse
 Cd52,Siglecg,True,cellchat_mouse
 Cd6,Alcam,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Cd70,Cd27,True,cellchat_human;cellchat_mouse;cellphonedb_v5
@@ -122,6 +124,7 @@ Cd80,Ngfr,False,cellphonedb_v5
 Cd86,Cd28,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Cd86,Ctla4,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Cd99,Pilra,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+Cd99,Pilrb1,True,cellchat_mouse
 Cd99,Pilrb2,True,cellchat_mouse
 Ceacam1,Cd1d1,True,cellchat_mouse
 Ceacam1,Cd1d2,True,cellchat_mouse
@@ -234,6 +237,7 @@ F2,F2r,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 F2,F2rl1,True,cellchat_human;cellchat_mouse
 F2,F2rl2,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 F2,F2rl3,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+Fasl,Fas,True,cellchat_mouse
 Fgf1,Fgfr4,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Fgf15,Fgfr4,True,cellchat_mouse
 Fgf16,Fgfr4,True,cellchat_human;cellchat_mouse
@@ -262,6 +266,8 @@ Gcg,Gipr,True,cellchat_human;cellchat_mouse
 Gcg,Glp1r,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Gcg,Glp2r,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Gdf15,Tgfbr2,True,cellchat_human;cellchat_mouse
+Gh,Ghr,True,cellchat_mouse
+Gh,Prlr,True,cellchat_mouse
 Ghrh,Ghrhr,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Ghrh,Ghsr,True,cellchat_human;cellchat_mouse
 Ghrh,Vipr1,True,cellchat_human;cellchat_mouse
@@ -289,18 +295,29 @@ Gzma,F2rl3,True,cellchat_human;cellchat_mouse
 H2-DMa,Cd4,True,cellchat_mouse
 H2-DMb1,Cd4,True,cellchat_mouse
 H2-L,Cd8a,True,cellchat_mouse
+H2-L,Cd8b1,True,cellchat_mouse
 H2-Q10,Cd8a,True,cellchat_mouse
+H2-Q10,Cd8b1,True,cellchat_mouse
 H2-Q10,Kir3dl1,True,cellchat_mouse
 H2-Q7,Cd8a,True,cellchat_mouse
+H2-Q7,Cd8b1,True,cellchat_mouse
 H2-Q7,Kir3dl1,True,cellchat_mouse
 H2-Q8,Cd8a,True,cellchat_mouse
+H2-Q8,Cd8b1,True,cellchat_mouse
 H2-Q9,Cd8a,True,cellchat_mouse
+H2-Q9,Cd8b1,True,cellchat_mouse
 H2-T23,Cd8a,True,cellchat_mouse
+H2-T23,Cd8b1,True,cellchat_mouse
 H2-T3,Cd8a,True,cellchat_mouse
+H2-T3,Cd8b1,True,cellchat_mouse
 Hcrt,Hcrtr1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Hcrt,Hcrtr2,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Icam1,Spn,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+Icosl,Cd28,True,cellchat_mouse
+Icosl,Ctla4,True,cellchat_mouse
+Icosl,Icos,True,cellchat_mouse
 Igfbp3,Tmem219,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+Igfl3,Igflr1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Il13,Il13ra1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Il13,Il13ra2,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Il17b,Il17rb,True,cellchat_human;cellchat_mouse
@@ -323,6 +340,7 @@ Klk1b4,Ngfr,True,cellchat_cofactor_mouse;cellchat_mouse
 Klk1b4,Ntrk1,True,cellchat_mouse
 Klk4,F2r,True,cellchat_human;cellchat_mouse
 Klk4,F2rl1,True,cellchat_human;cellchat_mouse
+Klk5,F2rl1,True,cellchat_human;cellchat_mouse
 Klk7,F2rl1,True,cellchat_human;cellchat_mouse
 Klk8,F2r,True,cellchat_human;cellchat_mouse
 Kng1,Bdkrb1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
@@ -340,6 +358,7 @@ Lta,Ltbr,False,cellchat_human;cellchat_mouse
 Lta,Tnfrsf14,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Lta,Tnfrsf1a,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Lta,Tnfrsf1b,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+Mdk,Ncl,True,cellchat_human;cellchat_mouse
 Mdk,Sdc1,True,cellchat_human;cellchat_mouse
 Mdk,Sdc2,True,cellchat_human;cellchat_mouse
 Mdk,Sdc4,True,cellchat_human;cellchat_mouse
@@ -377,6 +396,7 @@ Npy,Npy5r,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Npy,Npy6r,True,cellchat_human;cellchat_mouse
 Ntf3,Ngfr,True,cellchat_cofactor_human;cellchat_cofactor_mouse;cellchat_human;cellchat_mouse;cellphonedb_v5
 Ntf3,Ntrk1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
+Ntf5,Ngfr,True,cellchat_cofactor_mouse;cellchat_mouse
 Nts,Ntsr1,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Nts,Ntsr2,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Ostn,Npr3,True,cellchat_human;cellchat_mouse
@@ -431,6 +451,7 @@ Pth2,Pth1r,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Pth2,Pth2r,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Pthlh,Pth1r,True,cellchat_human;cellchat_mouse;cellphonedb_v5
 Pthlh,Pth2r,False,cellphonedb_v5
+Ptn,Ncl,True,cellchat_human;cellchat_mouse
 Ptn,Sdc1,True,cellchat_human;cellchat_mouse
 Ptn,Sdc2,True,cellchat_human;cellchat_mouse
 Ptn,Sdc3,True,cellchat_human;cellchat_mouse

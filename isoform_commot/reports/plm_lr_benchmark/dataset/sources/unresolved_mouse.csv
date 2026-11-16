@@ -1,183 +1,168 @@
-lr_symbol,data_symbol,n_hits,accession,uniprot_id,protein_name,length
-Calca,Calca,2,Q99JA0,CALCA_MOUSE,Calcitonin gene-related peptide 1,128.0
-Calca,Calca,2,P70160,CALC_MOUSE,Calcitonin,136.0
-Ccl21,Ccl21,0,,,no reviewed entry of this species with this primary gene name,
-Ccl21d,Ccl21d,0,,,no reviewed entry of this species with this primary gene name,
-Ccl21e,Ccl21e,0,,,no reviewed entry of this species with this primary gene name,
-Ccl21f,Ccl21f,0,,,no reviewed entry of this species with this primary gene name,
-Ccl26,Ccl26,0,,,no reviewed entry of this species with this primary gene name,
-Ccl27a,Ccl27a,0,,,no reviewed entry of this species with this primary gene name,
-Ccl27b,Ccl27b,0,,,no reviewed entry of this species with this primary gene name,
-Cd200r2,Cd200r2,0,,,no reviewed entry of this species with this primary gene name,
-Cd209f,Cd209f,0,,,no reviewed entry of this species with this primary gene name,
-Cd244a,Cd244a,0,,,no reviewed entry of this species with this primary gene name,
-Cd8b1,Cd8b1,0,,,no reviewed entry of this species with this primary gene name,
-Chrna10,Chrna10,0,,,no reviewed entry of this species with this primary gene name,
-Chrna9,Chrna9,0,,,no reviewed entry of this species with this primary gene name,
-Col4a6,Col4a6,0,,,no reviewed entry of this species with this primary gene name,
-Col6a3,Col6a3,0,,,no reviewed entry of this species with this primary gene name,
-Col9a3,Col9a3,0,,,no reviewed entry of this species with this primary gene name,
-Fasl,Fasl,0,,,no reviewed entry of this species with this primary gene name,
-Fcer2a,Fcer2a,0,,,no reviewed entry of this species with this primary gene name,
-Flt3l,Flt3l,0,,,no reviewed entry of this species with this primary gene name,
-Fpr3,Fpr3,0,,,no reviewed entry of this species with this primary gene name,
-Gh,Gh,0,,,no reviewed entry of this species with this primary gene name,
-Gm10499,Gm10499,0,,,no reviewed entry of this species with this primary gene name,
-H2-Aa,H2-Aa,8,P01910,HA2K_MOUSE,"H-2 class II histocompatibility antigen, A-K alpha chain",256.0
-H2-Aa,H2-Aa,8,P14434,HA2B_MOUSE,"H-2 class II histocompatibility antigen, A-B alpha chain",256.0
-H2-Aa,H2-Aa,8,P14435,HA2F_MOUSE,"H-2 class II histocompatibility antigen, A-F alpha chain",233.0
-H2-Aa,H2-Aa,8,P14438,HA2U_MOUSE,"H-2 class II histocompatibility antigen, A-U alpha chain",227.0
-H2-Aa,H2-Aa,8,P04227,HA2Q_MOUSE,"H-2 class II histocompatibility antigen, A-Q alpha chain",221.0
-H2-Aa,H2-Aa,8,P14436,HA2R_MOUSE,"H-2 class II histocompatibility antigen, A-R alpha chain",233.0
-H2-Aa,H2-Aa,8,P04228,HA2D_MOUSE,"H-2 class II histocompatibility antigen, A-D alpha chain",256.0
-H2-Aa,H2-Aa,8,P14437,HA2S_MOUSE,"H-2 class II histocompatibility antigen, A-S alpha chain",233.0
-H2-Ab1,H2-Ab1,6,P01921,HB2D_MOUSE,"H-2 class II histocompatibility antigen, A-D beta chain",265.0
-H2-Ab1,H2-Ab1,6,P14483,HB2A_MOUSE,"H-2 class II histocompatibility antigen, A beta chain",265.0
-H2-Ab1,H2-Ab1,6,P06343,HB2K_MOUSE,"H-2 class II histocompatibility antigen, A-K beta chain",263.0
-H2-Ab1,H2-Ab1,6,P06345,HB2S_MOUSE,"H-2 class II histocompatibility antigen, A-S beta chain",263.0
-H2-Ab1,H2-Ab1,6,P06346,HB2F_MOUSE,"H-2 class II histocompatibility antigen, A-F beta chain",252.0
-H2-Ab1,H2-Ab1,6,P06342,HB2Q_MOUSE,"H-2 class II histocompatibility antigen, A-Q beta chain",265.0
-H2-Bl,H2-Bl,0,,,no reviewed entry of this species with this primary gene name,
-H2-D,H2-D,0,,,no reviewed entry of this species with this primary gene name,
-H2-D1,H2-D1,5,P14426,HA13_MOUSE,"H-2 class I histocompatibility antigen, D-K alpha chain",362.0
-H2-D1,H2-D1,5,P14427,HA14_MOUSE,"H-2 class I histocompatibility antigen, D-P alpha chain",368.0
-H2-D1,H2-D1,5,P01899,HA11_MOUSE,"H-2 class I histocompatibility antigen, D-B alpha chain",362.0
-H2-D1,H2-D1,5,P01895,HA1Y_MOUSE,"H-2 class I histocompatibility antigen, alpha chain",298.0
-H2-D1,H2-D1,5,P01900,HA12_MOUSE,"H-2 class I histocompatibility antigen, D-D alpha chain",365.0
-H2-DMb2,H2-DMb2,0,,,no reviewed entry of this species with this primary gene name,
-H2-Ea,H2-Ea,2,P01904,HA21_MOUSE,"H-2 class II histocompatibility antigen, E-D alpha chain",255.0
-H2-Ea,H2-Ea,2,P14439,HA23_MOUSE,"H-2 class II histocompatibility antigen, E-U alpha chain",255.0
-H2-Eb1,H2-Eb1,4,P04230,HB21_MOUSE,"H-2 class II histocompatibility antigen, E-B beta chain",264.0
-H2-Eb1,H2-Eb1,4,P18468,HB2I_MOUSE,"H-2 class II histocompatibility antigen, I-A beta chain",264.0
-H2-Eb1,H2-Eb1,4,P18469,HB2J_MOUSE,"H-2 class II histocompatibility antigen, I-E beta chain",264.0
-H2-Eb1,H2-Eb1,4,P04231,HB23_MOUSE,"H-2 class II histocompatibility antigen, E-S beta chain",232.0
-H2-K1,H2-K1,5,P01901,HA1B_MOUSE,"H-2 class I histocompatibility antigen, K-B alpha chain",369.0
-H2-K1,H2-K1,5,P04223,HA1K_MOUSE,"H-2 class I histocompatibility antigen, K-K alpha chain",369.0
-H2-K1,H2-K1,5,P01902,HA1D_MOUSE,"H-2 class I histocompatibility antigen, K-D alpha chain",368.0
-H2-K1,H2-K1,5,P14428,HA1Q_MOUSE,"H-2 class I histocompatibility antigen, K-Q alpha chain",328.0
-H2-K1,H2-K1,5,P03991,HA1W_MOUSE,"H-2 class I histocompatibility antigen, K-W28 alpha chain",368.0
-H2-M1,H2-M1,0,,,no reviewed entry of this species with this primary gene name,
-H2-M10.1,H2-M10.1,0,,,no reviewed entry of this species with this primary gene name,
-H2-M10.2,H2-M10.2,0,,,no reviewed entry of this species with this primary gene name,
-H2-M10.3,H2-M10.3,0,,,no reviewed entry of this species with this primary gene name,
-H2-M10.4,H2-M10.4,0,,,no reviewed entry of this species with this primary gene name,
-H2-M10.5,H2-M10.5,0,,,no reviewed entry of this species with this primary gene name,
-H2-M10.6,H2-M10.6,0,,,no reviewed entry of this species with this primary gene name,
-H2-M11,H2-M11,0,,,no reviewed entry of this species with this primary gene name,
-H2-M2,H2-M2,0,,,no reviewed entry of this species with this primary gene name,
-H2-M3,H2-M3,0,,,no reviewed entry of this species with this primary gene name,
-H2-M5,H2-M5,0,,,no reviewed entry of this species with this primary gene name,
-H2-M9,H2-M9,0,,,no reviewed entry of this species with this primary gene name,
-H2-Oa,H2-Oa,0,,,no reviewed entry of this species with this primary gene name,
-H2-Ob,H2-Ob,0,,,no reviewed entry of this species with this primary gene name,
-H2-Q1,H2-Q1,0,,,no reviewed entry of this species with this primary gene name,
-H2-Q2,H2-Q2,0,,,no reviewed entry of this species with this primary gene name,
-H2-Q4,H2-Q4,0,,,no reviewed entry of this species with this primary gene name,
-H2-Q6,H2-Q6,0,,,no reviewed entry of this species with this primary gene name,
-H2-T-ps,H2-T-ps,0,,,no reviewed entry of this species with this primary gene name,
-H2-T10,H2-T10,0,,,no reviewed entry of this species with this primary gene name,
-H2-T18,H2-T18,0,,,no reviewed entry of this species with this primary gene name,
-H2-T22,H2-T22,0,,,no reviewed entry of this species with this primary gene name,
-H2-T24,H2-T24,0,,,no reviewed entry of this species with this primary gene name,
-H2-T25,H2-T25,0,,,no reviewed entry of this species with this primary gene name,
-H2-T26,H2-T26,0,,,no reviewed entry of this species with this primary gene name,
-H2-T27,H2-T27,0,,,no reviewed entry of this species with this primary gene name,
-H2-T9,H2-T9,0,,,no reviewed entry of this species with this primary gene name,
-H60a,H60a,0,,,no reviewed entry of this species with this primary gene name,
-Hc,Hc,0,,,no reviewed entry of this species with this primary gene name,
-Icosl,Icosl,0,,,no reviewed entry of this species with this primary gene name,
-Ifna14,Ifna14,0,,,no reviewed entry of this species with this primary gene name,
-Ifna15,Ifna15,0,,,no reviewed entry of this species with this primary gene name,
-Ifnab,Ifnab,0,,,no reviewed entry of this species with this primary gene name,
-Ifngr2,Ifngr2,0,,,no reviewed entry of this species with this primary gene name,
-Igfl3,Igfl3,0,,,no reviewed entry of this species with this primary gene name,
-Il20rb,Il20rb,0,,,no reviewed entry of this species with this primary gene name,
-Il4ra,Il4ra,0,,,no reviewed entry of this species with this primary gene name,
-Itga10,Itga10,0,,,no reviewed entry of this species with this primary gene name,
-Kitl,Kitl,0,,,no reviewed entry of this species with this primary gene name,
-Klk5,Klk5,0,,,no reviewed entry of this species with this primary gene name,
-Klk6,Klk6,0,,,no reviewed entry of this species with this primary gene name,
-Klra,Klra,0,,,no reviewed entry of this species with this primary gene name,
-Klrb1b,Klrb1b,2,P27812,KRBBA_MOUSE,Killer cell lectin-like receptor subfamily B member 1B allele A,223.0
-Klrb1b,Klrb1b,2,Q99JB4,KRBBB_MOUSE,Killer cell lectin-like receptor subfamily B member 1B allele B,223.0
-Klrc1,Klrc1,0,,,no reviewed entry of this species with this primary gene name,
-Klrc2,Klrc2,0,,,no reviewed entry of this species with this primary gene name,
-Kng2,Kng2,0,,,no reviewed entry of this species with this primary gene name,
-Ncl,Ncl,0,,,no reviewed entry of this species with this primary gene name,
-Ncr3-ps,Ncr3-ps,0,,,no reviewed entry of this species with this primary gene name,
-Npffr1,Npffr1,0,,,no reviewed entry of this species with this primary gene name,
-Npw,Npw,0,,,no reviewed entry of this species with this primary gene name,
-Nrxn1,Nrxn1,2,Q9CS84,NRX1A_MOUSE,Neurexin-1,1514.0
-Nrxn1,Nrxn1,2,P0DI97,NRX1B_MOUSE,Neurexin-1-beta,468.0
-Nrxn2,Nrxn2,2,E9PUN2,NRX2B_MOUSE,Neurexin-2-beta,660.0
-Nrxn2,Nrxn2,2,E9Q7X7,NRX2A_MOUSE,Neurexin-2,1710.0
-Nrxn3,Nrxn3,2,Q8C985,NRX3B_MOUSE,Neurexin-3-beta,567.0
-Nrxn3,Nrxn3,2,Q6P9K9,NRX3A_MOUSE,Neurexin-3,1571.0
-Ntf5,Ntf5,0,,,no reviewed entry of this species with this primary gene name,
-Pcdha1,Pcdha1,0,,,no reviewed entry of this species with this primary gene name,
-Pcdha11,Pcdha11,0,,,no reviewed entry of this species with this primary gene name,
-Pcdha12,Pcdha12,0,,,no reviewed entry of this species with this primary gene name,
-Pcdha2,Pcdha2,0,,,no reviewed entry of this species with this primary gene name,
-Pcdha3,Pcdha3,0,,,no reviewed entry of this species with this primary gene name,
-Pcdha4b,Pcdha4b,0,,,no reviewed entry of this species with this primary gene name,
-Pcdha5,Pcdha5,0,,,no reviewed entry of this species with this primary gene name,
-Pcdha6,Pcdha6,0,,,no reviewed entry of this species with this primary gene name,
-Pcdha8,Pcdha8,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhac1,Pcdhac1,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhac2,Pcdhac2,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb1,Pcdhb1,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb10,Pcdhb10,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb11,Pcdhb11,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb12,Pcdhb12,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb13,Pcdhb13,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb15,Pcdhb15,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb16,Pcdhb16,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb17,Pcdhb17,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb19,Pcdhb19,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb2,Pcdhb2,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb20,Pcdhb20,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb21,Pcdhb21,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb22,Pcdhb22,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb3,Pcdhb3,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb4,Pcdhb4,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb5,Pcdhb5,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb7,Pcdhb7,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhb9,Pcdhb9,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhga1,Pcdhga1,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhga10,Pcdhga10,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhga11,Pcdhga11,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhga12,Pcdhga12,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhga2,Pcdhga2,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhga3,Pcdhga3,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhga5,Pcdhga5,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhga6,Pcdhga6,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhga7,Pcdhga7,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhga8,Pcdhga8,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhga9,Pcdhga9,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhgb1,Pcdhgb1,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhgb2,Pcdhgb2,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhgb4,Pcdhgb4,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhgb5,Pcdhgb5,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhgb6,Pcdhgb6,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhgb7,Pcdhgb7,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhgb8,Pcdhgb8,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhgc3,Pcdhgc3,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhgc4,Pcdhgc4,0,,,no reviewed entry of this species with this primary gene name,
-Pcdhgc5,Pcdhgc5,0,,,no reviewed entry of this species with this primary gene name,
-Pgr15l,Pgr15l,0,,,no reviewed entry of this species with this primary gene name,
-Pilrb1,Pilrb1,0,,,no reviewed entry of this species with this primary gene name,
-Pira2,Pira2,0,,,no reviewed entry of this species with this primary gene name,
-Ppbp,Ppbp,0,,,no reviewed entry of this species with this primary gene name,
-Prlh,Prlh,0,,,no reviewed entry of this species with this primary gene name,
-Prss3l,Prss3l,0,,,no reviewed entry of this species with this primary gene name,
-Psg20,Psg20,0,,,no reviewed entry of this species with this primary gene name,
-Pvr,Pvr,0,,,no reviewed entry of this species with this primary gene name,
-Sirpb1a,Sirpb1a,0,,,no reviewed entry of this species with this primary gene name,
-Sirpb1b,Sirpb1b,0,,,no reviewed entry of this species with this primary gene name,
-Sirpb1c,Sirpb1c,0,,,no reviewed entry of this species with this primary gene name,
-Tac2,Tac2,0,,,no reviewed entry of this species with this primary gene name,
-Tnfrsf25,Tnfrsf25,0,,,no reviewed entry of this species with this primary gene name,
-Tnxb,Tnxb,0,,,no reviewed entry of this species with this primary gene name,
-Trhr2,Trhr2,0,,,no reviewed entry of this species with this primary gene name,
-Try10,Try10,0,,,no reviewed entry of this species with this primary gene name,
-Ulbp1,Ulbp1,0,,,no reviewed entry of this species with this primary gene name,
+lr_symbol,data_symbol,n_hits,accession,uniprot_id,protein_name,length,match,note,gene_primary
+Calca,Calca,2,Q99JA0,CALCA_MOUSE,Calcitonin gene-related peptide 1,128.0,primary,,Calca
+Calca,Calca,2,P70160,CALC_MOUSE,Calcitonin,136.0,primary,,Calca
+Ccl21,Ccl21,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ccl21d,Ccl21d,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ccl21e,Ccl21e,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ccl21f,Ccl21f,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ccl26,Ccl26,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ccl27a,Ccl27a,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ccl27b,Ccl27b,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Cd209f,Cd209f,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Chrna10,Chrna10,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Chrna9,Chrna9,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Col4a6,Col4a6,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Col6a3,Col6a3,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Col9a3,Col9a3,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Gm10499,Gm10499,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-Aa,H2-Aa,8,P01910,HA2K_MOUSE,"H-2 class II histocompatibility antigen, A-K alpha chain",256.0,primary,,H2-Aa
+H2-Aa,H2-Aa,8,P14434,HA2B_MOUSE,"H-2 class II histocompatibility antigen, A-B alpha chain",256.0,primary,,H2-Aa
+H2-Aa,H2-Aa,8,P14435,HA2F_MOUSE,"H-2 class II histocompatibility antigen, A-F alpha chain",233.0,primary,,H2-Aa
+H2-Aa,H2-Aa,8,P14438,HA2U_MOUSE,"H-2 class II histocompatibility antigen, A-U alpha chain",227.0,primary,,H2-Aa
+H2-Aa,H2-Aa,8,P04227,HA2Q_MOUSE,"H-2 class II histocompatibility antigen, A-Q alpha chain",221.0,primary,,H2-Aa
+H2-Aa,H2-Aa,8,P14436,HA2R_MOUSE,"H-2 class II histocompatibility antigen, A-R alpha chain",233.0,primary,,H2-Aa
+H2-Aa,H2-Aa,8,P04228,HA2D_MOUSE,"H-2 class II histocompatibility antigen, A-D alpha chain",256.0,primary,,H2-Aa
+H2-Aa,H2-Aa,8,P14437,HA2S_MOUSE,"H-2 class II histocompatibility antigen, A-S alpha chain",233.0,primary,,H2-Aa
+H2-Ab1,H2-Ab1,6,P01921,HB2D_MOUSE,"H-2 class II histocompatibility antigen, A-D beta chain",265.0,primary,,H2-Ab1
+H2-Ab1,H2-Ab1,6,P14483,HB2A_MOUSE,"H-2 class II histocompatibility antigen, A beta chain",265.0,primary,,H2-Ab1
+H2-Ab1,H2-Ab1,6,P06343,HB2K_MOUSE,"H-2 class II histocompatibility antigen, A-K beta chain",263.0,primary,,H2-Ab1
+H2-Ab1,H2-Ab1,6,P06345,HB2S_MOUSE,"H-2 class II histocompatibility antigen, A-S beta chain",263.0,primary,,H2-Ab1
+H2-Ab1,H2-Ab1,6,P06346,HB2F_MOUSE,"H-2 class II histocompatibility antigen, A-F beta chain",252.0,primary,,H2-Ab1
+H2-Ab1,H2-Ab1,6,P06342,HB2Q_MOUSE,"H-2 class II histocompatibility antigen, A-Q beta chain",265.0,primary,,H2-Ab1
+H2-Bl,H2-Bl,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-D,H2-D,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-D1,H2-D1,5,P14426,HA13_MOUSE,"H-2 class I histocompatibility antigen, D-K alpha chain",362.0,primary,,H2-D1
+H2-D1,H2-D1,5,P14427,HA14_MOUSE,"H-2 class I histocompatibility antigen, D-P alpha chain",368.0,primary,,H2-D1
+H2-D1,H2-D1,5,P01899,HA11_MOUSE,"H-2 class I histocompatibility antigen, D-B alpha chain",362.0,primary,,H2-D1
+H2-D1,H2-D1,5,P01895,HA1Y_MOUSE,"H-2 class I histocompatibility antigen, alpha chain",298.0,primary,,H2-D1
+H2-D1,H2-D1,5,P01900,HA12_MOUSE,"H-2 class I histocompatibility antigen, D-D alpha chain",365.0,primary,,H2-D1
+H2-DMb2,H2-DMb2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-Ea,H2-Ea,2,P01904,HA21_MOUSE,"H-2 class II histocompatibility antigen, E-D alpha chain",255.0,primary,,H2-Ea
+H2-Ea,H2-Ea,2,P14439,HA23_MOUSE,"H-2 class II histocompatibility antigen, E-U alpha chain",255.0,primary,,H2-Ea
+H2-Eb1,H2-Eb1,4,P04230,HB21_MOUSE,"H-2 class II histocompatibility antigen, E-B beta chain",264.0,primary,,H2-Eb1
+H2-Eb1,H2-Eb1,4,P18468,HB2I_MOUSE,"H-2 class II histocompatibility antigen, I-A beta chain",264.0,primary,,H2-Eb1
+H2-Eb1,H2-Eb1,4,P18469,HB2J_MOUSE,"H-2 class II histocompatibility antigen, I-E beta chain",264.0,primary,,H2-Eb1
+H2-Eb1,H2-Eb1,4,P04231,HB23_MOUSE,"H-2 class II histocompatibility antigen, E-S beta chain",232.0,primary,,H2-Eb1
+H2-K1,H2-K1,5,P01901,HA1B_MOUSE,"H-2 class I histocompatibility antigen, K-B alpha chain",369.0,primary,,H2-K1
+H2-K1,H2-K1,5,P04223,HA1K_MOUSE,"H-2 class I histocompatibility antigen, K-K alpha chain",369.0,primary,,H2-K1
+H2-K1,H2-K1,5,P01902,HA1D_MOUSE,"H-2 class I histocompatibility antigen, K-D alpha chain",368.0,primary,,H2-K1
+H2-K1,H2-K1,5,P14428,HA1Q_MOUSE,"H-2 class I histocompatibility antigen, K-Q alpha chain",328.0,primary,,H2-K1
+H2-K1,H2-K1,5,P03991,HA1W_MOUSE,"H-2 class I histocompatibility antigen, K-W28 alpha chain",368.0,primary,,H2-K1
+H2-M1,H2-M1,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-M10.1,H2-M10.1,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-M10.2,H2-M10.2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-M10.3,H2-M10.3,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-M10.4,H2-M10.4,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-M10.5,H2-M10.5,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-M10.6,H2-M10.6,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-M11,H2-M11,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-M2,H2-M2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-M3,H2-M3,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-M5,H2-M5,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-M9,H2-M9,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-Oa,H2-Oa,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-Ob,H2-Ob,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-Q1,H2-Q1,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-Q2,H2-Q2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-Q4,H2-Q4,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-Q6,H2-Q6,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-T-ps,H2-T-ps,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-T10,H2-T10,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-T18,H2-T18,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-T22,H2-T22,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-T24,H2-T24,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-T25,H2-T25,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-T26,H2-T26,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-T27,H2-T27,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H2-T9,H2-T9,0,,,no reviewed entry of this species with this primary gene name,,none,,
+H60a,H60a,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ifna14,Ifna14,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ifna15,Ifna15,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ifnab,Ifnab,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ifngr2,Ifngr2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Il20rb,Il20rb,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Itga10,Itga10,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Klra,Klra,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Klrb1b,Klrb1b,2,P27812,KRBBA_MOUSE,Killer cell lectin-like receptor subfamily B member 1B allele A,223.0,primary,,Klrb1b
+Klrb1b,Klrb1b,2,Q99JB4,KRBBB_MOUSE,Killer cell lectin-like receptor subfamily B member 1B allele B,223.0,primary,,Klrb1b
+Klrc1,Klrc1,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Klrc2,Klrc2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Kng2,Kng2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ncr3-ps,Ncr3-ps,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Npffr1,Npffr1,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Npw,Npw,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Nrxn1,Nrxn1,2,Q9CS84,NRX1A_MOUSE,Neurexin-1,1514.0,primary,,Nrxn1
+Nrxn1,Nrxn1,2,P0DI97,NRX1B_MOUSE,Neurexin-1-beta,468.0,primary,,Nrxn1
+Nrxn2,Nrxn2,2,E9PUN2,NRX2B_MOUSE,Neurexin-2-beta,660.0,primary,,Nrxn2
+Nrxn2,Nrxn2,2,E9Q7X7,NRX2A_MOUSE,Neurexin-2,1710.0,primary,,Nrxn2
+Nrxn3,Nrxn3,2,Q8C985,NRX3B_MOUSE,Neurexin-3-beta,567.0,primary,,Nrxn3
+Nrxn3,Nrxn3,2,Q6P9K9,NRX3A_MOUSE,Neurexin-3,1571.0,primary,,Nrxn3
+Pcdha1,Pcdha1,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdha11,Pcdha11,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdha12,Pcdha12,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdha2,Pcdha2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdha3,Pcdha3,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdha4b,Pcdha4b,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdha5,Pcdha5,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdha6,Pcdha6,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdha8,Pcdha8,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhac1,Pcdhac1,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhac2,Pcdhac2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb1,Pcdhb1,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb10,Pcdhb10,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb11,Pcdhb11,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb12,Pcdhb12,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb13,Pcdhb13,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb15,Pcdhb15,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb16,Pcdhb16,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb17,Pcdhb17,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb19,Pcdhb19,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb2,Pcdhb2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb20,Pcdhb20,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb21,Pcdhb21,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb22,Pcdhb22,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb3,Pcdhb3,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb4,Pcdhb4,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb5,Pcdhb5,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb7,Pcdhb7,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb9,Pcdhb9,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhga1,Pcdhga1,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhga10,Pcdhga10,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhga11,Pcdhga11,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhga12,Pcdhga12,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhga2,Pcdhga2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhga3,Pcdhga3,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhga5,Pcdhga5,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhga6,Pcdhga6,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhga7,Pcdhga7,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhga8,Pcdhga8,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhga9,Pcdhga9,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhgb1,Pcdhgb1,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhgb2,Pcdhgb2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhgb4,Pcdhgb4,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhgb5,Pcdhgb5,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhgb6,Pcdhgb6,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhgb7,Pcdhgb7,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhgb8,Pcdhgb8,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhgc3,Pcdhgc3,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhgc4,Pcdhgc4,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhgc5,Pcdhgc5,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pgr15l,Pgr15l,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pira2,Pira2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ppbp,Ppbp,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Prlh,Prlh,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Prss3l,Prss3l,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Psg20,Psg20,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Sirpb1a,Sirpb1a,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Sirpb1b,Sirpb1b,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Sirpb1c,Sirpb1c,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Tac2,Tac2,2,P41539,TKN1_MOUSE,Protachykinin-1,130.0,synonym,,Tac1
+Tac2,Tac2,2,P55099,TKNK_MOUSE,Tachykinin-3,116.0,synonym,,Tac3
+Tnfrsf25,Tnfrsf25,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Tnxb,Tnxb,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Trhr2,Trhr2,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Try10,Try10,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Ulbp1,Ulbp1,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Cd200r2,Cd200r2,1,Q6XJV6,MO2R2_MOUSE,Cell surface glycoprotein CD200 receptor 2,249.0,synonym,entry already matched by primary gene name of another gene,Cd200r1l
+Klk6,Klk6,1,P15947,KLK1_MOUSE,Kallikrein-1,261.0,synonym,entry already matched by primary gene name of another gene,Klk1
+Pvr,Pvr,1,P32507,NECT2_MOUSE,Nectin-2,530.0,synonym,entry already matched by primary gene name of another gene,Nectin2
