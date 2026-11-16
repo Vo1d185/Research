@@ -1,0 +1,77 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-16T05:26:59+00:00",
+    "git_head": "d1aac56f365f616e17746168fa2652c948bbcee4",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [],
+    "recorded": "at launch"
+  },
+  "role": "confirmation",
+  "eval": "target_eval_stage2_ant",
+  "input": "/home/liu/Research/isoform_commot/stage2_input_ant",
+  "results": [
+    "stage2_results_ant_A_r50",
+    "stage2_results_ant_A_r100",
+    "stage2_results_ant_A_r200",
+    "stage2_results_ant_A_r400",
+    "stage2_results_ant_A500_r50",
+    "stage2_results_ant_A500_r100",
+    "stage2_results_ant_A500_r200",
+    "stage2_results_ant_A500_r400",
+    "stage2_results_ant_Aeps_r50",
+    "stage2_results_ant_Aeps_r100",
+    "stage2_results_ant_Aeps_r200",
+    "stage2_results_ant_Aeps_r400",
+    "commot_stage2_ant_B",
+    "commot_stage2_ant_B500",
+    "commot_stage2_ant_Beps",
+    "commot_stage2_ant_C",
+    "commot_stage2_ant_C500",
+    "commot_stage2_ant_C726",
+    "stage2_results_ant_F",
+    "stage2_results_ant_I"
+  ],
+  "top_tf": "10",
+  "target_score": "mean",
+  "level": "receptor",
+  "selected_r0_um": 50.0,
+  "rule_selected_r0_um": 200.0,
+  "r0_rule": "plan section 8.5",
+  "confirmation": {
+    "posterior_r0_um": 50.0,
+    "rule_selected_r0_here": 200.0,
+    "confirmed": false,
+    "rank_of_posterior_r0": 4,
+    "gap_to_best": 0.0011926197903124741,
+    "receptors": 144,
+    "strict_confirmed": false,
+    "delta": 0.0011926197903124741,
+    "bootstrap_se": 0.0009002193841381341,
+    "replicates": 1000,
+    "seed": 1,
+    "tolerance_confirmed": false
+  },
+  "confirmation_rule": "plan section 8.9",
+  "all_converged": true,
+  "convergence_rule": "plan section 8.7 (fourth decision)",
+  "receptors_evaluable": 149,
+  "receptors_common": 143,
+  "receptors_for_r0_selection": 144,
+  "receptor_classes": {
+    "Secreted": 120,
+    "Contact": 118,
+    "both": 9
+  },
+  "commot_rule": {
+    "receptors_evaluable": 90,
+    "receptors_common": 86,
+    "complexes_matched": 41,
+    "complexes_matched_in_commot_order": 41
+  },
+  "eval_sha256": {
+    "case_metrics.csv": "22b39381c6394b61d656fca942ae3218aa04cf3179e0967e3016a97eb1d47bd2",
+    "target_sets.csv": "2a2ad96ec408db29fbf43939dfacb41af0578bcfbc357c187ec97c80a9f95169"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-16T05:28:24+00:00",
+    "git_head": "d1aac56f365f616e17746168fa2652c948bbcee4",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [
+      "isoform_commot/reports/stage2_ant_01/"
+    ],
+    "recorded": "at launch"
+  },
+  "role": "confirmation",
+  "slide": "anterior",
+  "eval": "target_eval_stage2_ant",
+  "input": "/home/liu/Research/isoform_commot/stage2_input_ant",
+  "results": [
+    "commot_stage2_ant_B",
+    "stage2_results_ant_A_r100",
+    "stage2_results_ant_A_r200",
+    "stage2_results_ant_A_r400",
+    "stage2_results_ant_A_r50",
+    "stage2_results_ant_F",
+    "stage2_results_ant_I"
+  ],
+  "top_tf": "10",
+  "target_score": "mean",
+  "r0_star_um": 50.0,
+  "rule_selected_r0_um": 200.0,
+  "r0_rule": "plan section 8.5 (posterior); fixed on the anterior",
+  "replicates": 1000,
+  "seed": 1,
+  "receptors_evaluable": 149,
+  "receptors_curve": 143,
+  "receptors_differences": 143,
+  "receptor_classes": {
+    "Secreted": 120,
+    "Contact": 118,
+    "both": 9
+  },
+  "criteria": {
+    "a": {
+      "met": false,
+      "mean_difference": 0.00014024412098446714,
+      "ci_low": -0.003375999794337123,
+      "ci_high": 0.003729784858633064,
+      "n": 143
+    },
+    "b": {
+      "met": false,
+      "I_met": false,
+      "I_mean": -0.00048246192552522016,
+      "I_ci_low": -0.0029102244728200586,
+      "I_ci_high": 0.0019680314543232117,
+      "B_met": false,
+      "B_mean": -0.0007447911276630587,
+      "B_ci_low": -0.0051072602348191205,
+      "B_ci_high": 0.0035685013536860474
+    },
+    "c": {
+      "met": true,
+      "a_higher": 48,
+      "f_higher": 45,
+      "ties": 50,
+      "sign_test_p": 0.8358461346314864
+    },
+    "d": {
+      "met": true,
+      "secreted_mean": -0.0002004745434901925,
+      "contact_mean": -0.0003132836688131016,
+      "secreted_n": 83,
+      "contact_n": 54,
+      "both_mean": 0.008935269087728714,
+      "both_n": 6,
+      "difference": 0.0001128091253229091,
+      "ci_low": -0.006211161745446872,
+      "ci_high": 0.006718013792290602
+    },
+    "verdict": "partly met: c, d"
+  },
+  "criteria_role": "confirmatory (plan 9.5)",
+  "negative_control": null,
+  "commot_rule": {
+    "criteria": {
+      "a": {
+        "met": false,
+        "mean_difference": 0.002487539517574196,
+        "ci_low": -0.0014894865703398848,
+        "ci_high": 0.006908107941876379,
+        "n": 86
+      },
+      "b": {
+        "met": false,
+        "I_met": false,
+        "I_mean": 0.0002361526685249423,
+        "I_ci_low": -0.002891152530840955,
+        "I_ci_high": 0.0037954506873564007,
+        "B_met": false,
+        "B_mean": -0.0010149932088218253,
+        "B_ci_low": -0.005164622117364669,
+        "B_ci_high": 0.003482129838310335
+      },
+      "c": {
+        "met": true,
+        "a_higher": 32,
+        "f_higher": 29,
+        "ties": 25,
+        "sign_test_p": 0.7981526273057179
+      },
+      "d": {
+        "met": true,
+        "secreted_mean": 0.0010180802607082052,
+        "contact_mean": 1.6921961685937084e-06,
+        "secreted_n": 67,
+        "contact_n": 16,
+        "both_mean": 0.04856331530174454,
+        "both_n": 3,
+        "difference": 0.0010163880645396115,
+        "ci_low": -0.003535413377215446,
+        "ci_high": 0.005951009716524941
+      },
+      "verdict": "partly met: c, d"
+    },
+    "negative_control": null,
+    "receptors_curve": 86,
+    "receptors_differences": 86,
+    "rule_selected_r0_um": 100.0
+  },
+  "eval_sha256": {
+    "case_metrics.csv": "22b39381c6394b61d656fca942ae3218aa04cf3179e0967e3016a97eb1d47bd2",
+    "target_sets.csv": "2a2ad96ec408db29fbf43939dfacb41af0578bcfbc357c187ec97c80a9f95169"
+  }
+}
