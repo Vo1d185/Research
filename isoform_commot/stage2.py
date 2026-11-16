@@ -743,8 +743,10 @@ def stability(args):
     receptors, totals = pd.DataFrame(rows), pd.DataFrame(totals)
     verdict = []
     for t_ in totals.to_dict('records'):
-        r = receptors[(receptors.condition == t_['condition']) & (receptors.r0_um.fillna(-1) == (t_['r0_um'] or -1))]
+        r0_key = -1 if pd.isna(t_['r0_um']) else t_['r0_um']          # conditions without r0 (B, F): NaN
+        r = receptors[(receptors.condition == t_['condition']) & (receptors.r0_um.astype(float).fillna(-1) == r0_key)]
         used = r[~r.both_zero]
+        check(len(used) > 0, f"{t_['condition']}: no receptor to compare")
         verdict.append(dict(t_, receptors=len(used), receptors_both_zero=int(r.both_zero.sum()),
             receptors_failing=int((~used.meets.astype(bool)).sum()), max_rel_l1=used.rel_l1.max(),
             min_spearman=used.spearman.min(),

@@ -332,6 +332,15 @@ class Stability(unittest.TestCase):
             self.assertFalse(v.stable)
             self.assertAlmostEqual(v.rel_total_difference, 0.01 / 1.01)
             self.assertFalse(json.loads((root/'s2'/'stability.json').read_text())['all_stable'])
+            for name, n in [('f50', 50000), ('f200', 200000)]:        # a condition without r0 (flat kernel)
+                stage2.run(argparse.Namespace(input=str(root/'in'), output=str(root/name), r0_um=None, kernel='flat',
+                                              eps=0.1, rho=10.0, diffusion_cutoff_um=stage2.COMMOT_TUTORIAL_CUTOFF_UM,
+                                              nitermax=n, stopthr=None))
+            stage2.stability(argparse.Namespace(output=str(root/'s3'), at_50k=[str(root/'f50')], at_200k=[str(root/'f200')],
+                                                same_a=[], same_b=[]))
+            v = pd.read_csv(root/'s3'/'stability.csv').iloc[0]
+            self.assertEqual((v.condition, v.receptors), ('F', 2))        # receptors are matched although r0 is NaN
+            self.assertTrue(v.stable)
 
 
 class CommotRule(unittest.TestCase):
