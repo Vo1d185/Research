@@ -1,0 +1,22 @@
+lr_symbol,data_symbol,n_hits,accession,uniprot_id,protein_name,length
+CALCA,CALCA,2,P01258,CALC_HUMAN,Calcitonin,141.0
+CALCA,CALCA,2,P06881,CALCA_HUMAN,Calcitonin gene-related peptide 1,128.0
+CCL3L3,CCL3L3,0,,,no reviewed entry of this species with this primary gene name,
+GPR1,GPR1,0,,,no reviewed entry of this species with this primary gene name,
+MT-RNR2,MT-RNR2,7,Q8IVG9,HUNIN_HUMAN,Humanin,24.0
+MT-RNR2,MT-RNR2,7,A0A3G1DIU6,SHLP2_HUMAN,Small humanin-like peptide 2,26.0
+MT-RNR2,MT-RNR2,7,A0A3G1DJN1,SHLP6_HUMAN,Small humanin-like peptide 6,20.0
+MT-RNR2,MT-RNR2,7,A0A3G1DJK2,SHLP4_HUMAN,Small humanin-like peptide 4,26.0
+MT-RNR2,MT-RNR2,7,A0A3G1DJQ2,SHLP3_HUMAN,Small humanin-like peptide 3,38.0
+MT-RNR2,MT-RNR2,7,A0A3G1DJL1,SHLP5_HUMAN,Small humanin-like peptide 5,24.0
+MT-RNR2,MT-RNR2,7,A0A3G1DJL7,SHLP1_HUMAN,Small humanin-like peptide 1,24.0
+NCL,NCL,0,,,no reviewed entry of this species with this primary gene name,
+NPY6R,NPY6R,0,,,no reviewed entry of this species with this primary gene name,
+NRXN1,NRXN1,2,P58400,NRX1B_HUMAN,Neurexin-1-beta,472.0
+NRXN1,NRXN1,2,Q9ULB1,NRX1A_HUMAN,Neurexin-1,1477.0
+NRXN2,NRXN2,2,Q9P2S2,NRX2A_HUMAN,Neurexin-2,1712.0
+NRXN2,NRXN2,2,P58401,NRX2B_HUMAN,Neurexin-2-beta,666.0
+NRXN3,NRXN3,2,Q9HDB5,NRX3B_HUMAN,Neurexin-3-beta,637.0
+NRXN3,NRXN3,2,Q9Y4C0,NRX3A_HUMAN,Neurexin-3,1643.0
+PRNP,PRNP,2,P04156,PRIO_HUMAN,Major prion protein,253.0
+PRNP,PRNP,2,F7VJQ1,APRIO_HUMAN,Alternative prion protein,73.0

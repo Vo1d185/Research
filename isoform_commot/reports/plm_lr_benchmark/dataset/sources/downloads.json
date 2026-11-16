@@ -1,0 +1,122 @@
+{
+  "data/lr_benchmark/cellchatdb_human/raw/CellChatDB.human.rda": {
+    "url": "https://raw.githubusercontent.com/jinworks/CellChat/75253cd0c9e68410e6e721a6d3a0419a1d7e358f/data/CellChatDB.human.rda",
+    "sha256": "582e99db2bb1b1e05c0364553893d804952bd007fef870720a9cc659a7bd3ad8",
+    "bytes": 1519587,
+    "retrieved_utc": "2026-11-16T10:07:57+00:00",
+    "sha256_source": "calculated locally at first download, not author-published"
+  },
+  "cellchatdb_human_tables": {
+    "commit": "75253cd0c9e68410e6e721a6d3a0419a1d7e358f",
+    "n_interactions": 3233,
+    "annotation_counts": {
+      "Secreted Signaling": 1280,
+      "Non-protein Signaling": 994,
+      "Cell-Cell Contact": 535,
+      "ECM-Receptor": 424
+    }
+  },
+  "cellchatdb_mouse_tables": {
+    "commit": "75253cd0c9e68410e6e721a6d3a0419a1d7e358f",
+    "source": "data/cellchatdb/raw/CellChatDB.mouse.rda",
+    "sha256": "dd59b19646e546b3ed41f394ad2cf64cf44f3d3fcfbb58ac176f0fe1322f9413",
+    "n_interactions": 3379,
+    "annotation_counts": {
+      "Secreted Signaling": 1280,
+      "Non-protein Signaling": 1002,
+      "Cell-Cell Contact": 662,
+      "ECM-Receptor": 435
+    }
+  },
+  "data/lr_benchmark/cellphonedb_v5/interaction_input.csv": {
+    "url": "https://raw.githubusercontent.com/ventolab/cellphonedb-data/71ffa8a163389913907d40993bec2821a111f64d/data/interaction_input.csv",
+    "sha256": "3cf0ceace45dcb42478f0e6a7be9a50104794eac68d731f7c82d4c13325175ab",
+    "bytes": 505620,
+    "retrieved_utc": "2026-11-16T10:08:34+00:00",
+    "sha256_source": "calculated locally at first download, not author-published"
+  },
+  "data/lr_benchmark/cellphonedb_v5/complex_input.csv": {
+    "url": "https://raw.githubusercontent.com/ventolab/cellphonedb-data/71ffa8a163389913907d40993bec2821a111f64d/data/complex_input.csv",
+    "sha256": "c761b75f5438d5b23f9fefa5ddaac84acb127fe5dd72fe931d5c07d8a557b362",
+    "bytes": 56886,
+    "retrieved_utc": "2026-11-16T10:08:34+00:00",
+    "sha256_source": "calculated locally at first download, not author-published"
+  },
+  "data/lr_benchmark/cellphonedb_v5/gene_input.csv": {
+    "url": "https://raw.githubusercontent.com/ventolab/cellphonedb-data/71ffa8a163389913907d40993bec2821a111f64d/data/gene_input.csv",
+    "sha256": "538fff62a77d9077e0307337552bed087817632da015c620f17666d088066623",
+    "bytes": 65195,
+    "retrieved_utc": "2026-11-16T10:08:34+00:00",
+    "sha256_source": "calculated locally at first download, not author-published"
+  },
+  "data/lr_benchmark/cellphonedb_v5/protein_input.csv": {
+    "url": "https://raw.githubusercontent.com/ventolab/cellphonedb-data/71ffa8a163389913907d40993bec2821a111f64d/data/protein_input.csv",
+    "sha256": "322f277963ca2fc879c97660eb1409478603a3d2d7442c6606bce79a45f14ae2",
+    "bytes": 158940,
+    "retrieved_utc": "2026-11-16T10:08:35+00:00",
+    "sha256_source": "calculated locally at first download, not author-published"
+  },
+  "cellphonedb_v5": {
+    "tag": "v5.0.0",
+    "commit": "71ffa8a163389913907d40993bec2821a111f64d",
+    "license": "no license file in the data repository; used only to exclude pairs"
+  },
+  "data/lr_benchmark/plm_training/cross_species_benchmarking/train/human.ppi.qrels.seq.train.csv": {
+    "url": "https://huggingface.co/datasets/danliu1226/cross_species_benchmarking/resolve/19dbed25184466fda5341b5ba70c2560ade1bf85/train/human.ppi.qrels.seq.train.csv",
+    "sha256": "86c5134846df36df17455500154eab6049cd07250c79d6d263afcb5dcb6bf5fd",
+    "bytes": 318980144,
+    "retrieved_utc": "2026-11-16T10:09:11+00:00",
+    "sha256_source": "calculated locally at first download, not author-published"
+  },
+  "data/lr_benchmark/plm_training/cross_species_benchmarking/val/human.ppi.qrels.seq.test.csv": {
+    "url": "https://huggingface.co/datasets/danliu1226/cross_species_benchmarking/resolve/19dbed25184466fda5341b5ba70c2560ade1bf85/val/human.ppi.qrels.seq.test.csv",
+    "sha256": "abb126f34f617fdc4c956e1f056df5cb0921ab3c12d6f0d87948411d34a7b9f3",
+    "bytes": 39851844,
+    "retrieved_utc": "2026-11-16T10:09:15+00:00",
+    "sha256_source": "calculated locally at first download, not author-published"
+  },
+  "training_humanV11": {
+    "dataset": "danliu1226/cross_species_benchmarking",
+    "revision": "19dbed25184466fda5341b5ba70c2560ade1bf85",
+    "files": [
+      "train/human.ppi.qrels.seq.train.csv",
+      "val/human.ppi.qrels.seq.test.csv"
+    ]
+  },
+  "data/lr_benchmark/plm_training/STRING_V12_TrainingSet/protein.pairs_human_V12_train.tsv": {
+    "url": "https://huggingface.co/datasets/danliu1226/STRING_V12_TrainingSet/resolve/819f938b1c21b8ec4990bb58c1506cff2537e3c2/protein.pairs_human_V12_train.tsv",
+    "sha256": "fc3c0b5df94ee0cd0ae1934fdefb49f2df72c21e83ea2244aca2ad6af8376f43",
+    "bytes": 671131534,
+    "retrieved_utc": "2026-11-16T10:09:32+00:00",
+    "sha256_source": "calculated locally at first download, not author-published"
+  },
+  "training_humanV12": {
+    "dataset": "danliu1226/STRING_V12_TrainingSet",
+    "revision": "819f938b1c21b8ec4990bb58c1506cff2537e3c2",
+    "files": [
+      "protein.pairs_human_V12_train.tsv"
+    ]
+  },
+  "data/lr_benchmark/plm_training/Bernett_benchmarking/pairs_uniprot_seqs_train.csv": {
+    "url": "https://huggingface.co/datasets/danliu1226/Bernett_benchmarking/resolve/5d2ad03baa165c27df32a2eadf066462a2a83073/pairs_uniprot_seqs_train.csv",
+    "sha256": "623cf62e32ddf8242344adb7d5412b318030d5a2e7732298918d860d52c3e35a",
+    "bytes": 270001117,
+    "retrieved_utc": "2026-11-16T10:09:50+00:00",
+    "sha256_source": "calculated locally at first download, not author-published"
+  },
+  "data/lr_benchmark/plm_training/Bernett_benchmarking/pairs_uniprot_seqs_val.csv": {
+    "url": "https://huggingface.co/datasets/danliu1226/Bernett_benchmarking/resolve/5d2ad03baa165c27df32a2eadf066462a2a83073/pairs_uniprot_seqs_val.csv",
+    "sha256": "0df36cbb69047e21ba01051641eede26a6e054e9c3e827c3bbe62e391854d9f2",
+    "bytes": 72666471,
+    "retrieved_utc": "2026-11-16T10:09:57+00:00",
+    "sha256_source": "calculated locally at first download, not author-published"
+  },
+  "training_LeakageFree": {
+    "dataset": "danliu1226/Bernett_benchmarking",
+    "revision": "5d2ad03baa165c27df32a2eadf066462a2a83073",
+    "files": [
+      "pairs_uniprot_seqs_train.csv",
+      "pairs_uniprot_seqs_val.csv"
+    ]
+  }
+}

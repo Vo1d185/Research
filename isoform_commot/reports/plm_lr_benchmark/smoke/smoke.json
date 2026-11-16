@@ -1,0 +1,37 @@
+{
+  "inputs": {
+    "jobs": "diagnostics/runs/positive_controls_01/plm_input.csv",
+    "own_scores": "diagnostics/runs/positive_controls_01/scores_*.csv (plm_score.py, 2026-11-14)"
+  },
+  "reproducibility_ours_humanV11_vs_2026_11_14": {
+    "jobs": 450,
+    "max_abs_diff": 0.0,
+    "tokens_equal": true
+  },
+  "timing_utc": {
+    "official_humanV11": [
+      "2026-11-16T10:17:26+00:00",
+      "2026-11-16T10:19:02+00:00"
+    ],
+    "official_humanV12": [
+      "2026-11-16T10:20:43+00:00",
+      "2026-11-16T10:22:20+00:00"
+    ],
+    "official_LeakageFree": [
+      "2026-11-16T10:22:28+00:00",
+      "2026-11-16T10:24:07+00:00"
+    ],
+    "ours_humanV11": [
+      "2026-11-16T10:24:28+00:00",
+      "2026-11-16T10:25:20+00:00"
+    ]
+  },
+  "jobs": 450,
+  "tokens_sum": 453360,
+  "tokens_median": 808.0,
+  "tokens_max": 2592,
+  "truncated_by_official": 40,
+  "truncation_check": {
+    "all_truncated_use_1603_tokens": true
+  }
+}

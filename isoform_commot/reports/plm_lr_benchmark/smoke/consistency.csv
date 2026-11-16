@@ -1,0 +1,4 @@
+jobset,model,jobs,truncated_by_official,compared,max_abs_diff_order,mean_abs_diff_order,max_abs_diff_pair_mean,worst_pair_id,within_tolerance
+positive_controls_01 (smoke),humanV11,450,40,410,1.0344166107179031e-05,3.1651815785713886e-07,7.08679679872759e-06,IL6__GHR__RL,True
+positive_controls_01 (smoke),humanV12,450,40,410,2.5140902709996915e-05,6.698627649348865e-07,1.2570419311463965e-05,IL2__INSR__LR,True
+positive_controls_01 (smoke),LeakageFree,450,40,410,2.895287399273805e-06,3.246993966463446e-07,1.7233910369895966e-06,EPO__PRLR__LR,True

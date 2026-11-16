@@ -1,0 +1,379 @@
+{
+  "status": "complete",
+  "created_utc": "2026-11-16T11:22:01+00:00",
+  "git_head": "41bd254a646fb631cc801d031c62cfa027c1449a",
+  "tracked_changes": false,
+  "plan": "reports/plm_lr_benchmark_plan.md",
+  "human_map": "data/lr_benchmark/proteins_human",
+  "mouse_map": "data/lr_benchmark/proteins_mouse",
+  "human_map_fasta_sha256": "462744d80640f928a47ca4247d67a5a72ef3579ee7a75f452527a0c1790c5d5e",
+  "mouse_map_fasta_sha256": "8cb78909973308003bdae3e9f713b58bdf2d2acfd0b1cf7b46c204eb69997afa",
+  "exclusion": {
+    "symbol_pairs": 4565,
+    "accession_pairs": 1943,
+    "sources": {
+      "cellchat_human": {
+        "rows": 3233,
+        "missing_cofactor_names": []
+      },
+      "cellchat_mouse": {
+        "rows": 3379,
+        "missing_cofactor_names": []
+      },
+      "cellphonedb_v5": {
+        "interactions": 2911,
+        "is_ppi_true": 1878,
+        "used_protein_interactions": 1878,
+        "skipped_non_protein_partners": 0,
+        "n_skipped_partner_names": 0,
+        "columns": [
+          "id_cp_interaction",
+          "partner_a",
+          "partner_b",
+          "protein_name_a",
+          "protein_name_b",
+          "annotation_strategy",
+          "source",
+          "is_ppi",
+          "curator",
+          "reactome_complex",
+          "reactome_reaction",
+          "reactome_pathway"
+        ]
+      }
+    }
+  },
+  "single_gene_symbol_column_mismatches": {
+    "human": [
+      "CXCL8_CXCR1",
+      "CD99_PILRB"
+    ],
+    "mouse": [
+      "RARRES2_GPR1",
+      "H2-D_KLRA",
+      "H2-K1_KLRA"
+    ]
+  },
+  "sets": {
+    "H-A": {
+      "set": "H-A",
+      "positives": 1121,
+      "ligand_pool": 455,
+      "receptor_pool": 386,
+      "pool_pairs_excluding_self": 175604,
+      "candidates_after_exclusion": 174077,
+      "removed_by_source": {
+        "cellchat_human": 1140,
+        "cellphonedb_v5": 711,
+        "cellchat_mouse": 991,
+        "cellchat_cofactor_human": 6,
+        "cellchat_cofactor_mouse": 5
+      },
+      "random": {
+        "seed": 1,
+        "ratio": 10,
+        "requested": 11210,
+        "drawn": 11210
+      },
+      "degree": {
+        "s1": {
+          "seed": 1,
+          "edges": 1121,
+          "successful_swaps": 11210,
+          "attempts": 12436,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        },
+        "s2": {
+          "seed": 2,
+          "edges": 1121,
+          "successful_swaps": 11210,
+          "attempts": 12359,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        },
+        "s3": {
+          "seed": 3,
+          "edges": 1121,
+          "successful_swaps": 11210,
+          "attempts": 12398,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        }
+      }
+    },
+    "H-M": {
+      "set": "H-M",
+      "positives": 599,
+      "ligand_pool": 270,
+      "receptor_pool": 271,
+      "pool_pairs_excluding_self": 73153,
+      "candidates_after_exclusion": 72367,
+      "removed_by_source": {
+        "cellchat_human": 605,
+        "cellphonedb_v5": 418,
+        "cellchat_mouse": 480,
+        "cellchat_cofactor_human": 5,
+        "cellchat_cofactor_mouse": 5
+      },
+      "random": {
+        "seed": 1,
+        "ratio": 10,
+        "requested": 5990,
+        "drawn": 5990
+      },
+      "degree": {
+        "s1": {
+          "seed": 1,
+          "edges": 599,
+          "successful_swaps": 5990,
+          "attempts": 6620,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        },
+        "s2": {
+          "seed": 2,
+          "edges": 599,
+          "successful_swaps": 5990,
+          "attempts": 6656,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        },
+        "s3": {
+          "seed": 3,
+          "edges": 599,
+          "successful_swaps": 5990,
+          "attempts": 6623,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        }
+      }
+    },
+    "H-X": {
+      "set": "H-X",
+      "positives": 2098,
+      "ligand_pool": 608,
+      "receptor_pool": 545,
+      "pool_pairs_excluding_self": 331324,
+      "candidates_after_exclusion": 326392,
+      "removed_by_source": {
+        "cellchat_human": 4072,
+        "cellphonedb_v5": 2834,
+        "cellchat_mouse": 3870,
+        "cellchat_cofactor_human": 33,
+        "cellchat_cofactor_mouse": 32
+      },
+      "random": {
+        "seed": 1,
+        "ratio": 10,
+        "requested": 20980,
+        "drawn": 20980
+      },
+      "degree": {
+        "s1": {
+          "seed": 1,
+          "edges": 2098,
+          "successful_swaps": 20980,
+          "attempts": 26569,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        },
+        "s2": {
+          "seed": 2,
+          "edges": 2098,
+          "successful_swaps": 20980,
+          "attempts": 26607,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        },
+        "s3": {
+          "seed": 3,
+          "edges": 2098,
+          "successful_swaps": 20980,
+          "attempts": 26566,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        }
+      }
+    },
+    "M-A": {
+      "set": "M-A",
+      "positives": 1053,
+      "ligand_pool": 405,
+      "receptor_pool": 371,
+      "pool_pairs_excluding_self": 150228,
+      "candidates_after_exclusion": 148763,
+      "removed_by_source": {
+        "cellchat_human": 951,
+        "cellphonedb_v5": 604,
+        "cellchat_mouse": 1068,
+        "cellchat_cofactor_human": 3,
+        "cellchat_cofactor_mouse": 6
+      },
+      "random": {
+        "seed": 1,
+        "ratio": 10,
+        "requested": 10530,
+        "drawn": 10530
+      },
+      "degree": {
+        "s1": {
+          "seed": 1,
+          "edges": 1053,
+          "successful_swaps": 10530,
+          "attempts": 11648,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        },
+        "s2": {
+          "seed": 2,
+          "edges": 1053,
+          "successful_swaps": 10530,
+          "attempts": 11598,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        },
+        "s3": {
+          "seed": 3,
+          "edges": 1053,
+          "successful_swaps": 10530,
+          "attempts": 11601,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        }
+      }
+    },
+    "M-M": {
+      "set": "M-M",
+      "positives": 554,
+      "ligand_pool": 231,
+      "receptor_pool": 262,
+      "pool_pairs_excluding_self": 60507,
+      "candidates_after_exclusion": 59818,
+      "removed_by_source": {
+        "cellchat_human": 459,
+        "cellphonedb_v5": 328,
+        "cellchat_mouse": 559,
+        "cellchat_cofactor_human": 3,
+        "cellchat_cofactor_mouse": 4
+      },
+      "random": {
+        "seed": 1,
+        "ratio": 10,
+        "requested": 5540,
+        "drawn": 5540
+      },
+      "degree": {
+        "s1": {
+          "seed": 1,
+          "edges": 554,
+          "successful_swaps": 5540,
+          "attempts": 6148,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        },
+        "s2": {
+          "seed": 2,
+          "edges": 554,
+          "successful_swaps": 5540,
+          "attempts": 6098,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        },
+        "s3": {
+          "seed": 3,
+          "edges": 554,
+          "successful_swaps": 5540,
+          "attempts": 6094,
+          "swaps_per_edge": 10.0,
+          "dropped_still_excluded": 0,
+          "degree_deviation": {},
+          "unchanged_from_start": 0
+        }
+      }
+    }
+  },
+  "rules": {
+    "random_ratio": 10,
+    "random_seed": 1,
+    "degree_seeds": [
+      1,
+      2,
+      3
+    ],
+    "min_swaps_per_edge": 10,
+    "max_attempts_per_edge": 1000,
+    "max_aa": 800
+  },
+  "files": {
+    "H-A/negatives_degree_s1.csv": "d2cc55d028ec6af7d4526f931f13f83af55795c27a9d881ec294f5c52720d705",
+    "H-A/negatives_degree_s2.csv": "23bd90626d8666e79f01fd336003b32c20cd5e91cab421274d77d3618538d34d",
+    "H-A/negatives_degree_s3.csv": "7a36b19f3b430a06d850f1ff5b9587c7ab7c4161032ba26155d3427cac19f27d",
+    "H-A/negatives_random_s1.csv": "7c88886c1c0e437213e68bf21996bb8c2e31b18b11c01352b5269a9f734a36e1",
+    "H-A/pool_annotated.csv": "10401e8214cad12510f27d941c0e288293eca9d53928a4ca3df068e4fb87e254",
+    "H-A/positives.csv": "f3ec5db559e325d6f25b14c4ce66606895fba08c70028320a6313c2db2a111b8",
+    "H-M/negatives_degree_s1.csv": "d1a017c5a7ef1443438ba257bef777165ef4e75c0bf2e3eef91fdc85367856bd",
+    "H-M/negatives_degree_s2.csv": "ddada4c5bc3dffaa87e5df9b1f56a63470dc1809ccf555cda807af0399097cc1",
+    "H-M/negatives_degree_s3.csv": "f9a64727255d9fb28bb6ada84ceb805fdd5d255acf4e68c16f16b19c3deb736f",
+    "H-M/negatives_random_s1.csv": "0db9e3608913948ef05f4d5960141053506aa3eb3f96eca6f1cf6119ad13598f",
+    "H-M/pool_annotated.csv": "0da5cc0748b023d0b6b62244e9dc1763342b0cad483492b1919ed67ce987df8e",
+    "H-M/positives.csv": "87dcce7550337f16632f8524f4d78f1158f080075c021c0e518d8126e33f06f2",
+    "H-X/negatives_degree_s1.csv": "d0f7381734ad21c887787ac48bcdf6c1188c14e8955ca5f2d51c6d11aadcecae",
+    "H-X/negatives_degree_s2.csv": "b48b5188253dd8c80b72142494617af3cfbdb2e506f9adf1953796aa5aef5f27",
+    "H-X/negatives_degree_s3.csv": "4b52701e18ff92301d0150c138ebf62f8424a9a0291f8cf7c9dbe273e64c6655",
+    "H-X/negatives_random_s1.csv": "cc8b95ab36b7cfbed050f59a51973d89f93f8f6bb6d3ab197e46ce6e797afefc",
+    "H-X/pool_annotated.csv": "619b52223d46a6226bc07d6c0100a32863a102edfda4f69f051e6252bde1f862",
+    "H-X/positives.csv": "88d117b7d62240924372b2a025c21ab3cee15318c97fc49e28c9862066369210",
+    "M-A/negatives_degree_s1.csv": "da8746a154e4441339b37d041dbc1425a85dab918d0b09af4fc66617aa4094b1",
+    "M-A/negatives_degree_s2.csv": "a5ee3fd7d10d9cc96ed3497bf3e008be5ab5b57121cc99af86cf0bdb50488357",
+    "M-A/negatives_degree_s3.csv": "90897eec7d64eafca205ac146cc166eb4779cd90a54e512ae160ca17108e5841",
+    "M-A/negatives_random_s1.csv": "2f67e634932ed6f96ce02a67452a4a57cf46528664f0dc03ce4cce3d53379899",
+    "M-A/pool_annotated.csv": "961ffcdb8df4050437e1c57059130da9f7f23fc8426165d8ab0eb59379a4616b",
+    "M-A/positives.csv": "dd4180ab0c4b04b02d1e48f378ea70b29961cbc833b09610f37f4cd5d757dc0e",
+    "M-M/negatives_degree_s1.csv": "4bd7bd26e6a504f70bcc2d95f4b0502e2c53113552228f7ea040fbf44df93002",
+    "M-M/negatives_degree_s2.csv": "78c04518236db21e0dd5c0ab34bc8db1b5d029b4feb734828283b8d8658b3ac0",
+    "M-M/negatives_degree_s3.csv": "54074d96d991f712cb34974fd975f7e4b8031a35cd4357d3afd8aa5bbf4752fe",
+    "M-M/negatives_random_s1.csv": "8ae7ecc9d73c0caf8f502601ad60d8a4c13c8992434c7f3bf2bbd7da0ceba744",
+    "M-M/pool_annotated.csv": "a84ce464175d3677364e02b4e3232855ee4cfc4eeb2321907db975dc251e108f",
+    "M-M/positives.csv": "894dfe606e85828920de11d07d93c2574a7f96a97c3575c529f6002f0c2f7752",
+    "counts.csv": "b652bf24d7cd8f9a355c9adc80a2e15c835937a668a1527da139591ce1377cfd",
+    "genes_human.csv": "7a607afcaea1a81662a33770f9b957c30ba4cba51aa111f3255367399ec4cf0c",
+    "genes_mouse.csv": "26e481ba83edd75ee0aea84917bf1a4d5d5761e99cc296ae6e2930784a7321ea",
+    "homophilic_human.csv": "dce27e67a02f9acb10cc645490153e0da76a64f064326264c4aa912814ca2037",
+    "homophilic_mouse.csv": "e82a3fd2dccfc8868b55765296fcc2914d3822221823e0b9fcb436e35546244f",
+    "positives_all_human.csv": "7b71ea1bde6d52e4c4025b2fcf1d6eacdcdc2826039d69ab640e927109799a50",
+    "positives_all_mouse.csv": "0709e711c7c7661767023333832ba54e512a55f574b6d0693df82838d3f2f2c2",
+    "sources/protein_map_human.csv": "8e714515d2e3a607b4f084bd526f965b50c4af8bc2407b76af2fbdaf26d2f104",
+    "sources/protein_map_mouse.csv": "45027fb23b18fd4196cfc8907a819380ad8abeef1a04a8edc8ac1e8c8c6c796e",
+    "sources/unresolved_human.csv": "650955a4cb97e894f37fb686dddb1c10ccf1bcdbb45dc425ca0eb0f81db7f4a5",
+    "sources/unresolved_mouse.csv": "1680e5211ee58f4d1f1f423966d16f636a8c62c8bd0b1e734af543c4c13851e3"
+  }
+}
