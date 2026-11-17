@@ -1,0 +1,32 @@
+{
+  "status": "complete",
+  "created_utc": "2026-11-17T08:06:52+00:00",
+  "main": {
+    "set": "H-M",
+    "model": "humanV11",
+    "scorer": "plm_score.py",
+    "region": "full"
+  },
+  "criteria": {
+    "random_auroc": 0.85,
+    "degree_auroc": 0.75,
+    "top5": 0.5
+  },
+  "values": {
+    "random_auroc": 0.8487696195615053,
+    "degree_auroc": 0.8251613050110421,
+    "top5": 0.46296296296296297
+  },
+  "met": {
+    "random_auroc": false,
+    "degree_auroc": true,
+    "top5": false
+  },
+  "degree_each_seed": {
+    "degree_s1": 0.8298613482685608,
+    "degree_s2": 0.8238590260228127,
+    "degree_s3": 0.8217635407417526
+  },
+  "training_overlap_unavailable": {},
+  "usable": false
+}

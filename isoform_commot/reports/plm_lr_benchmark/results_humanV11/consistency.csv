@@ -1,0 +1,3 @@
+jobset,model,jobs,truncated_by_official,compared,max_abs_diff_order,mean_abs_diff_order,max_abs_diff_pair_mean,worst_pair_id,within_tolerance
+human_pn,humanV11,110114,23220,86894,5.2218530731173995e-05,1.2540187635853565e-07,2.6097568296690188e-05,Q8N126__P06340,True
+mouse_pn,humanV11,43003,6991,36012,2.9653720168998365e-05,9.241778608171225e-08,1.4850845973135574e-05,Q61735__Q9JKF6,True
