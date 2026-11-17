@@ -1,0 +1,45 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-17T08:15:50+00:00",
+    "git_head": "e6dedcbe35302c71827cfad12f311a3429b66c39",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [
+      "isoform_commot/isoform_count.py",
+      "isoform_commot/reports/isoform_counts/"
+    ],
+    "recorded": "at launch"
+  },
+  "fetch": {
+    "fetched_utc": "2026-11-17T03:41:48.182703+00:00",
+    "uniprot_release": [
+      "2026_04"
+    ],
+    "fields": "accession,id,gene_primary,length,cc_alternative_products",
+    "accessions": 1141
+  },
+  "protein_map": "reports/plm_lr_benchmark/dataset/sources/protein_map_human.csv",
+  "dataset": "reports/plm_lr_benchmark/dataset/H-A",
+  "proteins_in_pairs": 818,
+  "proteins_multi_with_sequence": 420,
+  "isoforms_with_sequence_histogram": {
+    "1": 398,
+    "2": 202,
+    "3": 91,
+    "4": 46,
+    "5": 28,
+    "6": 19,
+    "7": 13,
+    "8": 6,
+    "9": 2,
+    "11": 4,
+    "12": 2,
+    "16": 1,
+    "17": 3,
+    "18": 1,
+    "19": 1,
+    "21": 1
+  },
+  "note": "UniProt isoform counts for the genes of the PLM LR benchmark (H-A: human, single-gene, all lengths).\n\nPer gene: its reviewed UniProt entry (the benchmark mapping, dataset/sources/protein_map_human.csv) and the isoforms\nlisted in that entry's ALTERNATIVE PRODUCTS comment. A gene without that comment counts as 1 isoform.\n  n_with_sequence  isoforms with a sequence in UniProt (status Displayed or Described): what PLM could score\n  n_listed         every listed isoform (also 'Not described' and 'External')\n  n_splicing       n_with_sequence if the comment's events include 'Alternative splicing', else 1\nA pair has S' != 1 possible when ligand or receptor has >= 2 isoforms (the formula normalises over the isoform\ncombinations of one LR gene pair).\n\n  fetch   download the comments (UniProt REST, generic client name) to data/lr_benchmark/isoforms/\n  count   gene table + pair table + summary to reports/isoform_counts/\n"
+}
