@@ -1,0 +1,39 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-17T03:40:21+00:00",
+    "git_head": "1d5395d2e5898f9c3ad42562e0c2ebb83aedc993",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [
+      "isoform_commot/commot_eval_values.py"
+    ],
+    "recorded": "at launch"
+  },
+  "posterior": "target_eval_stage2_post",
+  "anterior": "target_eval_stage2_ant",
+  "replicates": 1000,
+  "seed": 1,
+  "conditions": [
+    "C",
+    "C726",
+    "B",
+    "A(r0=50)",
+    "A(r0=100)",
+    "A(r0=200)",
+    "A(r0=400)",
+    "F",
+    "I"
+  ],
+  "common_set_conditions": [
+    "C",
+    "B",
+    "A(r0=50)",
+    "A(r0=100)",
+    "A(r0=200)",
+    "A(r0=400)",
+    "F",
+    "I"
+  ],
+  "note": "COMMOT-style target-gene evaluation values from existing results only (no new OT runs, no new evaluation).\n\nReads the completed stage-2 target evaluations (target_eval_stage2_{post,ant}/case_metrics.csv, written by\nevaluate_targets.py) and summarises, per slide and condition, the per-receptor (and per-LR-pair) values of\n  * raw Spearman (received signal vs mean target expression; receptor expression not removed),\n  * partial Spearman (same, controlling receptor expression),\n  * receptor-only Spearman (receptor expression vs mean target expression).\nConditions: C (COMMOT as published, tutorial cutoff), C726 (COMMOT, paper cutoff; supplementary), B, A at\nr0 = 50/100/200/400 um, F (flat kernel), I (inverse kernel). Rules: main target rule (top-10 TFs) and the\nCOMMOT target rule (plan 8.8) where evaluated.\n\nStatistics: median and mean over units; 95% percentile bootstrap intervals for both, resampling units with\nreplacement (1000 resamples, numpy.random.default_rng(1)), as in r0_validation.py.\nUnits: receptor level = receptors defined (non-NaN) in every listed condition of that slide and rule\n(\"common set\"); LR-pair level is reported with NaN kept out and, as in COMMOT's notebook, with NaN set to 0.\n"
+}
