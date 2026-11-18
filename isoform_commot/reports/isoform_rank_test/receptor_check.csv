@@ -1,0 +1,3 @@
+gene,IIIb_id,IIIb_length,IIIc_id,IIIc_length,identical,length_difference,common_prefix,common_suffix,differing_region_IIIb,differing_region_IIIc
+FGFR2,P21802-3,822,P21802-1,821,False,1,313,460,314-362,314-361
+FGFR3,P22607-2,808,P22607-1,806,False,2,310,448,311-360,311-358

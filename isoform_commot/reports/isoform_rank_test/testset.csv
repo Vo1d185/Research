@@ -1,0 +1,27 @@
+group_id,ligand_gene,ligand_acc,receptor_gene,receptor_acc,receptor_isoform,isoform_uniprot_id_to_confirm,expected,confidence,rule,citation
+FGF7__FGFR2,FGF7,P21781,FGFR2,P21802,IIIb,P21802-3,bind,high,FGF7-subfamily -> IIIb,Zhang 2006 JBC; Plotnikov 2000 Cell
+FGF7__FGFR2,FGF7,P21781,FGFR2,P21802,IIIc,P21802-1,nobind,high,FGF7-subfamily -> IIIb,Zhang 2006 JBC; Plotnikov 2000 Cell
+FGF10__FGFR2,FGF10,O15520,FGFR2,P21802,IIIb,P21802-3,bind,high,FGF7-subfamily -> IIIb,Zhang 2006 JBC; Plotnikov 2000 Cell
+FGF10__FGFR2,FGF10,O15520,FGFR2,P21802,IIIc,P21802-1,nobind,high,FGF7-subfamily -> IIIb,Zhang 2006 JBC; Plotnikov 2000 Cell
+FGF3__FGFR2,FGF3,P11487,FGFR2,P21802,IIIb,P21802-3,bind,medium,FGF7-subfamily -> IIIb,Zhang 2006 JBC
+FGF3__FGFR2,FGF3,P11487,FGFR2,P21802,IIIc,P21802-1,nobind,medium,FGF7-subfamily -> IIIb,Zhang 2006 JBC
+FGF22__FGFR2,FGF22,Q9HCT0,FGFR2,P21802,IIIb,P21802-3,bind,medium,FGF7-subfamily -> IIIb,Zhang 2006 JBC
+FGF22__FGFR2,FGF22,Q9HCT0,FGFR2,P21802,IIIc,P21802-1,nobind,medium,FGF7-subfamily -> IIIb,Zhang 2006 JBC
+FGF8__FGFR2,FGF8,P55075,FGFR2,P21802,IIIc,P21802-1,bind,high,FGF8-subfamily -> IIIc,Zhang 2006 JBC
+FGF8__FGFR2,FGF8,P55075,FGFR2,P21802,IIIb,P21802-3,nobind,high,FGF8-subfamily -> IIIc,Zhang 2006 JBC
+FGF17__FGFR2,FGF17,O60258,FGFR2,P21802,IIIc,P21802-1,bind,medium,FGF8-subfamily -> IIIc,Zhang 2006 JBC
+FGF17__FGFR2,FGF17,O60258,FGFR2,P21802,IIIb,P21802-3,nobind,medium,FGF8-subfamily -> IIIc,Zhang 2006 JBC
+FGF18__FGFR2,FGF18,O76093,FGFR2,P21802,IIIc,P21802-1,bind,medium,FGF8-subfamily -> IIIc,Zhang 2006 JBC
+FGF18__FGFR2,FGF18,O76093,FGFR2,P21802,IIIb,P21802-3,nobind,medium,FGF8-subfamily -> IIIc,Zhang 2006 JBC
+FGF9__FGFR2,FGF9,P31371,FGFR2,P21802,IIIc,P21802-1,bind,medium,FGF9-subfamily -> IIIc,Zhang 2006 JBC
+FGF9__FGFR2,FGF9,P31371,FGFR2,P21802,IIIb,P21802-3,nobind,medium,FGF9-subfamily -> IIIc,Zhang 2006 JBC
+FGF2__FGFR2,FGF2,P09038,FGFR2,P21802,IIIc,P21802-1,bind,high,FGF2 -> IIIc strong,Zhang 2006 JBC; Plotnikov 2000 Cell
+FGF2__FGFR2,FGF2,P09038,FGFR2,P21802,IIIb,P21802-3,weak,high,FGF2 -> IIIb weak,Zhang 2006 JBC
+FGF1__FGFR2,FGF1,P05230,FGFR2,P21802,IIIb,P21802-3,control_both,high,FGF1 universal (control),Zhang 2006 JBC
+FGF1__FGFR2,FGF1,P05230,FGFR2,P21802,IIIc,P21802-1,control_both,high,FGF1 universal (control),Zhang 2006 JBC
+FGF8__FGFR3,FGF8,P55075,FGFR3,P22607,IIIc,P22607-1,bind,high,FGF8-subfamily -> IIIc,Zhang 2006 JBC
+FGF8__FGFR3,FGF8,P55075,FGFR3,P22607,IIIb,P22607-2,nobind,high,FGF8-subfamily -> IIIc,Zhang 2006 JBC
+FGF9__FGFR3,FGF9,P31371,FGFR3,P22607,IIIc,P22607-1,bind,medium,FGF9-subfamily -> IIIc,Zhang 2006 JBC
+FGF9__FGFR3,FGF9,P31371,FGFR3,P22607,IIIb,P22607-2,nobind,medium,FGF9-subfamily -> IIIc,Zhang 2006 JBC
+FGF1__FGFR3,FGF1,P05230,FGFR3,P22607,IIIb,P22607-2,control_both,high,FGF1 universal (control),Zhang 2006 JBC
+FGF1__FGFR3,FGF1,P05230,FGFR3,P22607,IIIc,P22607-1,control_both,high,FGF1 universal (control),Zhang 2006 JBC

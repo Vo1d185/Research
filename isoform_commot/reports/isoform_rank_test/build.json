@@ -1,0 +1,147 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-18T05:41:14+00:00",
+    "git_head": "2d1ad9b404a49a7fee99f67a74ba56188e75a251",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [
+      "isoform_commot/isoform_count.py",
+      "isoform_commot/isoform_rank_test.py",
+      "isoform_commot/reports/isoform_rank_test/"
+    ],
+    "recorded": "at launch"
+  },
+  "testset": "reports/isoform_rank_test/testset.csv",
+  "testset_sha256": "c35e1167f5b7c3fe7e21fb12fd48cc3092211ed0f915df421a69373afa072aa1",
+  "uniprot": {
+    "fetched_utc": "2026-11-18T05:41:13+00:00",
+    "uniprot_release": "2026_04",
+    "testset": "reports/isoform_rank_test/testset.csv",
+    "user_agent": "isoform-commot-research/1.0",
+    "files": [
+      {
+        "id": "O15520",
+        "url": "https://rest.uniprot.org/uniprotkb/O15520.json",
+        "file": "O15520.json",
+        "sha256": "4d6d6afcd7eebdeebfe2b7e727852f7bd770b03f45a9c476fbddc569ad0fcb89",
+        "release": "2026_04"
+      },
+      {
+        "id": "O60258",
+        "url": "https://rest.uniprot.org/uniprotkb/O60258.json",
+        "file": "O60258.json",
+        "sha256": "7e4b0c86a5d911dd600c15c89bdc27d8c0af7173065eac0f84a2ad13412a2abc",
+        "release": "2026_04"
+      },
+      {
+        "id": "O76093",
+        "url": "https://rest.uniprot.org/uniprotkb/O76093.json",
+        "file": "O76093.json",
+        "sha256": "dbd78da05e82f84fa8f25c411a5b06b6ab4391a8633674e5f63c37b03c6536fb",
+        "release": "2026_04"
+      },
+      {
+        "id": "P05230",
+        "url": "https://rest.uniprot.org/uniprotkb/P05230.json",
+        "file": "P05230.json",
+        "sha256": "cf81aa208397552d5ce83a2a4377c9dbba27d014ac8e292584783d43ed26fb40",
+        "release": "2026_04"
+      },
+      {
+        "id": "P09038",
+        "url": "https://rest.uniprot.org/uniprotkb/P09038.json",
+        "file": "P09038.json",
+        "sha256": "c5fae6e68e10beabc4c3944420b72ca91dc4d6a2281ba2cee4cedc3d0c4b009a",
+        "release": "2026_04"
+      },
+      {
+        "id": "P11487",
+        "url": "https://rest.uniprot.org/uniprotkb/P11487.json",
+        "file": "P11487.json",
+        "sha256": "b32010b7a9e6ec0d7000170e2ede67e409098b212581010e9df8274ade5a176a",
+        "release": "2026_04"
+      },
+      {
+        "id": "P21781",
+        "url": "https://rest.uniprot.org/uniprotkb/P21781.json",
+        "file": "P21781.json",
+        "sha256": "6bc3b77ef6d7d827e25e88de2028efabf576938d3c4681cba18a2d7d332902a3",
+        "release": "2026_04"
+      },
+      {
+        "id": "P21802",
+        "url": "https://rest.uniprot.org/uniprotkb/P21802.json",
+        "file": "P21802.json",
+        "sha256": "d3e5429916325f208b6ab4b6d99bc05c0eab54a9a442eda774be4db1f8224ad2",
+        "release": "2026_04"
+      },
+      {
+        "id": "P22607",
+        "url": "https://rest.uniprot.org/uniprotkb/P22607.json",
+        "file": "P22607.json",
+        "sha256": "dcd833e3d6fbe295565086c3d2f3247717727ae102f4db565c62bb247b0a6074",
+        "release": "2026_04"
+      },
+      {
+        "id": "P31371",
+        "url": "https://rest.uniprot.org/uniprotkb/P31371.json",
+        "file": "P31371.json",
+        "sha256": "73020349d2db8a89b410d6a3f1f0f5a3e574d2ad26149a3904f6c6684225d3ed",
+        "release": "2026_04"
+      },
+      {
+        "id": "P55075",
+        "url": "https://rest.uniprot.org/uniprotkb/P55075.json",
+        "file": "P55075.json",
+        "sha256": "71b81ed62753343de96707bc038b92f41cc882d57657b7992cd478ca57d1a516",
+        "release": "2026_04"
+      },
+      {
+        "id": "Q9HCT0",
+        "url": "https://rest.uniprot.org/uniprotkb/Q9HCT0.json",
+        "file": "Q9HCT0.json",
+        "sha256": "62190e747c851276bf3bc22393a59fad0abf2b062c951d8e9cf6fb5b1a4a727d",
+        "release": "2026_04"
+      },
+      {
+        "id": "P21802-1",
+        "url": "https://rest.uniprot.org/uniprotkb/P21802-1.fasta",
+        "file": "P21802-1.fasta",
+        "sha256": "f996ebef3d659f5c385ba8c6f50fa3b918e79dcbb4aefed1ea05a9c5709e3d0e",
+        "release": "2026_04"
+      },
+      {
+        "id": "P21802-3",
+        "url": "https://rest.uniprot.org/uniprotkb/P21802-3.fasta",
+        "file": "P21802-3.fasta",
+        "sha256": "9c94474d3c7cce0827c33b68a9209f30b52fd2ceb93fe4eaebaa117688a595d3",
+        "release": "2026_04"
+      },
+      {
+        "id": "P22607-1",
+        "url": "https://rest.uniprot.org/uniprotkb/P22607-1.fasta",
+        "file": "P22607-1.fasta",
+        "sha256": "3d949a3c2721ab0151efb7716e6d9b81d560378d10d129b610ab2e2ebc999e4d",
+        "release": "2026_04"
+      },
+      {
+        "id": "P22607-2",
+        "url": "https://rest.uniprot.org/uniprotkb/P22607-2.fasta",
+        "file": "P22607-2.fasta",
+        "sha256": "077d33bba0761caf7740066f5db1892d65188c13716e2b5b5d6c74091408c45a",
+        "release": "2026_04"
+      }
+    ]
+  },
+  "rows": 26,
+  "groups": 13,
+  "group_kinds": {
+    "directional": 10,
+    "control": 2,
+    "weak": 1
+  },
+  "jobs": 52,
+  "max_tokens": 1113,
+  "over_official_limit": 0
+}
