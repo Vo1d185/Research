@@ -1,0 +1,5 @@
+model,subset,groups,hits,hit_rate,random_baseline,binom_p_ge,always_IIIc_higher_rate,always_IIIb_higher_rate,median_diff_bind_minus_nobind
+humanV11,all,10,5,0.5,0.5,0.623046875,0.6,0.4,-1.7183335416448564e-05
+humanV11,high confidence,4,2,0.5,0.5,0.6875,0.5,0.5,-2.03200982040741e-07
+humanV12,all,10,4,0.4,0.5,0.828125,0.6,0.4,-0.00045597168623143225
+humanV12,high confidence,4,2,0.5,0.5,0.6875,0.5,0.5,0.0015147547389861848

@@ -1,0 +1,5 @@
+model,receptor,groups,IIIb_higher,IIIc_higher
+humanV11,FGFR2,10,6,4
+humanV11,FGFR3,3,1,2
+humanV12,FGFR2,10,3,7
+humanV12,FGFR3,3,2,1

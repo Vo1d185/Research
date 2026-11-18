@@ -1,0 +1,22 @@
+{
+  "status": "complete",
+  "launch": {
+    "launched_at": "2026-11-18T05:45:20+00:00",
+    "git_head": "94ff5c122fd7633b89a32c679f0d0b177dec8462",
+    "git_uncommitted_changes": false,
+    "git_modified": [],
+    "git_untracked": [
+      "isoform_commot/isoform_count.py",
+      "isoform_commot/reports/isoform_rank_test/resolve.py",
+      "isoform_commot/reports/isoform_rank_test/scores/"
+    ],
+    "recorded": "at launch"
+  },
+  "testset": "reports/isoform_rank_test/testset.csv",
+  "jobs": "reports/isoform_rank_test/jobs.csv",
+  "scores": [
+    "humanV11=reports/isoform_rank_test/scores/humanV11.csv",
+    "humanV12=reports/isoform_rank_test/scores/humanV12.csv"
+  ],
+  "created_utc": "2026-11-18T05:45:20+00:00"
+}

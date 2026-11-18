@@ -1,0 +1,23 @@
+{
+  "status": "complete",
+  "input": "/home/liu/Research/isoform_commot/reports/isoform_rank_test/jobs.csv",
+  "input_sha256": "6127109f853e6b09ef359809cbff3f290c341c2eaef8b9dda5323b8132838f16",
+  "n_pairs": 52,
+  "started_utc": "2026-11-18T05:45:05+00:00",
+  "finished_utc": "2026-11-18T05:45:11+00:00",
+  "truncation": "disabled; token count verified per pair",
+  "max_tokens": 1603,
+  "scored_beyond_max_tokens": [],
+  "output_sha256": "d1cf1987366cb216c6a977c422b122a886f5f4fe590db704f5e5fb5a567863da",
+  "checkpoint": "/home/liu/Research/isoform_commot/models/plm_650m_humanV12/pytorch_model.bin",
+  "checkpoint_sha256": "92565937d65a9b91a4e897c99653c972b99cfe37067eb42d9e783af688350547",
+  "checkpoint_name": "danliu1226/PLM-interact-650M-humanV12",
+  "checkpoint_revision": "2d0e7fb3deef94efa3f217daccc79092a6a42ceb",
+  "base_model": "models/esm2_t33_650M_UR50D",
+  "python": "3.10.22",
+  "torch": "2.4.1+cu121",
+  "transformers": "4.40.1",
+  "device": "cuda:0",
+  "embedding_size": 1280,
+  "cuda": "12.1"
+}
