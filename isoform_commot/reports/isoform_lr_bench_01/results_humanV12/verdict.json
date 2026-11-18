@@ -1,0 +1,31 @@
+{
+  "created_utc": "2026-11-18T07:35:20+00:00",
+  "status": "pre-registered",
+  "problems": [],
+  "scored": "/home/liu/Research/isoform_commot/isoform_lr_bench_runs/main_01/merged.csv",
+  "scored_sha256": "ca50babfa48e4c0517286f05bd4bfd2d082914b18a465c204f17c14322264f11",
+  "model": "humanV12",
+  "checkpoint_name": "danliu1226/PLM-interact-650M-humanV12",
+  "checkpoint_sha256": "92565937d65a9b91a4e897c99653c972b99cfe37067eb42d9e783af688350547",
+  "dataset_sha256": "d3738f564f48fa5792e7e0ee0d2e7f2e5246407a83e754a975cdca3f84bedb3b",
+  "n_perm": 10000,
+  "n_boot": 2000,
+  "seed": 20261118,
+  "criteria": {
+    "alpha": 0.05,
+    "H_min_hit_at_1": 0.45,
+    "H_max_mean_norm_rank": 0.4,
+    "H_min_margin_over_trivial": 0.1,
+    "E_min_hit_at_1": 0.5,
+    "unseen_min_contrasts": 30
+  },
+  "training_root": "/home/liu/Research/isoform_commot/data/lr_benchmark/plm_training",
+  "C1_isoform_above_chance": true,
+  "C2_isoform_effect_size": false,
+  "C3_beats_trivial_baselines": false,
+  "C5_unseen_subset": true,
+  "C4_paralog_tier": false,
+  "VERDICT_isoform_resolution": "FAIL",
+  "VERDICT_paralog_ranking": "FAIL",
+  "best_trivial_hit_at_1": 0.3836
+}

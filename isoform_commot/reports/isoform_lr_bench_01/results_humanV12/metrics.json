@@ -1,0 +1,179 @@
+{
+  "created_utc": "2026-11-18T07:35:20+00:00",
+  "status": "pre-registered",
+  "problems": [],
+  "scored": "/home/liu/Research/isoform_commot/isoform_lr_bench_runs/main_01/merged.csv",
+  "scored_sha256": "ca50babfa48e4c0517286f05bd4bfd2d082914b18a465c204f17c14322264f11",
+  "model": "humanV12",
+  "checkpoint_name": "danliu1226/PLM-interact-650M-humanV12",
+  "checkpoint_sha256": "92565937d65a9b91a4e897c99653c972b99cfe37067eb42d9e783af688350547",
+  "dataset_sha256": "d3738f564f48fa5792e7e0ee0d2e7f2e5246407a83e754a975cdca3f84bedb3b",
+  "n_perm": 10000,
+  "n_boot": 2000,
+  "seed": 20261118,
+  "criteria": {
+    "alpha": 0.05,
+    "H_min_hit_at_1": 0.45,
+    "H_max_mean_norm_rank": 0.4,
+    "H_min_margin_over_trivial": 0.1,
+    "E_min_hit_at_1": 0.5,
+    "unseen_min_contrasts": 30
+  },
+  "training_root": "/home/liu/Research/isoform_commot/data/lr_benchmark/plm_training",
+  "H_isoform": {
+    "n_contrasts": 146,
+    "n_reference_genes": 73,
+    "hit_at_1": 0.3699,
+    "hit_at_1_ci95_gene_bootstrap": [
+      0.2866,
+      0.461
+    ],
+    "chance_hit_at_1": 0.2655,
+    "mean_norm_rank": 0.424,
+    "mean_norm_rank_ci95_gene_bootstrap": [
+      0.3404,
+      0.4959
+    ],
+    "p_hit_at_1": 0.0032,
+    "p_norm_rank": 0.0096,
+    "median_delta": -0.0003,
+    "frac_delta_gt_0": 0.3699
+  },
+  "E_paralog": {
+    "n_contrasts": 154,
+    "n_reference_genes": 103,
+    "hit_at_1": 0.3896,
+    "hit_at_1_ci95_gene_bootstrap": [
+      0.2988,
+      0.4823
+    ],
+    "chance_hit_at_1": 0.2489,
+    "mean_norm_rank": 0.3876,
+    "mean_norm_rank_ci95_gene_bootstrap": [
+      0.309,
+      0.4602
+    ],
+    "p_hit_at_1": 0.0002,
+    "p_norm_rank": 0.0004,
+    "median_delta": -0.0,
+    "frac_delta_gt_0": 0.3896
+  },
+  "H_isoform_reference_not_in_training": {
+    "n_contrasts": 135,
+    "n_reference_genes": 66,
+    "hit_at_1": 0.3407,
+    "hit_at_1_ci95_gene_bootstrap": [
+      0.2603,
+      0.4344
+    ],
+    "chance_hit_at_1": 0.2575,
+    "mean_norm_rank": 0.4444,
+    "mean_norm_rank_ci95_gene_bootstrap": [
+      0.3633,
+      0.5209
+    ],
+    "p_hit_at_1": 0.0149,
+    "p_norm_rank": 0.0485,
+    "median_delta": -0.0003,
+    "frac_delta_gt_0": 0.3407
+  },
+  "training_overlap": {
+    "H_isoform": {
+      "contrasts_reference_pair_in_training_pos": 11,
+      "contrasts_any_competitor_pair_in_training_pos": 4,
+      "ranked_rows_variant_seen": 111,
+      "ranked_rows": 812
+    },
+    "E_paralog": {
+      "contrasts_reference_pair_in_training_pos": 39,
+      "contrasts_any_competitor_pair_in_training_pos": 6,
+      "ranked_rows_variant_seen": 730,
+      "ranked_rows": 885
+    }
+  },
+  "H_pairwise_by_identity": {
+    "0-50": {
+      "n_pairs": 132,
+      "win_rate": 0.7121,
+      "n_contrasts": 58
+    },
+    "50-70": {
+      "n_pairs": 105,
+      "win_rate": 0.5524,
+      "n_contrasts": 50
+    },
+    "70-90": {
+      "n_pairs": 207,
+      "win_rate": 0.5314,
+      "n_contrasts": 96
+    },
+    "90-99": {
+      "n_pairs": 194,
+      "win_rate": 0.5515,
+      "n_contrasts": 66
+    },
+    "99-100": {
+      "n_pairs": 28,
+      "win_rate": 0.7143,
+      "n_contrasts": 26
+    }
+  },
+  "pairwise_win_rate": {
+    "H_isoform": 0.5841,
+    "E_paralog": 0.6033
+  },
+  "H_by_tokens_descriptive": {
+    "max_tokens<=1603": {
+      "n_contrasts": 107,
+      "n_reference_genes": 59,
+      "hit_at_1": 0.4019,
+      "hit_at_1_ci95_gene_bootstrap": [
+        null,
+        null
+      ],
+      "chance_hit_at_1": 0.2725,
+      "mean_norm_rank": 0.3981,
+      "mean_norm_rank_ci95_gene_bootstrap": [
+        null,
+        null
+      ],
+      "p_hit_at_1": 0.0005,
+      "p_norm_rank": 0.002,
+      "median_delta": -0.0002,
+      "frac_delta_gt_0": 0.4019
+    },
+    "max_tokens>1603": {
+      "n_contrasts": 39,
+      "n_reference_genes": 23,
+      "hit_at_1": 0.2821,
+      "hit_at_1_ci95_gene_bootstrap": [
+        null,
+        null
+      ],
+      "chance_hit_at_1": 0.2463,
+      "mean_norm_rank": 0.4948,
+      "mean_norm_rank_ci95_gene_bootstrap": [
+        null,
+        null
+      ],
+      "p_hit_at_1": 0.35332,
+      "p_norm_rank": 0.46277,
+      "median_delta": -0.0007,
+      "frac_delta_gt_0": 0.2821
+    }
+  },
+  "trivial_baselines_H_hit_at_1": {
+    "canonical": 0.3356,
+    "longest": 0.3836
+  },
+  "preregistered_criteria": {
+    "C1_isoform_above_chance": true,
+    "C2_isoform_effect_size": false,
+    "C3_beats_trivial_baselines": false,
+    "C5_unseen_subset": true,
+    "C4_paralog_tier": false,
+    "VERDICT_isoform_resolution": "FAIL",
+    "VERDICT_paralog_ranking": "FAIL",
+    "best_trivial_hit_at_1": 0.3836
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "plan": "reports/isoform_lr_bench_01/plan.md",
+  "plan_commit": "e59befed84fcf4bcfe9562ca7d36a069247072cc",
+  "plan_commit_time": "2026-11-18T07:23:35Z",
+  "head_commit_at_start": "e59befed84fcf4bcfe9562ca7d36a069247072cc",
+  "run_started_utc": "2026-11-18T07:27:47Z",
+  "run_finished_utc": "2026-11-18T07:35:21Z",
+  "runs_dir": "isoform_lr_bench_runs/main_01",
+  "bench_env": "commot-research",
+  "plm_env": "plminteract"
+}
