@@ -252,6 +252,11 @@ def metrics(R, C, lr, x, decoy, T, p):
 def run(args):
     import stage2
     from research import solve_sparse
+    device = getattr(args, 'device', 'cpu') or 'cpu'
+    if device != 'cpu':                       # amendment_01.md: torch port of the same solver, same checks
+        from functools import partial
+        from gpu_unot import solve_sparse_gpu
+        solve_sparse = partial(solve_sparse_gpu, device=device)
     prep, cfg, x, spatial, lr, ligands, receptors, a, b, edges = load(args.input)
     cfg = stage2.run_config(cfg, args)
     tdir, sdir = Path(args.truth), Path(args.scores)
@@ -289,7 +294,7 @@ def run(args):
             m.update(receptor_spearman_n=0, ligand_allocation_n=0)
         else:
             m = metrics(received(T, col, p, n, len(lr)), C, lr, x, decoy, T, p)
-        rows.append(dict(seed=args.seed, variant=args.variant, norm=args.norm if args.variant not in ('none', 'uniform') else args.variant,
+        rows.append(dict(seed=args.seed, device=device, variant=args.variant, norm=args.norm if args.variant not in ('none', 'uniform') else args.variant,
                          beta=beta, eps=cfg['eps'], rho=cfg['rho'], r0_um=args.r0_um, niter=info.get('niter'),
                          cap_reached=info.get('cap_reached'), solve_seconds=round(seconds, 1),
                          frac_ligand=float(T.sum() / a.sum()) if T is not None else np.nan, error=error, **m,
@@ -300,7 +305,7 @@ def run(args):
     pd.DataFrame(rows).to_csv(out/'metrics.csv', index=False)
     write_json(out/'run.json', dict(created_utc=now(), input=str(Path(args.input).resolve()),
         truth_sha256=digest(tdir/'truth.npz'), scores_sha256=digest(sdir/'scores.csv'), config=cfg,
-        variant=args.variant, norm=args.norm, betas=betas, r0_um=args.r0_um, entries=len(c0)))
+        variant=args.variant, norm=args.norm, betas=betas, r0_um=args.r0_um, entries=len(c0), device=device))
 
 
 # ------------------------------------------------------------------ summarise
@@ -372,10 +377,18 @@ def decide(m, v12=None, allow_unconverged=False):
     return dec, real
 
 
+def single_device(m):
+    """One summary = one solver backend (amendment_01.md): never pool CPU and GPU runs."""
+    devices = sorted(set(m['device'].fillna('cpu'))) if 'device' in m else ['cpu']
+    check(len(devices) == 1, f'Runs from more than one device: {devices}')
+    return devices[0]
+
+
 def summarise(args):
     frames = [pd.read_csv(f) for f in sorted(Path(args.runs).glob('**/metrics.csv'))]
     check(frames, 'No metrics.csv found')
     m = pd.concat(frames, ignore_index=True)
+    device = single_device(m)
     v12 = None
     if args.v12_report:
         rep = json.loads(Path(args.v12_report).read_text())
@@ -388,7 +401,7 @@ def summarise(args):
     real.groupby(['variant', 'norm', 'beta'])[['gain', 'gain_vs_perm', 'gain_receptor', 'gain_vs_perm_receptor',
                                               'decoy_transport_fraction']].mean().round(5).to_csv(out/'mean_table.csv')
     write_json(out/'decisions.json', dict(created_utc=now(), eps=float(m.eps.iloc[0]), rho=float(m.rho.iloc[0]),
-                                          v12_report=args.v12_report, **dec))
+                                          device=device, v12_report=args.v12_report, **dec))
     print(json.dumps({k: dec.get(k) for k in ['R1_oracle_usable', 'R2_best_beta_oracle_raw', 'R2_near_eps',
                                               'R3_threshold_auroc', 'R3_monotone', 'R4_v12',
                                               'R5_receptor_metric_sees_oracle', 'runs_not_converged']}, indent=2))
@@ -414,6 +427,7 @@ def parser():
     for k in ('eps', 'rho', 'diffusion_cutoff_um', 'stopthr'):
         r.add_argument('--' + k.replace('_', '-'), type=float)
     r.add_argument('--nitermax', type=int)
+    r.add_argument('--device', default='cpu', help='cpu (official solver) | cuda, cuda:N (gpu_unot.py port, amendment_01) | torch-cpu (port on CPU, tests only)')
     m = sub.add_parser('summarise'); m.add_argument('--runs', required=True); m.add_argument('--output', required=True)
     m.add_argument('--v12-report', help='reports/stage2_ppi_01/scores/score_report.json (R4)')
     m.add_argument('--allow-unconverged', action='store_true', help='smoke test only')

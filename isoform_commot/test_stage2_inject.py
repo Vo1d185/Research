@@ -93,6 +93,16 @@ class Decide(unittest.TestCase):
 
 
 @unittest.skipUnless((Path(__file__).parent/'vendor'/'_unot.py').exists(), 'run fetch_solver.py first')
+class Device(unittest.TestCase):
+    def test_single_device(self):
+        import pandas as pd
+        import stage2_inject as si
+        self.assertEqual(si.single_device(pd.DataFrame(dict(beta=[0.1]))), 'cpu')
+        self.assertEqual(si.single_device(pd.DataFrame(dict(device=['cuda', 'cuda']))), 'cuda')
+        with self.assertRaises(Exception):
+            si.single_device(pd.DataFrame(dict(device=['cpu', 'cuda'])))
+
+
 class EndToEnd(unittest.TestCase):
     def test_tiny(self):
         with tempfile.TemporaryDirectory() as tmp:
