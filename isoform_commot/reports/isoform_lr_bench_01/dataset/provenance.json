@@ -1,0 +1,75 @@
+{
+ "dataset_file": "benchmark.csv.gz",
+ "sha256": "d3738f564f48fa5792e7e0ee0d2e7f2e5246407a83e754a975cdca3f84bedb3b",
+ "n_rows": 1817,
+ "built_utc": "2026-11-18",
+ "uniprot": {
+  "release": "2026_04",
+  "release_date": "2026-11-04",
+  "endpoint": "https://rest.uniprot.org/uniprotkb/stream",
+  "scope_query": "(organism_id:9606) AND (reviewed:true) AND (go:0048018 OR go:0038023)",
+  "ligand_set": "(organism_id:9606) AND (reviewed:true) AND (go:0048018) AND (cc_scl_term:SL-0243 OR cc_scl_term:SL-0162)",
+  "receptor_set": "(organism_id:9606) AND (reviewed:true) AND (go:0004888)",
+  "fields": [
+   "cc_alternative_products",
+   "cc_interaction",
+   "sequence"
+  ],
+  "isoform_sequences": "stream?format=fasta&includeIsoform=true",
+  "evidence_rule": "UniProt INTERACTION comment, same-species, interactant one carries an isoform suffix (e.g. P21802-3)"
+ },
+ "intact": {
+  "service": "EBI IntAct web service, binary interactions, interactor species 9606",
+  "queried": "2026-11-18",
+  "use": "Tier-H only: an 'untested' isoform with an exact isoform-level IntAct record for the same partner is moved out of the competitor set (role excluded_other_evidence)",
+  "note": "no negative-flagged records were returned for the 75 queried genes"
+ },
+ "cellchatdb_exclusion": {
+  "file": "reports/plm_lr_benchmark/dataset/positives_all_human.csv",
+  "repo_commit": "a56fb6e4b65362c028fe75027b5fb4a7fe9e41e8",
+  "use": "Tier-E only: a paralog whose gene-level pair with the partner appears in CellChatDB v2 (any subunit accession) is excluded from the competitor set (role excluded_known_lr)"
+ },
+ "paralog_families": "UniProt SIMILARITY comment 'Belongs to the ... family'; families with 2-12 sequence-bearing members",
+ "identity": "Biopython PairwiseAligner global, BLOSUM62, open -11, extend -1, free end gaps; identity = identical aligned residues / alignment columns",
+ "length_filter": "each protein 24-1996 aa (humanV12 training range)",
+ "contrast_rule": "exactly one reference (the evidenced variant with most experiments) and >=1 competitor",
+ "counts": {
+  "H_isoform": {
+   "contrasts": 146,
+   "ranked_rows": 812,
+   "all_rows": 847,
+   "k_median": 4,
+   "k_min": 2,
+   "k_max": 19,
+   "chance_hit_at_1": 0.265,
+   "ref_genes": 73,
+   "competitor_identity_median": 80.2,
+   "canonical_baseline_hit_at_1": 0.336,
+   "longest_baseline_hit_at_1": 0.384,
+   "competitors_by_identity": {
+    "[0.0, 50.0)": 132,
+    "[50.0, 70.0)": 105,
+    "[70.0, 90.0)": 207,
+    "[90.0, 99.0)": 194,
+    "[99.0, 100.001)": 28
+   }
+  },
+  "E_paralog": {
+   "contrasts": 154,
+   "ranked_rows": 885,
+   "all_rows": 970,
+   "k_median": 5,
+   "k_min": 2,
+   "k_max": 12,
+   "chance_hit_at_1": 0.249,
+   "ref_genes": 103,
+   "competitor_identity_median": 19.6
+  },
+  "tokens": {
+   "rows_over_1603": 312,
+   "max_tokens": 2790,
+   "ranked_rows_over_1603": 286
+  }
+ },
+ "build_code": "interactive build (UniProt REST + IntAct connector); not shipped as a script. This frozen file is the pre-registered input."
+}
