@@ -1,0 +1,73 @@
+{
+  "created_utc": "2026-11-18T14:57:02+00:00",
+  "input": "/home/liu/Research/isoform_commot/stage2_input_post",
+  "input_sha256": {
+    "lr.csv": "a832d96ffdcf6a439690142e5558ef55ba187151962067126cccb332e0008da1",
+    "entities.csv": "3263aab80e669cbebf4a49fceff39b6d4e0b33f24e5a1e096a1e4c631fd73b97"
+  },
+  "ppi": "/home/liu/Research/isoform_commot/reports/stage2_ppi_01/scores/ppi_scores.csv",
+  "ppi_sha256": "972be9980e5b51007646744701c1d50a52fb930be297b211eeb3b8b0c1585221",
+  "output_sha256": "c46bf8dc1d3bc5d778dba36947f1f1557a8a699cd163e1f3538f2d7a1cf2d5df",
+  "overall": {
+    "n_pairs": 540,
+    "n_with_score": 500,
+    "n_with_s_norm_ligand": 499,
+    "n_ligands": 201,
+    "ligands_k1": 95,
+    "pairs_in_k1_ligands": 95,
+    "ligands_with_missing_score": 10,
+    "k_ligand_median": 2.0,
+    "k_ligand_max": 12,
+    "multi_receptor_ligands": 101,
+    "within_ligand_raw_spread_lt_0_01": 51,
+    "within_ligand_raw_spread_median": 0.0077324666744972,
+    "r2_neglog_snorm_vs_log_k": 0.20815419695224638,
+    "neglog_snorm_ligand_q05_50_95": [
+      -0.0,
+      1.3873194227884988,
+      5.491358888711524
+    ]
+  },
+  "by_type": {
+    "contact": {
+      "n_pairs": 271,
+      "n_with_score": 231,
+      "n_with_s_norm_ligand": 230,
+      "n_ligands": 107,
+      "ligands_k1": 53,
+      "pairs_in_k1_ligands": 53,
+      "ligands_with_missing_score": 10,
+      "k_ligand_median": 2.0,
+      "k_ligand_max": 12,
+      "multi_receptor_ligands": 49,
+      "within_ligand_raw_spread_lt_0_01": 23,
+      "within_ligand_raw_spread_median": 0.0166606976781623,
+      "r2_neglog_snorm_vs_log_k": 0.14884267797574458,
+      "neglog_snorm_ligand_q05_50_95": [
+        0.0,
+        1.3161345081201623,
+        5.978922801136694
+      ]
+    },
+    "diffusion": {
+      "n_pairs": 269,
+      "n_with_score": 269,
+      "n_with_s_norm_ligand": 269,
+      "n_ligands": 94,
+      "ligands_k1": 42,
+      "pairs_in_k1_ligands": 42,
+      "ligands_with_missing_score": 0,
+      "k_ligand_median": 2.0,
+      "k_ligand_max": 10,
+      "multi_receptor_ligands": 52,
+      "within_ligand_raw_spread_lt_0_01": 28,
+      "within_ligand_raw_spread_median": 0.005186982045415806,
+      "r2_neglog_snorm_vs_log_k": 0.31659272312038594,
+      "neglog_snorm_ligand_q05_50_95": [
+        0.0,
+        1.4546189044719982,
+        5.179115307253908
+      ]
+    }
+  }
+}

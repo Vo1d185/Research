@@ -1,0 +1,22 @@
+lr_symbol,data_symbol,n_hits,accession,uniprot_id,protein_name,length,match,note,gene_primary
+Nrxn1,Nrxn1,2,Q9CS84,NRX1A_MOUSE,Neurexin-1,1514.0,primary,,Nrxn1
+Nrxn1,Nrxn1,2,P0DI97,NRX1B_MOUSE,Neurexin-1-beta,468.0,primary,,Nrxn1
+Nrxn2,Nrxn2,2,E9PUN2,NRX2B_MOUSE,Neurexin-2-beta,660.0,primary,,Nrxn2
+Nrxn2,Nrxn2,2,E9Q7X7,NRX2A_MOUSE,Neurexin-2,1710.0,primary,,Nrxn2
+Nrxn3,Nrxn3,2,Q8C985,NRX3B_MOUSE,Neurexin-3-beta,567.0,primary,,Nrxn3
+Nrxn3,Nrxn3,2,Q6P9K9,NRX3A_MOUSE,Neurexin-3,1571.0,primary,,Nrxn3
+Pcdhb10,Pcdhb10,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb11,Pcdhb11,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb12,Pcdhb12,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb13,Pcdhb13,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb17,Pcdhb17,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb19,Pcdhb19,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb20,Pcdhb20,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb22,Pcdhb22,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb3,Pcdhb3,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb5,Pcdhb5,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb7,Pcdhb7,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Pcdhb9,Pcdhb9,0,,,no reviewed entry of this species with this primary gene name,,none,,
+Tac2,Tac2,2,P41539,TKN1_MOUSE,Protachykinin-1,130.0,synonym,,Tac1
+Tac2,Tac2,2,P55099,TKNK_MOUSE,Tachykinin-3,116.0,synonym,,Tac3
+Pvr,Pvr,1,P32507,NECT2_MOUSE,Nectin-2,530.0,synonym,entry already matched by primary gene name of another gene,Nectin2

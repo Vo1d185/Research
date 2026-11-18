@@ -1,0 +1,12 @@
+{
+  "plan": "reports/stage2_ppi_01/plan.md",
+  "plan_commit": "accf094749eb20520b5ce29285be0be3d0e77acd",
+  "head_commit_at_start": "accf094749eb20520b5ce29285be0be3d0e77acd",
+  "smoke": 0,
+  "run_started_utc": "2026-11-18T14:40:34Z",
+  "run_finished_utc": "2026-11-18T14:57:05Z",
+  "inputs": "stage2_input_post stage2_input_ant",
+  "runs_dir": "plm_jobs_stage2_ppi_01",
+  "bench_env": "commot-research",
+  "plm_env": "plminteract"
+}

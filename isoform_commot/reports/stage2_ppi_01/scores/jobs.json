@@ -1,0 +1,51 @@
+{
+  "created_utc": "2026-11-18T14:40:43+00:00",
+  "inputs": {
+    "/home/liu/Research/isoform_commot/stage2_input_post": {
+      "lr.csv": "a832d96ffdcf6a439690142e5558ef55ba187151962067126cccb332e0008da1",
+      "entities.csv": "3263aab80e669cbebf4a49fceff39b6d4e0b33f24e5a1e096a1e4c631fd73b97"
+    },
+    "/home/liu/Research/isoform_commot/stage2_input_ant": {
+      "lr.csv": "5e4a65b2b6b1cc07ff7cef3f735834b058902898eef9b3e41737a6d14cbed5d5",
+      "entities.csv": "5f3c7878c5cb2ca1a61d3e700ed6f53d85fba5ffa183fea92f838d4845ee5ebd"
+    }
+  },
+  "proteins": "/home/liu/Research/isoform_commot/plm_jobs_stage2_ppi_smoke/proteins",
+  "proteins_fasta_sha256": "fa8713fc529d03c9f125acffb971e59c2034e0f55c8c269e1d122dafac61dd5c",
+  "unresolved_genes": [
+    "Nrxn1",
+    "Nrxn2",
+    "Nrxn3",
+    "Pcdhb10",
+    "Pcdhb11",
+    "Pcdhb12",
+    "Pcdhb13",
+    "Pcdhb17",
+    "Pcdhb19",
+    "Pcdhb20",
+    "Pcdhb22",
+    "Pcdhb3",
+    "Pcdhb5",
+    "Pcdhb7",
+    "Pcdhb9",
+    "Pvr",
+    "Tac2"
+  ],
+  "limit_pairs": 0,
+  "seed": 0,
+  "include_longest": false,
+  "n_entity_pairs": 615,
+  "n_entity_pairs_complete": 557,
+  "cross_ratio": 3.0,
+  "cross_seed": 1,
+  "cellchat": "data/cellchatdb",
+  "exclude_pairs": null,
+  "n_cross_pairs": 1671,
+  "n_cross_candidates": 29152,
+  "n_cross_complete": 1469,
+  "n_subunit_pairs": 2460,
+  "n_jobs": 4920,
+  "max_tokens": 5505,
+  "n_jobs_over_official_max_tokens": 1822,
+  "plm_input_sha256": "83fb5d32f749b0ae9952197f87140e9792901350eef4b47467a04effbe056a73"
+}

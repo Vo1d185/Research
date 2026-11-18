@@ -1,0 +1,136 @@
+{
+  "created_utc": "2026-11-18T14:56:57+00:00",
+  "status": "registered-checkpoint",
+  "jobs": {
+    "created_utc": "2026-11-18T14:40:43+00:00",
+    "inputs": {
+      "/home/liu/Research/isoform_commot/stage2_input_post": {
+        "lr.csv": "a832d96ffdcf6a439690142e5558ef55ba187151962067126cccb332e0008da1",
+        "entities.csv": "3263aab80e669cbebf4a49fceff39b6d4e0b33f24e5a1e096a1e4c631fd73b97"
+      },
+      "/home/liu/Research/isoform_commot/stage2_input_ant": {
+        "lr.csv": "5e4a65b2b6b1cc07ff7cef3f735834b058902898eef9b3e41737a6d14cbed5d5",
+        "entities.csv": "5f3c7878c5cb2ca1a61d3e700ed6f53d85fba5ffa183fea92f838d4845ee5ebd"
+      }
+    },
+    "proteins": "/home/liu/Research/isoform_commot/plm_jobs_stage2_ppi_smoke/proteins",
+    "proteins_fasta_sha256": "fa8713fc529d03c9f125acffb971e59c2034e0f55c8c269e1d122dafac61dd5c",
+    "unresolved_genes": [
+      "Nrxn1",
+      "Nrxn2",
+      "Nrxn3",
+      "Pcdhb10",
+      "Pcdhb11",
+      "Pcdhb12",
+      "Pcdhb13",
+      "Pcdhb17",
+      "Pcdhb19",
+      "Pcdhb20",
+      "Pcdhb22",
+      "Pcdhb3",
+      "Pcdhb5",
+      "Pcdhb7",
+      "Pcdhb9",
+      "Pvr",
+      "Tac2"
+    ],
+    "limit_pairs": 0,
+    "seed": 0,
+    "include_longest": false,
+    "n_entity_pairs": 615,
+    "n_entity_pairs_complete": 557,
+    "cross_ratio": 3.0,
+    "cross_seed": 1,
+    "cellchat": "data/cellchatdb",
+    "exclude_pairs": null,
+    "n_cross_pairs": 1671,
+    "n_cross_candidates": 29152,
+    "n_cross_complete": 1469,
+    "n_subunit_pairs": 2460,
+    "n_jobs": 4920,
+    "max_tokens": 5505,
+    "n_jobs_over_official_max_tokens": 1822,
+    "plm_input_sha256": "83fb5d32f749b0ae9952197f87140e9792901350eef4b47467a04effbe056a73"
+  },
+  "scores_sha256": "bf0e5b1bc30cb541714948e12d005e4ef0a2c642f2cc423d5a61aadd0bc1c53b",
+  "ppi_sha256": "972be9980e5b51007646744701c1d50a52fb930be297b211eeb3b8b0c1585221",
+  "model": {
+    "checkpoint_name": "danliu1226/PLM-interact-650M-humanV12",
+    "checkpoint_revision": "2d0e7fb3deef94efa3f217daccc79092a6a42ceb",
+    "checkpoint_sha256": "92565937d65a9b91a4e897c99653c972b99cfe37067eb42d9e783af688350547",
+    "base_model": "models/esm2_t33_650M_UR50D",
+    "torch": "2.4.1+cu121",
+    "transformers": "4.40.1",
+    "device": "cuda:0",
+    "started_utc": "2026-11-18T14:41:12+00:00",
+    "finished_utc": "2026-11-18T14:56:52+00:00"
+  },
+  "n_pairs": 615,
+  "n_scored": 557,
+  "n_missing": 58,
+  "n_homophilic": 40,
+  "homophilic_median": 0.9998697638511658,
+  "by_type": {
+    "contact": {
+      "n": 298,
+      "scored": 241,
+      "median": 0.047225210997567,
+      "frac_gt_0_5": 0.3775933609958506
+    },
+    "diffusion": {
+      "n": 317,
+      "scored": 316,
+      "median": 0.4955217540264129,
+      "frac_gt_0_5": 0.49050632911392406
+    }
+  },
+  "score_distribution": {
+    "q05_25_50_75_95": [
+      0.0002287228882778,
+      0.0043633183231577,
+      0.3925872026011348,
+      0.9964434206485748,
+      0.9998204410076141
+    ],
+    "frac_gt_0_99": 0.2836624775583483,
+    "frac_lt_0_01": 0.30341113105924594,
+    "frac_gt_0_5": 0.44165170556552963
+  },
+  "order_asymmetry": {
+    "mean": 0.07369329460263573,
+    "max": 0.997254132584203
+  },
+  "panel_vs_unannotated": {
+    "all": {
+      "n_panel": 557,
+      "n_unannotated": 1469,
+      "auroc": 0.754023609411989,
+      "ci95": [
+        0.7301675684065541,
+        0.7779100207398137
+      ],
+      "frac_gt_0_5_unannotated": 0.10415248468345814
+    },
+    "contact": {
+      "n_panel": 241,
+      "n_unannotated": 651,
+      "auroc": 0.7080170309323033,
+      "ci95": [
+        0.6674478618913767,
+        0.7479286574755721
+      ],
+      "frac_gt_0_5_unannotated": 0.07987711213517665
+    },
+    "diffusion": {
+      "n_panel": 316,
+      "n_unannotated": 818,
+      "auroc": 0.7845451239515955,
+      "ci95": [
+        0.7540370346012194,
+        0.8146467147411098
+      ],
+      "frac_gt_0_5_unannotated": 0.1234718826405868
+    }
+  },
+  "note": "Model predictions, not measured affinities. Missing = some subunit unmapped; never imputed."
+}
