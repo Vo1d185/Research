@@ -1,0 +1,55 @@
+{
+  "created_utc": "2026-11-18T16:36:27+00:00",
+  "truth": "/home/liu/Research/isoform_commot/analysis_inject_01/truth_s2",
+  "truth_sha256": "0bb4a91f98ea1fa1a26c7e110a869c808bd37d4f5a43e383096b0ffcbe2e2579",
+  "seed": 2,
+  "gamma": 4.0,
+  "levels": {
+    "q100": {
+      "target_auroc": 1.0,
+      "sigma": 0.0,
+      "achieved_auroc": 1.0,
+      "spearman_with_K_true_pairs": 1.0,
+      "perm_auroc": 0.4585108024691358,
+      "frac_gt_0_99": 0.2962962962962963,
+      "frac_lt_0_01": 0.0
+    },
+    "q90": {
+      "target_auroc": 0.9,
+      "sigma": 1.044516627250271,
+      "achieved_auroc": 0.9047993827160494,
+      "spearman_with_K_true_pairs": 0.40404709912885134,
+      "perm_auroc": 0.4977006172839506,
+      "frac_gt_0_99": 0.3148148148148148,
+      "frac_lt_0_01": 0.1962962962962963
+    },
+    "q80": {
+      "target_auroc": 0.8,
+      "sigma": 1.6422686166166054,
+      "achieved_auroc": 0.7929320987654321,
+      "spearman_with_K_true_pairs": 0.3476719213368416,
+      "perm_auroc": 0.4713425925925926,
+      "frac_gt_0_99": 0.3425925925925926,
+      "frac_lt_0_01": 0.2222222222222222
+    },
+    "q70": {
+      "target_auroc": 0.7,
+      "sigma": 2.6733853583330367,
+      "achieved_auroc": 0.6877932098765432,
+      "spearman_with_K_true_pairs": 0.18632345414187867,
+      "perm_auroc": 0.49021604938271607,
+      "frac_gt_0_99": 0.39814814814814814,
+      "frac_lt_0_01": 0.29074074074074074
+    },
+    "q60": {
+      "target_auroc": 0.6,
+      "sigma": 5.57087378965997,
+      "achieved_auroc": 0.6155246913580247,
+      "spearman_with_K_true_pairs": 0.25968850215553,
+      "perm_auroc": 0.4713503086419753,
+      "frac_gt_0_99": 0.4351851851851852,
+      "frac_lt_0_01": 0.3925925925925926
+    }
+  },
+  "scores_sha256": "0983674748b358f98d9b4b7197e7804c5aecc59dc31608412c916f43f66b201f"
+}

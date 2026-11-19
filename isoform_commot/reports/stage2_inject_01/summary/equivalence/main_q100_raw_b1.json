@@ -1,0 +1,18 @@
+{
+  "entries": 497157,
+  "iterations": 501,
+  "order_preserved": true,
+  "max_abs_diff": 1.3145951341386741e-18,
+  "max_rel_diff": 1.163519596666381e-14,
+  "cpu_seconds": 7.132,
+  "port_seconds": 2.005,
+  "speedup": 3.56,
+  "variant": "q100",
+  "norm": "raw",
+  "beta": 1.0,
+  "eps": 0.1,
+  "rho": 10.0,
+  "device": "cuda",
+  "tolerance": 1e-09,
+  "passed": true
+}

@@ -1,0 +1,27 @@
+{
+  "compared_solves": 36,
+  "tolerance": 0.001,
+  "failed_checks_used": 0,
+  "failed_checks_long": 0,
+  "max_abs_diff": {
+    "pooled_spearman": 0.0001432894135980911,
+    "receptor_spearman_mean": 6.9763285749369075e-06,
+    "ligand_allocation_tv_mean": 7.105984183630731e-06,
+    "decoy_transport_fraction": 1.1939422256412868e-07,
+    "frac_ligand": 1.085539459433349e-07,
+    "total_transport_relative": 1.696667950359122e-07
+  },
+  "nan_mismatch": {
+    "pooled_spearman": 0,
+    "receptor_spearman_mean": 0,
+    "ligand_allocation_tv_mean": 0,
+    "decoy_transport_fraction": 0,
+    "frac_ligand": 0
+  },
+  "niter_long_max": 400001.0,
+  "passed": true,
+  "verdict": "accept all main-setting results",
+  "created_utc": "2026-11-19T12:09:47+00:00",
+  "used": "analysis_inject_01/main",
+  "long": "analysis_inject_01_n400k/main"
+}

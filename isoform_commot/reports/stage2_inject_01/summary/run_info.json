@@ -1,0 +1,19 @@
+{
+  "plan": "reports/stage2_inject_01/plan.md",
+  "plan_commit": "accf094749eb20520b5ce29285be0be3d0e77acd",
+  "amendment_01_commit": "e6023d3f52d3a1b054ea31010381dd667daddbf0",
+  "amendment_02_commit": "0827e6d40af5e26494562a4df061e9df6e1aaa13",
+  "head_commit_at_finish_start": "0827e6d40af5e26494562a4df061e9df6e1aaa13",
+  "smoke": 0,
+  "runs_dir": "analysis_inject_01",
+  "check_runs_dir": "analysis_inject_01_n400k",
+  "recheck": {"lines_total": 132, "selected_lines": 8, "selected": ["s1_none", "s1_q100_ligand", "s1_q100_perm_ligand", "s1_q100_perm_raw", "s1_q100_raw", "s1_q60_perm_ligand", "s1_q60_raw", "s1_uniform"], "original_nitermax": 200000, "check_nitermax": 400000, "device": "cuda"},
+  "main_convergence_rule": "checks (amendment_02)",
+  "sens_convergence_rule": "cap (plan.md)",
+  "v12_report": "reports/stage2_ppi_01/scores/score_report.json",
+  "main_run_ot_wall_seconds": 31463,
+  "check_ot_wall_seconds": 7130,
+  "parallel_jobs": 8,
+  "finish_started_utc": "2026-11-19T10:10:38Z",
+  "finish_finished_utc": "2026-11-19T12:09:47Z"
+}

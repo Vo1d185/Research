@@ -1,0 +1,1 @@
+{"lines_total": 132, "selected_lines": 8, "selected": ["s1_none", "s1_q100_ligand", "s1_q100_perm_ligand", "s1_q100_perm_raw", "s1_q100_raw", "s1_q60_perm_ligand", "s1_q60_raw", "s1_uniform"], "original_nitermax": 200000, "check_nitermax": 400000, "device": "cuda"}

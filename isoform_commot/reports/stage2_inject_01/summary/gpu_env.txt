@@ -1,0 +1,1 @@
+torch 2.5.1+cu121 cuda 12.1 gpu NVIDIA RTX 6000 Ada Generation numpy 2.3.5 scipy 1.17.1 pandas 2.2.3

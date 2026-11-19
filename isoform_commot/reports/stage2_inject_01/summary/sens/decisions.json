@@ -1,0 +1,155 @@
+{
+  "created_utc": "2026-11-19T12:09:43+00:00",
+  "eps": 0.2,
+  "rho": 1.0,
+  "device": "cuda",
+  "v12_report": "reports/stage2_ppi_01/scores/score_report.json",
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "selection_seed": 1,
+  "convergence_rule": "cap",
+  "runs": 318,
+  "runs_not_converged": 0,
+  "runs_at_cap": 0,
+  "R1_oracle_usable": true,
+  "R1_cells": {
+    "ligand|0.05": true,
+    "ligand|0.1": true,
+    "ligand|0.2": true,
+    "ligand|0.5": true,
+    "ligand|1": true,
+    "raw|0.05": true,
+    "raw|0.1": true,
+    "raw|0.2": true,
+    "raw|0.5": true,
+    "raw|1": true
+  },
+  "R2_best_beta_oracle_raw": 1.0,
+  "R2_near_eps": false,
+  "R3_by_level": {
+    "q100": {
+      "auroc": 1.0,
+      "selected_norm": "raw",
+      "selected_beta": 1.0,
+      "selection_gain_vs_perm": 0.584594835422597,
+      "confirm_gain_vs_perm": [
+        0.5875350521086053,
+        0.5529356345168409
+      ],
+      "confirm_gain_vs_none": [
+        0.4781437399837367,
+        0.4539039279856582
+      ],
+      "usable": true
+    },
+    "q90": {
+      "auroc": 0.9,
+      "selected_norm": "raw",
+      "selected_beta": 1.0,
+      "selection_gain_vs_perm": 0.485475789966718,
+      "confirm_gain_vs_perm": [
+        0.4769113735444173,
+        0.4107932236326383
+      ],
+      "confirm_gain_vs_none": [
+        0.36265745938826643,
+        0.280075924885445
+      ],
+      "usable": true
+    },
+    "q80": {
+      "auroc": 0.8,
+      "selected_norm": "raw",
+      "selected_beta": 1.0,
+      "selection_gain_vs_perm": 0.3657509459359513,
+      "confirm_gain_vs_perm": [
+        0.3432776139629891,
+        0.32988783171859026
+      ],
+      "confirm_gain_vs_none": [
+        0.21097693679832952,
+        0.18265585365688358
+      ],
+      "usable": true
+    },
+    "q70": {
+      "auroc": 0.7,
+      "selected_norm": "raw",
+      "selected_beta": 1.0,
+      "selection_gain_vs_perm": 0.1410892477805884,
+      "confirm_gain_vs_perm": [
+        0.11257707583942317,
+        0.2649843762455602
+      ],
+      "confirm_gain_vs_none": [
+        0.04518694042609961,
+        0.09273697977456102
+      ],
+      "usable": true
+    },
+    "q60": {
+      "auroc": 0.6,
+      "selected_norm": "raw",
+      "selected_beta": 0.2,
+      "selection_gain_vs_perm": 0.13703423848953472,
+      "confirm_gain_vs_perm": [
+        0.17793224588153977,
+        0.1474759537710495
+      ],
+      "confirm_gain_vs_none": [
+        0.08735187488782636,
+        0.026947492104958115
+      ],
+      "usable": true
+    }
+  },
+  "R3_threshold_auroc": 0.6,
+  "R3_monotone": true,
+  "R5_receptor_metric_sees_oracle": true,
+  "R5_cells": {
+    "ligand|0.05": true,
+    "ligand|0.1": true,
+    "ligand|0.2": true,
+    "ligand|0.5": true,
+    "ligand|1": true,
+    "raw|0.05": true,
+    "raw|0.1": true,
+    "raw|0.2": true,
+    "raw|0.5": true,
+    "raw|1": true
+  },
+  "R4_v12": {
+    "auroc": 0.754023609411989,
+    "ci95": [
+      0.7301675684065541,
+      0.7779100207398137
+    ],
+    "threshold": 0.6,
+    "placement": "above"
+  },
+  "uniform_mean_gain_by_beta": {
+    "0.05": {
+      "pooled": -0.000615018381079635,
+      "receptor": 0.0014373318391362282
+    },
+    "0.1": {
+      "pooled": -0.0022824008135133114,
+      "receptor": 0.0014425528965342032
+    },
+    "0.2": {
+      "pooled": -0.00966881229370157,
+      "receptor": 0.0007172596221557415
+    },
+    "0.5": {
+      "pooled": -0.051313920853120476,
+      "receptor": -0.020066218931634478
+    },
+    "1": {
+      "pooled": -0.09548322387071467,
+      "receptor": -0.046530161393529834
+    }
+  }
+}
