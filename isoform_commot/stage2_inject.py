@@ -33,6 +33,7 @@ from scipy.stats import rankdata
 GAMMA = 4.0
 AUROC_LEVELS = {'q100': 1.0, 'q90': 0.9, 'q80': 0.8, 'q70': 0.7, 'q60': 0.6}
 BETAS = (0.05, 0.1, 0.2, 0.5, 1.0)
+CONVERGENCE_RULES = ('cap', 'checks')       # plan.md / amendment_02.md (Stage 2 plan section 8.7)
 S_FLOOR = 1e-12
 
 
@@ -309,12 +310,23 @@ def run(args):
 
 
 # ------------------------------------------------------------------ summarise
-def decide(m, v12=None, allow_unconverged=False):
+def converged(m, rule='cap'):
+    """cap (plan.md): converged = iteration cap not reached.
+    checks (amendment_02.md = Stage 2 plan section 8.7): converged = the solver's mass and KKT checks passed (the run
+    has a transport plan and no error); reaching the cap is recorded but is not a failure."""
+    check(rule in CONVERGENCE_RULES, f'Unknown convergence rule {rule}')
+    if rule == 'cap':
+        return ~m.cap_reached.fillna(False).astype(bool)
+    err = m['error'].fillna('').astype(str).str.len() > 0 if 'error' in m else pd.Series(False, index=m.index)
+    return ~err & m.total_transport.notna()
+
+
+def decide(m, v12=None, allow_unconverged=False, rule='cap'):
     """Pre-registered decisions (plan section 5) from one parameter setting's metrics table."""
     key = ['seed', 'variant', 'norm', 'beta']
     check(not m.duplicated(key).any(), 'Duplicate runs')
     m = m.copy()
-    m['converged'] = ~m.cap_reached.fillna(False).astype(bool)
+    m['converged'] = converged(m, rule)
     base = m[m.variant == 'none'].set_index('seed')
     check(allow_unconverged or base.converged.all(), 'A no-PPI baseline did not converge')
     m['gain'] = m.pooled_spearman - m.seed.map(base.pooled_spearman)
@@ -330,8 +342,9 @@ def decide(m, v12=None, allow_unconverged=False):
     seeds = sorted(m.seed.unique())
     check(len(seeds) >= 2, 'Need at least two seeds (the first selects, the others confirm)')
     sel, conf = seeds[0], seeds[1:]
-    dec = dict(seeds=[int(x) for x in seeds], selection_seed=int(sel),
-               runs=int(len(m)), runs_not_converged=int((~m.converged).sum()))
+    dec = dict(seeds=[int(x) for x in seeds], selection_seed=int(sel), convergence_rule=rule,
+               runs=int(len(m)), runs_not_converged=int((~m.converged).sum()),
+               runs_at_cap=int(m.cap_reached.fillna(False).astype(bool).sum()))
 
     def all_seeds(g, cond):
         return bool(g.seed.nunique() == len(seeds) and g.ok.all() and cond(g).all())
@@ -396,7 +409,7 @@ def summarise(args):
         check(v12 and v12.get('ci95'), 'V12 report has no panel_vs_unannotated AUROC')
     out = fresh(args.output)
     m.to_csv(out/'all_metrics.csv', index=False)
-    dec, real = decide(m, v12, args.allow_unconverged)
+    dec, real = decide(m, v12, args.allow_unconverged, args.convergence)
     real.to_csv(out/'real_vs_perm.csv', index=False)
     real.groupby(['variant', 'norm', 'beta'])[['gain', 'gain_vs_perm', 'gain_receptor', 'gain_vs_perm_receptor',
                                               'decoy_transport_fraction']].mean().round(5).to_csv(out/'mean_table.csv')
@@ -404,7 +417,101 @@ def summarise(args):
                                           device=device, v12_report=args.v12_report, **dec))
     print(json.dumps({k: dec.get(k) for k in ['R1_oracle_usable', 'R2_best_beta_oracle_raw', 'R2_near_eps',
                                               'R3_threshold_auroc', 'R3_monotone', 'R4_v12',
-                                              'R5_receptor_metric_sees_oracle', 'runs_not_converged']}, indent=2))
+                                              'R5_receptor_metric_sees_oracle', 'runs_not_converged', 'runs_at_cap',
+                                              'convergence_rule']}, indent=2))
+
+
+STABILITY_TOL = 1e-3          # Stage 2 plan section 8.7: relative L1 / total transport 1e-3
+STABILITY_METRICS = ['pooled_spearman', 'receptor_spearman_mean', 'ligand_allocation_tv_mean',
+                     'decoy_transport_fraction', 'frac_ligand']
+# amendment_02.md section 3: representative main-setting runs repeated with a longer cap (seed 1 only: the seed changes
+# the synthetic scores, not the OT budgets). Covers none, uniform, oracle and its permutation, both normalisations,
+# the best and the worst score quality, every beta.
+STABILITY_RUNS = ('s1_none', 's1_uniform', 's1_q100_raw', 's1_q100_ligand', 's1_q100_perm_raw', 's1_q100_perm_ligand',
+                  's1_q60_raw', 's1_q60_perm_ligand')
+
+
+def run_metrics(folder):
+    frames = [pd.read_csv(f) for f in sorted(Path(folder).glob('*/metrics.csv'))]
+    check(frames, f'No metrics.csv under {folder}')
+    return pd.concat(frames, ignore_index=True)
+
+
+def stability_check(used_m, long_m):
+    """amendment_02.md (Stage 2 section 8.7): every run repeated with the longer cap must (1) pass the solver checks at
+    both caps, (2) give metrics within STABILITY_TOL of the used result (total transport: relative). Differences only."""
+    key = ['seed', 'variant', 'norm', 'beta']
+    check(not long_m.duplicated(key).any() and not used_m.duplicated(key).any(), 'Duplicate runs')
+    Lg = long_m.set_index(key).sort_index()
+    U = used_m.set_index(key)
+    check(Lg.index.isin(U.index).all(), 'A longer-cap run has no counterpart among the used runs')
+    U = U.loc[Lg.index]
+    failed_used = int((~converged(U.reset_index(), 'checks')).sum())
+    failed_long = int((~converged(Lg.reset_index(), 'checks')).sum())
+    diffs, nan_mismatch = {}, {}
+    for c in STABILITY_METRICS:
+        nan_mismatch[c] = int((U[c].isna() != Lg[c].isna()).sum())
+        d = (U[c] - Lg[c]).abs()
+        diffs[c] = float(d.max()) if d.notna().any() else None
+    tt = (U.total_transport - Lg.total_transport).abs() / Lg.total_transport.abs()
+    diffs['total_transport_relative'] = float(tt.max()) if tt.notna().any() else None
+    within = all(v is not None and v <= STABILITY_TOL for v in diffs.values())
+    passed = bool(failed_used == 0 and failed_long == 0 and within and not any(nan_mismatch.values()))
+    return dict(compared_solves=int(len(Lg)), tolerance=STABILITY_TOL, failed_checks_used=failed_used,
+                failed_checks_long=failed_long, max_abs_diff=diffs, nan_mismatch=nan_mismatch,
+                niter_long_max=float(Lg.niter.max()) if 'niter' in Lg and Lg.niter.notna().any() else None,
+                passed=passed,
+                verdict='accept all main-setting results' if passed else 'main setting undetermined (amendment_02 section 3)')
+
+
+def stability(args):
+    res = stability_check(run_metrics(args.used), run_metrics(args.long))
+    res.update(created_utc=now(), used=str(args.used), long=str(args.long))
+    out = Path(args.output)
+    check(not out.exists(), f'{out} exists')
+    write_json(out, res)
+    print(json.dumps({k: res[k] for k in ('compared_solves', 'failed_checks_used', 'failed_checks_long', 'max_abs_diff',
+                                          'passed', 'verdict')}, indent=2))
+
+
+def recheck_commands(args):
+    """amendment_02.md: selected main-setting lines of an existing commands.txt, unchanged except a longer --nitermax and
+    outputs/logs under --check-runs (truth and scores are reused read-only). Refuses if any original run is missing."""
+    import re
+    runs, chk = str(args.runs).rstrip('/'), str(args.check_runs).rstrip('/')
+    lines = [l for l in Path(args.commands).read_text().splitlines() if l.strip()]
+    missing, out, niters, devices = [], [], set(), set()
+    for line in lines:
+        o = re.search(r'--output (\S+)', line)
+        check(o is not None, f'No --output in: {line[:80]}')
+        if not (Path(o.group(1))/'metrics.csv').exists():
+            missing.append(o.group(1))
+        if f'--output {runs}/main/' not in line or Path(o.group(1)).name not in args.select:
+            continue
+        check('--eps 0.1 --rho 10' in line, f'Main-setting line without --eps 0.1 --rho 10: {line[:80]}')
+        n = re.search(r'--nitermax (\d+)', line)
+        check(n is not None, 'No --nitermax in a main-setting line')
+        niters.add(int(n.group(1)))
+        d = re.search(r'--device (\S+)', line); devices.add(d.group(1) if d else 'cpu')
+        new = line
+        for a, b in ((f'--nitermax {n.group(1)}', f'--nitermax {args.nitermax}'),
+                     (f'--output {runs}/main/', f'--output {chk}/main/'), (f'> {runs}/logs/', f'> {chk}/logs/')):
+            check(new.count(a) == 1, f'Expected exactly one "{a}" in: {line[:80]}')
+            new = new.replace(a, b)
+        out.append(new)
+    check(not missing, f'{len(missing)} original runs have no metrics.csv (first: {missing[:1]})')
+    check(out, f'No main-setting lines for --runs {runs}; give it exactly as in the original run')
+    check(len(niters) == 1 and args.nitermax > max(niters), f'Check cap must exceed the original cap {sorted(niters)}')
+    found = sorted(Path(re.search(r'--output (\S+)', l).group(1)).name for l in out)
+    check(not args.require_all or found == sorted(args.select), f'Missing stability runs: {sorted(set(args.select) - set(found))}')
+    check(len(devices) == 1, f'Main-setting runs used more than one device: {sorted(devices)}')
+    dst = Path(args.output)
+    check(not dst.exists(), f'{dst} exists')
+    dst.write_text('\n'.join(out) + '\n')
+    info = dict(lines_total=len(lines), selected_lines=len(out), selected=found, original_nitermax=min(niters),
+                check_nitermax=args.nitermax, device=devices.pop())
+    print(json.dumps(info))
+    return info
 
 
 def parser():
@@ -431,9 +538,21 @@ def parser():
     m = sub.add_parser('summarise'); m.add_argument('--runs', required=True); m.add_argument('--output', required=True)
     m.add_argument('--v12-report', help='reports/stage2_ppi_01/scores/score_report.json (R4)')
     m.add_argument('--allow-unconverged', action='store_true', help='smoke test only')
+    m.add_argument('--convergence', choices=CONVERGENCE_RULES, default='cap',
+                   help='cap: plan.md (cap reached = not converged); checks: amendment_02.md (Stage 2 section 8.7)')
+    st = sub.add_parser('stability', help='amendment_02.md: used runs vs the same runs with a longer cap')
+    st.add_argument('--used', required=True, help='<runs>/main'); st.add_argument('--long', required=True, help='<check-runs>/main')
+    st.add_argument('--output', required=True)
+    rc = sub.add_parser('recheck-commands', help='amendment_02.md: main-setting commands again at a lower cap')
+    for k in ('commands', 'runs', 'check-runs', 'output'):
+        rc.add_argument('--' + k, required=True)
+    rc.add_argument('--nitermax', type=int, required=True)
+    rc.add_argument('--select', nargs='+', default=list(STABILITY_RUNS))
+    rc.add_argument('--require-all', action='store_true', help='main run: every STABILITY_RUNS entry must be present')
     return p
 
 
 if __name__ == '__main__':
     a = parser().parse_args()
-    dict(truth=truth, scores=scores, run=run, summarise=summarise)[a.command](a)
+    dict(truth=truth, scores=scores, run=run, summarise=summarise, stability=stability,
+         **{'recheck-commands': recheck_commands})[a.command](a)

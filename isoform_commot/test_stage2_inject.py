@@ -92,7 +92,83 @@ class Decide(unittest.TestCase):
         self.assertEqual(dec['R3_threshold_auroc'], 0.6); self.assertTrue(dec['R3_monotone'])
 
 
-@unittest.skipUnless((Path(__file__).parent/'vendor'/'_unot.py').exists(), 'run fetch_solver.py first')
+class Amendment02(unittest.TestCase):
+    """amendment_02.md: convergence = solver checks passed (Stage 2 section 8.7); stability between two caps."""
+    def full(self, oracle_gain=0.2, cap=True):
+        m = Decide().grid(oracle_gain)
+        m['cap_reached'] = cap
+        m['error'] = pd.Series(np.nan, index=m.index, dtype=object)   # empty string reads back from CSV as NaN
+        m['total_transport'] = 1.0
+        m['ligand_allocation_tv_mean'] = 0.2
+        m['frac_ligand'] = 0.5
+        return m
+
+    def test_rules(self):
+        m = self.full()
+        with self.assertRaises(Exception):
+            si.decide(m)                          # plan.md rule: capped baselines stop the summary
+        dec, _ = si.decide(m, rule='checks')
+        self.assertTrue(dec['R1_oracle_usable']); self.assertEqual(dec['runs_not_converged'], 0)
+        self.assertEqual(dec['runs_at_cap'], len(m)); self.assertEqual(dec['convergence_rule'], 'checks')
+        bad = (m.seed == 2) & (m.variant == 'q100') & (m.norm == 'raw') & (m.beta == 1.0)
+        m.loc[bad, 'error'] = 'Budget exceeded: solver has not converged'
+        m.loc[bad, ['pooled_spearman', 'total_transport']] = np.nan
+        dec, _ = si.decide(m, rule='checks')
+        self.assertFalse(dec['R1_cells']['raw|1']); self.assertTrue(dec['R1_cells']['raw|0.1'])
+        self.assertEqual(dec['runs_not_converged'], 1)
+        with self.assertRaises(Exception):
+            si.decide(m, rule='nonsense')
+
+    def test_stability(self):
+        used = self.full()
+        sub = lambda m: m[(m.seed == 1) & m.variant.isin(['none', 'q100', 'q100_perm'])].copy()
+        r = si.stability_check(used, sub(self.full()))
+        self.assertTrue(r['passed']); self.assertEqual(r['compared_solves'], 1 + 2 * 2 * 2)
+        s = sub(self.full()); s['pooled_spearman'] += 5e-4
+        self.assertTrue(si.stability_check(used, s)['passed'])
+        s = sub(self.full()); s['total_transport'] *= 1 + 2e-3
+        r = si.stability_check(used, s); self.assertFalse(r['passed'])
+        self.assertAlmostEqual(r['max_abs_diff']['total_transport_relative'], 2e-3 / (1 + 2e-3))
+        s = sub(self.full()); s.loc[s.index[2], 'error'] = 'Budget exceeded'; s.loc[s.index[2], 'total_transport'] = np.nan
+        r = si.stability_check(used, s); self.assertFalse(r['passed']); self.assertEqual(r['failed_checks_long'], 1)
+        s = sub(self.full()); s['seed'] = 9                     # no counterpart among the used runs
+        with self.assertRaises(Exception):
+            si.stability_check(used, s)
+
+
+class Recheck(unittest.TestCase):
+    def test_commands(self):
+        import argparse, tempfile
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d); runs = d/'runs'
+            lines = []
+            for st, setting in (('main', '--eps 0.1 --rho 10'), ('sens', '--eps 0.2 --rho 1')):
+                for name in ('s1_none', 's1_q100_raw', 's2_q100_raw'):
+                    (runs/st/name).mkdir(parents=True); (runs/st/name/'metrics.csv').write_text('x')
+                    lines.append(f'conda run -n inject-gpu python stage2_inject.py run --truth {runs}/truth_s1 {setting} '
+                                 f'--nitermax 200000 --device cuda --output {runs}/{st}/{name} > {runs}/logs/{st}_{name}.log 2>&1')
+            (runs/'commands.txt').write_text('\n'.join(lines) + '\n')
+            ns = lambda **k: argparse.Namespace(**{**dict(commands=runs/'commands.txt', runs=str(runs), check_runs=str(d/'chk'),
+                                                         nitermax=400000, output=d/'cmds.txt',
+                                                         select=['s1_none', 's1_q100_raw'], require_all=True), **k})
+            info = si.recheck_commands(ns())
+            self.assertEqual((info['selected_lines'], info['original_nitermax'], info['device']), (2, 200000, 'cuda'))
+            out = (d/'cmds.txt').read_text().splitlines()
+            self.assertTrue(all('--nitermax 400000' in l and f'{d}/chk/main/' in l and f'> {d}/chk/logs/' in l
+                                and f'{runs}/truth_s1' in l and '--eps 0.1 --rho 10' in l for l in out))
+            with self.assertRaises(Exception):                       # cap must go up
+                si.recheck_commands(ns(nitermax=100000, output=d/'c2.txt'))
+            with self.assertRaises(Exception):                       # --runs spelled differently
+                si.recheck_commands(ns(runs=str(runs) + '_x', output=d/'c3.txt'))
+            with self.assertRaises(Exception):                       # a required stability run is absent
+                si.recheck_commands(ns(select=['s1_none', 's1_uniform'], output=d/'c5.txt'))
+            self.assertEqual(si.recheck_commands(ns(select=['s1_none', 's1_uniform'], require_all=False,
+                                                    output=d/'c6.txt'))['selected'], ['s1_none'])
+            (runs/'sens'/'s1_none'/'metrics.csv').unlink()
+            with self.assertRaises(Exception):                       # an original run is missing
+                si.recheck_commands(ns(output=d/'c4.txt'))
+
+
 class Device(unittest.TestCase):
     def test_single_device(self):
         import pandas as pd
@@ -103,6 +179,7 @@ class Device(unittest.TestCase):
             si.single_device(pd.DataFrame(dict(device=['cpu', 'cuda'])))
 
 
+@unittest.skipUnless((Path(__file__).parent/'vendor'/'_unot.py').exists(), 'run fetch_solver.py first')
 class EndToEnd(unittest.TestCase):
     def test_tiny(self):
         with tempfile.TemporaryDirectory() as tmp:
