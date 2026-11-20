@@ -1,0 +1,197 @@
+{
+  "created_utc": "2026-11-20T08:20:34+00:00",
+  "n_boot": 1000,
+  "boot_seed": 1,
+  "primary_receptor_groups": {
+    "undetermined": false,
+    "n_groups": 35,
+    "n_pairs_in_groups": 145,
+    "rho_bar": {
+      "bindpred": 0.05012754987996216,
+      "v12": -0.07963687701940016,
+      "length": 0.05476323832505742
+    },
+    "ci95": {
+      "bindpred": [
+        -0.16126654237980145,
+        0.2533054444873849
+      ],
+      "v12": [
+        -0.31047034590689776,
+        0.14232283531899015
+      ],
+      "length": [
+        0.004598331669583219,
+        0.24539213942016902
+      ]
+    },
+    "paired_diff_ci95": {
+      "v12": [
+        -0.20021478516779936,
+        0.4578247917654234
+      ],
+      "length": [
+        -0.2973602797491273,
+        0.19157969333259672
+      ]
+    },
+    "A1_above_zero": false,
+    "A2_effect_size": false,
+    "A3_above_baselines": false,
+    "rho_bar_min": 0.3,
+    "verdict": "\u5728\u672c\u6d4b\u8bc4\u96c6\u4e0a\u770b\u4e0d\u51fa\u6392\u5e8f\u80fd\u529b"
+  },
+  "secondary_ligand_groups": {
+    "undetermined": false,
+    "n_groups": 26,
+    "n_pairs_in_groups": 90,
+    "rho_bar": {
+      "bindpred": 0.4741429100854907,
+      "v12": -0.34794389474800436,
+      "length": NaN
+    },
+    "ci95": {
+      "bindpred": [
+        0.2768140985588631,
+        0.6679240539917092
+      ],
+      "v12": [
+        -0.5452024122900128,
+        -0.13245812137121846
+      ],
+      "length": [
+        NaN,
+        NaN
+      ]
+    },
+    "paired_diff_ci95": {
+      "v12": [
+        0.5358635113794599,
+        1.1279378479321374
+      ],
+      "length": [
+        NaN,
+        NaN
+      ]
+    },
+    "A1_above_zero": true,
+    "A2_effect_size": true,
+    "A3_above_baselines": false,
+    "rho_bar_min": 0.3,
+    "verdict": "\u6548\u5e94\u91cf\u8db3\u591f\u4f46\u4e0d\u4f18\u4e8e\u57fa\u7ebf"
+  },
+  "pooled": {
+    "n": 247,
+    "pearson": 0.13433732665334638,
+    "spearman": 0.08610726604837873,
+    "rmse": 1.8330008594572098,
+    "bias": 1.2094192938981587,
+    "v12_pooled_spearman": -0.1731033319682872
+  },
+  "strata": {
+    "species_Human": {
+      "n_pairs": 171,
+      "n_groups": 26,
+      "rho_bar": {
+        "bindpred": 0.06439525974075246,
+        "v12": -0.04739603789314283,
+        "length": 0.16257678736320105
+      }
+    },
+    "species_Mouse": {
+      "n_pairs": 24,
+      "n_groups": 3,
+      "rho_bar": {
+        "bindpred": -0.03333333333333329,
+        "v12": 3.700743415417188e-17,
+        "length": 0.0778566239169209
+      }
+    },
+    "species_Rat": {
+      "n_pairs": 52,
+      "n_groups": 6,
+      "rho_bar": {
+        "bindpred": 0.030031248756518636,
+        "v12": -0.25916561840954877,
+        "length": 0.40473258952047375
+      }
+    },
+    "ligand_seen_only": {
+      "n_pairs": 15,
+      "n_groups": 1,
+      "rho_bar": {
+        "bindpred": -0.8660254037844387,
+        "v12": 0.0,
+        "length": 1.0
+      }
+    },
+    "receptor_seen_only": {
+      "n_pairs": 10,
+      "n_groups": 0,
+      "rho_bar": null
+    },
+    "neither_seen": {
+      "n_pairs": 220,
+      "n_groups": 32,
+      "rho_bar": {
+        "bindpred": 0.06054728334339042,
+        "v12": -0.054419964407420515,
+        "length": 0.02768769715730818
+      }
+    },
+    "pKd_only": {
+      "n_pairs": 42,
+      "n_groups": 3,
+      "rho_bar": {
+        "bindpred": 0.6,
+        "v12": -0.26666666666666666,
+        "length": 0.06125741132772067
+      }
+    },
+    "pKi_only": {
+      "n_pairs": 202,
+      "n_groups": 31,
+      "rho_bar": {
+        "bindpred": -0.036952766264558845,
+        "v12": -0.08668679663480663,
+        "length": 0.04684495057504761
+      }
+    },
+    "ligand_len_0_20": {
+      "n_pairs": 105,
+      "n_groups": 10,
+      "rho_bar": {
+        "bindpred": -0.14938436728202156,
+        "v12": -0.21205735836250234,
+        "length": 0.01419718997533922
+      }
+    },
+    "ligand_len_21_50": {
+      "n_pairs": 83,
+      "n_groups": 11,
+      "rho_bar": {
+        "bindpred": 0.3909090909090909,
+        "v12": -0.09090909090909088,
+        "length": 0.05920148259265253
+      }
+    },
+    "ligand_len_51_1000000": {
+      "n_pairs": 59,
+      "n_groups": 7,
+      "rho_bar": {
+        "bindpred": 0.1967751323467901,
+        "v12": -0.03486736158235616,
+        "length": 0.2910471554272228
+      }
+    }
+  },
+  "group_summary": {
+    "median_value_range": 2.3,
+    "informative_pairs": 193
+  },
+  "inputs": {
+    "pairs": "ddaef279a3b6f5512347ccdcdd86f5b37489e3e30ffd8e74c42e9c20c7b95ac3",
+    "bindpred": "43566bce248d3120a6bd91c181cabd19a80b9165c4df906a901ab70178ae0276",
+    "v12": "dd8a60542727836e9529a740b8db4ed3897c7e59ba0537a79dccf203ebed5e0b"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "status": "complete", "started_utc": "2026-11-20T08:19:17Z", "finished_utc": "2026-11-20T08:20:35Z",
+  "smoke": 0, "resume": 0, "plan": "reports/affinity_01/plan.md", "plan_commit": "8a2964e842c45275e38a5b0222f7b70d8c477dce",
+  "runs": "analysis_affinity_main", "results": "reports/affinity_01/summary", "inputs": "reports/affinity_01/inputs", "bindpred_dir": "models/bindpred",
+  "esm2": "models/esm2_t33_650M_UR50D", "v12_checkpoint": "models/plm_650m_humanV12/pytorch_model.bin", "predict_env": "commot-research",
+  "git_commit": "8a2964e842c45275e38a5b0222f7b70d8c477dce", "git_dirty": false
+}
