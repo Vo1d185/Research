@@ -1,0 +1,8 @@
+{
+  "plan": "reports/bindpred_ot_01/plan.md", "plan_commit": "0d38a9a2c35e2eb1f2391b9325bd4918fbf0fc24", "head_commit": "0d38a9a2c35e2eb1f2391b9325bd4918fbf0fc24",
+  "git_dirty": false, "smoke": 0, "resumed": 0,
+  "runs_dir": "analysis_bpot_main", "post_input": "stage2_input_post", "ant_input": "stage2_input_ant", "post_genes": "stage2_genes_post_v2", "ant_genes": "stage2_genes_ant",
+  "db": "data/scseqcomm", "scores_dir": "reports/stage2_ppi_01/scores", "exp2_summary": "reports/stage2_ppi_02/summary", "bindpred_dir": "models/bindpred", "esm2": "models/esm2_t33_650M_UR50D",
+  "jobs": 8, "batch": 5, "embed_seconds": 25, "ot_wall_seconds": 306,
+  "run_started_utc": "2026-11-20T10:25:35Z", "run_finished_utc": "2026-11-20T10:32:56Z"
+}

@@ -1,0 +1,266 @@
+{
+  "created_utc": "2026-11-20T10:32:56+00:00",
+  "n_perm": 100,
+  "alpha": 0.05,
+  "verdict": {
+    "F1_post": "no_information",
+    "F1_ant": "no_information",
+    "F1_confirmed": true,
+    "F2_post": "improved",
+    "F2_ant": "improved",
+    "F2_confirmed": true,
+    "F3_post": "improved",
+    "F3_ant": "improved",
+    "conclusion_post": "看不出 BindPred 的配对信息",
+    "conclusion_ant": "看不出 BindPred 的配对信息",
+    "failed_cases": []
+  },
+  "details": {
+    "post": {
+      "receptors_common": 138,
+      "failed_cases": [],
+      "undetermined": false,
+      "M": {
+        "no_ppi": 0.09597255653016923,
+        "bp_snorm": 0.11112657181700722,
+        "uniform": 0.10839422274543205
+      },
+      "F1": {
+        "M": 0.11112657181700722,
+        "n_perm": 100,
+        "perm_mean": 0.10844574325250475,
+        "perm_sd": 0.0019529985554109406,
+        "p": 0.07920792079207921,
+        "label": "no_information"
+      },
+      "F2_vs_uniform": {
+        "delta": 0.002732349071575174,
+        "ci95": [
+          0.0002797573917393389,
+          0.005695761718258086
+        ],
+        "receptors": 138,
+        "label": "improved"
+      },
+      "F3_vs_no_ppi": {
+        "delta": 0.015154015286837986,
+        "ci95": [
+          0.0073194023721199365,
+          0.02476791489911098
+        ],
+        "receptors": 138,
+        "label": "improved"
+      },
+      "uniform_vs_no_ppi": {
+        "delta": 0.01242166621526281,
+        "ci95": [
+          0.00594356683855045,
+          0.020652040608402058
+        ],
+        "receptors": 138,
+        "label": "improved"
+      },
+      "sensitivity": {
+        "bp_receptor_snorm_vs_uniform": {
+          "delta": 0.0007407479400239465,
+          "ci95": [
+            -0.0029518221863978253,
+            0.004549669820501235
+          ],
+          "receptors": 138,
+          "label": "uncertain"
+        },
+        "bp_snorm_vs_bp_receptor_snorm": {
+          "delta": 0.0019916011315512278,
+          "ci95": [
+            -0.001997459011097543,
+            0.007098198990956639
+          ],
+          "receptors": 138,
+          "label": "uncertain"
+        },
+        "v12_snorm_vs_uniform": {
+          "delta": -0.0019347147658693832,
+          "ci95": [
+            -0.007741225313859805,
+            0.002232661017305423
+          ],
+          "receptors": 138,
+          "label": "uncertain"
+        },
+        "bp_snorm_vs_v12_snorm": {
+          "delta": 0.004667063837444557,
+          "ci95": [
+            -0.0004772955906980817,
+            0.01124807985383668
+          ],
+          "receptors": 138,
+          "label": "uncertain"
+        }
+      },
+      "top_tf_5": {
+        "F2_vs_uniform": {
+          "delta": 0.0019527512535766909,
+          "ci95": [
+            -0.0004529194473365771,
+            0.00479623826495433
+          ],
+          "receptors": 136,
+          "label": "uncertain"
+        },
+        "F3_vs_no_ppi": {
+          "delta": 0.014456012754234674,
+          "ci95": [
+            0.007654860909196198,
+            0.022869051479637335
+          ],
+          "receptors": 136,
+          "label": "improved"
+        }
+      },
+      "top_tf_20": {
+        "F2_vs_uniform": {
+          "delta": 0.0030291965552879875,
+          "ci95": [
+            0.0005005901544738017,
+            0.006077444266280509
+          ],
+          "receptors": 138,
+          "label": "improved"
+        },
+        "F3_vs_no_ppi": {
+          "delta": 0.015317986786230342,
+          "ci95": [
+            0.007596067767404307,
+            0.024930301933445604
+          ],
+          "receptors": 138,
+          "label": "improved"
+        }
+      }
+    },
+    "ant": {
+      "receptors_common": 149,
+      "failed_cases": [],
+      "undetermined": false,
+      "M": {
+        "no_ppi": 0.08637005607596894,
+        "bp_snorm": 0.09728070489880042,
+        "uniform": 0.09436151838234406
+      },
+      "F1": {
+        "M": 0.09728070489880042,
+        "n_perm": 100,
+        "perm_mean": 0.09442824394678068,
+        "perm_sd": 0.0016146358946857295,
+        "p": 0.0594059405940594,
+        "label": "no_information"
+      },
+      "F2_vs_uniform": {
+        "delta": 0.002919186516456347,
+        "ci95": [
+          0.0003402878856900963,
+          0.006030038500984438
+        ],
+        "receptors": 149,
+        "label": "improved"
+      },
+      "F3_vs_no_ppi": {
+        "delta": 0.010910648822831477,
+        "ci95": [
+          0.004741466808029071,
+          0.01810899993335359
+        ],
+        "receptors": 149,
+        "label": "improved"
+      },
+      "uniform_vs_no_ppi": {
+        "delta": 0.00799146230637513,
+        "ci95": [
+          0.0033577303739981365,
+          0.01330018387565308
+        ],
+        "receptors": 149,
+        "label": "improved"
+      },
+      "sensitivity": {
+        "bp_receptor_snorm_vs_uniform": {
+          "delta": 0.002469424586815225,
+          "ci95": [
+            -9.824591378387576e-05,
+            0.005440998846788546
+          ],
+          "receptors": 149,
+          "label": "uncertain"
+        },
+        "bp_snorm_vs_bp_receptor_snorm": {
+          "delta": 0.0004497619296411226,
+          "ci95": [
+            -0.0015624876597241245,
+            0.0027413460289893725
+          ],
+          "receptors": 149,
+          "label": "uncertain"
+        },
+        "v12_snorm_vs_uniform": {
+          "delta": 0.00021704167788141844,
+          "ci95": [
+            -0.00377496316580822,
+            0.004111086347345069
+          ],
+          "receptors": 149,
+          "label": "uncertain"
+        },
+        "bp_snorm_vs_v12_snorm": {
+          "delta": 0.002702144838574929,
+          "ci95": [
+            -0.002042322804013855,
+            0.008331605086741677
+          ],
+          "receptors": 149,
+          "label": "uncertain"
+        }
+      },
+      "top_tf_5": {
+        "F2_vs_uniform": {
+          "delta": 0.0014648878686775548,
+          "ci95": [
+            -0.001107751703290564,
+            0.003713115701724979
+          ],
+          "receptors": 148,
+          "label": "uncertain"
+        },
+        "F3_vs_no_ppi": {
+          "delta": 0.00863253273101705,
+          "ci95": [
+            0.003805034756593074,
+            0.014032322352262278
+          ],
+          "receptors": 148,
+          "label": "improved"
+        }
+      },
+      "top_tf_20": {
+        "F2_vs_uniform": {
+          "delta": 0.003003761871169459,
+          "ci95": [
+            0.00027840410022901525,
+            0.00610384916200748
+          ],
+          "receptors": 149,
+          "label": "improved"
+        },
+        "F3_vs_no_ppi": {
+          "delta": 0.010871597494036227,
+          "ci95": [
+            0.004925209641294164,
+            0.018057364746323277
+          ],
+          "receptors": 149,
+          "label": "improved"
+        }
+      }
+    }
+  }
+}

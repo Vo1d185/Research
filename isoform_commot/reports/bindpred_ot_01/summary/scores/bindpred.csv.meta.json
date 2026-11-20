@@ -1,0 +1,12 @@
+{
+  "status": "complete",
+  "created_utc": "2026-11-20T10:26:12+00:00",
+  "n_pairs": 582,
+  "model": "/home/liu/Research/isoform_commot/models/bindpred/ESM2_BindPred.cbm",
+  "model_sha256": "f56ac4a1d63149d6e870f89621c2a63c46070d8b9725502230a14167afaeb47f",
+  "embeddings_sha256": "f840efd467415d900a86c1746f6bd7ce95821cf8094bd06093835e9a1f9d4853",
+  "pairs_sha256": "6583233c048edca222a8ee428c5261fbe9d39553e6d7d07015bfce088f76cc51",
+  "trees": 2000,
+  "features": 2560,
+  "output_sha256": null
+}

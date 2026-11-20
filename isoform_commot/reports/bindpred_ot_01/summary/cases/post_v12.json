@@ -1,0 +1,19 @@
+{
+  "created_utc": "2026-11-20T10:26:29+00:00",
+  "setting": "main",
+  "slice": "post",
+  "smoke": false,
+  "cases": [
+    {
+      "name": "v12_snorm",
+      "s": "snorm",
+      "beta": 1.0,
+      "perm": 0,
+      "override": null,
+      "panel": "all",
+      "nitermax": 50000,
+      "keep": true,
+      "group": "sensitivity"
+    }
+  ]
+}

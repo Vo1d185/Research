@@ -1,0 +1,20 @@
+{
+  "created_utc": "2026-11-20T10:25:44+00:00",
+  "inputs": {
+    "/home/liu/Research/isoform_commot/stage2_input_post": {
+      "lr.csv": "a832d96ffdcf6a439690142e5558ef55ba187151962067126cccb332e0008da1",
+      "entities.csv": "3263aab80e669cbebf4a49fceff39b6d4e0b33f24e5a1e096a1e4c631fd73b97"
+    },
+    "/home/liu/Research/isoform_commot/stage2_input_ant": {
+      "lr.csv": "5e4a65b2b6b1cc07ff7cef3f735834b058902898eef9b3e41737a6d14cbed5d5",
+      "entities.csv": "5f3c7878c5cb2ca1a61d3e700ed6f53d85fba5ffa183fea92f838d4845ee5ebd"
+    }
+  },
+  "protein_map_sha256": "850624b60b869477011625741120531ee38648a95573d9264468d6ec0e1a55ce",
+  "sequences_sha256": "a2936c1fd387f412833fc5cb5d76df6c768e95fc1f812f20e7f93a84ac35e6e4",
+  "n_entity_pairs": 615,
+  "n_complete": 557,
+  "n_oriented_pairs": 582,
+  "n_sequences": 373,
+  "n_longer_than_1022": 82
+}

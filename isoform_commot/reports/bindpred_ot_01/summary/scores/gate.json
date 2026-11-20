@@ -1,0 +1,39 @@
+{
+  "created_utc": "2026-11-20T10:27:45+00:00",
+  "tolerance": 1e-10,
+  "cases": [
+    {
+      "slice": "post",
+      "case": "no_ppi",
+      "reference": "no_ppi",
+      "receptors": 138,
+      "max_abs_diff": 0.0,
+      "nan_mismatch": 0
+    },
+    {
+      "slice": "post",
+      "case": "v12_snorm",
+      "reference": "snorm_b1",
+      "receptors": 138,
+      "max_abs_diff": 0.0,
+      "nan_mismatch": 0
+    },
+    {
+      "slice": "ant",
+      "case": "no_ppi",
+      "reference": "no_ppi",
+      "receptors": 149,
+      "max_abs_diff": 0.0,
+      "nan_mismatch": 0
+    },
+    {
+      "slice": "ant",
+      "case": "v12_snorm",
+      "reference": "snorm_b1",
+      "receptors": 149,
+      "max_abs_diff": 0.0,
+      "nan_mismatch": 0
+    }
+  ],
+  "passed": true
+}
