@@ -1,0 +1,617 @@
+{
+  "created_utc": "2026-11-20T04:53:34+00:00",
+  "n_boot": 1000,
+  "alpha": 0.05,
+  "main": {
+    "details": {
+      "post": {
+        "receptors_common": 138,
+        "failed_cases": [],
+        "M": {
+          "no_ppi": 0.09597255653016923,
+          "raw": 0.10421098087232972,
+          "snorm": 0.1001598995027799,
+          "uniform": 0.10218548761985867
+        },
+        "undetermined": false,
+        "D1_raw": {
+          "M": 0.10421098087232972,
+          "n_perm": 100,
+          "perm_mean": 0.10651647361542574,
+          "perm_sd": 0.003170992936098718,
+          "p": 0.7920792079207921,
+          "label": "no_information"
+        },
+        "D2_raw": {
+          "delta": 0.008238424342160478,
+          "ci95": [
+            0.0018477056437528148,
+            0.014929035308848836
+          ],
+          "receptors": 138,
+          "label": "improved"
+        },
+        "D1_snorm": {
+          "M": 0.1001598995027799,
+          "n_perm": 100,
+          "perm_mean": 0.10482076846794046,
+          "perm_sd": 0.0023191340402285957,
+          "p": 0.9801980198019802,
+          "label": "no_information"
+        },
+        "D2_snorm": {
+          "delta": 0.004187342972610647,
+          "ci95": [
+            0.00038720784834886455,
+            0.007891312741912132
+          ],
+          "receptors": 138,
+          "label": "improved"
+        },
+        "D2_uniform": {
+          "delta": 0.0062129310896894266,
+          "ci95": [
+            0.003257846390377987,
+            0.010004853336873433
+          ],
+          "receptors": 138,
+          "label": "improved"
+        },
+        "D3_raw_vs_snorm": {
+          "delta": 0.004051081369549831,
+          "ci95": [
+            -0.0013316276060374615,
+            0.011279006121517781
+          ],
+          "receptors": 138,
+          "label": "indistinguishable"
+        },
+        "sensitivity": {
+          "snorm_b1": {
+            "delta": 0.010486951449393428,
+            "ci95": [
+              0.004420577838943217,
+              0.017198142657090156
+            ],
+            "receptors": 138,
+            "label": "improved",
+            "reference": "no_ppi"
+          },
+          "raw_long_median": {
+            "delta": 0.008000151146919892,
+            "ci95": [
+              0.00353447855677763,
+              0.012972521479256345
+            ],
+            "receptors": 138,
+            "label": "improved",
+            "reference": "no_ppi"
+          },
+          "snorm_long_median": {
+            "delta": 0.005193339487348513,
+            "ci95": [
+              0.0017386637398830195,
+              0.008956156452647735
+            ],
+            "receptors": 138,
+            "label": "improved",
+            "reference": "no_ppi"
+          },
+          "raw_homo_median": {
+            "delta": 0.009745166156786046,
+            "ci95": [
+              0.002914464038184331,
+              0.017019506961159232
+            ],
+            "receptors": 138,
+            "label": "improved",
+            "reference": "no_ppi"
+          },
+          "snorm_homo_median": {
+            "delta": 0.006568630664434938,
+            "ci95": [
+              0.001951591896900561,
+              0.011199872607221372
+            ],
+            "receptors": 138,
+            "label": "improved",
+            "reference": "no_ppi"
+          },
+          "raw_scored_only": {
+            "delta": 0.008280042086618407,
+            "ci95": [
+              0.0019039334192607188,
+              0.014975879430154252
+            ],
+            "receptors": 138,
+            "label": "improved",
+            "reference": "no_ppi_scored_only"
+          },
+          "snorm_scored_only": {
+            "delta": 0.004218762176712227,
+            "ci95": [
+              0.0004528748653555358,
+              0.007896860887199597
+            ],
+            "receptors": 138,
+            "label": "improved",
+            "reference": "no_ppi_scored_only"
+          }
+        },
+        "top_tf_5": {
+          "raw": {
+            "delta": 0.008321275097406381,
+            "ci95": [
+              0.002354058695796607,
+              0.01572862562863272
+            ],
+            "receptors": 136,
+            "label": "improved"
+          },
+          "snorm": {
+            "delta": 0.0042706633344072355,
+            "ci95": [
+              0.0006672506442929982,
+              0.0074587989757480735
+            ],
+            "receptors": 136,
+            "label": "improved"
+          }
+        },
+        "top_tf_20": {
+          "raw": {
+            "delta": 0.008171593983919164,
+            "ci95": [
+              0.001905195352300084,
+              0.01499873268695791
+            ],
+            "receptors": 138,
+            "label": "improved"
+          },
+          "snorm": {
+            "delta": 0.0036227763050249062,
+            "ci95": [
+              -0.00014149202856609467,
+              0.007052112913205635
+            ],
+            "receptors": 138,
+            "label": "uncertain"
+          }
+        }
+      },
+      "ant": {
+        "receptors_common": 149,
+        "failed_cases": [],
+        "M": {
+          "no_ppi": 0.08637005607596894,
+          "raw": 0.08665998623030832,
+          "snorm": 0.08988714736447653,
+          "uniform": 0.09114299992526574
+        },
+        "undetermined": false,
+        "D1_raw": {
+          "M": 0.08665998623030832,
+          "n_perm": 100,
+          "perm_mean": 0.09305885005877666,
+          "perm_sd": 0.002533866052744153,
+          "p": 0.9900990099009901,
+          "label": "no_information"
+        },
+        "D2_raw": {
+          "delta": 0.00028993015433937584,
+          "ci95": [
+            -0.004482940742610448,
+            0.005067571019838248
+          ],
+          "receptors": 149,
+          "label": "uncertain"
+        },
+        "D1_snorm": {
+          "M": 0.08988714736447653,
+          "n_perm": 100,
+          "perm_mean": 0.0924741493004295,
+          "perm_sd": 0.0016385485789576384,
+          "p": 0.9603960396039604,
+          "label": "no_information"
+        },
+        "D2_snorm": {
+          "delta": 0.0035170912885075793,
+          "ci95": [
+            0.0006738746319454426,
+            0.006545428853350458
+          ],
+          "receptors": 149,
+          "label": "improved"
+        },
+        "D2_uniform": {
+          "delta": 0.0047729438492967865,
+          "ci95": [
+            0.0023010487488367426,
+            0.007390565748872714
+          ],
+          "receptors": 149,
+          "label": "improved"
+        },
+        "D3_raw_vs_snorm": {
+          "delta": -0.0032271611341682035,
+          "ci95": [
+            -0.007661752722215603,
+            0.0009486453221542949
+          ],
+          "receptors": 149,
+          "label": "indistinguishable"
+        },
+        "sensitivity": {
+          "snorm_b1": {
+            "delta": 0.008208503984256548,
+            "ci95": [
+              0.003175793529144839,
+              0.013288208218310789
+            ],
+            "receptors": 149,
+            "label": "improved",
+            "reference": "no_ppi"
+          },
+          "raw_long_median": {
+            "delta": 0.0031191144235973725,
+            "ci95": [
+              -0.00035136969252734073,
+              0.006746904192366572
+            ],
+            "receptors": 149,
+            "label": "uncertain",
+            "reference": "no_ppi"
+          },
+          "snorm_long_median": {
+            "delta": 0.0031664419820687994,
+            "ci95": [
+              0.0008516711173770707,
+              0.005333428969228001
+            ],
+            "receptors": 149,
+            "label": "improved",
+            "reference": "no_ppi"
+          },
+          "raw_homo_median": {
+            "delta": 0.0008096971339497018,
+            "ci95": [
+              -0.003841582093814075,
+              0.005587443933931726
+            ],
+            "receptors": 149,
+            "label": "uncertain",
+            "reference": "no_ppi"
+          },
+          "snorm_homo_median": {
+            "delta": 0.00416463630010083,
+            "ci95": [
+              0.001144499408610938,
+              0.007099836390431791
+            ],
+            "receptors": 149,
+            "label": "improved",
+            "reference": "no_ppi"
+          },
+          "raw_scored_only": {
+            "delta": 0.00036574270344875395,
+            "ci95": [
+              -0.004365206356239955,
+              0.005087598238951626
+            ],
+            "receptors": 149,
+            "label": "uncertain",
+            "reference": "no_ppi_scored_only"
+          },
+          "snorm_scored_only": {
+            "delta": 0.0035820590886835703,
+            "ci95": [
+              0.000818653445301837,
+              0.006531796304931976
+            ],
+            "receptors": 149,
+            "label": "improved",
+            "reference": "no_ppi_scored_only"
+          }
+        },
+        "top_tf_5": {
+          "raw": {
+            "delta": 0.0029028707581856355,
+            "ci95": [
+              -0.002034700430368597,
+              0.008441043896046711
+            ],
+            "receptors": 148,
+            "label": "uncertain"
+          },
+          "snorm": {
+            "delta": 0.003109629589414238,
+            "ci95": [
+              0.0005693443013991465,
+              0.005688956137917941
+            ],
+            "receptors": 148,
+            "label": "improved"
+          }
+        },
+        "top_tf_20": {
+          "raw": {
+            "delta": 0.002355135725930999,
+            "ci95": [
+              -0.0026999074768019812,
+              0.007753972350051779
+            ],
+            "receptors": 149,
+            "label": "uncertain"
+          },
+          "snorm": {
+            "delta": 0.0037341188739269384,
+            "ci95": [
+              0.0007602222464049925,
+              0.007023160347246842
+            ],
+            "receptors": 149,
+            "label": "improved"
+          }
+        }
+      }
+    },
+    "verdict": {
+      "raw": {
+        "D1_post": "no_information",
+        "D1_ant": "no_information",
+        "D1_confirmed": true,
+        "D2_post": "improved",
+        "D2_ant": "uncertain",
+        "D2_confirmed": false,
+        "conclusion_post": "\u5728\u672c\u8bc4\u4ef7\u4e0b\u770b\u4e0d\u51fa\u914d\u5bf9\u4fe1\u606f",
+        "conclusion_ant": "\u5728\u672c\u8bc4\u4ef7\u4e0b\u770b\u4e0d\u51fa\u914d\u5bf9\u4fe1\u606f"
+      },
+      "snorm": {
+        "D1_post": "no_information",
+        "D1_ant": "no_information",
+        "D1_confirmed": true,
+        "D2_post": "improved",
+        "D2_ant": "improved",
+        "D2_confirmed": true,
+        "conclusion_post": "\u5728\u672c\u8bc4\u4ef7\u4e0b\u770b\u4e0d\u51fa\u914d\u5bf9\u4fe1\u606f",
+        "conclusion_ant": "\u5728\u672c\u8bc4\u4ef7\u4e0b\u770b\u4e0d\u51fa\u914d\u5bf9\u4fe1\u606f"
+      },
+      "D3": {
+        "post": "indistinguishable",
+        "ant": "indistinguishable",
+        "confirmed": true
+      },
+      "failed_cases": []
+    }
+  },
+  "second": {
+    "details": {
+      "post": {
+        "receptors_common": 137,
+        "failed_cases": [],
+        "M": {
+          "no_ppi": 0.047967931952553555,
+          "raw": 0.04828706861823123,
+          "snorm": 0.04756379357490152,
+          "uniform": 0.04704019147890663
+        },
+        "undetermined": false,
+        "D2_raw": {
+          "delta": 0.00031913666567768043,
+          "ci95": [
+            -0.0038295374533220267,
+            0.0042033096368878226
+          ],
+          "receptors": 137,
+          "label": "uncertain"
+        },
+        "D2_snorm": {
+          "delta": -0.0004041383776520266,
+          "ci95": [
+            -0.004566723109249871,
+            0.0035458611432378196
+          ],
+          "receptors": 137,
+          "label": "uncertain"
+        },
+        "D2_uniform": {
+          "delta": -0.0009277404736469267,
+          "ci95": [
+            -0.0024748092407647303,
+            0.0005361125355623457
+          ],
+          "receptors": 137,
+          "label": "uncertain"
+        },
+        "D3_raw_vs_snorm": {
+          "delta": 0.0007232750433297072,
+          "ci95": [
+            -0.0006829470164904814,
+            0.0022359596320340345
+          ],
+          "receptors": 137,
+          "label": "indistinguishable"
+        },
+        "sensitivity": {},
+        "top_tf_5": {
+          "raw": {
+            "delta": -0.00011231164433549558,
+            "ci95": [
+              -0.004208557024585711,
+              0.003631554596290998
+            ],
+            "receptors": 135,
+            "label": "uncertain"
+          },
+          "snorm": {
+            "delta": -2.0298748971122234e-05,
+            "ci95": [
+              -0.004195724306563104,
+              0.0039777047932747596
+            ],
+            "receptors": 135,
+            "label": "uncertain"
+          }
+        },
+        "top_tf_20": {
+          "raw": {
+            "delta": 0.000970607331041716,
+            "ci95": [
+              -0.0032171763131760506,
+              0.005203904962942454
+            ],
+            "receptors": 137,
+            "label": "uncertain"
+          },
+          "snorm": {
+            "delta": 0.0001520651029863764,
+            "ci95": [
+              -0.004258335142672258,
+              0.004210899414526329
+            ],
+            "receptors": 137,
+            "label": "uncertain"
+          }
+        }
+      },
+      "stability": {
+        "raw": {
+          "receptors": 224,
+          "zero_receptors": 0,
+          "max_rel_l1": 3.0040390867835325,
+          "min_spearman": 0.9999748730860843,
+          "undefined_spearman": 0,
+          "total_transport_rel": 6.621255437231015e-08,
+          "passed": false
+        },
+        "snorm": {
+          "receptors": 224,
+          "zero_receptors": 0,
+          "max_rel_l1": 3.0040390867835325,
+          "min_spearman": 0.9999771240688861,
+          "undefined_spearman": 0,
+          "total_transport_rel": 6.638035545344941e-08,
+          "passed": false
+        }
+      },
+      "ant": {
+        "receptors_common": 144,
+        "failed_cases": [],
+        "M": {
+          "no_ppi": 0.04364905430750217,
+          "raw": 0.04482766546712365,
+          "snorm": 0.04491390122377417,
+          "uniform": 0.04409302895662009
+        },
+        "undetermined": false,
+        "D2_raw": {
+          "delta": 0.0011786111596214738,
+          "ci95": [
+            -0.003383458070411861,
+            0.0053867527435474336
+          ],
+          "receptors": 144,
+          "label": "uncertain"
+        },
+        "D2_snorm": {
+          "delta": 0.0012648469162719988,
+          "ci95": [
+            -0.003450696779937872,
+            0.005373422177569182
+          ],
+          "receptors": 144,
+          "label": "uncertain"
+        },
+        "D2_uniform": {
+          "delta": 0.0004439746491179162,
+          "ci95": [
+            -0.00043732030863612,
+            0.0014932389515089327
+          ],
+          "receptors": 144,
+          "label": "uncertain"
+        },
+        "D3_raw_vs_snorm": {
+          "delta": -8.6235756650525e-05,
+          "ci95": [
+            -0.0014766780797661441,
+            0.0017565135094247807
+          ],
+          "receptors": 144,
+          "label": "indistinguishable"
+        },
+        "sensitivity": {},
+        "top_tf_5": {
+          "raw": {
+            "delta": 0.0008868557390145703,
+            "ci95": [
+              -0.0035542216446979922,
+              0.004387895193337962
+            ],
+            "receptors": 143,
+            "label": "uncertain"
+          },
+          "snorm": {
+            "delta": 0.0014103772151574968,
+            "ci95": [
+              -0.0031179588809769677,
+              0.0048406686641292804
+            ],
+            "receptors": 143,
+            "label": "uncertain"
+          }
+        },
+        "top_tf_20": {
+          "raw": {
+            "delta": 0.0014112212870926533,
+            "ci95": [
+              -0.0031663022659114888,
+              0.00547201624908109
+            ],
+            "receptors": 144,
+            "label": "uncertain"
+          },
+          "snorm": {
+            "delta": 0.0019807125166296327,
+            "ci95": [
+              -0.002914356435285843,
+              0.00600923878159698
+            ],
+            "receptors": 144,
+            "label": "uncertain"
+          }
+        }
+      }
+    },
+    "verdict": {
+      "raw": {
+        "D1_post": null,
+        "D1_ant": null,
+        "D1_confirmed": false,
+        "D2_post": "uncertain",
+        "D2_ant": "uncertain",
+        "D2_confirmed": true,
+        "conclusion_post": "\u4e0d\u786e\u5b9a(\u65e0 D1)",
+        "conclusion_ant": "\u4e0d\u786e\u5b9a(\u65e0 D1)"
+      },
+      "snorm": {
+        "D1_post": null,
+        "D1_ant": null,
+        "D1_confirmed": false,
+        "D2_post": "uncertain",
+        "D2_ant": "uncertain",
+        "D2_confirmed": true,
+        "conclusion_post": "\u4e0d\u786e\u5b9a(\u65e0 D1)",
+        "conclusion_ant": "\u4e0d\u786e\u5b9a(\u65e0 D1)"
+      },
+      "D3": {
+        "post": "indistinguishable",
+        "ant": "indistinguishable",
+        "confirmed": true
+      },
+      "stability_passed": false,
+      "note": "stability diagnostic failed or missing: second setting undetermined (plan section 2)",
+      "failed_cases": []
+    }
+  }
+}

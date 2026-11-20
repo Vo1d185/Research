@@ -1,0 +1,16 @@
+{
+  "plan": "reports/stage2_ppi_02/plan.md",
+  "plan_commit": "4e3874f4c9fc993c59f8d7bb9ed9841c8e10a445",
+  "head_commit": "39495678e8472363b801157963d2cacccdb0674d",
+  "smoke": 0,
+  "resumed": 1,
+  "skip_second": 0,
+  "runs_dir": "analysis_s_main",
+  "post_input": "stage2_input_post", "ant_input": "stage2_input_ant", "post_genes": "stage2_genes_post_v2", "ant_genes": "stage2_genes_ant", "db": "data/scseqcomm",
+  "scores_dir": "reports/stage2_ppi_01/scores",
+  "jobs": 8, "gpu_jobs": 4, "batch": 5,
+  "main_wall_seconds": 164,
+  "second_wall_seconds": 1882,
+  "run_started_utc": "2026-11-20T04:19:15Z",
+  "run_finished_utc": "2026-11-20T04:53:34Z"
+}

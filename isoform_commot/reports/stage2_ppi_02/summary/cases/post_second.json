@@ -1,0 +1,85 @@
+{
+  "created_utc": "2026-11-20T03:10:13+00:00",
+  "setting": "second",
+  "slice": "post",
+  "smoke": false,
+  "parameters": {
+    "eps": 0.1,
+    "rho": 10.0,
+    "nitermax": 50000,
+    "beta_raw": 1.0,
+    "beta_snorm": 1.0,
+    "n_perm": 0,
+    "device": "cuda"
+  },
+  "r0_um": 50.0,
+  "stopthr": 1e-11,
+  "cases": [
+    {
+      "name": "no_ppi",
+      "s": "none",
+      "beta": 0.0,
+      "perm": 0,
+      "override": null,
+      "panel": "all",
+      "nitermax": 50000,
+      "keep": true,
+      "group": "core"
+    },
+    {
+      "name": "raw",
+      "s": "raw",
+      "beta": 1.0,
+      "perm": 0,
+      "override": null,
+      "panel": "all",
+      "nitermax": 50000,
+      "keep": true,
+      "group": "core"
+    },
+    {
+      "name": "snorm",
+      "s": "snorm",
+      "beta": 1.0,
+      "perm": 0,
+      "override": null,
+      "panel": "all",
+      "nitermax": 50000,
+      "keep": true,
+      "group": "core"
+    },
+    {
+      "name": "uniform",
+      "s": "uniform",
+      "beta": 1.0,
+      "perm": 0,
+      "override": null,
+      "panel": "all",
+      "nitermax": 50000,
+      "keep": true,
+      "group": "core"
+    },
+    {
+      "name": "raw_n200k",
+      "s": "raw",
+      "beta": 1.0,
+      "perm": 0,
+      "override": null,
+      "panel": "all",
+      "nitermax": 200000,
+      "keep": true,
+      "group": "stability"
+    },
+    {
+      "name": "snorm_n200k",
+      "s": "snorm",
+      "beta": 1.0,
+      "perm": 0,
+      "override": null,
+      "panel": "all",
+      "nitermax": 200000,
+      "keep": true,
+      "group": "stability"
+    }
+  ]
+}

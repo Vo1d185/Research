@@ -1,0 +1,19 @@
+{
+  "entries": 4598429,
+  "iterations": 201,
+  "order_preserved": true,
+  "max_abs_diff": 1.7787691892340307e-19,
+  "max_rel_diff": 8.228244270938818e-15,
+  "cpu_seconds": 24.86,
+  "port_seconds": 2.61,
+  "speedup": 9.53,
+  "variant": "none",
+  "norm": "raw",
+  "beta": 1.0,
+  "eps": 0.1,
+  "rho": 10.0,
+  "diffusion_cutoff_um": 363.0757,
+  "device": "cuda",
+  "tolerance": 1e-09,
+  "passed": true
+}
