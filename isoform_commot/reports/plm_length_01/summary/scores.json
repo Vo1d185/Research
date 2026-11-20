@@ -1,0 +1,10 @@
+{
+  "created_utc": "2026-11-20T00:16:47+00:00",
+  "chunks": 74,
+  "jobs": 147690,
+  "pairs_variants": 73845,
+  "checkpoint_sha256": [
+    "92565937d65a9b91a4e897c99653c972b99cfe37067eb42d9e783af688350547"
+  ],
+  "output_sha256": "323994caeee1ae89f2c40176723a9ffaa00857faf95251ac1e9671b7084ee618"
+}

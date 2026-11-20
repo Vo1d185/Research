@@ -1,0 +1,240 @@
+{
+  "created_utc": "2026-11-20T00:17:33+00:00",
+  "n_boot": 2000,
+  "margin": 0.05,
+  "E1": {
+    "overall": {
+      "auroc_short": 0.6891523172763501,
+      "auroc_long": 0.6802485447132378,
+      "delta": 0.008903772563112256,
+      "ci95": [
+        -0.003058933779333331,
+        0.022244315460984227
+      ],
+      "n": {
+        "short_pos": 20075,
+        "short_neg": 21749,
+        "long_pos": 3909,
+        "long_neg": 4112
+      }
+    },
+    "strata": {
+      "both_seen": {
+        "auroc_short": 0.6935172540858776,
+        "auroc_long": 0.6719289625327012,
+        "delta": 0.02158829155317643,
+        "ci95": [
+          0.0028541012819608665,
+          0.04004349848904678
+        ],
+        "n": {
+          "short_pos": 11274,
+          "short_neg": 12542,
+          "long_pos": 1677,
+          "long_neg": 1733
+        }
+      },
+      "one_seen": {
+        "auroc_short": 0.6962941062520129,
+        "auroc_long": 0.6827703766032078,
+        "delta": 0.013523729648805105,
+        "ci95": [
+          -0.004995974819265855,
+          0.03256677439888752
+        ],
+        "n": {
+          "short_pos": 7454,
+          "short_neg": 7985,
+          "long_pos": 1821,
+          "long_neg": 1907
+        }
+      },
+      "none_seen": {
+        "auroc_short": 0.6431294857821892,
+        "auroc_long": 0.7064827415563528,
+        "delta": -0.06335325577416362,
+        "ci95": [
+          -0.09918832841040302,
+          -0.025063975730029376
+        ],
+        "n": {
+          "short_pos": 1347,
+          "short_neg": 1222,
+          "long_pos": 411,
+          "long_neg": 472
+        }
+      }
+    },
+    "protein_splits": {
+      "n": 40,
+      "same_sign_fraction": 0.775,
+      "delta_min": -0.023602830038216505,
+      "delta_max": 0.042579675826909025
+    },
+    "longer_than_training_within_long": {
+      "False": {
+        "auroc": 0.6826142438693131,
+        "ci95": [
+          0.6693409468800194,
+          0.6958951747092257
+        ],
+        "n_pos": 2798,
+        "n_neg": 2922
+      },
+      "True": {
+        "auroc": 0.684817977596079,
+        "ci95": [
+          0.6640210575679417,
+          0.7066804264460059
+        ],
+        "n_pos": 1111,
+        "n_neg": 1190
+      }
+    },
+    "descriptive": {
+      "short": {
+        "aupr": 0.6845716764915046,
+        "median_pos": 0.0011567994370125,
+        "median_neg": 0.0001037284928315
+      },
+      "long": {
+        "aupr": 0.6612652538589852,
+        "median_pos": 0.0276050427928566,
+        "median_neg": 0.00035001611468025
+      }
+    }
+  },
+  "E2": [
+    {
+      "variant": "foreign1603",
+      "pad": "foreign",
+      "target": 1603,
+      "n_pos": 2000,
+      "n_neg": 2000,
+      "auroc_original": 0.687225,
+      "auroc_padded": 0.56042825,
+      "delta": 0.12679675,
+      "ci95_low": 0.10632947500000002,
+      "ci95_high": 0.14621566249999995,
+      "median_pos_original": 0.0010271385035593,
+      "median_pos_padded": 5.818251702294219e-05
+    },
+    {
+      "variant": "foreign2400",
+      "pad": "foreign",
+      "target": 2400,
+      "n_pos": 2000,
+      "n_neg": 2000,
+      "auroc_original": 0.687225,
+      "auroc_padded": 0.530368,
+      "delta": 0.15685700000000002,
+      "ci95_low": 0.13544684999999995,
+      "ci95_high": 0.17748011249999995,
+      "median_pos_original": 0.0010271385035593,
+      "median_pos_padded": 6.000591838528635e-05
+    },
+    {
+      "variant": "foreign3200",
+      "pad": "foreign",
+      "target": 3200,
+      "n_pos": 2000,
+      "n_neg": 2000,
+      "auroc_original": 0.687225,
+      "auroc_padded": 0.50961575,
+      "delta": 0.17760924999999994,
+      "ci95_low": 0.15635932500000005,
+      "ci95_high": 0.199001575,
+      "median_pos_original": 0.0010271385035593,
+      "median_pos_padded": 6.309766285994556e-05
+    },
+    {
+      "variant": "shuffle1603",
+      "pad": "shuffle",
+      "target": 1603,
+      "n_pos": 2000,
+      "n_neg": 2000,
+      "auroc_original": 0.687225,
+      "auroc_padded": 0.65210125,
+      "delta": 0.03512375000000001,
+      "ci95_low": 0.024583593750000028,
+      "ci95_high": 0.04631041875,
+      "median_pos_original": 0.0010271385035593,
+      "median_pos_padded": 0.0005307672399794
+    },
+    {
+      "variant": "shuffle2400",
+      "pad": "shuffle",
+      "target": 2400,
+      "n_pos": 2000,
+      "n_neg": 2000,
+      "auroc_original": 0.687225,
+      "auroc_padded": 0.609381,
+      "delta": 0.07784400000000002,
+      "ci95_low": 0.06376963750000007,
+      "ci95_high": 0.09175861875,
+      "median_pos_original": 0.0010271385035593,
+      "median_pos_padded": 0.0012280259397811498
+    },
+    {
+      "variant": "shuffle3200",
+      "pad": "shuffle",
+      "target": 3200,
+      "n_pos": 2000,
+      "n_neg": 2000,
+      "auroc_original": 0.687225,
+      "auroc_padded": 0.5762205,
+      "delta": 0.11100449999999995,
+      "ci95_low": 0.0935592937499999,
+      "ci95_high": 0.12886145000000002,
+      "median_pos_original": 0.0010271385035593,
+      "median_pos_padded": 0.0215427256189286
+    }
+  ],
+  "LR_replication": {
+    "overall": {
+      "auroc_short": 0.8119295431811548,
+      "auroc_long": 0.6637622577189475,
+      "delta": 0.14816728546220737,
+      "ci95": [
+        0.10901329825491499,
+        0.1882400203906651
+      ],
+      "n": {
+        "short_pos": 718,
+        "short_neg": 8847,
+        "long_pos": 291,
+        "long_neg": 2377
+      }
+    },
+    "proteins_seen": {
+      "auroc_short": 0.7906438049198077,
+      "auroc_long": 0.6896543060998894,
+      "delta": 0.10098949881991826,
+      "ci95": [
+        0.03317141128966792,
+        0.17244714338169426
+      ],
+      "n": {
+        "short_pos": 324,
+        "short_neg": 4413,
+        "long_pos": 93,
+        "long_neg": 856
+      }
+    },
+    "protein_unseen": {
+      "auroc_short": 0.8306069389969982,
+      "auroc_long": 0.6438115540679643,
+      "delta": 0.18679538492903391,
+      "ci95": [
+        0.1403251648720541,
+        0.2359169093151575
+      ],
+      "n": {
+        "short_pos": 394,
+        "short_neg": 4434,
+        "long_pos": 198,
+        "long_neg": 1521
+      }
+    }
+  }
+}

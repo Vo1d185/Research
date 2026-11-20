@@ -1,0 +1,18 @@
+{
+  "plan": "reports/plm_length_01/plan.md",
+  "plan_commit": "c3e22aa2136c6aec8357fdd58af0f3e39be3a310",
+  "head_commit": "c3e22aa2136c6aec8357fdd58af0f3e39be3a310",
+  "smoke": 0,
+  "resumed": 0,
+  "runs_dir": "analysis_length_main",
+  "test_file": "data/lr_benchmark/plm_training/Bernett_benchmarking/pairs_uniprot_seqs_test.csv",
+  "training_root": "data/lr_benchmark/plm_training",
+  "checkpoint": "models/plm_650m_humanV12/pytorch_model.bin",
+  "plm_python": "/home/liu/.conda/envs/plminteract/bin/python",
+  "workers": 2,
+  "n_boot": 2000,
+  "lr_scores": "reports/plm_lr_benchmark/results/pair_scores/H-A__humanV12.csv.gz",
+  "scoring_wall_seconds": 28591,
+  "run_started_utc": "2026-11-19T16:19:43Z",
+  "run_finished_utc": "2026-11-20T00:17:34Z"
+}
