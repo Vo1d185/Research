@@ -119,7 +119,7 @@ if [[ $SKIP_SECOND -eq 0 ]]; then
   if [[ ! -f "$RUNS/gpu_equivalence.json" ]]; then
     run "$GPU_ENV" python -c "import torch; assert torch.cuda.is_available(); print(torch.__version__, torch.cuda.get_device_name(0))" \
         | tee "$RUNS/gpu_env.txt"
-    run "$GPU_ENV" python gpu_unot.py equivalence --input "$POST" --variant none --eps 0.1 --rho 10 --iters 200 \
+    run "$GPU_ENV" python gpu_unot.py equivalence --input "$POST" --variant none --eps 0.1 --rho 10 --iters 200 --diffusion-cutoff-um 363.0757 \
         --device cuda --output "$RUNS/gpu_equivalence.json" > "$RUNS/logs/gpu_gate.log" 2>&1 \
       || { echo "GPU equivalence gate failed; see $RUNS/logs/gpu_gate.log" >&2; exit 1; }
   fi

@@ -14,7 +14,7 @@ import stage2_s as ss
 sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
-def toy(tmp):
+def toy(tmp, cutoff=363.0757):
     """Stage-2 style input (16 spots, 5 pairs), gene export, scSeqComm-like db, designs, ppi scores, protein map."""
     tmp = Path(tmp)
     inp = tmp/'in'; inp.mkdir()
@@ -30,7 +30,7 @@ def toy(tmp):
     expr = pd.DataFrame({e: np.round(rng.random(len(spots)) * (rng.random(len(spots)) > 0.2), 4) for e in ents}, index=spots)
     expr.to_csv(inp/'expression.csv', index_label='spot')
     pd.DataFrame(dict(entity=ents, subunits=ents)).to_csv(inp/'entities.csv', index=False)
-    (inp/'config.json').write_text(json.dumps(dict(eps=0.2, rho=1.0, diffusion_cutoff_um=363.0757, nitermax=5000, stopthr=1e-9)))
+    (inp/'config.json').write_text(json.dumps(dict(eps=0.2, rho=1.0, diffusion_cutoff_um=cutoff, nitermax=5000, stopthr=1e-9)))
     files = ['expression.csv', 'spatial.csv', 'lr.csv', 'entities.csv', 'config.json']
     (inp/'preparation.json').write_text(json.dumps(dict(status='complete', neighbour_spacing_um=100.0,
                                                         prepared_sha256={f: sha(inp/f) for f in files})))
@@ -128,6 +128,31 @@ class EndToEnd(unittest.TestCase):
         ss.summarise(argparse.Namespace(runs=str(tmp/'runs'), output=str(tmp/'summary')))
         dec = json.loads((tmp/'summary'/'decisions.json').read_text())
         self.assertIn('raw', dec['main']['verdict']); self.assertEqual(dec['main']['details']['post']['D1_raw']['n_perm'], 2)
+
+
+class Cutoff(unittest.TestCase):
+    """Amendment 01: the plan's cutoff is used even when config.json stores another one (stage2_input_post stores 500)."""
+    def test_plan_cutoff_used(self):
+        import stage2
+        import stage2_inject as si
+        res = {}
+        for cut in (363.0757, 500.0):
+            tmp = Path(tempfile.mkdtemp()); inp = toy(tmp, cut)
+            _, cfg, _, spatial, *_, edges = ss.load_input(inp)
+            self.assertEqual(cfg['diffusion_cutoff_um'], ss.CUTOFF_UM); self.assertEqual(cfg['config_cutoff_um'], cut)
+            ref = stage2.spatial_edges(spatial, ss.CUTOFF_UM)[0]
+            for u, v in zip(edges['diffusion'], ref):
+                np.testing.assert_array_equal(u, v)
+            if cut == 500.0:   # the toy is large enough for 500 to add edges, so the test can fail
+                self.assertGreater(len(si.load(inp)[-1]['diffusion'][0]), len(ref[0]))
+            runs = tmp/'runs'/'post_main'
+            ss.cases_cmd(argparse.Namespace(setting='main', slice='post', output=str(runs/'cases.json'), smoke=True))
+            ss.run(run_args(tmp, inp, runs/'cases.json', ['no_ppi', 'raw'], runs))
+            rec = json.loads((runs/'raw'/'case.json').read_text())
+            self.assertEqual((rec['cutoff_um'], rec['config_cutoff_um']), (ss.CUTOFF_UM, cut))
+            res[cut] = {n: pd.read_csv(runs/n/'metrics.csv') for n in ['no_ppi', 'raw']}
+        for n in ['no_ppi', 'raw']:
+            pd.testing.assert_frame_equal(res[363.0757][n], res[500.0][n])
 
 
 class Decisions(unittest.TestCase):

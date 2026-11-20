@@ -121,6 +121,9 @@ def equivalence(args):
     import stage2
     import stage2_inject as si
     prep, cfg, x, spatial, lr, ligands, receptors, a, b, edges = si.load(args.input)
+    cutoff = cfg['diffusion_cutoff_um'] if args.diffusion_cutoff_um is None else args.diffusion_cutoff_um
+    if cutoff != cfg['diffusion_cutoff_um']:                      # stage2_ppi_02 amendment 01
+        edges = dict(zip(['diffusion', 'contact'], stage2.spatial_edges(spatial, cutoff)))
     row, col, c0, d, p = stage2.build_sparse_cost(lr, ligands, receptors, a, b, len(x), edges, args.r0_um)
     if args.variant == 'none':
         c = c0
@@ -128,7 +131,7 @@ def equivalence(args):
         sc = pd.read_csv(Path(args.scores)/'scores.csv')
         c = c0 + args.beta * (-np.log(si.effective_score(lr, sc[args.variant], args.norm)))[p]
     res = compare(*normalised_problem(row, col, c, a, b), args.eps, args.rho, args.iters, args.device)
-    res.update(variant=args.variant, norm=args.norm, beta=args.beta, eps=args.eps, rho=args.rho,
+    res.update(variant=args.variant, norm=args.norm, beta=args.beta, eps=args.eps, rho=args.rho, diffusion_cutoff_um=cutoff,
                device=args.device, tolerance=EQUIVALENCE_TOL, passed=bool(res['order_preserved'] and
                                                                           res['max_rel_diff'] <= EQUIVALENCE_TOL))
     out = Path(args.output)
@@ -151,5 +154,6 @@ if __name__ == '__main__':
     e.add_argument('--beta', type=float, default=1.0); e.add_argument('--r0-um', type=float, default=50.0)
     e.add_argument('--eps', type=float, required=True); e.add_argument('--rho', type=float, required=True)
     e.add_argument('--iters', type=int, default=500); e.add_argument('--device', default='cuda')
+    e.add_argument('--diffusion-cutoff-um', type=float, help='default: config diffusion_cutoff_um')
     a_ = pa.parse_args()
     equivalence(a_)

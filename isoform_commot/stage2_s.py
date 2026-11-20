@@ -25,6 +25,7 @@ import pandas as pd
 from research import check
 
 R0_UM = 50.0
+CUTOFF_UM = 363.0757               # plan section 2 (Stage 2 condition A); fixed here, not read from config.json (amendment 01)
 STOPTHR = 1e-11
 TOP_TF = (10, 5, 20)                 # first = primary rule (stage2_plan.md 9.3)
 MAX_TOKENS = 1603
@@ -51,6 +52,19 @@ def digest(path):
 
 def write_json(path, obj):
     Path(path).write_text(json.dumps(obj, indent=2, default=lambda x: x.item() if hasattr(x, 'item') else str(x)))
+
+
+def load_input(source):
+    """stage2_inject.load, with the diffusion edges built at the plan's cutoff (CUTOFF_UM) whatever config.json stores.
+    stage2_input_post stores 500 (Stage 2 passed 363.0757 on the command line); amendment 01."""
+    import stage2
+    import stage2_inject as si
+    prep, cfg, x, spatial, lr, ligands, receptors, a, b, edges = si.load(source)
+    stored = float(cfg['diffusion_cutoff_um'])
+    if stored != CUTOFF_UM:
+        edges = dict(zip(['diffusion', 'contact'], stage2.spatial_edges(spatial, CUTOFF_UM)))
+    cfg = dict(cfg, diffusion_cutoff_um=CUTOFF_UM, config_cutoff_um=stored)
+    return prep, cfg, x, spatial, lr, ligands, receptors, a, b, edges
 
 
 # ------------------------------------------------------------------ cases and scores
@@ -202,7 +216,7 @@ def save_case(folder, prep, inp, case, lr_case, row, col, c, T, d, p, a, b, x, l
                        score_mode='no_ppi' if case['s'] == 'none' else 'ppi', niter=info.get('niter'))]
                  ).to_csv(folder/'summary.csv', index=False)
     write_json(folder/'manifest.json', dict(status='complete', method=f'stage2_s.py ({case["name"]})', h=prep['neighbour_spacing_um'],
-               shuffle=prep.get('shuffle'), input=str(Path(inp).resolve()),
+               shuffle=prep.get('shuffle'), input=str(Path(inp).resolve()), cutoff_um=CUTOFF_UM,
                input_sha256={f: stage2.digest(Path(inp)/f) for f in ['expression.csv', 'spatial.csv', 'lr.csv']}))
 
 
@@ -214,8 +228,7 @@ def run(args):
     device = args.device or st['device']
     cases = {c['name']: c for c in json.loads(Path(args.cases).read_text())['cases']}
     todo = [cases[n] for n in args.case]
-    prep, cfg, x, spatial, lr, ligands, receptors, a, b, edges = si.load(args.input)
-    check(abs(cfg['diffusion_cutoff_um'] - 363.0757) < 1e-3, 'Unexpected diffusion cutoff')
+    prep, cfg, x, spatial, lr, ligands, receptors, a, b, edges = load_input(args.input)
     meta = json.loads(Path(str(args.designs) + '.json').read_text())
     check(meta['input_sha256']['lr.csv'] == digest(Path(args.input)/'lr.csv'), 'Designs were made for another input')
     pairs = pair_table(lr, pd.read_csv(args.designs), pd.read_csv(args.ppi_scores), pd.read_csv(args.protein_map))
@@ -240,7 +253,8 @@ def run(args):
             T, info, error = None, {}, str(e)
         seconds = time.time() - start
         rec = dict(case=case, setting=args.setting, slice=args.slice, device=device, input=str(Path(args.input).resolve()),
-                   designs_sha256=digest(args.designs), entries=int(len(c)), seconds=round(seconds, 1), error=error,
+                   designs_sha256=digest(args.designs), cutoff_um=cfg['diffusion_cutoff_um'],
+                   config_cutoff_um=cfg['config_cutoff_um'], entries=int(len(c)), seconds=round(seconds, 1), error=error,
                    niter=info.get('niter'), cap_reached=info.get('cap_reached'),
                    checks={k: v for k, v in info.items() if k.startswith(('mass', 'kkt', 'max', 'row', 'shape'))},
                    total_transport=float(T.sum()) if T is not None else None,
