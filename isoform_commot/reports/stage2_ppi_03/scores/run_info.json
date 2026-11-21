@@ -1,0 +1,6 @@
+{
+  "plan": "reports/stage2_ppi_03/plan.md", "plan_commit": "541780ec64c108ff95c88d8a7b1af3d4adac825a", "head_commit": "541780ec64c108ff95c88d8a7b1af3d4adac825a",
+  "smoke": 0, "runs_dir": "analysis_x_prep", "zenodo_dir": "data/zenodo_7272562", "work": "data/paper_outputs",
+  "checkpoint_name": "danliu1226/PLM-interact-650M-humanV12", "checkpoint_revision": "2d0e7fb3deef94efa3f217daccc79092a6a42ceb",
+  "run_started_utc": "2026-11-21T12:24:35Z", "run_finished_utc": "2026-11-21T13:08:48Z"
+}

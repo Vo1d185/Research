@@ -1,0 +1,77 @@
+{
+  "created_utc": "2026-11-21T13:08:43+00:00",
+  "status": "registered-checkpoint",
+  "jobs": {
+    "created_utc": "2026-11-21T13:07:01+00:00",
+    "inputs": {
+      "/home/liu/Research/isoform_commot/stage2_input_xb_breast": {
+        "lr.csv": "2783cb387adca2bfd9301c50586965368699726fbd1a38a7faa19785df7bbe6f",
+        "entities.csv": "4dfcf70ee183f073167d836404cce83dacba4bf1d348e395c7e4fad14f576d32"
+      }
+    },
+    "proteins": "/home/liu/Research/isoform_commot/analysis_x_prep/human_B/proteins",
+    "proteins_fasta_sha256": "39bb7b952b5a4a9134cb3111085fc6748f4e051bb4b09912b3cc82ae19181b13",
+    "unresolved_genes": [],
+    "limit_pairs": 0,
+    "seed": 0,
+    "include_longest": false,
+    "n_entity_pairs": 300,
+    "n_entity_pairs_complete": 300,
+    "cross_ratio": 0.0,
+    "cross_seed": 1,
+    "cellchat": null,
+    "exclude_pairs": null,
+    "n_cross_pairs": 0,
+    "n_cross_candidates": null,
+    "n_cross_complete": 0,
+    "n_subunit_pairs": 274,
+    "n_jobs": 548,
+    "max_tokens": 4690,
+    "n_jobs_over_official_max_tokens": 110,
+    "plm_input_sha256": "cdbfb34654ddaedd8c1eda16880c5d622902c26ea15d5135f02ca14ae248decd"
+  },
+  "scores_sha256": "eddf3427b83de734a2b6e5db82a8237e064d142d225b0a8718f0dd853e63151e",
+  "ppi_sha256": "4c1fd820a70d6763d5220805c3487fefa0fac589d91413fe1f757198ef608e93",
+  "model": {
+    "checkpoint_name": "danliu1226/PLM-interact-650M-humanV12",
+    "checkpoint_revision": "2d0e7fb3deef94efa3f217daccc79092a6a42ceb",
+    "checkpoint_sha256": "92565937d65a9b91a4e897c99653c972b99cfe37067eb42d9e783af688350547",
+    "base_model": "models/esm2_t33_650M_UR50D",
+    "torch": "2.4.1+cu121",
+    "transformers": "4.40.1",
+    "device": "cuda:0",
+    "started_utc": "2026-11-21T13:07:30+00:00",
+    "finished_utc": "2026-11-21T13:08:38+00:00"
+  },
+  "n_pairs": 300,
+  "n_scored": 300,
+  "n_missing": 0,
+  "n_homophilic": 0,
+  "homophilic_median": null,
+  "by_type": {
+    "diffusion": {
+      "n": 300,
+      "scored": 300,
+      "median": 0.8123238980770111,
+      "frac_gt_0_5": 0.5733333333333334
+    }
+  },
+  "score_distribution": {
+    "q05_25_50_75_95": [
+      0.00018704221929507752,
+      0.12152473721653219,
+      0.8123238980770111,
+      0.9976107552647591,
+      0.9996675103902817
+    ],
+    "frac_gt_0_99": 0.39666666666666667,
+    "frac_lt_0_01": 0.18,
+    "frac_gt_0_5": 0.5733333333333334
+  },
+  "order_asymmetry": {
+    "mean": 0.10736101433410584,
+    "max": 0.9914452465018257
+  },
+  "panel_vs_unannotated": null,
+  "note": "Model predictions, not measured affinities. Missing = some subunit unmapped; never imputed."
+}

@@ -1,0 +1,53 @@
+{
+  "created_utc": "2026-11-21T13:01:29+00:00",
+  "input": "/home/liu/Research/isoform_commot/stage2_input_xb_seqfish",
+  "input_sha256": {
+    "lr.csv": "a7b8ea43174241945a77ab0d0f63f4c31280c5ec7e2cd60ecc4f10b00d69a447",
+    "entities.csv": "a28fc77c87ab36084ac7d5d0456b9551f645417286239f72d7f0706f233cc4b2"
+  },
+  "ppi": "/home/liu/Research/isoform_commot/reports/stage2_ppi_03/scores/mouse_B/ppi_scores.csv",
+  "ppi_sha256": "cfcc400b99411a3bae8c57277841a345ebadad4785fec7763b992786be3aaffa",
+  "output_sha256": "1e5c8549503473504e46896ff3f40f94c089e1c034ba90c56fdc409d74193d69",
+  "overall": {
+    "n_pairs": 598,
+    "n_with_score": 597,
+    "n_with_s_norm_ligand": 596,
+    "n_ligands": 105,
+    "ligands_k1": 21,
+    "pairs_in_k1_ligands": 21,
+    "ligands_with_missing_score": 1,
+    "k_ligand_median": 3.0,
+    "k_ligand_max": 20,
+    "multi_receptor_ligands": 83,
+    "within_ligand_raw_spread_lt_0_01": 31,
+    "within_ligand_raw_spread_median": 0.042637109756469616,
+    "r2_neglog_snorm_vs_log_k": 0.2789656411996399,
+    "neglog_snorm_ligand_q05_50_95": [
+      0.360006697876416,
+      2.7034393136642945,
+      5.044932218590194
+    ]
+  },
+  "by_type": {
+    "diffusion": {
+      "n_pairs": 598,
+      "n_with_score": 597,
+      "n_with_s_norm_ligand": 596,
+      "n_ligands": 105,
+      "ligands_k1": 21,
+      "pairs_in_k1_ligands": 21,
+      "ligands_with_missing_score": 1,
+      "k_ligand_median": 3.0,
+      "k_ligand_max": 20,
+      "multi_receptor_ligands": 83,
+      "within_ligand_raw_spread_lt_0_01": 31,
+      "within_ligand_raw_spread_median": 0.042637109756469616,
+      "r2_neglog_snorm_vs_log_k": 0.2789656411996399,
+      "neglog_snorm_ligand_q05_50_95": [
+        0.360006697876416,
+        2.7034393136642945,
+        5.044932218590194
+      ]
+    }
+  }
+}

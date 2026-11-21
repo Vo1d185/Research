@@ -1,0 +1,4 @@
+lr_symbol,data_symbol,n_hits,accession,uniprot_id,protein_name,length,match,note,gene_primary
+Calca,Calca,2,Q99JA0,CALCA_MOUSE,Calcitonin gene-related peptide 1,128.0,primary,,Calca
+Calca,Calca,2,P70160,CALC_MOUSE,Calcitonin,136.0,primary,,Calca
+Trhr2,Trhr2,0,,,no reviewed entry of this species with this primary gene name,,none,,

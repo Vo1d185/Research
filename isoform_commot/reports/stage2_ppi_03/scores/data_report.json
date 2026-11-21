@@ -1,0 +1,285 @@
+{
+  "stage2_input_x_breast": {
+    "dataset": "breast",
+    "line": "A",
+    "species": "human",
+    "spots": 3798,
+    "genes": 36601,
+    "neighbour_spacing_um": 100.25610350964779,
+    "um_per_unit": 0.3662349378705727,
+    "pairs_selected": {
+      "diffusion": 309,
+      "contact": 214
+    },
+    "ligands": 216,
+    "receptors": 245,
+    "contact_neighbours_per_cell": null,
+    "normalization": "normalize_total (target = median total count = 20761.5) then log1p",
+    "prepared_sha256": {
+      "expression.csv": "1765c115eea9fea59b8576be92b6f0a42369a0c93c35ad261fdc8c8ca8d90293",
+      "spatial.csv": "f2b3eb34dacc8cba9ac2533abab32fd246d86650697d8c5e2af82b921f7c5b55",
+      "lr.csv": "ee0a5189b5ce9e7d03ba417fa67993be7378d72a440bcca61689528ac8155349",
+      "entities.csv": "32072bc31031e2d96408d387d1a4fde76831044a791fc95fe3ff0be060123c7e",
+      "config.json": "d9a0e2ede59db2b48c96e7a5ea5c705671037407b6805b5e6103bb021fa18351"
+    }
+  },
+  "stage2_input_x_seqfish": {
+    "dataset": "seqfish",
+    "line": "A",
+    "species": "mouse",
+    "spots": 523,
+    "genes": 10000,
+    "neighbour_spacing_um": 10.620532531770706,
+    "um_per_unit": 0.103,
+    "pairs_selected": {
+      "diffusion": 607,
+      "contact": 184
+    },
+    "ligands": 190,
+    "receptors": 224,
+    "contact_neighbours_per_cell": {
+      "median": 4.0,
+      "min": 0,
+      "max": 11,
+      "zero": 7
+    },
+    "normalization": "normalize_total (target = median total count = 5425) then log1p",
+    "prepared_sha256": {
+      "expression.csv": "f0e4db28946be873e253758af52d6b4e1867300381a46d04e429b29412e5a642",
+      "spatial.csv": "741f932d71d5f35ea1aa8eb629e014aaeba6830dacedd8270241974566004e84",
+      "lr.csv": "0534cba0a88db0b61f24876acfae68238c7e97a8885ffb64c8aa73b9ecc44599",
+      "entities.csv": "7c73a7e6a15b2a0a854f7db6b89d4c048ba9fa7b4510d8ec86f35026d80d4177",
+      "config.json": "ab410b001c9d650fb73328da932c0ffaa6df0521bbc98ed2a3a16be930e6e19c"
+    }
+  },
+  "stage2_input_xb_post": {
+    "dataset": "post",
+    "line": "B",
+    "species": "mouse",
+    "spots": 3355,
+    "genes": 32285,
+    "neighbour_spacing_um": 100.20889948278364,
+    "um_per_unit": 0.7261514455274156,
+    "pairs": 250,
+    "ligands": 83,
+    "receptors": 109,
+    "diffusion_cutoff_um": 726.1514455274156,
+    "paper_eval": {
+      "scale": "raw",
+      "hvg_min_disp": 0.5,
+      "n_hvg": 2793,
+      "n_hvg_paper": 2793,
+      "n_hvg_matches": true,
+      "sha256": "3d7ff4242dfe2e50b317d9b008b3aabedbe91ed604e9f87ac57976b000aebc71"
+    },
+    "paper_input_x_max_abs_diff": 2.5306238615740995e-07,
+    "normalization": "normalize_total (target = median total count = 15783) then log1p",
+    "prepared_sha256": {
+      "expression.csv": "735900d8ebd52d1fc5ec1a4d55d68fcc489b288893b5cd62b8728b8308663343",
+      "spatial.csv": "892eef340355a9a3ae69f06ca969b7632bbd6578f85ed6b4ff622347927f763d",
+      "lr.csv": "22299cccc2d6a0b83859688fe8ab8eb5ba1a1a600f860a6cc13b5e37ee34ea18",
+      "entities.csv": "4c13a6ebd3f841ac642039334a3b901c0dd816740099cc2ca6b0e0babf20f876",
+      "config.json": "0f3b7475cf10cbfb27851fa78da8da9c479132fb6c1eb790573025dac39c27a5"
+    }
+  },
+  "stage2_input_xb_breast": {
+    "dataset": "breast",
+    "line": "B",
+    "species": "human",
+    "spots": 3798,
+    "genes": 36601,
+    "neighbour_spacing_um": 100.25610350964779,
+    "um_per_unit": 0.3662349378705727,
+    "pairs": 300,
+    "ligands": 92,
+    "receptors": 133,
+    "diffusion_cutoff_um": 366.2349378705727,
+    "paper_eval": {
+      "scale": "log1p",
+      "hvg_min_disp": 0.5,
+      "n_hvg": 3068,
+      "n_hvg_paper": 3068,
+      "n_hvg_matches": true,
+      "sha256": "7d4d72aba142e8c2227882305000ea303d325e19fa2c52a77eddb55c284ceae5"
+    },
+    "paper_input_x_max_abs_diff": 3.314256060704679e-07,
+    "normalization": "normalize_total (target = median total count = 20761.5) then log1p",
+    "prepared_sha256": {
+      "expression.csv": "ba593464a9b0083ddb0ae4badeebbe89fb347d60aaa29c4c8bffad1c918517ec",
+      "spatial.csv": "f2b3eb34dacc8cba9ac2533abab32fd246d86650697d8c5e2af82b921f7c5b55",
+      "lr.csv": "2783cb387adca2bfd9301c50586965368699726fbd1a38a7faa19785df7bbe6f",
+      "entities.csv": "4dfcf70ee183f073167d836404cce83dacba4bf1d348e395c7e4fad14f576d32",
+      "config.json": "506866a0898916d5737b9b78f8b6ad1c86055e14d2775b2b0ae47c447e5e5623"
+    }
+  },
+  "stage2_input_xb_seqfish": {
+    "dataset": "seqfish",
+    "line": "B",
+    "species": "mouse",
+    "spots": 523,
+    "genes": 10000,
+    "neighbour_spacing_um": 10.620532531770706,
+    "um_per_unit": 0.103,
+    "pairs": 598,
+    "ligands": 105,
+    "receptors": 128,
+    "diffusion_cutoff_um": 103.0,
+    "paper_eval": {
+      "scale": "log1p",
+      "hvg_min_disp": 0.1,
+      "n_hvg": 4797,
+      "n_hvg_paper": 4797,
+      "n_hvg_matches": true,
+      "sha256": "a12e878fdead46b753e0925e2ea37a3f09ba5f1182227fc9295122966c5297ad"
+    },
+    "paper_input_x_max_abs_diff": 8.339842638704908e-08,
+    "normalization": "log1p of counts (no normalize_total), as the paper notebook",
+    "prepared_sha256": {
+      "expression.csv": "1386fcab7251f5f5a9f73b0b39cde2770373317d03279f20bc185ee236d37e7f",
+      "spatial.csv": "741f932d71d5f35ea1aa8eb629e014aaeba6830dacedd8270241974566004e84",
+      "lr.csv": "a7b8ea43174241945a77ab0d0f63f4c31280c5ec7e2cd60ecc4f10b00d69a447",
+      "entities.csv": "a28fc77c87ab36084ac7d5d0456b9551f645417286239f72d7f0706f233cc4b2",
+      "config.json": "77f01013bd582d93ad30484aa4a92369b22e2ecf9b78c792eed1eddfcabe9f9f"
+    }
+  },
+  "mouse_A": {
+    "n_pairs": 791,
+    "n_scored": 790,
+    "n_missing": 1,
+    "by_type": {
+      "contact": {
+        "n": 184,
+        "scored": 184,
+        "median": 0.33332052640616894,
+        "frac_gt_0_5": 0.45652173913043476
+      },
+      "diffusion": {
+        "n": 607,
+        "scored": 606,
+        "median": 0.4503096444532275,
+        "frac_gt_0_5": 0.4570957095709571
+      }
+    },
+    "score_distribution": {
+      "q05_25_50_75_95": [
+        0.000469522899948,
+        0.03178132849279785,
+        0.43733450025320053,
+        0.9947178065776825,
+        0.9997856616973876
+      ],
+      "frac_gt_0_99": 0.2746835443037975,
+      "frac_lt_0_01": 0.19746835443037974,
+      "frac_gt_0_5": 0.4569620253164557
+    },
+    "order_asymmetry": {
+      "mean": 0.10332833545120781,
+      "max": 0.9917548636440189
+    },
+    "unresolved_genes": [
+      "Trhr2"
+    ]
+  },
+  "human_A": {
+    "n_pairs": 523,
+    "n_scored": 516,
+    "n_missing": 7,
+    "by_type": {
+      "contact": {
+        "n": 214,
+        "scored": 207,
+        "median": 0.5144632458686829,
+        "frac_gt_0_5": 0.5120772946859904
+      },
+      "diffusion": {
+        "n": 309,
+        "scored": 309,
+        "median": 0.8155066668987274,
+        "frac_gt_0_5": 0.5728155339805825
+      }
+    },
+    "score_distribution": {
+      "q05_25_50_75_95": [
+        0.00017519677658125007,
+        0.01467300212243565,
+        0.8037389516830444,
+        0.9982839822769164,
+        0.9998415857553483
+      ],
+      "frac_gt_0_99": 0.4050387596899225,
+      "frac_lt_0_01": 0.22868217054263565,
+      "frac_gt_0_5": 0.5484496124031008
+    },
+    "order_asymmetry": {
+      "mean": 0.09767170676393161,
+      "max": 0.9914452465018257
+    },
+    "unresolved_genes": [
+      "NRXN2",
+      "PRNP"
+    ]
+  },
+  "mouse_B": {
+    "n_pairs": 679,
+    "n_scored": 677,
+    "n_missing": 2,
+    "by_type": {
+      "diffusion": {
+        "n": 679,
+        "scored": 677,
+        "median": 0.45298802462639287,
+        "frac_gt_0_5": 0.465288035450517
+      }
+    },
+    "score_distribution": {
+      "q05_25_50_75_95": [
+        0.0008671048970427006,
+        0.04593637026846405,
+        0.45298802462639287,
+        0.9908985495567322,
+        0.9996440827846527
+      ],
+      "frac_gt_0_99": 0.2555391432791728,
+      "frac_lt_0_01": 0.14180206794682423,
+      "frac_gt_0_5": 0.465288035450517
+    },
+    "order_asymmetry": {
+      "mean": 0.11363252856980854,
+      "max": 0.9899734426289798
+    },
+    "unresolved_genes": [
+      "Calca",
+      "Trhr2"
+    ]
+  },
+  "human_B": {
+    "n_pairs": 300,
+    "n_scored": 300,
+    "n_missing": 0,
+    "by_type": {
+      "diffusion": {
+        "n": 300,
+        "scored": 300,
+        "median": 0.8123238980770111,
+        "frac_gt_0_5": 0.5733333333333334
+      }
+    },
+    "score_distribution": {
+      "q05_25_50_75_95": [
+        0.00018704221929507752,
+        0.12152473721653219,
+        0.8123238980770111,
+        0.9976107552647591,
+        0.9996675103902817
+      ],
+      "frac_gt_0_99": 0.39666666666666667,
+      "frac_lt_0_01": 0.18,
+      "frac_gt_0_5": 0.5733333333333334
+    },
+    "order_asymmetry": {
+      "mean": 0.10736101433410584,
+      "max": 0.9914452465018257
+    },
+    "unresolved_genes": []
+  }
+}

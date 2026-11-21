@@ -1,0 +1,5 @@
+lr_symbol,data_symbol,n_hits,accession,uniprot_id,protein_name,length,match,note,gene_primary
+NRXN2,NRXN2,2,Q9P2S2,NRX2A_HUMAN,Neurexin-2,1712,primary,,NRXN2
+NRXN2,NRXN2,2,P58401,NRX2B_HUMAN,Neurexin-2-beta,666,primary,,NRXN2
+PRNP,PRNP,2,P04156,PRIO_HUMAN,Major prion protein,253,primary,,PRNP
+PRNP,PRNP,2,F7VJQ1,APRIO_HUMAN,Alternative prion protein,73,primary,,PRNP

@@ -1,0 +1,53 @@
+{
+  "created_utc": "2026-11-21T13:08:45+00:00",
+  "input": "/home/liu/Research/isoform_commot/stage2_input_xb_breast",
+  "input_sha256": {
+    "lr.csv": "2783cb387adca2bfd9301c50586965368699726fbd1a38a7faa19785df7bbe6f",
+    "entities.csv": "4dfcf70ee183f073167d836404cce83dacba4bf1d348e395c7e4fad14f576d32"
+  },
+  "ppi": "/home/liu/Research/isoform_commot/reports/stage2_ppi_03/scores/human_B/ppi_scores.csv",
+  "ppi_sha256": "4c1fd820a70d6763d5220805c3487fefa0fac589d91413fe1f757198ef608e93",
+  "output_sha256": "1872893632884711a0aaa8ae5d163e0c1bb0de114686cf44069326b4bce2c273",
+  "overall": {
+    "n_pairs": 300,
+    "n_with_score": 300,
+    "n_with_s_norm_ligand": 300,
+    "n_ligands": 92,
+    "ligands_k1": 37,
+    "pairs_in_k1_ligands": 37,
+    "ligands_with_missing_score": 0,
+    "k_ligand_median": 2.0,
+    "k_ligand_max": 16,
+    "multi_receptor_ligands": 55,
+    "within_ligand_raw_spread_lt_0_01": 30,
+    "within_ligand_raw_spread_median": 0.007339090108871349,
+    "r2_neglog_snorm_vs_log_k": 0.21732496611678065,
+    "neglog_snorm_ligand_q05_50_95": [
+      -0.0,
+      1.741760650826037,
+      6.752846256791346
+    ]
+  },
+  "by_type": {
+    "diffusion": {
+      "n_pairs": 300,
+      "n_with_score": 300,
+      "n_with_s_norm_ligand": 300,
+      "n_ligands": 92,
+      "ligands_k1": 37,
+      "pairs_in_k1_ligands": 37,
+      "ligands_with_missing_score": 0,
+      "k_ligand_median": 2.0,
+      "k_ligand_max": 16,
+      "multi_receptor_ligands": 55,
+      "within_ligand_raw_spread_lt_0_01": 30,
+      "within_ligand_raw_spread_median": 0.007339090108871349,
+      "r2_neglog_snorm_vs_log_k": 0.21732496611678065,
+      "neglog_snorm_ligand_q05_50_95": [
+        -0.0,
+        1.741760650826037,
+        6.752846256791346
+      ]
+    }
+  }
+}

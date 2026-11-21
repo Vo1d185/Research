@@ -1,0 +1,36 @@
+{
+  "created_utc": "2026-11-21T12:58:27+00:00",
+  "inputs": {
+    "/home/liu/Research/isoform_commot/stage2_input_xb_post": {
+      "lr.csv": "22299cccc2d6a0b83859688fe8ab8eb5ba1a1a600f860a6cc13b5e37ee34ea18",
+      "entities.csv": "4c13a6ebd3f841ac642039334a3b901c0dd816740099cc2ca6b0e0babf20f876"
+    },
+    "/home/liu/Research/isoform_commot/stage2_input_xb_seqfish": {
+      "lr.csv": "a7b8ea43174241945a77ab0d0f63f4c31280c5ec7e2cd60ecc4f10b00d69a447",
+      "entities.csv": "a28fc77c87ab36084ac7d5d0456b9551f645417286239f72d7f0706f233cc4b2"
+    }
+  },
+  "proteins": "/home/liu/Research/isoform_commot/analysis_x_prep/mouse_B/proteins",
+  "proteins_fasta_sha256": "970d19fc26d01c5c1fe9f88956c0eb9175e3f91f3d07f11d0331c97d30e0b193",
+  "unresolved_genes": [
+    "Calca",
+    "Trhr2"
+  ],
+  "limit_pairs": 0,
+  "seed": 0,
+  "include_longest": false,
+  "n_entity_pairs": 679,
+  "n_entity_pairs_complete": 677,
+  "cross_ratio": 0.0,
+  "cross_seed": 1,
+  "cellchat": null,
+  "exclude_pairs": null,
+  "n_cross_pairs": 0,
+  "n_cross_candidates": null,
+  "n_cross_complete": 0,
+  "n_subunit_pairs": 559,
+  "n_jobs": 1118,
+  "max_tokens": 4688,
+  "n_jobs_over_official_max_tokens": 198,
+  "plm_input_sha256": "ca0c0e9beed911c98f3ad9e160711d6770f071a1cff9bbf5615ce14a716888db"
+}
